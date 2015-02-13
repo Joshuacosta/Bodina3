@@ -104,6 +104,23 @@ public final class SQLClientsDAO {
         }
         return client;
     }
+
+    // Funcio per updatar la informació del client
+    public static void UpdateClient(Client p_client){
+
+    }
+
+    // Funcio per updatar codi client
+    public static void UpdateCodiClient(Client p_client){
+
+    }
+
+
+    // Funcio per updatar actualitzat
+    public static void UpdateActualitzat(Client p_client){
+
+    }
+
     //
     // Funcions privades
     //
@@ -121,7 +138,76 @@ public final class SQLClientsDAO {
 
         return client;
     }
-    //
+    // ------------------------------------------------------------------------------------------
     // Funcions de acces a la BBDD del servidor (crides a PHP)
+    // ------------------------------------------------------------------------------------------
+    /*
+    // Aquesta funció accedeix a la BBDD del servidor i recupera la informació del client existent
+    // (si no troba informació es que es la primera vegada que l'usuari accedeix al sistema).
+    static public function RecuperarDadesServidor():Boolean{
+        var PHP:FuncionsPHP = new FuncionsPHP();
+        var l_Parametres:Object = new Object();
+
+        // Validem que la xarxa estigui activa
+        if (Globals.g_HiHaXarxa){
+            // La comunicació de variables es amb vars
+            l_Parametres.CodiClientIntern = Globals.g_Client.CodiClientIntern;
+            l_Parametres.Operativa = Globals.k_OPE_SelectCodiClientIntern;
+            PHP.FerPHP_Vars("http://bodina.virtuol.com/php/Clients.php", l_Parametres, CarregaDades);
+        }
+        else{
+            Funcions.Avis(ResourceManager.getInstance().getString('resources','php.Avis'),
+                    ResourceManager.getInstance().getString('resources','php.NoServidor'));
+        }
+        return true;
+    }
+    // Si la crida anterior ha anat be carreguem les dades globals de client
+    static public function CarregaDades(event:ResultEvent):void{
+        var l_Resultat:Object = event.result;
+        var c_Client:Client = new Client();
+
+        if (l_Resultat.CodiClient != Globals.k_ClientNOU){
+            c_Client.CodiClient = l_Resultat.CodiClient;
+            c_Client.CodiIdioma = l_Resultat.CodiIdioma;
+            c_Client.CodiPais = l_Resultat.CodiPais;
+            c_Client.Contacte = l_Resultat.Contacte;
+            c_Client.DataAlta = Funcions.StringDateADate(l_Resultat.DataAlta);
+            c_Client.DataAltaTexte = Funcions.DateALocal(c_Client.DataAlta);
+            c_Client.eMail = l_Resultat.eMail;
+            c_Client.Nom = l_Resultat.Nom;
+            Globals.g_Client = c_Client;
+            // Gravem a la BBDD Local la info rebuda si el usuari no te informació perque la ha esborrat
+            if (Globals.g_NoHiHanDades){
+                InserirDades(c_Client);
+                // Si hi han dades
+                Globals.g_NoHiHanDades = false;
+            }
+        }
+    }
     //
+    // Funcio per informar (inserir/actualitzar) les dades en el servidor
+    static public function InformarDadesServidor(P_Client:Client, P_Operativa:int, P_FuncioOK:Function = null, P_FuncioError:Function = null):Boolean{
+        var PHP:FuncionsPHP = new FuncionsPHP();
+        var l_Parametres:Object = new Object();
+
+        // La comunicació de variables es amb vars
+        // Validem que la xarxa estigui activa
+        if (Globals.g_HiHaXarxa){
+            l_Parametres.CodiClient = P_Client.CodiClient;
+            l_Parametres.CodiClientIntern = P_Client.CodiClientIntern;
+            l_Parametres.eMail = P_Client.eMail;
+            l_Parametres.Nom = P_Client.Nom;
+            l_Parametres.CodiPais = P_Client.CodiPais;
+            l_Parametres.Contacte = P_Client.Contacte;
+            l_Parametres.CodiIdioma = P_Client.CodiIdioma;
+            l_Parametres.Operativa = P_Operativa;
+            PHP.FerPHP_Vars("http://bodina.virtuol.com/php/Clients.php", l_Parametres, P_FuncioOK, P_FuncioError);
+        }
+        else{
+            Funcions.Avis(ResourceManager.getInstance().getString('resources','php.Avis'),
+                    ResourceManager.getInstance().getString('resources','php.NoServidor'));
+        }
+        return true;
+    }
+    */
 }
