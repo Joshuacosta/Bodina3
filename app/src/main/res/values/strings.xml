@@ -1,8 +1,415 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Bodina3</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Generic -->
+    <string name="error_CampObligatori">Required field</string>
+    <string name="error_eMailIncorrecte">Invalid mail</string>
+    <string name="error_Layout">There are some wrong field</string>
+    <string name="llista_Select">Select...</string>
+
+    <!-- Layout Celebracions -->
+    <string name="app_name">Bodina</string>
+    <string name="menu_celebracions_AfegirEntitat">Add entity</string>
+    <string name="menu_celebracions_Afegir">Add event</string>
+    <string name="menu_celebracions_Configuracio">Settings</string>
+    <string name="menu_celebracions_Actualitzar">Refresh</string>
+
+    <!-- Layout Configuracio -->
+    <string name="title_activity_configuracio">Settings</string>
+    <string name="Configuracio_Nom">Name</string>
+    <string name="Configuracio_eMail">e-Mail</string>
+    <string name="Configuracio_Idioma">Language to comunicate</string>
+    <string name="Configuracio_Pais">Country</string>
+    <string name="Configuracio_Contacte">Contact</string>
+    <string name="Configuracio_DataAlta">Entry date</string>
+    <string name="Configuracio_BotoAcceptar">Accept</string>
+
+    <!-- Layout EntitatAlta -->
+    <string name="title_activity_entitat_alta">Append entity</string>
+
+    <!-- Layout Entitat dades -->
+    <string name="title_activity_entitat_dades">entitatDades</string>
+
+    <!-- Layout Entitat recerca -->
+    <string name="title_activity_entitat_recerca">EntitatRecerca</string>
+
+    <!-- ################################################################################### -->
+    <!-- B A S E   D E   D A D E S -->
+    <!-- ################################################################################### -->
+    <string name="DBName">BodinaDB</string>
+
+    <!-- FUNCIONS GENERIQUES -->
+
+    <string name="TDrop">DROP TABLE %1</string>
+
+    <!-- .................................................................................. -->
+    <!-- TAULES -->
+    <!-- .................................................................................. -->
+    <!-- CLIENT -->
+    <string name="TClient">Client</string>
+    <!-- Camps -->
+    <string name="TClient_CodiClient">CodiClient</string>
+    <string name="TClient_eMail">eMail</string>
+    <string name="TClient_Nom">Nom</string>
+    <string name="TClient_Pais">Pais</string>
+    <string name="TClient_Contacte">Contacte</string>
+    <string name="TClient_DataAlta">DataAlta</string>
+    <string name="TClient_Idioma">Idioma</string>
+    <string name="TClient_Actualitzat">Actualitzat</string>
+    <!-- Llista camps -->
+    <string-array name="TClient_Camps">
+        <item>@string/TClient_CodiClient</item>
+        <item>@string/TClient_eMail</item>
+        <item>@string/TClient_Nom</item>
+        <item>@string/TClient_Pais</item>
+        <item>@string/TClient_Contacte</item>
+        <item>@string/TClient_DataAlta</item>
+        <item>@string/TClient_Idioma</item>
+        <item>@string/TClient_Actualitzat</item>
+    </string-array>
+    <!-- Funcions -->
+    <string name="TClientCreate">CREATE TABLE %1$s (
+                                %2$s VARCHAR(10) PRIMARY KEY,
+                                %3$s VARCHAR(100),
+				                %4$s VARCHAR(100),
+				                %5$s VARCHAR(20),
+				                %6$s VARCHAR(100),
+				                %7$s VARCHAR(20),
+				                %8$s VARCHAR(20),
+				                %9$s INTEGER)</string>
+    <!-- .................................................................................. -->
+    <!-- ENTITATSCLIENT -->
+    <string name="TEntitatsClient">EntitatsClient</string>
+    <!-- Camps -->
+    <string name="TEntitatsClient_CodiEntitat">CodiEntitat</string>
+    <string name="TEntitatsClient_eMailEntitat">eMailEntitat</string>
+    <string name="TEntitatsClient_NomEntitat">NomEntitat</string>
+    <string name="TEntitatsClient_CodiPaisEntitat">CodiPaisEntitat</string>
+    <string name="TEntitatsClient_ContacteEntitat">ContacteEntitat</string>
+    <string name="TEntitatsClient_AdresaEntitat">AdresaEntitat</string>
+    <string name="TEntitatsClient_TelefonEntitat">TelefonEntitat</string>
+    <string name="TEntitatsClient_EstatEntitat">EstatEntitat</string>
+    <string name="TEntitatsClient_DataDarrerCanviEntitat">DataDarrerCanviEntitat</string>
+    <string name="TEntitatsClient_DataPeticioAssociacio">DataPeticioAssociacio</string>
+    <string name="TEntitatsClient_ContacteAssociacio">ContacteAssociacio</string>
+    <string name="TEntitatsClient_DescripcioAssociacio">DescripcioAssociacio</string>
+    <string name="TEntitatsClient_eMailAssociacio">eMailAssociacio</string>
+    <string name="TEntitatsClient_DataAltaAssociacio">DataAltaAssociacio</string>
+    <string name="TEntitatsClient_DataFiAssociacio">DataFiAssociacio</string>
+    <string name="TEntitatsClient_DataDarrerCanviAssociacio">DataDarrerCanviAssociacio</string>
+    <string name="TEntitatsClient_EstatAssociacio">EstatAssociacio</string>
+    <string name="TEntitatsClient_HiHanCanvis">HiHanCanvis</string>
+    <!-- LLista camps -->
+    <string-array name="TEntitatsClient_Camps">
+        <item>@string/TEntitatsClient_CodiEntitat</item>
+        <item>@string/TEntitatsClient_eMailEntitat</item>
+        <item>@string/TEntitatsClient_NomEntitat</item>
+        <item>@string/TEntitatsClient_CodiPaisEntitat</item>
+        <item>@string/TEntitatsClient_ContacteEntitat</item>
+        <item>@string/TEntitatsClient_AdresaEntitat</item>
+        <item>@string/TEntitatsClient_TelefonEntitat</item>
+        <item>@string/TEntitatsClient_EstatEntitat</item>
+        <item>@string/TEntitatsClient_DataDarrerCanviEntitat</item>
+        <item>@string/TEntitatsClient_DataPeticioAssociacio</item>
+        <item>@string/TEntitatsClient_ContacteAssociacio</item>
+        <item>@string/TEntitatsClient_DescripcioAssociacio</item>
+        <item>@string/TEntitatsClient_eMailAssociacio</item>
+        <item>@string/TEntitatsClient_DataAltaAssociacio</item>
+        <item>@string/TEntitatsClient_DataFiAssociacio</item>
+        <item>@string/TEntitatsClient_DataDarrerCanviAssociacio</item>
+        <item>@string/TEntitatsClient_EstatAssociacio</item>
+        <item>@string/TEntitatsClient_HiHanCanvis</item>
+    </string-array>
+    <!-- Funcions -->
+    <string name="TEntitatsClientCreate">CREATE TABLE %1$s (
+                                %2$d INTEGER PRIMARY KEY,
+                                %3$s VARCHAR(100),
+				                %4$s VARCHAR(100),
+				                %5$s VARCHAR(2),
+				                %6$s VARCHAR(100),
+				                %7$s VARCHAR(100),
+				                %8$s VARCHAR(15),
+				                %9$s INTEGER,
+                                %10$s VARCHAR(20),
+                                %11$s VARCHAR(20),
+				                %12$s VARCHAR(100),
+				                %13$s VARCHAR(100),
+				                %14$s VARCHAR(100),
+				                %15$s VARCHAR(20),
+				                %16$s VARCHAR(20),
+				                %17$s VARCHAR(20),
+                                %18$s INTEGER,
+                                %19$s INTEGER)</string>
+    <!-- ################################################################################### -->
+    <!-- String-Arrays -->
+    <!-- ################################################################################### -->
+    <string-array name="Idioma">
+        <item>@string/llista_Select</item>
+        <item>English</item>
+        <item>Spanish</item>
+        <item>Catalan</item>
+        <item>French</item>
+        <item>German</item>
+    </string-array>
+    <string-array name="Paisos">
+        <item>@string/llista_Select</item>
+        <item>Andorra</item>
+        <item>United Arab Emirates</item>
+        <item>Afghanistan</item>
+        <item>Antigua and Barbuda</item>
+        <item>Anguilla</item>
+        <item>Albania</item>
+        <item>Armenia</item>
+        <item>Angola</item>
+        <item>Antarctica</item>
+        <item>Argentina</item>
+        <item>American Samoa</item>
+        <item>Austria</item>
+        <item>Australia</item>
+        <item>Aruba</item>
+        <item>Åland</item>
+        <item>Azerbaijan</item>
+        <item>Bosnia and Herzegovina</item>
+        <item>Barbados</item>
+        <item>Bangladesh</item>
+        <item>Belgium</item>
+        <item>Burkina Faso</item>
+        <item>Bulgaria</item>
+        <item>Bahrain</item>
+        <item>Burundi</item>
+        <item>Benin</item>
+        <item>Saint Barthélemy</item>
+        <item>Bermuda</item>
+        <item>Brunei</item>
+        <item>Bolivia</item>
+        <item>Bonaire</item>
+        <item>Brazil</item>
+        <item>"Bahamas</item>
+        <item>Bhutan</item>
+        <item>Bouvet Island</item>
+        <item>Botswana</item>
+        <item>Belarus</item>
+        <item>Belize</item>
+        <item>Canada</item>
+        <item>Cocos [Keeling] Islands</item>
+        <item>Democratic Republic of the Congo</item>
+        <item>Central African Republic</item>
+        <item>Republic of the Congo</item>
+        <item>Switzerland</item>
+        <item>Ivory Coast</item>
+        <item>Cook Islands</item>
+        <item>Chile</item>
+        <item>Cameroon</item>
+        <item>China</item>
+        <item>Colombia</item>
+        <item>Costa Rica</item>
+        <item>Cuba</item>
+        <item>Cape Verde</item>
+        <item>Curacao</item>
+        <item>Christmas Island</item>
+        <item>Cyprus</item>
+        <item>Czech Republic</item>
+        <item>Germany</item>
+        <item>Djibouti</item>
+        <item>Denmark</item>
+        <item>Dominica</item>
+        <item>Dominican Republic</item>
+        <item>Algeria</item>
+        <item>Ecuador</item>
+        <item>Estonia</item>
+        <item>Egypt</item>
+        <item>Western Sahara</item>
+        <item>Eritrea</item>
+        <item>Spain</item>
+        <item>Ethiopia</item>
+        <item>Finland</item>
+        <item>Fiji</item>
+        <item>Falkland Islands</item>
+        <item>Micronesia</item>
+        <item>Faroe Islands</item>
+        <item>France</item>
+        <item>Gabon</item>
+        <item>United Kingdom</item>
+        <item>Grenada</item>
+        <item>Georgia</item>
+        <item>French Guiana</item>
+        <item>Guernsey</item>
+        <item>Ghana</item>
+        <item>Gibraltar</item>
+        <item>Greenland</item>
+        <item>Gambia</item>
+        <item>Guinea</item>
+        <item>Guadeloupe</item>
+        <item>Equatorial Guinea</item>
+        <item>Greece</item>
+        <item>South Georgia and the South Sandwich Islands</item>
+        <item>Guatemala</item>
+        <item>Guam</item>
+        <item>Guinea-Bissau</item>
+        <item>Guyana</item>
+        <item>Hong Kong</item>
+        <item>Heard Island and McDonald Islands</item>
+        <item>Honduras</item>
+        <item>Croatia</item>
+        <item>Haiti</item>
+        <item>Hungary</item>
+        <item>Indonesia</item>
+        <item>Ireland</item>
+        <item>Israel</item>
+        <item>Isle of Man</item>
+        <item>India</item>
+        <item>British Indian Ocean Territory</item>
+        <item>Iraq</item>
+        <item>Iran</item>
+        <item>Iceland</item>
+        <item>Italy</item>
+        <item>Jersey</item>
+        <item>Jamaica</item>
+        <item>Jordan</item>
+        <item>Japan</item>
+        <item>Kenya</item>
+        <item>Kyrgyzstan</item>
+        <item>Cambodia</item>
+        <item>Kiribati</item>
+        <item>Comoros</item>
+        <item>Saint Kitts and Nevis</item>
+        <item>North Korea</item>
+        <item>South Korea</item>
+        <item>Kuwait</item>
+        <item>Cayman Islands</item>
+        <item>Kazakhstan</item>
+        <item>Laos</item>
+        <item>Lebanon</item>
+        <item>Saint Lucia</item>
+        <item>Liechtenstein</item>
+        <item>Sri Lanka</item>
+        <item>Liberia</item>
+        <item>Lesotho</item>
+        <item>Lithuania</item>
+        <item>Luxembourg</item>
+        <item>Latvia</item>
+        <item>Libya</item>
+        <item>Morocco</item>
+        <item>Monaco</item>
+        <item>Moldova</item>
+        <item>Montenegro</item>
+        <item>Saint Martin</item>
+        <item>Madagascar</item>
+        <item>Marshall Islands</item>
+        <item>Macedonia</item>
+        <item>Mali</item>
+        <item>Myanmar [Burma]</item>
+        <item>Mongolia</item>
+        <item>Macao</item>
+        <item>Northern Mariana Islands</item>
+        <item>Martinique</item>
+        <item>Mauritania</item>
+        <item>Montserrat</item>
+        <item>Malta</item>
+        <item>Mauritius</item>
+        <item>Maldives</item>
+        <item>Malawi</item>
+        <item>Mexico</item>
+        <item>Malaysia</item>
+        <item>Mozambique</item>
+        <item>Namibia</item>
+        <item>New Caledonia</item>
+        <item>Niger</item>
+        <item>Norfolk Island</item>
+        <item>Nigeria</item>
+        <item>Nicaragua</item>
+        <item>Netherlands</item>
+        <item>Norway</item>
+        <item>Nepal</item>
+        <item>Nauru</item>
+        <item>Niue</item>
+        <item>New Zealand</item>
+        <item>Oman</item>
+        <item>Panama</item>
+        <item>Peru</item>
+        <item>French Polynesia</item>
+        <item>Papua New Guinea</item>
+        <item>Philippines</item>
+        <item>Pakistan</item>
+        <item>Poland</item>
+        <item>Saint Pierre and Miquelon</item>
+        <item>Pitcairn Islands</item>
+        <item>Puerto Rico</item>
+        <item>Palestine</item>
+        <item>Portugal</item>
+        <item>Palau</item>
+        <item>Paraguay</item>
+        <item>Qatar</item>
+        <item>Réunion</item>
+        <item>Romania</item>
+        <item>Serbia</item>
+        <item>Russia</item>
+        <item>Rwanda</item>
+        <item>Saudi Arabia</item>
+        <item>Solomon Islands</item>
+        <item>Seychelles</item>
+        <item>Sudan</item>
+        <item>Sweden</item>
+        <item>Singapore</item>
+        <item>Saint Helena</item>
+        <item>Slovenia</item>
+        <item>Svalbard and Jan Mayen</item>
+        <item>Slovakia</item>
+        <item>Sierra Leone</item>
+        <item>San Marino</item>
+        <item>Senegal</item>
+        <item>Somalia</item>
+        <item>Suriname</item>
+        <item>South Sudan</item>
+        <item>São Tomé and Príncipe</item>
+        <item>El Salvador</item>
+        <item>Sint Maarten</item>
+        <item>Syria</item>
+        <item>Swaziland</item>
+        <item>Turks and Caicos Islands</item>
+        <item>Chad</item>
+        <item>French Southern Territories</item>
+        <item>Togo</item>
+        <item>Thailand</item>
+        <item>Tajikistan</item>
+        <item>Tokelau</item>
+        <item>East Timor</item>
+        <item>Turkmenistan</item>
+        <item>Tunisia</item>
+        <item>Tonga</item>
+        <item>Turkey</item>
+        <item>Trinidad and Tobago</item>
+        <item>Tuvalu</item>
+        <item>Taiwan</item>
+        <item>Tanzania</item>
+        <item>Ukraine</item>
+        <item>Uganda</item>
+        <item>U.S. Minor Outlying Islands</item>
+        <item>United States</item>
+        <item>Uruguay</item>
+        <item>Uzbekistan</item>
+        <item>Vatican City</item>
+        <item>Saint Vincent and the Grenadines</item>
+        <item>Venezuela</item>
+        <item>British Virgin Islands</item>
+        <item>U.S. Virgin Islands</item>
+        <item>Vietnam</item>
+        <item>Vanuatu</item>
+        <item>Wallis and Futuna</item>
+        <item>Samoa</item>
+        <item>Kosovo</item>
+        <item>Yemen</item>
+        <item>Mayotte</item>
+        <item>South Africa</item>
+        <item>Zambia</item>
+        <item>Zimbabwe</item>
+    </string-array>
+
+    <string name="title_activity_ac_configuracio">Settings</string>
+    <string name="title_activity_ac_entitat_alta">Append entity</string>
+    <string name="title_activity_ac_celebracio_alta">Append event</string>
 
 </resources>

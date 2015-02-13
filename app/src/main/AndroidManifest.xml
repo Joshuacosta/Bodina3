@@ -16,6 +16,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ac_configuracio"
+            android:label="@string/title_activity_ac_configuracio" >
+        </activity>
+        <activity
+            android:name=".ac_entitat_alta"
+            android:label="@string/title_activity_ac_entitat_alta" >
+        </activity>
+        <activity
+            android:name=".ac_celebracio_alta"
+            android:label="@string/title_activity_ac_celebracio_alta" >
+        </activity>
     </application>
 
 </manifest>

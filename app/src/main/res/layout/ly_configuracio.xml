@@ -1,0 +1,144 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp"
+    tools:context=".MainActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true" >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:orientation="vertical"
+        tools:context="com.example.it00046.bodina.Configuracio">
+
+        <EditText
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="@string/Configuracio_Nom"
+            android:ems="10"
+            android:id="@+id/TextName"
+            android:layout_gravity="center_horizontal"/>
+
+        <EditText
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/TexteMail"
+            android:hint="@string/Configuracio_eMail" />
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/Configuracio_Idioma"
+                android:id="@+id/litIdioma"/>
+
+            <Spinner
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerIdioma"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/Configuracio_Pais"
+                android:id="@+id/litPais"/>
+
+            <Spinner
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerPais"
+                android:spinnerMode="dialog"/>
+        </FrameLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/TexteContacte"
+            android:hint="@string/Configuracio_Contacte" />
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:padding="5dp">
+
+            <EditText
+                android:id="@+id/TextProva"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:layout_marginTop="20dp"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:hint="@string/Configuracio_Contacte"
+                android:singleLine="true" />
+
+            <Button
+                android:id="@+id/AspaProva"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="right|center_vertical"
+                android:background="@android:drawable/ic_delete"
+                android:onClick="btnEsborrarOnClick"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:padding="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/Configuracio_DataAlta"
+                android:id="@+id/litDataAlta"/>
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="dd/mm/yyyy"
+                android:id="@+id/textDataAlta"/>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Configuracio_BotoAcceptar"
+            android:id="@+id/btnAceptar"
+            android:layout_gravity="right"
+            android:onClick="btnAcceptarOnClick" />
+
+    </LinearLayout>
+</ScrollView>
