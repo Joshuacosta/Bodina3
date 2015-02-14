@@ -107,7 +107,8 @@ public final class SQLClientsDAO {
 
     // Funcio per updatar la informació del client
     public static void UpdateClient(Client p_client){
-
+        PHP operacio = new PHP();
+        operacio.execute("un altres phpss");
     }
 
     // Funcio per updatar codi client
