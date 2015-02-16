@@ -20,6 +20,7 @@ public class Client
     public Date DataAlta ;
     public String DataAltaTexte = new String();
     public String Idioma = new String();
+    public Boolean Actualitzat;
 
     public void Client()
     {
@@ -32,5 +33,6 @@ public class Client
         Idioma = "";
         DataAltaTexte = "";
         DataAlta = new Date();
+        Actualitzat = false;
     }
 }

@@ -26,10 +26,10 @@ public final class Globals
     public static SQLDB g_BBDD;
     // Constants
     // Operatives
-    public static final int k_OPE_Alta = 0;
-    public static final int k_OPE_Update = 1;
-    public static final int k_OPE_Select = 2;
-    public static final int k_OPE_SelectCodiClientIntern = 21;
+    public static final String k_OPE_Alta = "0";
+    public static final String k_OPE_Update = "1";
+    public static final String k_OPE_Select = "2";
+    public static final String k_OPE_SelectCodiClientIntern = "21";
     // - Treball
     public static final String k_ClientNOU = "NOU";
 

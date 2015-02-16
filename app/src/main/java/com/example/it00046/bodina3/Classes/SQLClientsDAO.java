@@ -16,34 +16,66 @@ import android.util.Log;
 
 import com.example.it00046.bodina3.R;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 public final class SQLClientsDAO {
-    // Database fields
-    private SQLDB db;
 
-    public SQLClientsDAO(Context context) {
-        //db = new SQLDB(context);
+    private static List<NameValuePair> g_parametresPHP = new ArrayList<NameValuePair>();
+
+    // Graba el client a base de dades local
+    public static class R_InserirLocal implements Runnable  {
+        private Client data;
+        public R_InserirLocal(Client _data) {
+            this.data = _data;
+        }
+
+        public void run() {
+            F_InserirLocal(data);
+        }
+    }
+    public static Boolean F_InserirLocal(Client p_client){
+        ContentValues l_values = new ContentValues();
+        long l_resultat;
+
+        p_client.Actualitzat = true;
+
+        l_values.put(Globals.g_Native.getString(R.string.TClient_CodiClient), p_client.CodiClient);
+        l_values.put(Globals.g_Native.getString(R.string.TClient_Contacte), p_client.Contacte);
+        l_values.put(Globals.g_Native.getString(R.string.TClient_DataAlta), p_client.DataAltaTexte);
+        l_values.put(Globals.g_Native.getString(R.string.TClient_eMail), p_client.eMail);
+        l_values.put(Globals.g_Native.getString(R.string.TClient_Idioma), p_client.Idioma);
+        l_values.put(Globals.g_Native.getString(R.string.TClient_Nom), p_client.Nom);
+        l_values.put(Globals.g_Native.getString(R.string.TClient_Pais), p_client.Pais);
+        l_values.put(Globals.g_Native.getString(R.string.TClient_Actualitzat), p_client.Actualitzat);
+        l_resultat = Globals.g_DB.insert(Globals.g_Native.getString(R.string.TClient), null, l_values);
+        // Informem si la operativa ha anat correctament
+        return (l_resultat != -1);
     }
 
-    public void open() throws SQLException {
-        //Globals.g_DB = db.getWritableDatabase();
-    }
+    public static void F_InserirGlobal(Client p_client) {
+        Boolean l_grabarlocal = true;
 
-    public void close() {
-        //Globals.g_DB.close();
-    }
+        if (Globals.isNetworkAvailable()) {
+            // Montem el php
+            g_parametresPHP = new ArrayList<NameValuePair>(8);
+            g_parametresPHP.add(new BasicNameValuePair("CodiClient", p_client.CodiClient));
+            g_parametresPHP.add(new BasicNameValuePair("CodiClientIntern", p_client.CodiClientIntern));
+            g_parametresPHP.add(new BasicNameValuePair("eMail", p_client.eMail));
+            g_parametresPHP.add(new BasicNameValuePair("Nom", p_client.Nom));
+            g_parametresPHP.add(new BasicNameValuePair("Pais", p_client.Pais));
+            g_parametresPHP.add(new BasicNameValuePair("Contacte", p_client.Contacte));
+            g_parametresPHP.add(new BasicNameValuePair("Idioma", p_client.Idioma));
+            g_parametresPHP.add(new BasicNameValuePair("Operativa", Globals.k_OPE_Alta));
 
-    public static void createClient(Client client) {
-        ContentValues values = new ContentValues();
-        values.put(Globals.g_Native.getString(R.string.TClient_CodiClient), client.CodiClient);
-        values.put(Globals.g_Native.getString(R.string.TClient_Contacte), client.Contacte);
-        values.put(Globals.g_Native.getString(R.string.TClient_DataAlta), client.DataAltaTexte);
-        values.put(Globals.g_Native.getString(R.string.TClient_eMail), client.eMail);
-        values.put(Globals.g_Native.getString(R.string.TClient_Idioma), client.Idioma);
-        values.put(Globals.g_Native.getString(R.string.TClient_Nom), client.Nom);
-        values.put(Globals.g_Native.getString(R.string.TClient_Pais), client.Pais);
-
-        long insertId = Globals.g_DB.insert(Globals.g_Native.getString(R.string.TClient), null, values);
-        UpdateClient(client);
+            PHP operacio = new PHP(g_parametresPHP,
+                                    new R_InserirLocal(p_client),
+                                    null);
+            operacio.execute("http://bodina.virtuol.com/php/Clients.php");
+        }
+        if (l_grabarlocal){
+            F_InserirLocal(p_client);
+        }
         /*
             Aquest codi serveix per donar un identificador a la insercio i
             despres com tornem lo inserit sabem quin valor s'ens ha donat
@@ -105,11 +137,42 @@ public final class SQLClientsDAO {
         return client;
     }
 
+    public static class MyRunnableOK implements Runnable  {
+        private Client data;
+        public MyRunnableOK(Client _data) {
+            this.data = _data;
+        }
+
+        public void run() {
+            UpdateClient(data);
+        }
+    }
+
+    public static class MyRunnableKO implements Runnable  {
+        private Client data;
+        public MyRunnableKO(Client _data) {
+            this.data = _data;
+        }
+
+        public void run() {
+            UpdateClient(data);
+        }
+        public void error(){
+
+        }
+    }
+
+
     // Funcio per updatar la informació del client
     public static void UpdateClient(Client p_client){
         if (Globals.isNetworkAvailable()){
-            PHP operacio = new PHP();
-            operacio.execute("un altres phpss");
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("usuari", "Joshua"));
+            nameValuePairs.add(new BasicNameValuePair("email", "email"));
+            PHP operacio = new PHP(nameValuePairs,
+                                   new MyRunnableOK(p_client),
+                                   new MyRunnableKO(p_client));
+            operacio.execute("http://bodina.virtuol.com/prova.php");
         }
     }
 

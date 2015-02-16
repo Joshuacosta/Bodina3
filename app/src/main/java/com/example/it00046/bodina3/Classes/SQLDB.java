@@ -3,13 +3,9 @@ package com.example.it00046.bodina3.Classes;
 /**
  * Created by it00046 on 13/02/2015.
  */
-import android.content.res.Resources;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.Settings;
-import android.util.Log;
 import com.example.it00046.bodina3.R;
 
 public class SQLDB extends SQLiteOpenHelper {
@@ -25,13 +21,6 @@ public class SQLDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Definim les taules de la BBDD
-        //String CREATE = Globals.g_Native.getString(R.string.TClient_Create);
-        //
-        // Experiment per recuperar el identificador a partir de un texte
-        //int aux = Globals.g_Native.getResources().getIdentifier("TClientCreate", "string", "com.example.it00046.bodina3");
-        //String auxc = Globals.g_Native.getString(aux);
-        //
-
         String CREATE = String.format(Globals.g_Native.getString(R.string.TClientCreate),
                 Globals.g_Native.getString(R.string.TClient),
                 Globals.g_Native.getString(R.string.TClient_CodiClient),
@@ -43,9 +32,13 @@ public class SQLDB extends SQLiteOpenHelper {
                 Globals.g_Native.getString(R.string.TClient_Idioma),
                 Globals.g_Native.getString(R.string.TClient_Actualitzat));
         db.execSQL(CREATE);
-
         // Si executem aixó es que hem creat la BBDD i no hi han dades, de moment:
         Globals.g_NoHiHanDades = true;
+        //
+        // Experiment per recuperar el identificador a partir de un texte
+        //int aux = Globals.g_Native.getResources().getIdentifier("TClientCreate", "string", "com.example.it00046.bodina3");
+        //String auxc = Globals.g_Native.getString(aux);
+        //
     }
 
     @Override
@@ -53,9 +46,9 @@ public class SQLDB extends SQLiteOpenHelper {
         // Aqui expresem el canvis (no se si podria ser necessari trespassar dades i tal
         // per evitar problema en l'usuari
         String DROP = String.format(Globals.g_Native.getString(R.string.TDrop),
-                Globals.g_Native.getString(R.string.TClient));
+                                    Globals.g_Native.getString(R.string.TClient));
         db.execSQL(DROP);
-        // create fresh books table
+        // Tornem a definir les taules
         this.onCreate(db);
     }
 
