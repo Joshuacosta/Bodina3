@@ -43,7 +43,7 @@ public final class SQLClientsDAO {
         values.put(Globals.g_Native.getString(R.string.TClient_Pais), client.Pais);
 
         long insertId = Globals.g_DB.insert(Globals.g_Native.getString(R.string.TClient), null, values);
-
+        UpdateClient(client);
         /*
             Aquest codi serveix per donar un identificador a la insercio i
             despres com tornem lo inserit sabem quin valor s'ens ha donat
@@ -107,8 +107,10 @@ public final class SQLClientsDAO {
 
     // Funcio per updatar la informació del client
     public static void UpdateClient(Client p_client){
-        PHP operacio = new PHP();
-        operacio.execute("un altres phpss");
+        if (Globals.isNetworkAvailable()){
+            PHP operacio = new PHP();
+            operacio.execute("un altres phpss");
+        }
     }
 
     // Funcio per updatar codi client
