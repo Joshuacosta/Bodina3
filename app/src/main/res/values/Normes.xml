@@ -14,11 +14,12 @@
         Spinner
 
 
-
+        Camp classe             nom
 
         Variable global	        G_
         Variable global classe	g_
         Variable funcio	        l_
+
         Parametre	            p_
         Funcio de clase         F_operativa/descripció (per poder distinguir-la ràpidament)
         Funcio runnable         R_nom de funcio que cubreix

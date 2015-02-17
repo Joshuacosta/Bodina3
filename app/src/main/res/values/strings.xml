@@ -10,6 +10,9 @@
     <string name="error_Layout">There are some wrong field</string>
     <string name="llista_Select">Select...</string>
 
+    <string name="errorservidor_avis">Alert</string>
+    <string name="errorservidor_noAcces">Unable to acces to server. Retry later</string>
+
     <!-- Layout Celebracions -->
     <string name="app_name">Bodina</string>
     <string name="menu_celebracions_AfegirEntitat">Add entity</string>
@@ -56,9 +59,11 @@
     <string name="TClient_Nom">Nom</string>
     <string name="TClient_Pais">Pais</string>
     <string name="TClient_Contacte">Contacte</string>
-    <string name="TClient_DataAlta">DataAlta</string>
     <string name="TClient_Idioma">Idioma</string>
+    <string name="TClient_DataAlta">DataAlta</string>
+    <string name="TClient_DataGrabacioServidor">Data grabacio servidor</string>
     <string name="TClient_Actualitzat">Actualitzat</string>
+    <string name="TClient_DataActualitzat">Data actualitzacio</string>
     <!-- Llista camps -->
     <string-array name="TClient_Camps">
         <item>@string/TClient_CodiClient</item>
@@ -69,6 +74,8 @@
         <item>@string/TClient_DataAlta</item>
         <item>@string/TClient_Idioma</item>
         <item>@string/TClient_Actualitzat</item>
+        <item>@string/TClient_DataActualitzat</item>
+        <item>@string/TClient_DataGrabacioServidor</item>
     </string-array>
     <!-- Funcions -->
     <string name="TClientCreate">CREATE TABLE %1$s (
@@ -79,7 +86,9 @@
 				                %6$s VARCHAR(100),
 				                %7$s VARCHAR(20),
 				                %8$s VARCHAR(20),
-				                %9$s INTEGER)</string>
+				                %9$s INTEGER,
+                                %10$s VARCHAR(20)
+                                %11$s VARCHAR(20))</string>
     <!-- .................................................................................. -->
     <!-- ENTITATSCLIENT -->
     <string name="TEntitatsClient">EntitatsClient</string>

@@ -27,13 +27,15 @@ public class ac_principal extends ActionBarActivity {
 
         // Si estem executant i no hem trobat dades (no existia la BBDD) obrim la finestra de
         // configuració perque l'usuari determini Pais, idioma (abans hem aplicat el del
-        // telefon) i resta de informació personal
-        Globals.g_Client = Globals.g_DB_DAO.RecuperaClient();
+        // telefon) i resta de informació personal (aquest informació es basica per poder
+        // treballar amb la aplicacio)
+        Globals.g_Client = Globals.g_Clients_DAO.Llegir();
         if (Globals.g_NoHiHanDades == true) {
             intent = new Intent(this, ac_configuracio.class);
             startActivity(intent);
-        } else {
+        }else{
             //Haurem de carregar la llista de entitats i celebracions del client;
+
         }
     }
 

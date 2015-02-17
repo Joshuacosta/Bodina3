@@ -30,7 +30,9 @@ public class SQLDB extends SQLiteOpenHelper {
                 Globals.g_Native.getString(R.string.TClient_Contacte),
                 Globals.g_Native.getString(R.string.TClient_DataAlta),
                 Globals.g_Native.getString(R.string.TClient_Idioma),
-                Globals.g_Native.getString(R.string.TClient_Actualitzat));
+                Globals.g_Native.getString(R.string.TClient_Actualitzat),
+                Globals.g_Native.getString(R.string.TClient_DataActualitzat),
+                Globals.g_Native.getString(R.string.TClient_DataGrabacioServidor));
         db.execSQL(CREATE);
         // Si executem aixó es que hem creat la BBDD i no hi han dades, de moment:
         Globals.g_NoHiHanDades = true;

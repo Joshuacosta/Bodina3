@@ -78,7 +78,6 @@ public class PHP extends AsyncTask<String, Integer, Integer> {
             // Execute HTTP Post Request
             HttpResponse response = l_httpclient.execute(l_httppost);
             Aux = response.getStatusLine().getStatusCode();
-            Log.i("Hola", EntityUtils.toString(response.getEntity()));
         } catch (ClientProtocolException e) {
             // TODO Auto-generated catch block
             if (g_OperacioKO != null) {

@@ -17,10 +17,11 @@ public class Client
     public String Nom = new String();
     public String Pais = new String();
     public String Contacte = new String();
-    public Date DataAlta ;
-    public String DataAltaTexte = new String();
+    public String DataAlta = new String();
     public String Idioma = new String();
     public Boolean Actualitzat;
+    public String DataActualitzat;
+    public String DataGrabacioServidor;
 
     public void Client()
     {
@@ -31,8 +32,9 @@ public class Client
         Pais = "";
         Contacte = "";
         Idioma = "";
-        DataAltaTexte = "";
-        DataAlta = new Date();
+        DataAlta = "";
         Actualitzat = false;
+        DataActualitzat = "";
+        DataGrabacioServidor = "";
     }
 }
