@@ -10,6 +10,7 @@ import android.database.Cursor;
 import com.example.it00046.bodina3.R;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import com.loopj.android.http.*;
 
 public final class SQLClientsDAO {
 
