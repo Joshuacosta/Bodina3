@@ -9,6 +9,10 @@ public class Php {
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
+
+
+
+
     public static void get(String url, RequestParams params, TextHttpResponseHandler responseHandler) {
         client.get(getAbsoluteUrl(url), params, responseHandler);
     }
