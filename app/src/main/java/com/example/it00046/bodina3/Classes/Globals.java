@@ -34,6 +34,7 @@ public final class Globals
     public static final String k_OPE_Update = "1";
     public static final String k_OPE_Select = "2";
     public static final String k_OPE_SelectCodiClientIntern = "21";
+    public static final String k_DirectoriPHP = "http://bodina.virtuol.com/php/";
     // - Treball
     public static final String k_ClientNOU = "NOU";
 

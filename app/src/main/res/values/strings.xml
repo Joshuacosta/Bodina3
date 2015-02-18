@@ -55,15 +55,16 @@
     <string name="TClient">Client</string>
     <!-- Camps -->
     <string name="TClient_CodiClient">CodiClient</string>
+    <string name="TClient_CodiClientIntern">CodiClientIntern</string>
     <string name="TClient_eMail">eMail</string>
     <string name="TClient_Nom">Nom</string>
     <string name="TClient_Pais">Pais</string>
     <string name="TClient_Contacte">Contacte</string>
     <string name="TClient_Idioma">Idioma</string>
     <string name="TClient_DataAlta">DataAlta</string>
-    <string name="TClient_DataGrabacioServidor">Data grabacio servidor</string>
+    <string name="TClient_DataGrabacioServidor">DataGrabacioServidor</string>
     <string name="TClient_Actualitzat">Actualitzat</string>
-    <string name="TClient_DataActualitzat">Data actualitzacio</string>
+    <string name="TClient_DataActualitzat">DataActualitzacio</string>
     <!-- Llista camps -->
     <string-array name="TClient_Camps">
         <item>@string/TClient_CodiClient</item>
@@ -87,7 +88,7 @@
 				                %7$s VARCHAR(20),
 				                %8$s VARCHAR(20),
 				                %9$s INTEGER,
-                                %10$s VARCHAR(20)
+                                %10$s VARCHAR(20),
                                 %11$s VARCHAR(20))</string>
     <!-- .................................................................................. -->
     <!-- ENTITATSCLIENT -->

@@ -7,10 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
+
 import com.example.it00046.bodina3.R;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
+
+import org.apache.http.Header;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import com.loopj.android.http.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public final class SQLClientsDAO {
 
@@ -18,86 +27,63 @@ public final class SQLClientsDAO {
     // O P E R A T I V A    S E R V I D O R
     //
     // Variables
-    private static List<NameValuePair> g_parametresPHP = new ArrayList<NameValuePair>();
+    private static RequestParams g_parametresPHP = new RequestParams();
+    private static final String TAG_VALIDS = "valids";
+    private static final String TAG_CodiClient = "CodiClient";
     //
-    // Runnable's
-    // Graba el client a base de dades local
-    public static class R_InserirLocal implements Runnable  {
-        private Client data;
-        public R_InserirLocal(Client _data) {
-            this.data = _data;
-        }
-        public void run() {
-            F_InserirLocal(data);
-        }
-    }
-    public static class MyRunnableOK implements Runnable  {
-        private Client data;
-        public MyRunnableOK(Client _data) {
-            this.data = _data;
-        }
-
-        public void run() {
-            UpdateClient(data);
-        }
-    }
-    public static class MyRunnableKO implements Runnable  {
-        private Client data;
-        public MyRunnableKO(Client _data) {
-            this.data = _data;
-        }
-
-        public void run() {
-            UpdateClient(data);
-        }
-        public void error(){
-
-        }
-    }
     // Llegim el client del servidor
-    static public Boolean LlegirServidor(Client p_client){
+    static public void LlegirServidor(Client p_client){
 
         // Validem que la xarxa estigui activa
         if (Globals.isNetworkAvailable()){
             // Montem el php
-            g_parametresPHP = new ArrayList<NameValuePair>(2);
-            g_parametresPHP.add(new BasicNameValuePair("CodiClientIntern", p_client.CodiClientIntern));
-            g_parametresPHP.add(new BasicNameValuePair("Operativa", Globals.k_OPE_SelectCodiClientIntern));
-            PHP l_operacio = new PHP(g_parametresPHP,
-                                     new R_InserirLocal(p_client),
-                                     null);
-            l_operacio.execute("http://bodina.virtuol.com/php/Clients.php");
+            g_parametresPHP = new RequestParams();
+            g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_CodiClientIntern), p_client.CodiClientIntern);
+            g_parametresPHP.put("Operativa", Globals.k_OPE_SelectCodiClientIntern);
+            PhpJson.post("Clients.php", g_parametresPHP, new JsonHttpResponseHandler() {
+                @Override
+                public void onFailure(int statusCode,
+                                      org.apache.http.Header[] headers,
+                                      java.lang.Throwable throwable,
+                                      org.json.JSONObject errorResponse){
+                    Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
+                            Globals.g_Native.getString(R.string.errorservidor_avis));
+                }
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject p_client) {
+                    try{
+                        Globals.g_Client.CodiClient = p_client.getString(TAG_CodiClient);
+                    }
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    /*
+                    if (l_Resultat.CodiClient != Globals.k_ClientNOU){
+                        c_Client.CodiClient = l_Resultat.CodiClient;
+                        c_Client.CodiIdioma = l_Resultat.CodiIdioma;
+                        c_Client.CodiPais = l_Resultat.CodiPais;
+                        c_Client.Contacte = l_Resultat.Contacte;
+                        c_Client.DataAlta = Funcions.StringDateADate(l_Resultat.DataAlta);
+                        c_Client.DataAltaTexte = Funcions.DateALocal(c_Client.DataAlta);
+                        c_Client.eMail = l_Resultat.eMail;
+                        c_Client.Nom = l_Resultat.Nom;
+                        Globals.g_Client = c_Client;
+                        // Gravem a la BBDD Local la info rebuda si el usuari no te informació perque la ha esborrat
+                        if (Globals.g_NoHiHanDades){
+                            InserirDades(c_Client);
+                            // Si hi han dades
+                            Globals.g_NoHiHanDades = false;
+                        }
+                    }
+                    */
+                }
+            });
         }
         else{
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                             Globals.g_Native.getString(R.string.errorservidor_avis));
         }
-        return true;
     }
-    // Si la crida anterior ha anat be carreguem les dades globals de client
-    static public function CarregaDades(event:ResultEvent):void{
-        var l_Resultat:Object = event.result;
-        var c_Client:Client = new Client();
-
-        if (l_Resultat.CodiClient != Globals.k_ClientNOU){
-            c_Client.CodiClient = l_Resultat.CodiClient;
-            c_Client.CodiIdioma = l_Resultat.CodiIdioma;
-            c_Client.CodiPais = l_Resultat.CodiPais;
-            c_Client.Contacte = l_Resultat.Contacte;
-            c_Client.DataAlta = Funcions.StringDateADate(l_Resultat.DataAlta);
-            c_Client.DataAltaTexte = Funcions.DateALocal(c_Client.DataAlta);
-            c_Client.eMail = l_Resultat.eMail;
-            c_Client.Nom = l_Resultat.Nom;
-            Globals.g_Client = c_Client;
-            // Gravem a la BBDD Local la info rebuda si el usuari no te informació perque la ha esborrat
-            if (Globals.g_NoHiHanDades){
-                InserirDades(c_Client);
-                // Si hi han dades
-                Globals.g_NoHiHanDades = false;
-            }
-        }
-    }
-
     public static Boolean F_InserirLocal(Client p_client){
         ContentValues l_values = new ContentValues();
         long l_resultat;
@@ -122,20 +108,21 @@ public final class SQLClientsDAO {
 
         if (Globals.isNetworkAvailable()) {
             // Montem el php
-            g_parametresPHP = new ArrayList<NameValuePair>(8);
-            g_parametresPHP.add(new BasicNameValuePair("CodiClient", p_client.CodiClient));
-            g_parametresPHP.add(new BasicNameValuePair("CodiClientIntern", p_client.CodiClientIntern));
-            g_parametresPHP.add(new BasicNameValuePair("eMail", p_client.eMail));
-            g_parametresPHP.add(new BasicNameValuePair("Nom", p_client.Nom));
-            g_parametresPHP.add(new BasicNameValuePair("Pais", p_client.Pais));
-            g_parametresPHP.add(new BasicNameValuePair("Contacte", p_client.Contacte));
-            g_parametresPHP.add(new BasicNameValuePair("Idioma", p_client.Idioma));
-            g_parametresPHP.add(new BasicNameValuePair("Operativa", Globals.k_OPE_Alta));
+            g_parametresPHP.put("CodiClient", p_client.CodiClient);
+            g_parametresPHP.put("CodiClientIntern", p_client.CodiClientIntern);
+            g_parametresPHP.put("eMail", p_client.eMail);
+            g_parametresPHP.put("Nom", p_client.Nom);
+            g_parametresPHP.put("Pais", p_client.Pais);
+            g_parametresPHP.put("Contacte", p_client.Contacte);
+            g_parametresPHP.put("Idioma", p_client.Idioma);
+            g_parametresPHP.put("Operativa", Globals.k_OPE_Alta);
 
-            PHP operacio = new PHP(g_parametresPHP,
+            /*
+            PHP2 operacio = new PHP2(g_parametresPHP,
                                     new R_InserirLocal(p_client),
                                     null);
             operacio.execute("http://bodina.virtuol.com/php/Clients.php");
+            */
         }
         if (l_grabarlocal){
             F_InserirLocal(p_client);
@@ -203,10 +190,10 @@ public final class SQLClientsDAO {
         }
         else {
             // Recerquem al servidor per si lo que ha passat es que l'usuari ha esborrat
-            // les dades locals
+            // les dades locals (en aquest cas les tornarem a grabar)
+            Globals.g_Clients_DAO.LlegirServidor(l_client);
 
-
-            Globals.g_NoHiHanDades = true;
+            Globals.g_NoHiHanDades = true; // Ja veurem...
 
         }
         //
@@ -219,10 +206,12 @@ public final class SQLClientsDAO {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("usuari", "Joshua"));
             nameValuePairs.add(new BasicNameValuePair("email", "email"));
-            PHP operacio = new PHP(nameValuePairs,
+            /*
+            PHP2 operacio = new PHP2(nameValuePairs,
                                    new MyRunnableOK(p_client),
                                    new MyRunnableKO(p_client));
             operacio.execute("http://bodina.virtuol.com/prova.php");
+            */
         }
     }
 

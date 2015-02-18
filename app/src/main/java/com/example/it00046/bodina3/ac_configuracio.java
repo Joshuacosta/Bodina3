@@ -147,9 +147,21 @@ public class ac_configuracio extends ActionBarActivity {
             client.Contacte = lTXT_Contacte.getText().toString();
             client.Pais = lSPN_Paissos.getSelectedItem().toString();
             client.Idioma = lSPN_Idioma.getSelectedItem().toString();
-
-            Globals.g_DB_DAO.createClient(client);
-            SQLClientsDAO.createClient(client);
+            //
+            // Que era aixó?
+            //Globals.g_DB_DAO.createClient(client); ?????
+            //
+            if (Globals.g_NoHiHanDades) {
+                /*
+                SQLClientsDAO.Inserir(client);
+                Globals.g_NoHiHanDades = false;
+                */
+            }
+            else{
+                /*
+                SQLClientsDAO.Modificar(client);
+                */
+            }
             // Gravem les dades del client i tornem enrera
             Globals.g_Client = client;
             this.finish();
