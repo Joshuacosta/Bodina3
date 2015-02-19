@@ -9,9 +9,14 @@
     <string name="error_eMailIncorrecte">Invalid mail</string>
     <string name="error_Layout">There are some wrong field</string>
     <string name="llista_Select">Select...</string>
-
+    <string name="op_modificacio_ok">Update done</string>
+    <string name="op_afegir_ok">Added item</string>
+    <string name="op_esborrar_ok">Deleted item</string>
+    <!-- Errors -->
     <string name="errorservidor_avis">Alert</string>
     <string name="errorservidor_noAcces">Unable to acces to server. Retry later</string>
+    <string name="errorservidor_BBDD">Error at server. Retry later</string>
+    <string name="errorservidor_ProgramError">An error has ocurred. Retry again</string>
 
     <!-- Layout Celebracions -->
     <string name="app_name">Bodina</string>

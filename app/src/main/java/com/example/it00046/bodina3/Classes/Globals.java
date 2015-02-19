@@ -37,6 +37,8 @@ public final class Globals
     public static final String k_DirectoriPHP = "http://bodina.virtuol.com/php/";
     // - Treball
     public static final String k_ClientNOU = "NOU";
+    public static final String k_PHPOK = "1";
+    public static final String k_PHPErrorBBDD = "2";
 
     public static void CreateBBDD(){
         g_BBDD = new SQLDB(g_Native);
