@@ -201,6 +201,7 @@ public final class SQLClientsDAO {
                     Globals.g_Native.getString(R.string.errorservidor_avis));
         }
         finally {
+            // Actualitzem el servidor
             if (Globals.isNetworkAvailable()) {
                 // Montem el php
                 g_parametresPHP = new RequestParams();
@@ -319,7 +320,8 @@ public final class SQLClientsDAO {
         l_values.put(Globals.g_Native.getString(R.string.TClient_Idioma), p_client.Idioma);
         l_values.put(Globals.g_Native.getString(R.string.TClient_Nom), p_client.Nom);
         l_values.put(Globals.g_Native.getString(R.string.TClient_Pais), p_client.Pais);
-        l_values.put(Globals.g_Native.getString(R.string.TClient_Actualitzat), p_client.Actualitzat);
+        // Com gravem a la BD local posem a false per sapiguer que no es actualiztat al servidor
+        l_values.put(Globals.g_Native.getString(R.string.TClient_Actualitzat), false);
 
         return l_values;
     }
