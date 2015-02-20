@@ -12,11 +12,14 @@
     <string name="op_modificacio_ok">Update done</string>
     <string name="op_afegir_ok">Added item</string>
     <string name="op_esborrar_ok">Deleted item</string>
-    <!-- Errors -->
-    <string name="errorservidor_avis">Alert</string>
+    <!-- Errors codi -->
+    <string name="error_avis">Alert</string>
+    <string name="error_greu">Error</string>
     <string name="errorservidor_noAcces">Unable to acces to server. Retry later</string>
     <string name="errorservidor_BBDD">Error at server. Retry later</string>
     <string name="errorservidor_ProgramError">An error has ocurred. Retry again</string>
+    <string name="errorlocal_BBDD">Error at database. Retry later</string>
+    <string name="errorlocal_ProgramError">An error has ocurred. Retry again</string>
 
     <!-- Layout Celebracions -->
     <string name="app_name">Bodina</string>

@@ -38,9 +38,9 @@ public final class SQLClientsDAO {
     private static final String TAG_Pais = Globals.g_Native.getString(R.string.TClient_Pais);
     private static final String TAG_Idioma = Globals.g_Native.getString(R.string.TClient_Idioma);
     //
-    // Llegim el client del servidor
-    static private void f_LlegirServidor(String p_CodiClientIntern){
-
+    // Llegim el client del servidor, si existeix en el servidor el recuprem localment (el grabem
+    // a la BBDD local)
+    static private void f_LlegirServidorClauInterna(final String p_CodiClientIntern){
         // Validem que la xarxa estigui activa
         if (Globals.isNetworkAvailable()){
             // Montem el php
@@ -54,12 +54,14 @@ public final class SQLClientsDAO {
                                       java.lang.Throwable throwable,
                                       org.json.JSONObject errorResponse){
                     Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
-                            Globals.g_Native.getString(R.string.errorservidor_avis));
+                            Globals.g_Native.getString(R.string.error_greu));
                 }
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject p_clientServidor) {
+                public void onSuccess(int statusCode, Header[] headers, JSONObject p_clientServidor){
                     try{
                         if (p_clientServidor.getString(TAG_VALIDS) == Globals.k_PHPOK) {
+                            // Apuntem codi intern
+                            Globals.g_Client.CodiClientIntern = p_CodiClientIntern;
                             if (p_clientServidor.getString(TAG_CodiClient) == Globals.k_ClientNOU) {
                                 // Client nou, no hem de fer res
                             } else {
@@ -82,60 +84,23 @@ public final class SQLClientsDAO {
                         }
                         else{
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
-                                    Globals.g_Native.getString(R.string.errorservidor_avis));
+                                    Globals.g_Native.getString(R.string.error_greu));
                         }
                     }
                     catch (JSONException e) {
                         Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                                Globals.g_Native.getString(R.string.errorservidor_avis));
+                                Globals.g_Native.getString(R.string.error_greu));
                     }
                 }
             });
         }
         else{
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
-                            Globals.g_Native.getString(R.string.errorservidor_avis));
+                            Globals.g_Native.getString(R.string.error_greu));
         }
-    }
-
-    private static void f_InserirServidor(Client p_client) {
-        Boolean l_grabarlocal = true;
-
-        if (Globals.isNetworkAvailable()) {
-            // Montem el php
-            g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_CodiClient), p_client.CodiClient);
-            g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_eMail), p_client.eMail);
-            g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Nom), p_client.Nom);
-            g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Pais), p_client.Pais);
-            g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Contacte), p_client.Contacte);
-            g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Idioma), p_client.Idioma);
-            g_parametresPHP.put("Operativa", Globals.k_OPE_Alta);
-
-            /*
-            PHP2 operacio = new PHP2(g_parametresPHP,
-                                    new R_InserirLocal(p_client),
-                                    null);
-            operacio.execute("http://bodina.virtuol.com/php/Clients.php");
-            */
-        }
-        if (l_grabarlocal){
-            f_InserirLocal(p_client);
-        }
-        /*
-            Aquest codi serveix per donar un identificador a la insercio i
-            despres com tornem lo inserit sabem quin valor s'ens ha donat
-
-        Cursor cursor = database.query(SQLClients.TABLE_COMMENTS,
-                allColumns, SQLClients.COLUMN_ID + " = " + insertId, null,
-                null, null, null);
-        cursor.moveToFirst();
-        Client newClient = cursorToComment(cursor);
-        cursor.close();
-        return newClient;
-        */
     }
     //
-    // Funcio per inserir les
+    // Funcio per inserir les dades localment
     private static Boolean f_InserirLocal(Client p_client){
         ContentValues l_values = new ContentValues();
         long l_resultat;
@@ -155,6 +120,56 @@ public final class SQLClientsDAO {
         return (l_resultat != -1);
     }
     //
+    //
+    private static void f_ModificarGlobal(final Client p_client){
+        // Montem el php
+        g_parametresPHP = new RequestParams();
+        g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_CodiClient), p_client.CodiClient);
+        g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_eMail), p_client.eMail);
+        g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Nom), p_client.Nom);
+        g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Pais), p_client.Pais);
+        g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Contacte), p_client.Contacte);
+        g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Idioma), p_client.Idioma);
+        g_parametresPHP.put("Operativa", Globals.k_OPE_Update);
+        PhpJson.post("Clients.php", g_parametresPHP, new JsonHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode,
+                                  org.apache.http.Header[] headers,
+                                  java.lang.Throwable throwable,
+                                  org.json.JSONObject errorResponse) {
+                Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
+                        Globals.g_Native.getString(R.string.error_greu));
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject p_clientServidor) {
+                try {
+                    if (p_clientServidor.getString(TAG_VALIDS) == Globals.k_PHPOK) {
+                        // Actualitzem el camp actualitzat a la BBDD local
+                        if (f_ModificarActualitzat(p_client.CodiClient)) {
+                            // Informem al usuari que hem modificat les dades
+                            Toast.makeText(Globals.g_Native,
+                                    Globals.g_Native.getString(R.string.op_modificacio_ok),
+                                    Toast.LENGTH_LONG).show();
+                            // Actualitzem client global
+                            Globals.g_Client = p_client;
+                        }
+                        else{
+                            // Si ha anat malament l'actualització ja informarà la funció
+                        }
+                    }
+                    else {
+                        Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
+                                Globals.g_Native.getString(R.string.error_greu));
+                    }
+                } catch (JSONException e) {
+                    Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                            Globals.g_Native.getString(R.string.error_greu));
+                }
+            }
+        });
+    }
+    //
     // ---------------------------------
     // O P E R A T I V A   P U B L I C A
     // ---------------------------------
@@ -162,34 +177,47 @@ public final class SQLClientsDAO {
     // Funcio per llegir les dades del client
     public static void Llegir(){
         // Recerquem localment
-        Cursor cursor = Globals.g_DB.query(Globals.g_Native.getString(R.string.TClient),
-                Globals.g_Native.getResources().getStringArray(R.array.TClient_Camps),
-                null, // c. selections
-                null, // d. selections args
-                null, // e. group by
-                null, // f. having
-                null, // g. order by
-                null); // h. limit
-        if (cursor.getCount() == 1) {
-            cursor.moveToFirst();
-            Globals.g_Client = f_cursorToClient(cursor);
+        try {
             // Aquest valor l'informem ja (CodiInternClient es la MAC)
             Globals.g_Client.CodiClientIntern = Globals.F_RecuperaMAC();
-            // Si que hi han dades
-            Globals.g_NoHiHanDades = false;
+            //
+            Cursor cursor = Globals.g_DB.query(Globals.g_Native.getString(R.string.TClient),
+                    Globals.g_Native.getResources().getStringArray(R.array.TClient_Camps),
+                    null, // c. selections
+                    null, // d. selections args
+                    null, // e. group by
+                    null, // f. having
+                    null, // g. order by
+                    null); // h. limit
+            if (cursor.getCount() == 1) {
+                cursor.moveToFirst();
+                Globals.g_Client = f_cursorToClient(cursor);
+                // Si hi ha xarxa validem la integritat de les dades, o sigui, si les nostres dades
+                // no hi son actualitzades o fem.
+                if (Globals.isNetworkAvailable()){
+                    if (Globals.g_Client.Actualitzat == false){
+                        f_ModificarGlobal(Globals.g_Client);
+                    }
+                }
+                // Si que hi han dades
+                Globals.g_NoHiHanDades = false;
+            }
+            else {
+                // Recerquem al servidor per si lo que ha passat es que l'usuari ha esborrat
+                // les dades locals (en aquest cas les tornarem a grabar).
+                Globals.g_Clients_DAO.f_LlegirServidorClauInterna(Globals.g_Client.CodiClientIntern);
+                // ...
+            }
         }
-        else {
-            // Recerquem al servidor per si lo que ha passat es que l'usuari ha esborrat
-            // les dades locals (en aquest cas les tornarem a grabar)
-            Globals.g_Clients_DAO.f_LlegirServidor(Globals.F_RecuperaMAC());
-            // ...
+        catch(Exception e) {
+            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                    Globals.g_Native.getString(R.string.error_greu));
         }
     }
     //
     // Funcio per modificar les dades del client
-    public static void Modificar(Client p_client){
+    public static void Modificar(final Client p_client){
         // Primer modifiquem localment i despres globalment
-
         try {
             Globals.g_DB.update(Globals.g_Native.getString(R.string.TClient),
                     f_clientToContentValues(p_client),
@@ -198,20 +226,42 @@ public final class SQLClientsDAO {
         }
         catch(Exception e) {
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                    Globals.g_Native.getString(R.string.errorservidor_avis));
+                    Globals.g_Native.getString(R.string.error_greu));
+        }
+        finally{
+            // Actualitzem el servidor
+            if (Globals.isNetworkAvailable()) {
+                // Montem el php
+                f_ModificarGlobal(p_client);
+            }
+        }
+    }
+    //
+    // Funcio per definir el client
+    public static void Definir(final Client p_client){
+        // Primer definim localment i despres globalment. L'unic important del procès es que el codi
+        // de client ho determinem quan donem d'alta en el servidor per lo que posteriorment hem de
+        // actualitzat les dades locals que hem insertat previament.
+        try {
+            Globals.g_DB.insert(Globals.g_Native.getString(R.string.TClient),
+                                null,
+                                f_clientToContentValues(p_client));
+        }
+        catch(Exception e) {
+            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                            Globals.g_Native.getString(R.string.error_greu));
         }
         finally {
             // Actualitzem el servidor
             if (Globals.isNetworkAvailable()) {
                 // Montem el php
                 g_parametresPHP = new RequestParams();
-                g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_CodiClient), p_client.CodiClient);
                 g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_eMail), p_client.eMail);
                 g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Nom), p_client.Nom);
                 g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Pais), p_client.Pais);
                 g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Contacte), p_client.Contacte);
                 g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Idioma), p_client.Idioma);
-                g_parametresPHP.put("Operativa", Globals.k_OPE_Update);
+                g_parametresPHP.put("Operativa", Globals.k_OPE_Alta);
                 PhpJson.post("Clients.php", g_parametresPHP, new JsonHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode,
@@ -219,49 +269,42 @@ public final class SQLClientsDAO {
                                           java.lang.Throwable throwable,
                                           org.json.JSONObject errorResponse) {
                         Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
-                                Globals.g_Native.getString(R.string.errorservidor_avis));
+                                Globals.g_Native.getString(R.string.error_greu));
                     }
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject p_clientServidor) {
                         try {
                             if (p_clientServidor.getString(TAG_VALIDS) == Globals.k_PHPOK) {
-                                // Informem al usuari que hem modificat les dades
-                                Toast.makeText(Globals.g_Native,
-                                               Globals.g_Native.getString(R.string.op_modificacio_ok),
-                                               Toast.LENGTH_LONG).show();
-
+                                // Recuperem el codi de client calcular al servidor
+                                String l_CodiClient = p_clientServidor.getString(TAG_CodiClient);
+                                // Actualitzem el camp actualitzat a la BBDD local
+                                if (f_ModificaCodiClient(l_CodiClient)) {
+                                    // Informem al usuari que hem modificat les dades
+                                    Toast.makeText(Globals.g_Native,
+                                            Globals.g_Native.getString(R.string.op_afegir_ok),
+                                            Toast.LENGTH_LONG).show();
+                                    // Actualitzem les dades globals de client
+                                    p_client.CodiClient = l_CodiClient;
+                                    Globals.g_Client = p_client;
+                                }
+                                else{
+                                    // Si ha anat malament l'inserció ja informarà la funció
+                                }
                             }
                             else {
                                 Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
-                                        Globals.g_Native.getString(R.string.errorservidor_avis));
+                                        Globals.g_Native.getString(R.string.error_greu));
                             }
                         } catch (JSONException e) {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                                    Globals.g_Native.getString(R.string.errorservidor_avis));
+                                    Globals.g_Native.getString(R.string.error_greu));
                         }
                     }
                 });
             }
         }
     }
-    //
-    // Definim el client
-    public static void Definir(Client p_client){
-
-    }
-
-    // Funcio per updatar codi client
-    public static void UpdateCodiClient(Client p_client){
-
-    }
-
-
-    // Funcio per updatar actualitzat
-    public static void UpdateActualitzat(Client p_client){
-
-    }
-
     // Aquest codi el guardo per altres classes ja que amb clients no hi ha llista
     /*
     public static List<Client> getAllClients(){
@@ -293,6 +336,51 @@ public final class SQLClientsDAO {
     //
     // Funcions privades
     //
+    //
+    // Funcio per updatar codi client
+    public static Boolean f_ModificaCodiClient(String p_CodiClient){
+        ContentValues l_actualitzat = new ContentValues();
+        Boolean l_resposta = true;
+
+        l_actualitzat.put(Globals.g_Native.getString(R.string.TClient_CodiClient), p_CodiClient);
+        l_actualitzat.put(Globals.g_Native.getString(R.string.TClient_Actualitzat), true);
+        try {
+            Globals.g_DB.update(Globals.g_Native.getString(R.string.TClient),
+                    l_actualitzat,
+                    Globals.g_Native.getString(R.string.TClient_CodiClient) + "=" + p_CodiClient,
+                    null);
+        }
+        catch (Exception e) {
+            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                    Globals.g_Native.getString(R.string.error_greu));
+            l_resposta = false;
+        }
+
+        return l_resposta;
+    }
+    //
+    // Funcio per updatar el camp actualitzat
+    private static Boolean f_ModificarActualitzat(String p_CodiClient) {
+        ContentValues l_actualitzat = new ContentValues();
+        Boolean l_resposta = true;
+
+        l_actualitzat.put(Globals.g_Native.getString(R.string.TClient_Actualitzat), true);
+        try {
+            Globals.g_DB.update(Globals.g_Native.getString(R.string.TClient),
+                    l_actualitzat,
+                    Globals.g_Native.getString(R.string.TClient_CodiClient) + "=" + p_CodiClient,
+                    null);
+        }
+        catch (Exception e) {
+            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                    Globals.g_Native.getString(R.string.error_greu));
+            l_resposta = false;
+        }
+
+        return l_resposta;
+    }
+    //
+    // Fa un case
     private static Client f_cursorToClient(Cursor cursor){
         Client l_client = new Client();
 
@@ -309,7 +397,8 @@ public final class SQLClientsDAO {
 
         return l_client;
     }
-
+    //
+    // Fa un case
     private static ContentValues f_clientToContentValues(Client p_client){
         ContentValues l_values = new ContentValues();
 
@@ -321,8 +410,22 @@ public final class SQLClientsDAO {
         l_values.put(Globals.g_Native.getString(R.string.TClient_Nom), p_client.Nom);
         l_values.put(Globals.g_Native.getString(R.string.TClient_Pais), p_client.Pais);
         // Com gravem a la BD local posem a false per sapiguer que no es actualiztat al servidor
+        // (ho posarem a cert si l'actualització al servidor va be)
         l_values.put(Globals.g_Native.getString(R.string.TClient_Actualitzat), false);
 
         return l_values;
     }
 }
+
+        /*
+            Aquest codi serveix per donar un identificador a la insercio i
+            despres com tornem lo inserit sabem quin valor s'ens ha donat
+
+        Cursor cursor = database.query(SQLClients.TABLE_COMMENTS,
+                allColumns, SQLClients.COLUMN_ID + " = " + insertId, null,
+                null, null, null);
+        cursor.moveToFirst();
+        Client newClient = cursorToComment(cursor);
+        cursor.close();
+        return newClient;
+        */

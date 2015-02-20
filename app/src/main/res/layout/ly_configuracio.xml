@@ -45,13 +45,14 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/Configuracio_Idioma"
-                android:id="@+id/litIdioma"/>
+                android:id="@+id/litIdioma" />
 
             <Spinner
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinnerIdioma"/>
+                android:id="@+id/spinnerIdioma"
+                android:background="#ffff854d" />
         </FrameLayout>
 
         <FrameLayout
@@ -72,6 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinnerPais"
+                android:background="#ffff854d" />
                 android:spinnerMode="dialog"/>
         </FrameLayout>
 
