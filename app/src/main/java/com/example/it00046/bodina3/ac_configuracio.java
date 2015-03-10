@@ -26,24 +26,23 @@ public class ac_configuracio extends ActionBarActivity {
     private EditText lTXT_Name, lTXT_eMail, lTXT_Contacte, lTXT_Prova;
     private TextView lTextIdioma, lTextPais;
 
-    private SQLClientsDAO sqlclientsDAO;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         int spinnerPostion;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ly_configuracio);
-
+        // Anem recuperant els controls
         lTXT_Prova = (EditText) findViewById(R.id.TextProva);
-        //
         lTextIdioma = (TextView) findViewById(R.id.litIdioma);
         lTextPais = (TextView) findViewById(R.id.litPais);
-        // Codi per tractar el spinner del idioma
         lSPN_Idioma = (Spinner)findViewById(R.id.spinnerIdioma);
+        lSPN_Paissos = (Spinner)findViewById(R.id.spinnerPais);
+        // Codi per tractar el spinner del idioma
         ArrayAdapter<CharSequence> adapter_Idioma = ArrayAdapter.createFromResource(this,R.array.Idioma,android.R.layout.simple_spinner_item);
         adapter_Idioma.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         lSPN_Idioma.setAdapter(adapter_Idioma);
+        // Codi del Spinner de idioma
         lSPN_Idioma.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView parent, View view, int pos, long id) {
@@ -53,14 +52,13 @@ public class ac_configuracio extends ActionBarActivity {
 
             @Override
             public void onNothingSelected(AdapterView parent) {
-
             }
         });
         // Codi per tractar el spinner de paissos
-        lSPN_Paissos = (Spinner)findViewById(R.id.spinnerPais);
         ArrayAdapter<CharSequence> adapter_Pais = ArrayAdapter.createFromResource(this,R.array.Paisos,android.R.layout.simple_spinner_item);
         adapter_Pais.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         lSPN_Paissos.setAdapter(adapter_Pais);
+        // Codi del Spinner de pais
         lSPN_Paissos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView parent, View view, int pos, long id) {
@@ -74,7 +72,7 @@ public class ac_configuracio extends ActionBarActivity {
             }
         });
         // Informem les dades si es necessari
-        if (Globals.g_Client.CodiClient != ""){
+        if (!Globals.g_Client.CodiClient.equals("")){
             // Mostrem dades
             lTXT_Name = (EditText) findViewById(R.id.TextName);
             lTXT_Name.setText(Globals.g_Client.Nom);
@@ -91,7 +89,7 @@ public class ac_configuracio extends ActionBarActivity {
                 lSPN_Paissos.setSelection(spinnerPostion);
             }
         }
-        // Validacions de la finestra
+        // Codi de validacio de la finestra (fem servir la clase estàtica Validació)
         lTXT_Name.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 Validacio.hasText(lTXT_Name);
@@ -115,7 +113,8 @@ public class ac_configuracio extends ActionBarActivity {
         });
     }
 
-    private boolean checkValidation() {
+    // Funcio interna per validar la finestra
+    private boolean ValidarFinestra() {
         boolean ret = true;
         TextView lTextIdioma = (TextView) findViewById(R.id.litIdioma);
         TextView lTextPais = (TextView) findViewById(R.id.litPais);
@@ -123,11 +122,11 @@ public class ac_configuracio extends ActionBarActivity {
         if (!Validacio.hasText(lTXT_Name)) ret = false;
         if (!Validacio.hasText(lTXT_Contacte)) ret = false;
         if (!Validacio.isEmailAddress(lTXT_eMail, true)) ret = false;
-        if (lSPN_Idioma.getSelectedItem().toString() == Globals.g_Native.getString(R.string.llista_Select)){
+        if (!lSPN_Idioma.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))){
             lTextIdioma.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
             ret = false;
         }
-        if (lSPN_Paissos.getSelectedItem().toString() == Globals.g_Native.getString(R.string.llista_Select)){
+        if (!lSPN_Paissos.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))){
             lTextPais.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
             ret = false;
         }
@@ -140,7 +139,7 @@ public class ac_configuracio extends ActionBarActivity {
         Client l_client = new Client();
 
         // Validem que els camps estiguin informats
-        if (checkValidation()) {
+        if (ValidarFinestra()) {
             l_client.CodiClientIntern = Globals.g_Client.CodiClientIntern;
             l_client.Nom = lTXT_Name.getText().toString();
             l_client.eMail = lTXT_eMail.getText().toString();
