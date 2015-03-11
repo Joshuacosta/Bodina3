@@ -18,9 +18,9 @@
     <string name="errorservidor_noAcces">Unable to acces to server. Retry later</string>
     <string name="errorservidor_BBDD">Error at server. Retry later</string>
     <string name="errorservidor_ProgramError">An error has ocurred. Retry again</string>
+    <string name="errorservidor_Mail">An error has ocurred sending confirmation e-mail.</string>
     <string name="errorlocal_BBDD">Error at database. Retry later</string>
     <string name="errorlocal_ProgramError">An error has ocurred. Retry again</string>
-
     <!-- Layout Celebracions -->
     <string name="app_name">Bodina</string>
     <string name="menu_celebracions_AfegirEntitat">Add entity</string>

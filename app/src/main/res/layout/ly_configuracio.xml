@@ -52,7 +52,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinnerIdioma"
-                android:background="#ffff854d" />
+                android:background="#ffff854d"
+                android:spinnerMode="dialog" />
         </FrameLayout>
 
         <FrameLayout
@@ -73,8 +74,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinnerPais"
-                android:background="#ffff854d" />
-                android:spinnerMode="dialog"/>
+                android:background="#ffff854d"
+                android:spinnerMode="dialog" />
         </FrameLayout>
 
         <EditText

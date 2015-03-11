@@ -30,6 +30,7 @@ public final class SQLClientsDAO {
     // Variables
     private static RequestParams g_parametresPHP = new RequestParams();
     private static final String TAG_VALIDS = "valids";
+    private static final String TAG_client = "client";
     private static final String TAG_CodiClient = Globals.g_Native.getString(R.string.TClient_CodiClient);
     private static final String TAG_eMail = Globals.g_Native.getString(R.string.TClient_eMail);
     private static final String TAG_Nom = Globals.g_Native.getString(R.string.TClient_Nom);
@@ -59,19 +60,24 @@ public final class SQLClientsDAO {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject p_clientServidor){
                     try{
-                        if (p_clientServidor.getString(TAG_VALIDS) == Globals.k_PHPOK) {
+                        String l_Resposta = p_clientServidor.getString(TAG_VALIDS);
+                        if (l_Resposta.equals(Globals.k_PHPOK)) {
                             // Apuntem codi intern
                             Globals.g_Client.CodiClientIntern = p_CodiClientIntern;
-                            if (p_clientServidor.getString(TAG_CodiClient) == Globals.k_ClientNOU) {
+                            // Llegim el client (nomes tornem un)
+                            JSONArray l_ArrayClient = null;
+                            l_ArrayClient = p_clientServidor.getJSONArray(TAG_client);
+                            JSONObject l_client = l_ArrayClient.getJSONObject(0);
+                            if (l_client.getString(TAG_CodiClient).equals(Globals.k_ClientNOU)) {
                                 // Client nou, no hem de fer res
                             } else {
-                                Globals.g_Client.CodiClient = p_clientServidor.getString(TAG_CodiClient);
-                                Globals.g_Client.eMail = p_clientServidor.getString(TAG_eMail);
-                                Globals.g_Client.Nom = p_clientServidor.getString(TAG_Nom);
-                                Globals.g_Client.Contacte = p_clientServidor.getString(TAG_Contacte);
-                                Globals.g_Client.DataAlta = p_clientServidor.getString(TAG_DataAlta);
-                                Globals.g_Client.Pais = p_clientServidor.getString(TAG_Pais);
-                                Globals.g_Client.Idioma = p_clientServidor.getString(TAG_Idioma);
+                                Globals.g_Client.CodiClient = l_client.getString(TAG_CodiClient);
+                                Globals.g_Client.eMail = l_client.getString(TAG_eMail);
+                                Globals.g_Client.Nom = l_client.getString(TAG_Nom);
+                                Globals.g_Client.Contacte = l_client.getString(TAG_Contacte);
+                                Globals.g_Client.DataAlta = l_client.getString(TAG_DataAlta);
+                                Globals.g_Client.Pais = l_client.getString(TAG_Pais);
+                                Globals.g_Client.Idioma = l_client.getString(TAG_Idioma);
                                 // Es actualitzat perque l'hem recuperat de la BBDD
                                 Globals.g_Client.Actualitzat = true;
                                 // Inserim les dades a la BBDD
@@ -144,7 +150,8 @@ public final class SQLClientsDAO {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject p_clientServidor) {
                 try {
-                    if (p_clientServidor.getString(TAG_VALIDS) == Globals.k_PHPOK) {
+                    String l_Resposta = p_clientServidor.getString(TAG_VALIDS);
+                    if (l_Resposta.equals(Globals.k_PHPOK)) {
                         // Actualitzem el camp actualitzat a la BBDD local
                         if (f_ModificarActualitzat(p_client.CodiClient)) {
                             // Informem al usuari que hem modificat les dades
@@ -256,6 +263,7 @@ public final class SQLClientsDAO {
             if (Globals.isNetworkAvailable()) {
                 // Montem el php
                 g_parametresPHP = new RequestParams();
+                g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_CodiClientIntern), p_client.CodiClientIntern);
                 g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_eMail), p_client.eMail);
                 g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Nom), p_client.Nom);
                 g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Pais), p_client.Pais);
@@ -275,7 +283,13 @@ public final class SQLClientsDAO {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject p_clientServidor) {
                         try {
-                            if (p_clientServidor.getString(TAG_VALIDS) == Globals.k_PHPOK) {
+                            String l_Resposta = p_clientServidor.getString(TAG_VALIDS);
+                            if (l_Resposta.equals(Globals.k_PHPErrorMail)){
+                                Toast.makeText(Globals.g_Native,
+                                        Globals.g_Native.getString(R.string.errorservidor_Mail),
+                                        Toast.LENGTH_LONG).show();
+                            }
+                            if (l_Resposta.equals(Globals.k_PHPOK)) {
                                 // Recuperem el codi de client calcular al servidor
                                 String l_CodiClient = p_clientServidor.getString(TAG_CodiClient);
                                 // Actualitzem el camp actualitzat a la BBDD local
@@ -289,7 +303,10 @@ public final class SQLClientsDAO {
                                     Globals.g_Client = p_client;
                                 }
                                 else{
-                                    // Si ha anat malament l'inserció ja informarà la funció
+                                    // Error en el servidor
+                                    Toast.makeText(Globals.g_Native,
+                                            Globals.g_Native.getString(R.string.errorservidor_BBDD),
+                                            Toast.LENGTH_LONG).show();
                                 }
                             }
                             else {
@@ -337,7 +354,7 @@ public final class SQLClientsDAO {
     // Funcions privades
     //
     //
-    // Funcio per updatar codi client
+    // Funcio per updatar codi client (com nomes tenim un no posem where)
     public static Boolean f_ModificaCodiClient(String p_CodiClient){
         ContentValues l_actualitzat = new ContentValues();
         Boolean l_resposta = true;
@@ -347,7 +364,7 @@ public final class SQLClientsDAO {
         try {
             Globals.g_DB.update(Globals.g_Native.getString(R.string.TClient),
                     l_actualitzat,
-                    Globals.g_Native.getString(R.string.TClient_CodiClient) + "=" + p_CodiClient,
+                    null,
                     null);
         }
         catch (Exception e) {
@@ -389,8 +406,8 @@ public final class SQLClientsDAO {
         l_client.Nom = cursor.getString(2);
         l_client.Pais = cursor.getString(3);
         l_client.Contacte = cursor.getString(4);
-        l_client.Idioma = cursor.getString(5);
-        l_client.DataAlta = cursor.getString(6);
+        l_client.DataAlta = cursor.getString(5);
+        l_client.Idioma = cursor.getString(6);
         l_client.DataGrabacioServidor = cursor.getString(7);
         l_client.Actualitzat = (cursor.getInt(8) != 0);
         l_client.DataActualitzat = cursor.getString(9);

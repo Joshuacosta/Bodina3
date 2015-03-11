@@ -20,7 +20,7 @@ import java.util.Date;
 public final class Globals
 {
     // Variables
-    public static Boolean g_NoHiHanDades = false;
+    public static Boolean g_NoHiHanDades = true;
     public static Client  g_Client = new Client();
     public static Context g_Native;
     public static Boolean g_HiHaXarxa = false;
@@ -39,6 +39,7 @@ public final class Globals
     public static final String k_ClientNOU = "NOU";
     public static final String k_PHPOK = "1";
     public static final String k_PHPErrorBBDD = "2";
+    public static final String k_PHPErrorMail = "3";
 
     public static void CreateBBDD(){
         g_BBDD = new SQLDB(g_Native);

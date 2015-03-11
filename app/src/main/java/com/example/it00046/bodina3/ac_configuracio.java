@@ -32,10 +32,16 @@ public class ac_configuracio extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ly_configuracio);
-        // Anem recuperant els controls
+        // Anem recuperant els controls:
+        //  Entrada de dades
+        lTXT_Name = (EditText) findViewById(R.id.TextName);
+        lTXT_Contacte = (EditText) findViewById(R.id.TexteContacte);
+        lTXT_eMail = (EditText) findViewById(R.id.TexteMail);
         lTXT_Prova = (EditText) findViewById(R.id.TextProva);
+        //  Literals
         lTextIdioma = (TextView) findViewById(R.id.litIdioma);
         lTextPais = (TextView) findViewById(R.id.litPais);
+        // Spinners
         lSPN_Idioma = (Spinner)findViewById(R.id.spinnerIdioma);
         lSPN_Paissos = (Spinner)findViewById(R.id.spinnerPais);
         // Codi per tractar el spinner del idioma
@@ -122,11 +128,11 @@ public class ac_configuracio extends ActionBarActivity {
         if (!Validacio.hasText(lTXT_Name)) ret = false;
         if (!Validacio.hasText(lTXT_Contacte)) ret = false;
         if (!Validacio.isEmailAddress(lTXT_eMail, true)) ret = false;
-        if (!lSPN_Idioma.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))){
+        if (lSPN_Idioma.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))){
             lTextIdioma.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
             ret = false;
         }
-        if (!lSPN_Paissos.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))){
+        if (lSPN_Paissos.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))){
             lTextPais.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
             ret = false;
         }
@@ -146,9 +152,6 @@ public class ac_configuracio extends ActionBarActivity {
             l_client.Contacte = lTXT_Contacte.getText().toString();
             l_client.Pais = lSPN_Paissos.getSelectedItem().toString();
             l_client.Idioma = lSPN_Idioma.getSelectedItem().toString();
-            //
-            // Que era aixó?
-            //Globals.g_DB_DAO.createClient(client); ?????
             //
             if (Globals.g_NoHiHanDades) {
                 SQLClientsDAO.Definir(l_client);
