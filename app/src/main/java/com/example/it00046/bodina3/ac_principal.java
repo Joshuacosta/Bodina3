@@ -19,7 +19,7 @@ public class ac_principal extends ActionBarActivity {
         setContentView(R.layout.ly_principal);
 
         // Definim contexte a nivel global
-        Globals.g_Native = this.getApplicationContext();
+        Globals.g_Native = this;
 
         //Globals.g_DB_DAO = new SQLClientsDAO(this);
         //Globals.g_DB_DAO.open();

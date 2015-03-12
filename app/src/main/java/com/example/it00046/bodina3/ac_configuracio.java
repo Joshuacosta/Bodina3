@@ -1,5 +1,6 @@
 package com.example.it00046.bodina3;
 
+import android.app.AlertDialog;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -147,6 +148,7 @@ public class ac_configuracio extends ActionBarActivity {
         // Validem que els camps estiguin informats
         if (ValidarFinestra()) {
             l_client.CodiClientIntern = Globals.g_Client.CodiClientIntern;
+            l_client.CodiClient = Globals.g_Client.CodiClient;
             l_client.Nom = lTXT_Name.getText().toString();
             l_client.eMail = lTXT_eMail.getText().toString();
             l_client.Contacte = lTXT_Contacte.getText().toString();

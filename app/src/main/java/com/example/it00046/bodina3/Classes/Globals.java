@@ -6,6 +6,7 @@ package com.example.it00046.bodina3.Classes;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -64,9 +65,15 @@ public final class Globals
     }
 
     public static void F_Alert(String p_capcalera, String p_texte){
-        // 1. Instantiate an AlertDialog.Builder with its constructor
         AlertDialog.Builder builder = new AlertDialog.Builder(g_Native);
-        builder.setMessage(p_texte).setTitle(p_capcalera);
+        builder.setMessage(p_capcalera).setTitle(p_texte);
+        builder.setCancelable(false);
+        builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
         AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

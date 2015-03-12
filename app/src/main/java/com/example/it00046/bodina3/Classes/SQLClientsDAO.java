@@ -24,9 +24,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public final class SQLClientsDAO {
-    //
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A    S E R V I D O R
-    //
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     // Variables
     private static RequestParams g_parametresPHP = new RequestParams();
     private static final String TAG_VALIDS = "valids";
@@ -161,9 +161,6 @@ public final class SQLClientsDAO {
                             // Actualitzem client global
                             Globals.g_Client = p_client;
                         }
-                        else{
-                            // Si ha anat malament l'actualització ja informarà la funció
-                        }
                     }
                     else {
                         Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
@@ -176,11 +173,9 @@ public final class SQLClientsDAO {
             }
         });
     }
-    //
-    // ---------------------------------
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A   P U B L I C A
-    // ---------------------------------
-    //
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     // Funcio per llegir les dades del client
     public static void Llegir(){
         // Recerquem localment
@@ -223,12 +218,12 @@ public final class SQLClientsDAO {
     }
     //
     // Funcio per modificar les dades del client
-    public static void Modificar(final Client p_client){
+    public static void Modificar(Client p_client){
         // Primer modifiquem localment i despres globalment
         try {
             Globals.g_DB.update(Globals.g_Native.getString(R.string.TClient),
                     f_clientToContentValues(p_client),
-                    Globals.g_Native.getString(R.string.TClient_CodiClient) + "=" + p_client.CodiClient,
+                    Globals.g_Native.getString(R.string.TClient_CodiClient) + "= '" + p_client.CodiClient + "'",
                     null);
         }
         catch(Exception e) {
@@ -289,7 +284,7 @@ public final class SQLClientsDAO {
                                         Globals.g_Native.getString(R.string.errorservidor_Mail),
                                         Toast.LENGTH_LONG).show();
                             }
-                            if (l_Resposta.equals(Globals.k_PHPOK)) {
+                            if (l_Resposta.equals(Globals.k_PHPOK) || l_Resposta.equals(Globals.k_PHPErrorMail)) {
                                 // Recuperem el codi de client calcular al servidor
                                 String l_CodiClient = p_clientServidor.getString(TAG_CodiClient);
                                 // Actualitzem el camp actualitzat a la BBDD local
@@ -350,10 +345,9 @@ public final class SQLClientsDAO {
         Globals.g_DB.delete(Globals.g_Native.getString(R.string.TClient), Globals.g_Native.getString(R.string.TClient_CodiClient) + " = " + id, null);
     }
     */
-    //
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     // Funcions privades
-    //
-    //
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     // Funcio per updatar codi client (com nomes tenim un no posem where)
     public static Boolean f_ModificaCodiClient(String p_CodiClient){
         ContentValues l_actualitzat = new ContentValues();
@@ -385,7 +379,7 @@ public final class SQLClientsDAO {
         try {
             Globals.g_DB.update(Globals.g_Native.getString(R.string.TClient),
                     l_actualitzat,
-                    Globals.g_Native.getString(R.string.TClient_CodiClient) + "=" + p_CodiClient,
+                    Globals.g_Native.getString(R.string.TClient_CodiClient) + "='" + p_CodiClient + "'",
                     null);
         }
         catch (Exception e) {
@@ -397,26 +391,26 @@ public final class SQLClientsDAO {
         return l_resposta;
     }
     //
-    // Fa un case
-    private static Client f_cursorToClient(Cursor cursor){
+    // Pasa les dades del cursor al client
+    private static Client f_cursorToClient(Cursor p_cursor){
         Client l_client = new Client();
 
-        l_client.CodiClient = cursor.getString(0);
-        l_client.eMail = cursor.getString(1);
-        l_client.Nom = cursor.getString(2);
-        l_client.Pais = cursor.getString(3);
-        l_client.Contacte = cursor.getString(4);
-        l_client.DataAlta = cursor.getString(5);
-        l_client.Idioma = cursor.getString(6);
-        l_client.DataGrabacioServidor = cursor.getString(7);
-        l_client.Actualitzat = (cursor.getInt(8) != 0);
-        l_client.DataActualitzat = cursor.getString(9);
+        l_client.CodiClient = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_CodiClient)));
+        l_client.eMail = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_eMail)));
+        l_client.Nom = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Nom)));
+        l_client.Pais = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Pais)));
+        l_client.Contacte = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Contacte)));
+        l_client.DataAlta = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_DataAlta)));
+        l_client.Idioma = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Idioma)));
+        l_client.DataGrabacioServidor = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_DataGrabacioServidor)));
+        l_client.Actualitzat = (p_cursor.getInt(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Actualitzat))) != 0);
+        l_client.DataActualitzat = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_DataActualitzat)));
 
         return l_client;
     }
     //
-    // Fa un case
-    private static ContentValues f_clientToContentValues(Client p_client){
+    // Posa les dades del client a contentValue
+    private static ContentValues f_clientToContentValues(Client p_client) {
         ContentValues l_values = new ContentValues();
 
         l_values.put(Globals.g_Native.getString(R.string.TClient_CodiClient), p_client.CodiClient);
@@ -433,16 +427,3 @@ public final class SQLClientsDAO {
         return l_values;
     }
 }
-
-        /*
-            Aquest codi serveix per donar un identificador a la insercio i
-            despres com tornem lo inserit sabem quin valor s'ens ha donat
-
-        Cursor cursor = database.query(SQLClients.TABLE_COMMENTS,
-                allColumns, SQLClients.COLUMN_ID + " = " + insertId, null,
-                null, null, null);
-        cursor.moveToFirst();
-        Client newClient = cursorToComment(cursor);
-        cursor.close();
-        return newClient;
-        */
