@@ -131,7 +131,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="dd/mm/yyyy"
                 android:id="@+id/textDataAlta"/>
 
         </LinearLayout>

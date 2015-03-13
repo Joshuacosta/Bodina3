@@ -20,12 +20,16 @@ import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.SQLClientsDAO;
 import com.example.it00046.bodina3.Classes.Validacio;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 public class ac_configuracio extends ActionBarActivity {
 
     private Spinner lSPN_Idioma, lSPN_Paissos;
     private EditText lTXT_Name, lTXT_eMail, lTXT_Contacte, lTXT_Prova;
-    private TextView lTextIdioma, lTextPais;
+    private TextView lTextIdioma, lTextPais, l_textDataAlta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,7 @@ public class ac_configuracio extends ActionBarActivity {
         //  Literals
         lTextIdioma = (TextView) findViewById(R.id.litIdioma);
         lTextPais = (TextView) findViewById(R.id.litPais);
+        l_textDataAlta = (TextView) findViewById(R.id.textDataAlta);
         // Spinners
         lSPN_Idioma = (Spinner)findViewById(R.id.spinnerIdioma);
         lSPN_Paissos = (Spinner)findViewById(R.id.spinnerPais);
@@ -81,11 +86,8 @@ public class ac_configuracio extends ActionBarActivity {
         // Informem les dades si es necessari
         if (!Globals.g_Client.CodiClient.equals("")){
             // Mostrem dades
-            lTXT_Name = (EditText) findViewById(R.id.TextName);
             lTXT_Name.setText(Globals.g_Client.Nom);
-            lTXT_eMail = (EditText) findViewById(R.id.TexteMail);
             lTXT_eMail.setText(Globals.g_Client.eMail);
-            lTXT_Contacte = (EditText) findViewById(R.id.TexteContacte);
             lTXT_Contacte.setText(Globals.g_Client.Contacte);
             if (!Globals.g_Client.Idioma.isEmpty()){
                 spinnerPostion = adapter_Idioma.getPosition(Globals.g_Client.Idioma);
@@ -95,6 +97,14 @@ public class ac_configuracio extends ActionBarActivity {
                 spinnerPostion = adapter_Pais.getPosition(Globals.g_Client.Pais);
                 lSPN_Paissos.setSelection(spinnerPostion);
             }
+            l_textDataAlta.setText(Globals.g_Client.DataAlta);
+        }
+        else{
+            // Mostrem com a data de alta la del dia
+            DateFormat l_df;
+            Date l_date = new Date();
+            l_df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+            l_textDataAlta.setText(l_df.format(l_date));
         }
         // Codi de validacio de la finestra (fem servir la clase estàtica Validació)
         lTXT_Name.addTextChangedListener(new TextWatcher() {
