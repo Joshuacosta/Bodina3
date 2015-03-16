@@ -12,8 +12,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.provider.Settings;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by it00046 on 04/02/2015.
@@ -47,24 +52,29 @@ public final class Globals
         g_DB = g_BBDD.getWritableDatabase();
     }
 
-    public static void TancarBBDD(){
+    public static void TancarBBDD() {
         g_DB.close();
     }
 
-    public static boolean isNetworkAvailable(){
+    public static boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) g_Native.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public static String F_RecuperaMAC(){
-        WifiManager wifiManager = (WifiManager) g_Native.getSystemService(Context.WIFI_SERVICE);
-        WifiInfo wInfo = wifiManager.getConnectionInfo();
-        return wInfo.getMacAddress();
+    public static String F_RecuperaID() {
+        //
+        // Amb aquest codi recuperariem la MAC (que no ens interesa)
+        //WifiManager wifiManager = (WifiManager) g_Native.getSystemService(Context.WIFI_SERVICE);
+        //WifiInfo wInfo = wifiManager.getConnectionInfo();
+        //return wInfo.getMacAddress();
+        //
+        // I amb aquest recuperem el que ens interesa, el Android_Id
+        return Settings.Secure.ANDROID_ID;
     }
 
-    public static void F_Alert(String p_capcalera, String p_texte){
+    public static void F_Alert(String p_capcalera, String p_texte) {
         AlertDialog.Builder builder = new AlertDialog.Builder(g_Native);
         builder.setMessage(p_capcalera).setTitle(p_texte);
         builder.setCancelable(false);
@@ -75,5 +85,18 @@ public final class Globals
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public static String F_FormatDataServidorALocal(String P_Data) {
+        SimpleDateFormat l_dfSistema = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date l_DataSistema = l_dfSistema.parse(P_Data);
+            DateFormat l_df;
+            l_df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+            return l_df.format(l_DataSistema);
+        }
+        catch  (ParseException e) {
+            return "";
+        }
     }
 }

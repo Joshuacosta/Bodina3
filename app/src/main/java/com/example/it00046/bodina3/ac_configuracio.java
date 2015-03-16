@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ public class ac_configuracio extends ActionBarActivity {
     private Spinner lSPN_Idioma, lSPN_Paissos;
     private EditText lTXT_Name, lTXT_eMail, lTXT_Contacte, lTXT_Prova;
     private TextView lTextIdioma, lTextPais, l_textDataAlta;
+    private Button l_BotoEsborrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,10 @@ public class ac_configuracio extends ActionBarActivity {
         //  Literals
         lTextIdioma = (TextView) findViewById(R.id.litIdioma);
         lTextPais = (TextView) findViewById(R.id.litPais);
+        //
         l_textDataAlta = (TextView) findViewById(R.id.textDataAlta);
+        l_BotoEsborrar = (Button) findViewById(R.id.AspaProva);
+        l_BotoEsborrar.setVisibility(View.INVISIBLE);
         // Spinners
         lSPN_Idioma = (Spinner)findViewById(R.id.spinnerIdioma);
         lSPN_Paissos = (Spinner)findViewById(R.id.spinnerPais);
@@ -80,7 +85,6 @@ public class ac_configuracio extends ActionBarActivity {
 
             @Override
             public void onNothingSelected(AdapterView parent) {
-
             }
         });
         // Informem les dades si es necessari
@@ -128,6 +132,20 @@ public class ac_configuracio extends ActionBarActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
             public void onTextChanged(CharSequence s, int start, int before, int count){}
         });
+        // Codi de validacio de la finestra (fem servir la clase estàtica Validació)
+        lTXT_Prova.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){
+                if (s.length() > 0){
+                    l_BotoEsborrar.setVisibility(View.VISIBLE);
+                }
+                else{
+                    l_BotoEsborrar.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
     }
 
     // Funcio interna per validar la finestra
@@ -143,13 +161,12 @@ public class ac_configuracio extends ActionBarActivity {
             lTextIdioma.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
             ret = false;
         }
-        if (lSPN_Paissos.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))){
+        if (lSPN_Paissos.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))) {
             lTextPais.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
             ret = false;
         }
 
         return ret;
-
     }
 
     public void btnAcceptarOnClick(View view){
@@ -187,6 +204,7 @@ public class ac_configuracio extends ActionBarActivity {
         lTXT_Prova.setError(null);
         lTXT_Prova.setText(null);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -208,4 +226,5 @@ public class ac_configuracio extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

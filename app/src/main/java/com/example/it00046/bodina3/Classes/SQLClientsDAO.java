@@ -82,6 +82,7 @@ public final class SQLClientsDAO {
                                 Globals.g_Client.Nom = l_client.getString(TAG_Nom);
                                 Globals.g_Client.Contacte = l_client.getString(TAG_Contacte);
                                 // Convertim data del sistema a la local
+                                /*
                                 SimpleDateFormat l_dfSistema = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                 try {
                                     Date l_DataSistema = l_dfSistema.parse(l_client.getString(TAG_DataAlta));
@@ -91,7 +92,8 @@ public final class SQLClientsDAO {
                                 }
                                 catch  (ParseException e) {
                                 }
-                                //
+                                */
+                                Globals.g_Client.DataAlta = Globals.F_FormatDataServidorALocal(l_client.getString(TAG_DataAlta));
                                 Globals.g_Client.Pais = l_client.getString(TAG_Pais);
                                 Globals.g_Client.Idioma = l_client.getString(TAG_Idioma);
                                 // Es actualitzat perque l'hem recuperat de la BBDD
@@ -197,7 +199,7 @@ public final class SQLClientsDAO {
         // Recerquem localment
         try {
             // Aquest valor l'informem ja (CodiInternClient es la MAC)
-            Globals.g_Client.CodiClientIntern = Globals.F_RecuperaMAC();
+            Globals.g_Client.CodiClientIntern = Globals.F_RecuperaID();
             //
             Cursor cursor = Globals.g_DB.query(Globals.g_Native.getString(R.string.TClient),
                     Globals.g_Native.getResources().getStringArray(R.array.TClient_Camps),

@@ -88,28 +88,22 @@
         <FrameLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="9dp"
-            android:padding="5dp">
+            android:layout_marginTop="9dp">
 
             <EditText
                 android:id="@+id/TextProva"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:layout_marginTop="20dp"
-                android:textSize="25dp"
-                android:textStyle="bold"
-                android:hint="@string/Configuracio_Contacte"
-                android:singleLine="true" />
+                android:hint="@string/Configuracio_Contacte"/>
 
             <Button
                 android:id="@+id/AspaProva"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginRight="5dp"
-                android:layout_gravity="right|center_vertical"
-                android:background="@android:drawable/ic_delete"
-                android:onClick="btnEsborrarOnClick"/>
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center_vertical|right"
+                android:background="@drawable/ic_esborrar"
+                android:onClick="btnEsborrarOnClick" />
         </FrameLayout>
 
         <LinearLayout
