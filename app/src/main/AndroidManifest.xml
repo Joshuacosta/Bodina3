@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -25,16 +25,21 @@
             android:label="@string/title_activity_ac_configuracio" >
         </activity>
         <activity
-            android:name=".ac_entitat_alta"
-            android:label="@string/title_activity_ac_entitat_alta" >
+            android:name=".ac_entitat_solicitar"
+            android:label="@string/title_activity_ac_entitat_solicitar" >
         </activity>
         <activity
             android:name=".ac_celebracio_alta"
             android:label="@string/title_activity_ac_celebracio_alta" >
         </activity>
-
-
-
+        <activity
+            android:name=".ac_entitat_recerca"
+            android:label="@string/title_activity_ac_entitat_recerca" >
+        </activity>
+        <activity
+            android:name=".ac_entitat_detall"
+            android:label="@string/title_activity_ac_entitat_detall" >
+        </activity>
     </application>
 
 </manifest>

@@ -6,19 +6,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class ac_entitat_alta extends ActionBarActivity {
+public class ac_entitat_solicitar extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ly_entitat_alta);
+        setContentView(R.layout.ly_entitat_solicitar);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.mn_entitat_alta, menu);
+        getMenuInflater().inflate(R.menu.mn_entitat_solicitar, menu);
         return true;
     }
 

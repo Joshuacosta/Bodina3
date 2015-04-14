@@ -132,7 +132,8 @@ public class ac_configuracio extends ActionBarActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
             public void onTextChanged(CharSequence s, int start, int before, int count){}
         });
-        // Codi de validacio de la finestra (fem servir la clase estàtica Validació)
+        // Codi de control del camp de texte (la visibilitat del aspa). Aixó anirà dintre
+        // del component que has de crear !!!!
         lTXT_Prova.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}

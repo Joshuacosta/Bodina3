@@ -2,4 +2,6 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- Dimensions defecte de la aplicació (hi ha alguna que hagui de seguir alguna guideline? -->
+    <dimen name="activity_separacio_literal_camp">25dp</dimen>
 </resources>

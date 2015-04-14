@@ -70,7 +70,7 @@ public final class Globals
         //WifiInfo wInfo = wifiManager.getConnectionInfo();
         //return wInfo.getMacAddress();
         //
-        // I amb aquest recuperem el que ens interesa, el Android_Id
+        // I amb aquest recuperem el que ens interesa, el ANDROID_ID
         return Settings.Secure.ANDROID_ID;
     }
 

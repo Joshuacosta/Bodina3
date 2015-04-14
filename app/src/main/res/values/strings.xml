@@ -21,7 +21,8 @@
     <string name="errorservidor_Mail">An error has ocurred sending confirmation e-mail.</string>
     <string name="errorlocal_BBDD">Error at database. Retry later</string>
     <string name="errorlocal_ProgramError">An error has ocurred. Retry again</string>
-    <!-- Layout Celebracions -->
+
+    <!-- Layout principal -->
     <string name="app_name">Bodina</string>
     <string name="menu_celebracions_AfegirEntitat">Add entity</string>
     <string name="menu_celebracions_Afegir">Add event</string>
@@ -29,7 +30,7 @@
     <string name="menu_celebracions_Actualitzar">Refresh</string>
 
     <!-- Layout Configuracio -->
-    <string name="title_activity_configuracio">Settings</string>
+    <string name="title_activity_ac_configuracio">Settings</string>
     <string name="Configuracio_Nom">Name</string>
     <string name="Configuracio_eMail">e-Mail</string>
     <string name="Configuracio_Idioma">Language to comunicate</string>
@@ -38,14 +39,29 @@
     <string name="Configuracio_DataAlta">Entry date</string>
     <string name="Configuracio_BotoAcceptar">Accept</string>
 
-    <!-- Layout EntitatAlta -->
-    <string name="title_activity_entitat_alta">Append entity</string>
-
-    <!-- Layout Entitat dades -->
-    <string name="title_activity_entitat_dades">entitatDades</string>
+    <!-- Layout Entitat alta -->
+    <string name="title_activity_ac_entitat_alta">Append entity</string>
 
     <!-- Layout Entitat recerca -->
-    <string name="title_activity_entitat_recerca">EntitatRecerca</string>
+    <string name="title_activity_ac_entitat_recerca">Search entities</string>
+
+    <!-- Layout Entitat asociacio -->
+    <string name="title_activity_ac_entitat_solicitar">Entities</string>
+
+    <!-- Layout Entitat detall -->
+    <string name="title_activity_ac_entitat_detall">Entity detail</string>
+    <string name="EntitatDetall_Nom">Name</string>
+    <string name="EntitatDetall_Adresa">Adress</string>
+    <string name="EntitatDetall_Contacte">Contact</string>
+    <string name="EntitatDetall_Telefon">Phone</string>
+    <string name="EntitatDetall_eMail">e-Mail</string>
+    <string name="EntitatDetall_Acceptar">Accept</string>
+    <string name="EntitatDetall_Cancelar">Cancel</string>
+
+    <!-- Layout celebracio alta -->
+    <string name="title_activity_ac_celebracio_alta">Append event</string>
+
+
 
     <!-- ################################################################################### -->
     <!-- B A S E   D E   D A D E S -->
@@ -426,8 +442,8 @@
         <item>Zimbabwe</item>
     </string-array>
 
-    <string name="title_activity_ac_configuracio">Settings</string>
-    <string name="title_activity_ac_entitat_alta">Append entity</string>
-    <string name="title_activity_ac_celebracio_alta">Append event</string>
+
+
+
 
 </resources>

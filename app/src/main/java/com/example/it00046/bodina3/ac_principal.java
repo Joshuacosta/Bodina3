@@ -65,7 +65,7 @@ public class ac_principal extends ActionBarActivity {
                 startActivity(intent);
                 return true;
             case R.id.celebracions_AfegirEntitat:
-                intent = new Intent(this, ac_entitat_alta.class);
+                intent = new Intent(this, ac_entitat_solicitar.class);
                 startActivity(intent);
                 return true;
             case R.id.celebracions_Configuracio:
