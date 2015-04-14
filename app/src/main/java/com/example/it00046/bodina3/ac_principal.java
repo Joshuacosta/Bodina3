@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.it00046.bodina3.Classes.Globals;
+import com.example.it00046.bodina3.Classes.params.Entitat;
 
 
 public class ac_principal extends ActionBarActivity {
@@ -65,8 +66,22 @@ public class ac_principal extends ActionBarActivity {
                 startActivity(intent);
                 return true;
             case R.id.celebracions_AfegirEntitat:
+                /*
+                    Experiment
+
                 intent = new Intent(this, ac_entitat_solicitar.class);
                 startActivity(intent);
+                */
+                Entitat details = new Entitat();
+                details.Adresa = "Adresa";
+                details.eMail = "eMail";
+                details.Nom = "Nom";
+                details.Telefon = "Telefon";
+                details.Contacte = "Contacte";
+
+                Intent l_intent = new Intent(this, ac_entitat_detall.class);
+                l_intent.putExtra("Info", details);
+                startActivity(l_intent);
                 return true;
             case R.id.celebracions_Configuracio:
                 intent = new Intent(this, ac_configuracio.class);

@@ -4,14 +4,57 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.example.it00046.bodina3.Classes.params.Entitat;
 
 
 public class ac_entitat_detall extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        TextView lTextNomEntitat, lTextAdresaEntitat, lTextContacteEntitat,
+                 lTextTelefonEntitat, lTexteMailEntitat;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ly_entitat_detall);
+
+        // Metode tradicional
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String value = extras.getString("new_variable_name");
+        }
+
+        // Amb classes
+        Entitat dadesEntitat = (Entitat) getIntent().getSerializableExtra("Info");
+
+        // Ara mostrem la info, primer recuperem els camps
+        lTextNomEntitat = (TextView) findViewById(R.id.txtNomEntitat);
+        lTextNomEntitat.setText(dadesEntitat.Nom);
+        lTextAdresaEntitat = (TextView) findViewById(R.id.txtAdresaEntitat);
+        lTextAdresaEntitat.setText(dadesEntitat.Adresa);
+        lTextContacteEntitat = (TextView) findViewById(R.id.txtContacteEntitat);
+        lTextContacteEntitat.setText(dadesEntitat.Contacte);
+        lTextTelefonEntitat = (TextView) findViewById(R.id.txtTelefonEntitat);
+        lTextTelefonEntitat.setText(dadesEntitat.Telefon);
+        lTexteMailEntitat = (TextView) findViewById(R.id.txteMailEntitat);
+        lTexteMailEntitat.setText(dadesEntitat.eMail);
+        /*
+
+        // send where details is object
+        ClassName details = new ClassName();
+        Intent i = new Intent(context, EditActivity.class);
+        i.putExtra("Editing", details);
+        startActivity(i);
+
+
+        //receive
+        ClassName model = (ClassName) getIntent().getSerializableExtra("Editing");
+
+        And
+
+        Class ClassName implements Serializable {}
+         */
     }
 
 
