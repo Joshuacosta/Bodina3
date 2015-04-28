@@ -67,7 +67,7 @@ public class ac_principal extends ActionBarActivity {
                 return true;
             case R.id.celebracions_AfegirEntitat:
                 /*
-                    Experiment
+                    Experiment pasar dades a una activitat
 
                 intent = new Intent(this, ac_entitat_solicitar.class);
                 startActivity(intent);
@@ -88,6 +88,11 @@ public class ac_principal extends ActionBarActivity {
                 startActivity(intent);
                 return true;
             case R.id.celebracions_Actualitzar:
+                //  Experiment obrir una activitat amb recerca
+
+                intent = new Intent(this, ac_entitat_recerca.class);
+                startActivity(intent);
+
                 //
                 return true;
         }
