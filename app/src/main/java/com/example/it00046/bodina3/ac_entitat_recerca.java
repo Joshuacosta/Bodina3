@@ -27,7 +27,7 @@ public class ac_entitat_recerca extends ActionBarActivity {
 
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.entity_search).getActionView();
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         // Assumes current activity is the searchable activity
         // Aixó dona error!!!!!!!!!!!!!!!!!! searchView es null
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
