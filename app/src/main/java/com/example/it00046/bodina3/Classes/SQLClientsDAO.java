@@ -31,7 +31,7 @@ import org.json.JSONObject;
 
 public final class SQLClientsDAO {
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    // O P E R A T I V A    S E R V I D O R
+    // O P E R A T I V A    S E R V I D O R    ( P R I V A D A )
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Variables
     private static RequestParams g_parametresPHP = new RequestParams();

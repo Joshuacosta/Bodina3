@@ -77,6 +77,7 @@
                 android:id="@+id/spinnerPais"
                 android:background="#ffff854d"
                 android:spinnerMode="dialog" />
+
         </FrameLayout>
 
         <EditText

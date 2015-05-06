@@ -45,8 +45,12 @@
     <!-- Layout Entitat recerca -->
     <string name="title_activity_ac_entitat_recerca">Search entities</string>
 
-    <!-- Layout Entitat asociacio -->
-    <string name="title_activity_ac_entitat_solicitar">Entities</string>
+    <!-- Layout Entitat solicitar -->
+    <string name="title_activity_ac_entitat_solicitar">Request entity</string>
+    <string name="EntitatSolicitar_Entitat">Entity</string>
+    <string name="EntitatSolicitar_Descripcio">Description</string>
+    <string name="EntitatSolicitar_Contacte">Contact</string>
+    <string name="EntitatSolicitar_eMail">e-Mail</string>
 
     <!-- Layout Entitat detall -->
     <string name="title_activity_ac_entitat_detall">Entity detail</string>
@@ -60,6 +64,9 @@
 
     <!-- Layout celebracio alta -->
     <string name="title_activity_ac_celebracio_alta">Append event</string>
+    <string name="EntitatSolicitar_DataHora">Date/time</string>
+    <string name="EntitatSolicitar_TipusCelebracio">Type event</string>
+    <string name="EntitatSolicitar_Convidats">Guests</string>
 
 
 
