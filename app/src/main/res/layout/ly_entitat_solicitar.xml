@@ -15,7 +15,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/EntitatDetall_Cancelar"
+            android:text="@string/boto_Cancelar"
             android:layout_weight="1"
             android:drawableLeft="@drawable/ic_esborrar"
             android:gravity="center_horizontal|center_vertical"
@@ -23,7 +23,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/EntitatDetall_Acceptar"
+            android:text="@string/boto_Acceptar"
             android:layout_weight="1"
             android:drawableRight="@drawable/abc_ic_search_api_mtrl_alpha"
             android:gravity="center_vertical|center_horizontal"

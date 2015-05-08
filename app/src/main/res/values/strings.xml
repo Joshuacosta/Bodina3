@@ -12,6 +12,9 @@
     <string name="op_modificacio_ok">Update done</string>
     <string name="op_afegir_ok">Added item</string>
     <string name="op_esborrar_ok">Deleted item</string>
+    <string name="boto_Acceptar">Accept</string>
+    <string name="boto_Cancelar">Cancel</string>
+
     <!-- Errors codi -->
     <string name="error_avis">Alert</string>
     <string name="error_greu">Error</string>
@@ -59,8 +62,7 @@
     <string name="EntitatDetall_Contacte">Contact</string>
     <string name="EntitatDetall_Telefon">Phone</string>
     <string name="EntitatDetall_eMail">e-Mail</string>
-    <string name="EntitatDetall_Acceptar">Accept</string>
-    <string name="EntitatDetall_Cancelar">Cancel</string>
+    <string name="EntitatDetall_Pais">Country</string>
 
     <!-- Layout celebracio alta -->
     <string name="title_activity_ac_celebracio_alta">Append event</string>
@@ -128,7 +130,7 @@
     <string name="TEntitatsClient_CodiEntitat">CodiEntitat</string>
     <string name="TEntitatsClient_eMailEntitat">eMailEntitat</string>
     <string name="TEntitatsClient_NomEntitat">NomEntitat</string>
-    <string name="TEntitatsClient_CodiPaisEntitat">CodiPaisEntitat</string>
+    <string name="TEntitatsClient_PaisEntitat">PaisEntitat</string>
     <string name="TEntitatsClient_ContacteEntitat">ContacteEntitat</string>
     <string name="TEntitatsClient_AdresaEntitat">AdresaEntitat</string>
     <string name="TEntitatsClient_TelefonEntitat">TelefonEntitat</string>
@@ -148,7 +150,7 @@
         <item>@string/TEntitatsClient_CodiEntitat</item>
         <item>@string/TEntitatsClient_eMailEntitat</item>
         <item>@string/TEntitatsClient_NomEntitat</item>
-        <item>@string/TEntitatsClient_CodiPaisEntitat</item>
+        <item>@string/TEntitatsClient_PaisEntitat</item>
         <item>@string/TEntitatsClient_ContacteEntitat</item>
         <item>@string/TEntitatsClient_AdresaEntitat</item>
         <item>@string/TEntitatsClient_TelefonEntitat</item>
@@ -169,7 +171,7 @@
                                 %2$d INTEGER PRIMARY KEY,
                                 %3$s VARCHAR(100),
 				                %4$s VARCHAR(100),
-				                %5$s VARCHAR(2),
+				                %5$s VARCHAR(20),
 				                %6$s VARCHAR(100),
 				                %7$s VARCHAR(100),
 				                %8$s VARCHAR(15),
@@ -448,9 +450,4 @@
         <item>Zambia</item>
         <item>Zimbabwe</item>
     </string-array>
-
-
-
-
-
 </resources>

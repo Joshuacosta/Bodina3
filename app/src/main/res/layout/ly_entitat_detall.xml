@@ -14,7 +14,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/EntitatDetall_Cancelar"
+            android:text="@string/boto_Cancelar"
             android:layout_weight="1"
             android:drawableLeft="@drawable/ic_esborrar"
             android:gravity="center_horizontal|center_vertical"
@@ -22,7 +22,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/EntitatDetall_Acceptar"
+            android:text="@string/boto_Acceptar"
             android:layout_weight="1"
             android:drawableRight="@drawable/abc_ic_search_api_mtrl_alpha"
             android:gravity="center_vertical|center_horizontal"
@@ -40,124 +40,148 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_separacio_literal_camp"
-            android:padding="5dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/EntitatDetall_Nom"
-                android:id="@+id/litNomEntitat"/>
-
-            <TextView
                 android:layout_marginTop="@dimen/activity_separacio_literal_camp"
-                android:layout_width="wrap_content"
+                android:padding="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/EntitatDetall_Nom"
+                    android:id="@+id/litNomEntitat"/>
+
+                <TextView
+                    android:layout_marginTop="@dimen/activity_separacio_literal_camp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/EntitatDetall_Nom"
+                    android:id="@+id/txtNomEntitat"/>
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/EntitatDetall_Nom"
-                android:id="@+id/txtNomEntitat"/>
-        </FrameLayout>
+                android:padding="5dp"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/EntitatDetall_Adresa"
+                    android:id="@+id/litAdresaEntitat"/>
+
+                <TextView
+                    android:layout_marginTop="@dimen/activity_separacio_literal_camp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/EntitatDetall_Adresa"
+                    android:id="@+id/txtAdresaEntitat"/>
+            </FrameLayout>
 
 
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:layout_marginTop="15dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/EntitatDetall_Adresa"
-                android:id="@+id/litAdresaEntitat"/>
+                android:padding="5dp"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_marginTop="@dimen/activity_separacio_literal_camp"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/EntitatDetall_Contacte"
+                    android:id="@+id/litContacteEntitat"/>
+
+                <TextView
+                    android:layout_marginTop="@dimen/activity_separacio_literal_camp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/EntitatDetall_Contacte"
+                    android:id="@+id/txtContacteEntitat"/>
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/EntitatDetall_Adresa"
-                android:id="@+id/txtAdresaEntitat"/>
-        </FrameLayout>
+                android:padding="5dp"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/EntitatDetall_Telefon"
+                    android:id="@+id/litTelefonEntitat"/>
+
+                <TextView
+                    android:layout_marginTop="@dimen/activity_separacio_literal_camp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/EntitatDetall_Telefon"
+                    android:id="@+id/txtTelefonEntitat"/>
+            </FrameLayout>
 
 
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:layout_marginTop="15dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/EntitatDetall_Contacte"
-                android:id="@+id/litContacteEntitat"/>
+                android:padding="5dp"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_marginTop="@dimen/activity_separacio_literal_camp"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/EntitatDetall_eMail"
+                    android:id="@+id/liteMailEntitat"/>
+
+                <TextView
+                    android:layout_marginTop="@dimen/activity_separacio_literal_camp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/EntitatDetall_eMail"
+                    android:id="@+id/txteMailEntitat"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/EntitatDetall_Contacte"
-                android:id="@+id/txtContacteEntitat"/>
-        </FrameLayout>
+                android:padding="5dp"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/EntitatDetall_Pais"
+                    android:id="@+id/litPais"/>
 
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:layout_marginTop="15dp"
-            android:orientation="vertical">
+                <TextView
+                    android:layout_marginTop="@dimen/activity_separacio_literal_camp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/EntitatDetall_Pais"
+                    android:id="@+id/txtPais"/>
+            </FrameLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/EntitatDetall_Telefon"
-                android:id="@+id/litTelefonEntitat"/>
-
-            <TextView
-                android:layout_marginTop="@dimen/activity_separacio_literal_camp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/EntitatDetall_Telefon"
-                android:id="@+id/txtTelefonEntitat"/>
-        </FrameLayout>
-
-
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:layout_marginTop="15dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/EntitatDetall_eMail"
-                android:id="@+id/liteMailEntitat"/>
-
-            <TextView
-                android:layout_marginTop="@dimen/activity_separacio_literal_camp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/EntitatDetall_eMail"
-                android:id="@+id/txteMailEntitat"/>
-        </FrameLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
