@@ -11,7 +11,9 @@ public class Entitat implements Serializable {
     public String Adresa;
     public String Contacte;
     public String Telefon;
+    public String Pais;
     public String eMail;
+    public int Estat;
 
     public void Entitat(){
         this.Codi = new String();
@@ -19,6 +21,8 @@ public class Entitat implements Serializable {
         this.Adresa = new String();
         this.Contacte = new String();
         this.Telefon = new String();
+        this.Pais = new String();
         this.eMail = new String();
+        this.Estat = 0;
     }
 }

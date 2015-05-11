@@ -144,7 +144,9 @@
     <string name="TEntitatsClient_DataFiAssociacio">DataFiAssociacio</string>
     <string name="TEntitatsClient_DataDarrerCanviAssociacio">DataDarrerCanviAssociacio</string>
     <string name="TEntitatsClient_EstatAssociacio">EstatAssociacio</string>
-    <string name="TEntitatsClient_HiHanCanvis">HiHanCanvis</string>
+    <string name="TEntitatsClient_Actualitzat">Actualitzat</string>
+    <string name="TEntitatsClient_DataActualitzat">DataActualitzacio</string>
+    <string name="TEntitatsClient_DataGrabacioServidor">DataGrabacioServidor</string>
     <!-- LLista camps -->
     <string-array name="TEntitatsClient_Camps">
         <item>@string/TEntitatsClient_CodiEntitat</item>
@@ -164,7 +166,9 @@
         <item>@string/TEntitatsClient_DataFiAssociacio</item>
         <item>@string/TEntitatsClient_DataDarrerCanviAssociacio</item>
         <item>@string/TEntitatsClient_EstatAssociacio</item>
-        <item>@string/TEntitatsClient_HiHanCanvis</item>
+        <item>@string/TEntitatsClient_Actualitzat</item>
+        <item>@string/TEntitatsClient_DataActualitzat</item>
+        <item>@string/TEntitatsClient_DataGrabacioServidor</item>
     </string-array>
     <!-- Funcions -->
     <string name="TEntitatsClientCreate">CREATE TABLE %1$s (
@@ -185,7 +189,9 @@
 				                %16$s VARCHAR(20),
 				                %17$s VARCHAR(20),
                                 %18$s INTEGER,
-                                %19$s INTEGER)</string>
+                                %19$s INTEGER,
+                                %20$s VARCHAR(20),
+                                %21$s VARCHAR(20))</string>
     <!-- ################################################################################### -->
     <!-- String-Arrays -->
     <!-- ################################################################################### -->

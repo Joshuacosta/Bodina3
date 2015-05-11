@@ -27,7 +27,8 @@
             android:layout_weight="1"
             android:drawableRight="@drawable/abc_ic_search_api_mtrl_alpha"
             android:gravity="center_vertical|center_horizontal"
-            android:id="@+id/btnAcceptar"/>
+            android:id="@+id/btnAcceptar"
+            android:onClick="btnEntitatSolicitar_Acceptar"/>
     </LinearLayout>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
