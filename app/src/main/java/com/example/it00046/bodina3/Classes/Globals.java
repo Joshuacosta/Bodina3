@@ -17,6 +17,7 @@ import android.provider.Settings;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -99,5 +100,12 @@ public final class Globals
         catch  (ParseException e) {
             return "";
         }
+    }
+
+    public static String F_Avui(){
+        Calendar c = Calendar.getInstance();
+        DateFormat l_sdf;
+        l_sdf = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+        return l_sdf.format(c.getTime());
     }
 }

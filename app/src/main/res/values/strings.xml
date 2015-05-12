@@ -144,8 +144,8 @@
     <string name="TEntitatsClient_DataFiAssociacio">DataFiAssociacio</string>
     <string name="TEntitatsClient_DataDarrerCanviAssociacio">DataDarrerCanviAssociacio</string>
     <string name="TEntitatsClient_EstatAssociacio">EstatAssociacio</string>
-    <string name="TEntitatsClient_Actualitzat">Actualitzat</string>
-    <string name="TEntitatsClient_DataActualitzat">DataActualitzacio</string>
+    <string name="TEntitatsClient_ActualitzatServidor">ActualitzatServidor</string>
+    <string name="TEntitatsClient_DataGrabaciotLocal">DataGrabacioLocal</string>
     <string name="TEntitatsClient_DataGrabacioServidor">DataGrabacioServidor</string>
     <!-- LLista camps -->
     <string-array name="TEntitatsClient_Camps">
@@ -166,8 +166,8 @@
         <item>@string/TEntitatsClient_DataFiAssociacio</item>
         <item>@string/TEntitatsClient_DataDarrerCanviAssociacio</item>
         <item>@string/TEntitatsClient_EstatAssociacio</item>
-        <item>@string/TEntitatsClient_Actualitzat</item>
-        <item>@string/TEntitatsClient_DataActualitzat</item>
+        <item>@string/TEntitatsClient_ActualitzatServidor</item>
+        <item>@string/TEntitatsClient_DataGrabaciotLocal</item>
         <item>@string/TEntitatsClient_DataGrabacioServidor</item>
     </string-array>
     <!-- Funcions -->

@@ -23,7 +23,8 @@ public final class SQLEntitatsClientDAO {
     // Variables
     private static RequestParams g_parametresPHP = new RequestParams();
     private static final String TAG_VALIDS = "valids";
-    private static final String TAG_entitats = "entitats";
+    private static final String TAG_Entitats = "entitats";
+    private static final String TAG_CodiClient = Globals.g_Native.getString(R.string.TClient_CodiClient);
     private static final String TAG_CodiEntitat = Globals.g_Native.getString(R.string.TEntitatsClient_CodiEntitat);
     private static final String TAG_eMailEntitat = Globals.g_Native.getString(R.string.TEntitatsClient_eMailEntitat);
     private static final String TAG_NomEntitat = Globals.g_Native.getString(R.string.TEntitatsClient_NomEntitat);
@@ -41,10 +42,14 @@ public final class SQLEntitatsClientDAO {
     private static final String TAG_DataFiAssociacio = Globals.g_Native.getString(R.string.TEntitatsClient_DataFiAssociacio);
     private static final String TAG_DataDarrerCanviAssociacio = Globals.g_Native.getString(R.string.TEntitatsClient_DataDarrerCanviAssociacio);
     private static final String TAG_EstatAssociacio = Globals.g_Native.getString(R.string.TEntitatsClient_EstatAssociacio);
+    private static final String TAG_ActualitzatServidor = Globals.g_Native.getString(R.string.TEntitatsClient_ActualitzatServidor);
+    private static final String TAG_DataGrabacioLocal = Globals.g_Native.getString(R.string.TEntitatsClient_DataGrabaciotLocal);
+    private static final String TAG_DataGrabacioServidor = Globals.g_Native.getString(R.string.TEntitatsClient_DataGrabacioServidor);
 
     //
     // Llegim les entitats del client del servidor, si existeix en el servidor el recuperem localment (el grabem
     // a la BBDD local)
+    /*
     static private void f_LlegirServidorClauInterna(final String p_CodiClientIntern){
         // Validem que la xarxa estigui activa
         if (Globals.isNetworkAvailable()){
@@ -109,6 +114,7 @@ public final class SQLEntitatsClientDAO {
                     Globals.g_Native.getString(R.string.error_greu));
         }
     }
+    */
     //
     // Funcio privada per inserir les dades localment
     private static Boolean f_InserirLocal(Client p_client){
@@ -181,6 +187,7 @@ public final class SQLEntitatsClientDAO {
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Funcio per llegir les dades del client
+    /*
     public static void Llegir(){
         // Recerquem localment
         try {
@@ -242,6 +249,7 @@ public final class SQLEntitatsClientDAO {
             }
         }
     }
+    */
     //
     // Funcio per solicitar una associacio amb una entitat
     public static void Solicitar(final EntitatClient p_EntitatClient){
@@ -304,16 +312,17 @@ public final class SQLEntitatsClientDAO {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Funcions privades
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    // Funcio per updatar el camp actualitzat
+    // Funcio per updatar el camp actualitzat i els relacionats
     private static Boolean f_ModificarActualitzat(String p_CodiEntitat) {
         ContentValues l_actualitzat = new ContentValues();
         Boolean l_resposta = true;
 
-        l_actualitzat.put(Globals.g_Native.getString(R.string.TEntitatsClient_Actualitzat), true);
+        l_actualitzat.put(TAG_ActualitzatServidor, true);
+        l_actualitzat.put(TAG_DataGrabacioServidor, Globals.F_Avui());
         try {
             Globals.g_DB.update(Globals.g_Native.getString(R.string.TEntitatsClient),
                     l_actualitzat,
-                    Globals.g_Native.getString(R.string.TEntitatsClient_CodiEntitat) + "='" + p_CodiEntitat + "'",
+                    TAG_CodiEntitat + "='" + p_CodiEntitat + "'",
                     null);
         }
         catch (Exception e) {
@@ -326,72 +335,76 @@ public final class SQLEntitatsClientDAO {
     }
     //
     // Pasa les dades del cursor al client
-    private static Client f_cursorToClient(Cursor p_cursor){
-        Client l_client = new Client();
+    private static EntitatClient f_cursorToEntitatClient(Cursor p_cursor){
+        EntitatClient l_entitatClient = new EntitatClient();
 
-        l_client.CodiClient = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_CodiClient)));
-        l_client.eMail = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_eMail)));
-        l_client.Nom = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Nom)));
-        l_client.Pais = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Pais)));
-        l_client.Contacte = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Contacte)));
-        l_client.DataAlta = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_DataAlta)));
-        l_client.Idioma = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Idioma)));
-        l_client.DataGrabacioServidor = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_DataGrabacioServidor)));
-        l_client.Actualitzat = (p_cursor.getInt(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Actualitzat))) != 0);
-        l_client.DataActualitzat = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_DataActualitzat)));
+        l_entitatClient.CodiEntitat = p_cursor.getString(p_cursor.getColumnIndex(TAG_CodiEntitat));
+        l_entitatClient.eMailEntitat = p_cursor.getString(p_cursor.getColumnIndex(TAG_eMailEntitat));
+        l_entitatClient.NomEntitat = p_cursor.getString(p_cursor.getColumnIndex(TAG_NomEntitat));
+        l_entitatClient.PaisEntitat = p_cursor.getString(p_cursor.getColumnIndex(TAG_PaisEntitat));
+        l_entitatClient.ContacteEntitat = p_cursor.getString(p_cursor.getColumnIndex(TAG_ContacteEntitat));
+        l_entitatClient.AdresaEntitat = p_cursor.getString(p_cursor.getColumnIndex(TAG_AdresaEntitat));
+        l_entitatClient.TelefonEntitat = p_cursor.getString(p_cursor.getColumnIndex(TAG_TelefonEntitat));
+        l_entitatClient.EstatEntitat = p_cursor.getInt(p_cursor.getColumnIndex(TAG_EstatEntitat));
+        l_entitatClient.DataDarrerCanviEntitat = p_cursor.getString(p_cursor.getColumnIndex(TAG_DataDarrerCanviEntitat));
+        l_entitatClient.DataPeticioAssociacio = p_cursor.getString(p_cursor.getColumnIndex(TAG_DataPeticioAssociacio));
+        l_entitatClient.ContacteAssociacio= p_cursor.getString(p_cursor.getColumnIndex(TAG_ContacteAssociacio));
+        l_entitatClient.DescripcioAssociacio= p_cursor.getString(p_cursor.getColumnIndex(TAG_DescripcioAssociacio));
+        l_entitatClient.eMailAssociacio = p_cursor.getString(p_cursor.getColumnIndex(TAG_eMailAssociacio));
+        l_entitatClient.DataAltaAssociacio = p_cursor.getString(p_cursor.getColumnIndex(TAG_DataAltaAssociacio));
+        l_entitatClient.DataFiAssociacio = p_cursor.getString(p_cursor.getColumnIndex(TAG_DataFiAssociacio));
+        l_entitatClient.DataDarrerCanviAssociacio = p_cursor.getString(p_cursor.getColumnIndex(TAG_DataDarrerCanviAssociacio));
+        l_entitatClient.EstatAssociacio = p_cursor.getString(p_cursor.getColumnIndex(TAG_EstatAssociacio));
+        l_entitatClient.Actualitzat = (p_cursor.getInt(p_cursor.getColumnIndex(TAG_ActualitzatServidor)) != 0);
+        l_entitatClient.DataActualitzat = p_cursor.getString(p_cursor.getColumnIndex(TAG_DataGrabacioLocal));
+        l_entitatClient.DataGrabacioServidor = p_cursor.getString(p_cursor.getColumnIndex(TAG_DataGrabacioServidor));
 
-        return l_client;
+        return l_entitatClient;
     }
     //
-    // Posa les dades de la entitat client a contentValue
+    // Posa les dades de la entitat client a contentValue per inserir a la BBDD local
     private static ContentValues f_entitatClientToContentValues(EntitatClient p_entitatClient) {
         ContentValues l_values = new ContentValues();
 
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_CodiEntitat), p_entitatClient.CodiEntitat);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_eMailEntitat), p_entitatClient.eMailEntitat);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_NomEntitat), p_entitatClient.NomEntitat);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_PaisEntitat), p_entitatClient.PaisEntitat);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_ContacteEntitat), p_entitatClient.ContacteEntitat);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_AdresaEntitat), p_entitatClient.AdresaEntitat);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_TelefonEntitat), p_entitatClient.TelefonEntitat);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_EstatEntitat), p_entitatClient.EstatEntitat);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_DataDarrerCanviEntitat), p_entitatClient.DataDarrerCanviEntitat);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_DataPeticioAssociacio), p_entitatClient.DataPeticioAssociacio);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_ContacteAssociacio), p_entitatClient.ContacteAssociacio);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_DescripcioAssociacio), p_entitatClient.DescripcioAssociacio);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_eMailAssociacio), p_entitatClient.eMailAssociacio);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_DataAltaAssociacio), p_entitatClient.DataAltaAssociacio);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_DataFiAssociacio), p_entitatClient.DataFiAssociacio);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_DataDarrerCanviAssociacio), p_entitatClient.DataDarrerCanviAssociacio);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_EstatAssociacio), p_entitatClient.EstatAssociacio);
+        l_values.put(TAG_CodiEntitat, p_entitatClient.CodiEntitat);
+        l_values.put(TAG_eMailEntitat, p_entitatClient.eMailEntitat);
+        l_values.put(TAG_NomEntitat, p_entitatClient.NomEntitat);
+        l_values.put(TAG_PaisEntitat, p_entitatClient.PaisEntitat);
+        l_values.put(TAG_ContacteEntitat, p_entitatClient.ContacteEntitat);
+        l_values.put(TAG_AdresaEntitat, p_entitatClient.AdresaEntitat);
+        l_values.put(TAG_TelefonEntitat, p_entitatClient.TelefonEntitat);
+        l_values.put(TAG_EstatEntitat, p_entitatClient.EstatEntitat);
+        l_values.put(TAG_DataDarrerCanviEntitat, p_entitatClient.DataDarrerCanviEntitat);
+        l_values.put(TAG_DataPeticioAssociacio, p_entitatClient.DataPeticioAssociacio);
+        l_values.put(TAG_ContacteAssociacio, p_entitatClient.ContacteAssociacio);
+        l_values.put(TAG_DescripcioAssociacio, p_entitatClient.DescripcioAssociacio);
+        l_values.put(TAG_eMailAssociacio, p_entitatClient.eMailAssociacio);
+        l_values.put(TAG_DataAltaAssociacio, p_entitatClient.DataAltaAssociacio);
+        l_values.put(TAG_DataFiAssociacio, p_entitatClient.DataFiAssociacio);
+        l_values.put(TAG_DataDarrerCanviAssociacio, p_entitatClient.DataDarrerCanviAssociacio);
+        l_values.put(TAG_EstatAssociacio, p_entitatClient.EstatAssociacio);
         // Com gravem a la BD local posem a false per sapiguer que no es actualiztat al servidor
-        // (ho posarem a cert si l'actualització al servidor va be)
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_Actualitzat), false);
-
+        // (ho posarem a cert si l'actualització al servidor va be, es la operacio que es fa
+        // a continuació de gravar a la BBDD local).
+        l_values.put(TAG_ActualitzatServidor, false);
+        l_values.put(TAG_DataGrabacioLocal, Globals.F_Avui());
         return l_values;
     }
 
-    // Posa les dades de la entitat client a contentValue
+    // Posa les dades a contentValue per cridar a un PHP
     private static RequestParams f_entitatClientToRequestParams(EntitatClient p_entitatClient) {
         RequestParams l_values = new RequestParams();
 
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_CodiEntitat), p_entitatClient.CodiEntitat);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_eMailEntitat), p_entitatClient.eMailEntitat);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_NomEntitat), p_entitatClient.NomEntitat);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_PaisEntitat), p_entitatClient.PaisEntitat);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_ContacteEntitat), p_entitatClient.ContacteEntitat);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_AdresaEntitat), p_entitatClient.AdresaEntitat);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_TelefonEntitat), p_entitatClient.TelefonEntitat);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_EstatEntitat), p_entitatClient.EstatEntitat);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_DataDarrerCanviEntitat), p_entitatClient.DataDarrerCanviEntitat);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_DataPeticioAssociacio), p_entitatClient.DataPeticioAssociacio);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_ContacteAssociacio), p_entitatClient.ContacteAssociacio);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_DescripcioAssociacio), p_entitatClient.DescripcioAssociacio);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_eMailAssociacio), p_entitatClient.eMailAssociacio);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_DataAltaAssociacio), p_entitatClient.DataAltaAssociacio);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_DataFiAssociacio), p_entitatClient.DataFiAssociacio);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_DataDarrerCanviAssociacio), p_entitatClient.DataDarrerCanviAssociacio);
-        l_values.put(Globals.g_Native.getString(R.string.TEntitatsClient_EstatAssociacio), p_entitatClient.EstatAssociacio);
+        l_values.put(TAG_CodiClient, Globals.g_Client.CodiClient);
+        l_values.put(TAG_CodiEntitat, p_entitatClient.CodiEntitat);
+        l_values.put(TAG_DataPeticioAssociacio, p_entitatClient.DataPeticioAssociacio);
+        l_values.put(TAG_ContacteAssociacio, p_entitatClient.ContacteAssociacio);
+        l_values.put(TAG_DescripcioAssociacio, p_entitatClient.DescripcioAssociacio);
+        l_values.put(TAG_eMailAssociacio, p_entitatClient.eMailAssociacio);
+        l_values.put(TAG_DataAltaAssociacio, p_entitatClient.DataAltaAssociacio);
+        l_values.put(TAG_DataFiAssociacio, p_entitatClient.DataFiAssociacio);
+        l_values.put(TAG_DataDarrerCanviAssociacio, p_entitatClient.DataDarrerCanviAssociacio);
+        l_values.put(TAG_EstatAssociacio, p_entitatClient.EstatAssociacio);
         l_values.put("Operativa", Globals.k_OPE_Alta);
 
         return l_values;
