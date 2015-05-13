@@ -19,8 +19,11 @@ import com.example.it00046.bodina3.Classes.EntitatClient;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.SQLClientsDAO;
 import com.example.it00046.bodina3.Classes.SQLEntitatsClientDAO;
+import com.example.it00046.bodina3.Classes.SpinnerClasses.SpnEntitat;
 import com.example.it00046.bodina3.Classes.Validacio;
 import com.example.it00046.bodina3.Classes.params.Entitat;
+
+import java.util.List;
 
 
 public class ac_entitat_solicitar extends ActionBarActivity {
@@ -43,17 +46,25 @@ public class ac_entitat_solicitar extends ActionBarActivity {
         // Spinners:
         lSPN_EntitatsClient = (Spinner)findViewById(R.id.spinnerEntitatSolicitar_Entitat);
         // Codi per tractar el spinner de les entitats del client
+        List <SpnEntitat> l_Entitats = SQLEntitatsClientDAO.LlegirEntitats();
+        ArrayAdapter<SpnEntitat> dataAdapter = new ArrayAdapter<SpnEntitat>(this,
+                android.R.layout.simple_spinner_item, l_Entitats);
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // attaching data adapter to spinner
+        lSPN_EntitatsClient.setAdapter(dataAdapter);
+        /*
         ArrayAdapter<CharSequence> adapter_EntitatsClient = ArrayAdapter.createFromResource(this,R.array.Idioma,android.R.layout.simple_spinner_item);
         adapter_EntitatsClient.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         lSPN_EntitatsClient.setAdapter(adapter_EntitatsClient);
-        // Codi del Spinner de entitats
+        */
+        // Codi del Spinner de entitats del client
         lSPN_EntitatsClient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView parent, View view, int pos, long id) {
                 // Esborrem possible error
                 lTextEntitat.setError(null);
             }
-
             @Override
             public void onNothingSelected(AdapterView parent) {
             }
@@ -128,20 +139,23 @@ public class ac_entitat_solicitar extends ActionBarActivity {
     public void btnEntitatSolicitar_Acceptar(View view) {
         EntitatClient l_entitatClient = new EntitatClient();
         Entitat l_entitat = new Entitat();
+        SpnEntitat l_Aux;
 
         // Validem que els camps estiguin informats
         if (ValidarFinestra()) {
             l_entitatClient.DescripcioAssociacio = lTXT_Descripcio.getText().toString();
             l_entitatClient.ContacteAssociacio = lTXT_Contacte.getText().toString();
             l_entitatClient.eMailAssociacio = lTXT_eMail.getText().toString();
-            l_entitat = (Entitat) lSPN_EntitatsClient.getSelectedItem();
+            l_Aux = (SpnEntitat) lSPN_EntitatsClient.getSelectedItem();
+            l_entitatClient = l_Aux.getId();
+
             l_entitatClient.CodiEntitat = l_entitat.Codi;
             l_entitatClient.eMailEntitat = l_entitat.eMail;
             l_entitatClient.ContacteEntitat = l_entitat.Contacte;
             l_entitatClient.AdresaEntitat = l_entitat.Adresa;
             l_entitatClient.TelefonEntitat = l_entitat.Telefon;
             l_entitatClient.PaisEntitat = l_entitat.Pais;
-            l_entitatClient.EstatEntitat = l_entitat.Estat;
+            l_entitatClient.EstatEntitat = 1;
             //
             SQLEntitatsClientDAO.Solicitar(l_entitatClient);
             this.finish();

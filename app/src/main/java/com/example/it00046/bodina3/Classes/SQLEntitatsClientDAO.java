@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.widget.Toast;
 
+import com.example.it00046.bodina3.Classes.SpinnerClasses.SpnEntitat;
 import com.example.it00046.bodina3.R;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -12,6 +13,9 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by it00046 on 06/05/2015.
@@ -186,6 +190,39 @@ public final class SQLEntitatsClientDAO {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Funció per llegir les entitats del client
+    //
+    public static List < SpnEntitat > LlegirEntitats(){
+        List < SpnEntitat > labels = new ArrayList< SpnEntitat >();
+        // Select All Query
+        try {
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // Aqui mancaria la select indicant les entitats actives (Estat=1)
+            // !
+            Cursor cursor = Globals.g_DB.query(Globals.g_Native.getString(R.string.TEntitatsClient),
+                    Globals.g_Native.getResources().getStringArray(R.array.TEntitatsClient_Camps),
+                    null, // c. selections
+                    null, // d. selections args
+                    null, // e. group by
+                    null, // f. having
+                    null, // g. order by
+                    null); // h. limit
+            // looping through all rows and adding to list
+            if ( cursor.moveToFirst () ) {
+                do {
+                    EntitatClient l_entitat = f_cursorToEntitatClient(cursor);
+                    labels.add (new SpnEntitat (l_entitat, l_entitat.NomEntitat));
+                } while (cursor.moveToNext());
+            }
+        }
+        catch(Exception e) {
+            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                    Globals.g_Native.getString(R.string.error_greu));
+        }
+        // returning labels
+        return labels;
+    }
     // Funcio per llegir les dades del client
     /*
     public static void Llegir(){
@@ -267,7 +304,7 @@ public final class SQLEntitatsClientDAO {
             // Actualitzem el servidor
             if (Globals.isNetworkAvailable()) {
                 // Cridem al php
-                PhpJson.post("EntitatsClient.php", f_entitatClientToRequestParams(p_EntitatClient), new JsonHttpResponseHandler() {
+                PhpJson.post("Associacio.php", f_Solicitar_entitatClientToRequestParams(p_EntitatClient), new JsonHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode,
                                           org.apache.http.Header[] headers,
@@ -388,6 +425,21 @@ public final class SQLEntitatsClientDAO {
         // a continuació de gravar a la BBDD local).
         l_values.put(TAG_ActualitzatServidor, false);
         l_values.put(TAG_DataGrabacioLocal, Globals.F_Avui());
+        return l_values;
+    }
+
+    // Posa les dades a contentValue per cridar al PHP per solicitar una associacio
+    private static RequestParams f_Solicitar_entitatClientToRequestParams(EntitatClient p_entitatClient) {
+        RequestParams l_values = new RequestParams();
+
+        l_values.put(TAG_CodiClient, Globals.g_Client.CodiClient);
+        l_values.put(TAG_CodiEntitat, p_entitatClient.CodiEntitat);
+        l_values.put(TAG_DataPeticioAssociacio, p_entitatClient.DataPeticioAssociacio);
+        l_values.put(TAG_ContacteAssociacio, p_entitatClient.ContacteAssociacio);
+        l_values.put(TAG_DescripcioAssociacio, p_entitatClient.DescripcioAssociacio);
+        l_values.put(TAG_eMailAssociacio, p_entitatClient.eMailAssociacio);
+        l_values.put("Operativa", Globals.k_OPE_Alta);
+
         return l_values;
     }
 
