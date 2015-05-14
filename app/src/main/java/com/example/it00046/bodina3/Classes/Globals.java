@@ -40,6 +40,7 @@ public final class Globals
     public static final String k_OPE_Alta = "0";
     public static final String k_OPE_Update = "1";
     public static final String k_OPE_Select = "2";
+    public static final String k_OPE_LlegirEntitatsPais = "0";
     public static final String k_OPE_SelectCodiClientIntern = "21";
     public static final String k_OPE_SelectEntitatsClient = "0";
     public static final String k_DirectoriPHP = "http://bodina.virtuol.com/php/";

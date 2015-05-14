@@ -2,9 +2,11 @@ package com.example.it00046.bodina3.Classes;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.os.DropBoxManager;
 import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SpnEntitat;
+import com.example.it00046.bodina3.Classes.params.Entitat;
 import com.example.it00046.bodina3.R;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -21,12 +23,10 @@ import java.util.List;
  * Created by it00046 on 06/05/2015.
  */
 public final class SQLEntitatsClientDAO {
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-    // O P E R A T I V A    S E R V I D O R    ( P R I V A D A )
-    ///////////////////////////////////////////////////////////////////////////////////////////////
     // Variables
     private static RequestParams g_parametresPHP = new RequestParams();
     private static final String TAG_VALIDS = "valids";
+    private static final String TAG_Entitat = "entitat";
     private static final String TAG_Entitats = "entitats";
     private static final String TAG_CodiClient = Globals.g_Native.getString(R.string.TClient_CodiClient);
     private static final String TAG_CodiEntitat = Globals.g_Native.getString(R.string.TEntitatsClient_CodiEntitat);
@@ -49,6 +49,67 @@ public final class SQLEntitatsClientDAO {
     private static final String TAG_ActualitzatServidor = Globals.g_Native.getString(R.string.TEntitatsClient_ActualitzatServidor);
     private static final String TAG_DataGrabacioLocal = Globals.g_Native.getString(R.string.TEntitatsClient_DataGrabaciotLocal);
     private static final String TAG_DataGrabacioServidor = Globals.g_Native.getString(R.string.TEntitatsClient_DataGrabacioServidor);
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    // O P E R A T I V A    S E R V I D O R    ( P U B L I C A )
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Funció per llegir les entitats del pais del client. Ho fem directament contra el servidor
+    //
+    public static List <Entitat> F_Entitats (String p_Pais){
+        List < Entitat > l_Entitats = new ArrayList< Entitat>();
+
+        if (Globals.isNetworkAvailable()){
+            // Montem el php
+            g_parametresPHP = new RequestParams();
+            g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Pais), p_Pais);
+            g_parametresPHP.put("Operativa", Globals.k_OPE_LlegirEntitatsPais);
+            PhpJson.post("Entitats.php", g_parametresPHP, new JsonHttpResponseHandler() {
+                @Override
+                public void onFailure(int statusCode,
+                                      org.apache.http.Header[] headers,
+                                      java.lang.Throwable throwable,
+                                      org.json.JSONObject errorResponse){
+                    Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
+                            Globals.g_Native.getString(R.string.error_greu));
+                }
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject p_entitatsClientServidor){
+                    try{
+                        String l_Resposta = p_entitatsClientServidor.getString(TAG_VALIDS);
+                        if (l_Resposta.equals(Globals.k_PHPOK)) {
+                            // Llegim les entitats
+                            JSONArray l_ArrayEntitats = null;
+                            l_ArrayEntitats = p_entitatsClientServidor.getJSONArray(TAG_Entitat);
+                            for (int i = 0; i < l_ArrayEntitats.length(); i++) {
+                                JSONObject l_entitat = l_ArrayEntitats.getJSONObject(i);
+
+                                Globals.g_Client.CodiClient = l_entitat.getString(TAG_CodiClient);
+                            }
+                        }
+                        else{
+                            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
+                                    Globals.g_Native.getString(R.string.error_greu));
+                        }
+                    }
+                    catch (JSONException e) {
+                        Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                                Globals.g_Native.getString(R.string.error_greu));
+                    }
+                }
+            });
+        }
+        else{
+            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
+                    Globals.g_Native.getString(R.string.error_greu));
+        }
+
+        return l_Entitats;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    // O P E R A T I V A    S E R V I D O R    ( P R I V A D A )
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     //
     // Llegim les entitats del client del servidor, si existeix en el servidor el recuperem localment (el grabem
@@ -190,9 +251,6 @@ public final class SQLEntitatsClientDAO {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Funció per llegir les entitats del client
-    //
     public static List < SpnEntitat > LlegirEntitats(){
         List < SpnEntitat > labels = new ArrayList< SpnEntitat >();
         // Select All Query
