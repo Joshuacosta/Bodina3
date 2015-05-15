@@ -192,6 +192,39 @@
                                 %19$s INTEGER,
                                 %20$s VARCHAR(20),
                                 %21$s VARCHAR(20))</string>
+    <!-- .................................................................................. -->
+    <!-- ENTITATS -->
+    <string name="TEntitats">Entitats</string>
+    <!-- Camps -->
+    <string name="TEntitats_Codi">Codi</string>
+    <string name="TEntitats_eMail">eMail</string>
+    <string name="TEntitats_Nom">Nom</string>
+    <string name="TEntitats_Pais">Pais</string>
+    <string name="TEntitats_Contacte">Contacte</string>
+    <string name="TEntitats_Adresa">Adresa</string>
+    <string name="TEntitats_Telefon">Telefon</string>
+    <string name="TEntitats_Estat">Estat</string>
+    <!-- LLista camps -->
+    <string-array name="TEntitats_Camps">
+        <item>@string/TEntitats_Codi</item>
+        <item>@string/TEntitats_eMail</item>
+        <item>@string/TEntitats_Nom</item>
+        <item>@string/TEntitats_Pais</item>
+        <item>@string/TEntitats_Contacte</item>
+        <item>@string/TEntitats_Adresa</item>
+        <item>@string/TEntitats_Telefon</item>
+        <item>@string/TEntitats_Estat</item>
+    </string-array>
+    <!-- Funcions -->
+    <string name="TEntitatsCreate">CREATE TABLE %1$s (
+                                %2$d INTEGER PRIMARY KEY,
+                                %3$s VARCHAR(100),
+				                %4$s VARCHAR(100),
+				                %5$s VARCHAR(20),
+				                %6$s VARCHAR(100),
+				                %7$s VARCHAR(100),
+				                %8$s VARCHAR(15),
+				                %9$s INTEGER)</string>
     <!-- ################################################################################### -->
     <!-- String-Arrays -->
     <!-- ################################################################################### -->

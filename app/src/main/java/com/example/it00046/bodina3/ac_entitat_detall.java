@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.example.it00046.bodina3.Classes.params.Entitat;
+import com.example.it00046.bodina3.Classes.params.PAREntitat;
 
 
 public class ac_entitat_detall extends ActionBarActivity {
@@ -26,7 +26,7 @@ public class ac_entitat_detall extends ActionBarActivity {
         }
 
         // Amb classes
-        Entitat dadesEntitat = (Entitat) getIntent().getSerializableExtra("Info");
+        PAREntitat dadesEntitat = (PAREntitat) getIntent().getSerializableExtra("Info");
 
         // Ara mostrem la info, primer recuperem els camps
         lTextNomEntitat = (TextView) findViewById(R.id.txtNomEntitat);

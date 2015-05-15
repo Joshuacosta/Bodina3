@@ -1,30 +1,21 @@
-package com.example.it00046.bodina3.Classes;
+package com.example.it00046.bodina3.Classes.DAO;
 
 /**
  * Created by it00046 on 13/02/2015.
  */
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.provider.Settings;
-import android.util.Log;
 import android.widget.Toast;
 
+import com.example.it00046.bodina3.Classes.Globals;
+import com.example.it00046.bodina3.Classes.PhpJson;
+import com.example.it00046.bodina3.Classes.Tipus.Client;
 import com.example.it00046.bodina3.R;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,13 +50,14 @@ public final class SQLClientsDAO {
                 public void onFailure(int statusCode,
                                       org.apache.http.Header[] headers,
                                       java.lang.Throwable throwable,
-                                      org.json.JSONObject errorResponse){
+                                      org.json.JSONObject errorResponse) {
                     Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                             Globals.g_Native.getString(R.string.error_greu));
                 }
+
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject p_clientServidor){
-                    try{
+                public void onSuccess(int statusCode, Header[] headers, JSONObject p_clientServidor) {
+                    try {
                         String l_Resposta = p_clientServidor.getString(TAG_VALIDS);
                         if (l_Resposta.equals(Globals.k_PHPOK)) {
                             // Apuntem codi intern
@@ -81,18 +73,6 @@ public final class SQLClientsDAO {
                                 Globals.g_Client.eMail = l_client.getString(TAG_eMail);
                                 Globals.g_Client.Nom = l_client.getString(TAG_Nom);
                                 Globals.g_Client.Contacte = l_client.getString(TAG_Contacte);
-                                // Convertim data del sistema a la local
-                                /*
-                                SimpleDateFormat l_dfSistema = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                try {
-                                    Date l_DataSistema = l_dfSistema.parse(l_client.getString(TAG_DataAlta));
-                                    DateFormat l_df;
-                                    l_df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
-                                    Globals.g_Client.DataAlta = l_df.format(l_DataSistema);
-                                }
-                                catch  (ParseException e) {
-                                }
-                                */
                                 Globals.g_Client.DataAlta = Globals.F_FormatDataServidorALocal(l_client.getString(TAG_DataAlta));
                                 Globals.g_Client.Pais = l_client.getString(TAG_Pais);
                                 Globals.g_Client.Idioma = l_client.getString(TAG_Idioma);
@@ -105,13 +85,11 @@ public final class SQLClientsDAO {
                                     Globals.g_NoHiHanDades = false;
                                 }
                             }
-                        }
-                        else{
+                        } else {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
                                     Globals.g_Native.getString(R.string.error_greu));
                         }
-                    }
-                    catch (JSONException e) {
+                    } catch (JSONException e) {
                         Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
                                 Globals.g_Native.getString(R.string.error_greu));
                     }

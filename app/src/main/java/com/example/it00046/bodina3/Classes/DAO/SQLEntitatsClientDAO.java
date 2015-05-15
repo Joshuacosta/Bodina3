@@ -1,12 +1,15 @@
-package com.example.it00046.bodina3.Classes;
+package com.example.it00046.bodina3.Classes.DAO;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.os.DropBoxManager;
 import android.widget.Toast;
 
+import com.example.it00046.bodina3.Classes.Globals;
+import com.example.it00046.bodina3.Classes.PhpJson;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SpnEntitat;
-import com.example.it00046.bodina3.Classes.params.Entitat;
+import com.example.it00046.bodina3.Classes.Tipus.Client;
+import com.example.it00046.bodina3.Classes.Tipus.EntitatClient;
+import com.example.it00046.bodina3.Classes.params.PAREntitat;
 import com.example.it00046.bodina3.R;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -50,63 +53,7 @@ public final class SQLEntitatsClientDAO {
     private static final String TAG_DataGrabacioLocal = Globals.g_Native.getString(R.string.TEntitatsClient_DataGrabaciotLocal);
     private static final String TAG_DataGrabacioServidor = Globals.g_Native.getString(R.string.TEntitatsClient_DataGrabacioServidor);
     //
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-    // O P E R A T I V A    S E R V I D O R    ( P U B L I C A )
-    ///////////////////////////////////////////////////////////////////////////////////////////////
     //
-    // Funció per llegir les entitats del pais del client. Ho fem directament contra el servidor
-    //
-    public static List <Entitat> F_Entitats (String p_Pais){
-        List < Entitat > l_Entitats = new ArrayList< Entitat>();
-
-        if (Globals.isNetworkAvailable()){
-            // Montem el php
-            g_parametresPHP = new RequestParams();
-            g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Pais), p_Pais);
-            g_parametresPHP.put("Operativa", Globals.k_OPE_LlegirEntitatsPais);
-            PhpJson.post("Entitats.php", g_parametresPHP, new JsonHttpResponseHandler() {
-                @Override
-                public void onFailure(int statusCode,
-                                      org.apache.http.Header[] headers,
-                                      java.lang.Throwable throwable,
-                                      org.json.JSONObject errorResponse){
-                    Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
-                            Globals.g_Native.getString(R.string.error_greu));
-                }
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject p_entitatsClientServidor){
-                    try{
-                        String l_Resposta = p_entitatsClientServidor.getString(TAG_VALIDS);
-                        if (l_Resposta.equals(Globals.k_PHPOK)) {
-                            // Llegim les entitats
-                            JSONArray l_ArrayEntitats = null;
-                            l_ArrayEntitats = p_entitatsClientServidor.getJSONArray(TAG_Entitat);
-                            for (int i = 0; i < l_ArrayEntitats.length(); i++) {
-                                JSONObject l_entitat = l_ArrayEntitats.getJSONObject(i);
-
-                                Globals.g_Client.CodiClient = l_entitat.getString(TAG_CodiClient);
-                            }
-                        }
-                        else{
-                            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
-                                    Globals.g_Native.getString(R.string.error_greu));
-                        }
-                    }
-                    catch (JSONException e) {
-                        Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                                Globals.g_Native.getString(R.string.error_greu));
-                    }
-                }
-            });
-        }
-        else{
-            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
-                    Globals.g_Native.getString(R.string.error_greu));
-        }
-
-        return l_Entitats;
-    }
-
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A    S E R V I D O R    ( P R I V A D A )
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -251,36 +198,6 @@ public final class SQLEntitatsClientDAO {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    public static List < SpnEntitat > LlegirEntitats(){
-        List < SpnEntitat > labels = new ArrayList< SpnEntitat >();
-        // Select All Query
-        try {
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            // Aqui mancaria la select indicant les entitats actives (Estat=1)
-            // !
-            Cursor cursor = Globals.g_DB.query(Globals.g_Native.getString(R.string.TEntitatsClient),
-                    Globals.g_Native.getResources().getStringArray(R.array.TEntitatsClient_Camps),
-                    null, // c. selections
-                    null, // d. selections args
-                    null, // e. group by
-                    null, // f. having
-                    null, // g. order by
-                    null); // h. limit
-            // looping through all rows and adding to list
-            if ( cursor.moveToFirst () ) {
-                do {
-                    EntitatClient l_entitat = f_cursorToEntitatClient(cursor);
-                    labels.add (new SpnEntitat (l_entitat, l_entitat.NomEntitat));
-                } while (cursor.moveToNext());
-            }
-        }
-        catch(Exception e) {
-            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                    Globals.g_Native.getString(R.string.error_greu));
-        }
-        // returning labels
-        return labels;
-    }
     // Funcio per llegir les dades del client
     /*
     public static void Llegir(){
@@ -362,7 +279,7 @@ public final class SQLEntitatsClientDAO {
             // Actualitzem el servidor
             if (Globals.isNetworkAvailable()) {
                 // Cridem al php
-                PhpJson.post("Associacio.php", f_Solicitar_entitatClientToRequestParams(p_EntitatClient), new JsonHttpResponseHandler() {
+                PhpJson.post("EntitatsClient.php", f_Solicitar_entitatClientToRequestParams(p_EntitatClient), new JsonHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode,
                                           org.apache.http.Header[] headers,

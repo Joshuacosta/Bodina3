@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.it00046.bodina3.Classes.Globals;
-import com.example.it00046.bodina3.Classes.params.Entitat;
+import com.example.it00046.bodina3.Classes.params.PAREntitat;
 
 
 public class ac_principal extends ActionBarActivity {
@@ -72,7 +72,7 @@ public class ac_principal extends ActionBarActivity {
                 intent = new Intent(this, ac_entitat_solicitar.class);
                 startActivity(intent);
                 */
-                Entitat details = new Entitat();
+                PAREntitat details = new PAREntitat();
                 details.Adresa = "Adresa";
                 details.eMail = "eMail";
                 details.Nom = "Nom";
@@ -90,7 +90,7 @@ public class ac_principal extends ActionBarActivity {
             case R.id.celebracions_Actualitzar:
                 //  Experiment obrir una activitat amb recerca
 
-                intent = new Intent(this, ac_entitat_recerca.class);
+                intent = new Intent(this, ac_entitat_solicitar.class);
                 startActivity(intent);
 
                 //

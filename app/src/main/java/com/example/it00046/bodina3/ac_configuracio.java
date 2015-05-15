@@ -1,6 +1,5 @@
 package com.example.it00046.bodina3;
 
-import android.app.AlertDialog;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,9 +15,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.it00046.bodina3.Classes.Client;
+import com.example.it00046.bodina3.Classes.Tipus.Client;
 import com.example.it00046.bodina3.Classes.Globals;
-import com.example.it00046.bodina3.Classes.SQLClientsDAO;
+import com.example.it00046.bodina3.Classes.DAO.SQLClientsDAO;
 import com.example.it00046.bodina3.Classes.Validacio;
 
 import java.text.DateFormat;

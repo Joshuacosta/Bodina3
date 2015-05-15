@@ -1,0 +1,93 @@
+package com.example.it00046.bodina3.Classes.DAO;
+
+import com.example.it00046.bodina3.Classes.Globals;
+import com.example.it00046.bodina3.Classes.PhpJson;
+import com.example.it00046.bodina3.Classes.SpinnerClasses.SpnEntitat;
+import com.example.it00046.bodina3.Classes.Tipus.Client;
+import com.example.it00046.bodina3.Classes.Tipus.Entitat;
+import com.example.it00046.bodina3.Classes.params.PAREntitat;
+import com.example.it00046.bodina3.R;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by it00046 on 13/05/2015.
+ */
+public class SQLEntitatsDAO {
+    // Variables
+    private static RequestParams g_parametresPHP = new RequestParams();
+    private static final String TAG_Entitat = "entitat";
+    private static final String TAG_Codi = Globals.g_Native.getString(R.string.TEntitats_Codi);
+    //
+    // Funció per llegir les entitats de un pais, retornem la info per un Spinner
+    // AIXÓ DEL SPINNER HO TINDRES QUE PARAMETRITZAR PER ALTRES SITUACIONS!!!!!!!!!!!!!!!!!!!!!!!!!
+    //
+    public static List<SpnEntitat> F_Entitats (String p_Pais){
+        final List <SpnEntitat> l_Entitats = new ArrayList<SpnEntitat>();
+
+        if (Globals.isNetworkAvailable()){
+            // Montem el php
+            g_parametresPHP = new RequestParams();
+            g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Pais), p_Pais);
+            g_parametresPHP.put(Globals.TAG_OPERATIVA, Globals.k_OPE_LlegirEntitatsPais);
+            PhpJson.post("Entitats.php", g_parametresPHP, new JsonHttpResponseHandler() {
+                @Override
+                public void onFailure(int statusCode,
+                                      org.apache.http.Header[] headers,
+                                      java.lang.Throwable throwable,
+                                      org.json.JSONObject errorResponse) {
+                    Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
+                            Globals.g_Native.getString(R.string.error_greu));
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject p_entitats) {
+                    try {
+                        String l_Resposta = p_entitats.getString(Globals.TAG_VALIDS);
+                        if (l_Resposta.equals(Globals.k_PHPOK)) {
+                            // Llegim les entitats
+                            JSONArray l_ArrayEntitats = null;
+                            l_ArrayEntitats = p_entitats.getJSONArray(Globals.g_Native.getString(R.string.TEntitats));
+                            for (int i = 0; i < l_ArrayEntitats.length(); i++) {
+                                JSONObject l_entitatServidor = l_ArrayEntitats.getJSONObject(i);
+                                Entitat l_entitat = new Entitat();
+                                // Pasa les dades del objecte JSON a la Entitat
+                                l_entitat.Codi = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Codi));
+                                l_entitat.Nom = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Nom));
+                                l_entitat.Adresa = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Adresa));
+                                l_entitat.Telefon = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Telefon));
+                                l_entitat.Contacte = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Contacte));
+                                l_entitat.eMail = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_eMail));
+                                l_entitat.Pais = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Pais));
+                                l_entitat.Estat = l_entitatServidor.getInt(Globals.g_Native.getString(R.string.TEntitats_Estat));
+                                // Carreguem
+                                SpnEntitat l_spinner = new SpnEntitat(l_entitat, l_entitat.Nom);
+                                l_Entitats.add(l_spinner);
+                            }
+                        } else {
+                            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
+                                    Globals.g_Native.getString(R.string.error_greu));
+                        }
+                    } catch (JSONException e) {
+                        Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                                Globals.g_Native.getString(R.string.error_greu));
+                    }
+                }
+            });
+        }
+        else{
+            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
+                    Globals.g_Native.getString(R.string.error_greu));
+        }
+
+        return l_Entitats;
+    }
+}

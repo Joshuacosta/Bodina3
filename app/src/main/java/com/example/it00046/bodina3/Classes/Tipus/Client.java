@@ -1,4 +1,4 @@
-package com.example.it00046.bodina3.Classes;
+package com.example.it00046.bodina3.Classes.Tipus;
 
 /**
  * Created by it00046 on 13/02/2015.

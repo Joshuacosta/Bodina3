@@ -1,5 +1,6 @@
 package com.example.it00046.bodina3;
 
+import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,14 +15,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.it00046.bodina3.Classes.Client;
-import com.example.it00046.bodina3.Classes.EntitatClient;
+import com.example.it00046.bodina3.Classes.DAO.SQLEntitatsDAO;
+import com.example.it00046.bodina3.Classes.Tipus.Entitat;
+import com.example.it00046.bodina3.Classes.Tipus.EntitatClient;
 import com.example.it00046.bodina3.Classes.Globals;
-import com.example.it00046.bodina3.Classes.SQLClientsDAO;
-import com.example.it00046.bodina3.Classes.SQLEntitatsClientDAO;
+import com.example.it00046.bodina3.Classes.DAO.SQLEntitatsClientDAO;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SpnEntitat;
 import com.example.it00046.bodina3.Classes.Validacio;
-import com.example.it00046.bodina3.Classes.params.Entitat;
+import com.example.it00046.bodina3.Classes.params.PAREntitat;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class ac_entitat_solicitar extends ActionBarActivity {
         // Spinners:
         lSPN_EntitatsClient = (Spinner)findViewById(R.id.spinnerEntitatSolicitar_Entitat);
         // Codi per tractar el spinner de les entitats del client
-        List <SpnEntitat> l_Entitats = SQLEntitatsClientDAO.LlegirEntitats();
+        List <SpnEntitat> l_Entitats = SQLEntitatsDAO.F_Entitats(Globals.g_Client.Pais);
         ArrayAdapter<SpnEntitat> dataAdapter = new ArrayAdapter<SpnEntitat>(this,
                 android.R.layout.simple_spinner_item, l_Entitats);
         // Drop down layout style - list view with radio button
@@ -138,7 +139,8 @@ public class ac_entitat_solicitar extends ActionBarActivity {
 
     public void btnEntitatSolicitar_Acceptar(View view) {
         EntitatClient l_entitatClient = new EntitatClient();
-        Entitat l_entitat = new Entitat();
+        Entitat l_dadesEntitat = new Entitat();
+        PAREntitat l_entitat = new PAREntitat();
         SpnEntitat l_Aux;
 
         // Validem que els camps estiguin informats
@@ -147,14 +149,14 @@ public class ac_entitat_solicitar extends ActionBarActivity {
             l_entitatClient.ContacteAssociacio = lTXT_Contacte.getText().toString();
             l_entitatClient.eMailAssociacio = lTXT_eMail.getText().toString();
             l_Aux = (SpnEntitat) lSPN_EntitatsClient.getSelectedItem();
-            l_entitatClient = l_Aux.getId();
+            l_dadesEntitat = l_Aux.getId();
 
-            l_entitatClient.CodiEntitat = l_entitat.Codi;
-            l_entitatClient.eMailEntitat = l_entitat.eMail;
-            l_entitatClient.ContacteEntitat = l_entitat.Contacte;
-            l_entitatClient.AdresaEntitat = l_entitat.Adresa;
-            l_entitatClient.TelefonEntitat = l_entitat.Telefon;
-            l_entitatClient.PaisEntitat = l_entitat.Pais;
+            l_entitatClient.CodiEntitat = l_dadesEntitat.Codi;
+            l_entitatClient.eMailEntitat = l_dadesEntitat.eMail;
+            l_entitatClient.ContacteEntitat = l_dadesEntitat.Contacte;
+            l_entitatClient.AdresaEntitat = l_dadesEntitat.Adresa;
+            l_entitatClient.TelefonEntitat = l_dadesEntitat.Telefon;
+            l_entitatClient.PaisEntitat = l_dadesEntitat.Pais;
             l_entitatClient.EstatEntitat = 1;
             //
             SQLEntitatsClientDAO.Solicitar(l_entitatClient);

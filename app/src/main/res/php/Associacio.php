@@ -5,14 +5,6 @@
 $Temps  	= getdate();
 $Avui   	= $Temps[mday]."/".$Temps[mon]."/".$Temps[year]." ".$Temps[hours].":".$Temps[minutes].":".$Temps[seconds];
 $Resposta 	= "";
-/* Recuperem les dades d'entrada */
-$CodiClient         = $_POST['CodiClient'];
-$CodiClientIntern	= $_POST['CodiClientIntern'];
-$eMail				= $_POST['eMail'];
-$Nom				= $_POST['Nom'];
-$Pais				= $_POST['Pais'];
-$Contacte			= $_POST['Contacte'];
-$Idioma				= $_POST['Idioma'];
 // Array per la resposta JSON
 $response 			= array();
 $response["valids"] = "1";

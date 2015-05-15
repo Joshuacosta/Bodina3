@@ -1,11 +1,9 @@
-package com.example.it00046.bodina3.Classes.params;
-
-import java.io.Serializable;
+package com.example.it00046.bodina3.Classes.Tipus;
 
 /**
- * Created by Joshua on 14/04/2015.
+ * Created by it00046 on 15/05/2015.
  */
-public class Entitat implements Serializable {
+public class Entitat {
     public String Codi;
     public String Nom;
     public String Adresa;

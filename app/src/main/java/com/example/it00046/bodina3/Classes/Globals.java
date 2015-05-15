@@ -3,16 +3,16 @@ package com.example.it00046.bodina3.Classes;
 /**
  * Created by it00046 on 13/02/2015.
  */
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.provider.Settings;
+
+import com.example.it00046.bodina3.Classes.DAO.SQLClientsDAO;
+import com.example.it00046.bodina3.Classes.Tipus.Client;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -28,7 +28,7 @@ public final class Globals
 {
     // Variables
     public static Boolean g_NoHiHanDades = true;
-    public static Client  g_Client = new Client();
+    public static Client g_Client = new Client();
     public static Context g_Native;
     public static Boolean g_HiHaXarxa = false;
 
@@ -49,6 +49,8 @@ public final class Globals
     public static final String k_PHPOK = "1";
     public static final String k_PHPErrorBBDD = "2";
     public static final String k_PHPErrorMail = "3";
+    public static final String TAG_OPERATIVA = "Operativa";
+    public static final String TAG_VALIDS = "valids";
 
     public static void CreateBBDD(){
         g_BBDD = new SQLDB(g_Native);
