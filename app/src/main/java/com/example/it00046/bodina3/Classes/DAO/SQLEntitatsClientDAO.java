@@ -279,7 +279,7 @@ public final class SQLEntitatsClientDAO {
             // Actualitzem el servidor
             if (Globals.isNetworkAvailable()) {
                 // Cridem al php
-                PhpJson.post("EntitatsClient.php", f_Solicitar_entitatClientToRequestParams(p_EntitatClient), new JsonHttpResponseHandler() {
+                PhpJson.post("Associacio.php", f_Solicitar_entitatClientToRequestParams(p_EntitatClient), new JsonHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode,
                                           org.apache.http.Header[] headers,
@@ -302,10 +302,11 @@ public final class SQLEntitatsClientDAO {
                                             Toast.LENGTH_LONG).show();
                                 }
                                 else{
-                                    // Error en el servidor
+                                    // Error a la BBDD local
                                     Toast.makeText(Globals.g_Native,
-                                            Globals.g_Native.getString(R.string.errorservidor_BBDD),
+                                            Globals.g_Native.getString(R.string.errorlocal_BBDD),
                                             Toast.LENGTH_LONG).show();
+
                                 }
                             }
                             else {
@@ -409,7 +410,6 @@ public final class SQLEntitatsClientDAO {
 
         l_values.put(TAG_CodiClient, Globals.g_Client.CodiClient);
         l_values.put(TAG_CodiEntitat, p_entitatClient.CodiEntitat);
-        l_values.put(TAG_DataPeticioAssociacio, p_entitatClient.DataPeticioAssociacio);
         l_values.put(TAG_ContacteAssociacio, p_entitatClient.ContacteAssociacio);
         l_values.put(TAG_DescripcioAssociacio, p_entitatClient.DescripcioAssociacio);
         l_values.put(TAG_eMailAssociacio, p_entitatClient.eMailAssociacio);

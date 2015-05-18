@@ -34,6 +34,7 @@ else{
 		// Estudiem la operativa
 		switch ($Operativa){
 			case 0: // Solicitem associacio
+				$Ara = date("Y-m-d H:i:s");
 				/* Recuperem les dades d'entrada */
 				$CodiClient         = $_POST['CodiClient'];
 				$CodiEntitat		= $_POST['CodiEntitat'];
@@ -42,14 +43,14 @@ else{
 				$Descripcio			= $_POST['DescripcioAssociacio'];
 				$eMail				= $_POST['eMailAssociacio'];
 				//
-				$result = mysql_query("INSERT INTO Associacio (CodiClient, CodiEntitat, DataPeticio, Contacte, Descripcio, eMail, DataAlta, DataDarrerCanvi, Estat)
+				$result = mysql_query("INSERT INTO Associacions (CodiClient, CodiEntitat, DataPeticio, Contacte, Descripcio, eMail, DataDarrerCanvi, Estat)
 													VALUES ('".$CodiClient."',
 															'".$CodiEntitat."',
-															'".$DataPeticio."',
+															'".$Ara."',
 															'".addslashes($Contacte)."',
 															'".addslashes($Descripcio)."',
 															'".$eMail."',
-															'".$Ara."','".$Ara."', TRUE)");
+															'".$Ara."', TRUE)");
 				if (!$result){
 					$response["valids"] = "2";
 					$gestor = fopen("errors/bd.txt","a");
@@ -66,6 +67,5 @@ else{
         }
 	}
 }
-// 
 echo json_encode($response);
 ?>

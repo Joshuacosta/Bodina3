@@ -6,6 +6,7 @@ package com.example.it00046.bodina3.Classes.DAO;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.Globals;

@@ -47,18 +47,7 @@ public class ac_entitat_solicitar extends ActionBarActivity {
         // Spinners:
         lSPN_EntitatsClient = (Spinner)findViewById(R.id.spinnerEntitatSolicitar_Entitat);
         // Codi per tractar el spinner de les entitats del client
-        List <SpnEntitat> l_Entitats = SQLEntitatsDAO.F_Entitats(Globals.g_Client.Pais);
-        ArrayAdapter<SpnEntitat> dataAdapter = new ArrayAdapter<SpnEntitat>(this,
-                android.R.layout.simple_spinner_item, l_Entitats);
-        // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // attaching data adapter to spinner
-        lSPN_EntitatsClient.setAdapter(dataAdapter);
-        /*
-        ArrayAdapter<CharSequence> adapter_EntitatsClient = ArrayAdapter.createFromResource(this,R.array.Idioma,android.R.layout.simple_spinner_item);
-        adapter_EntitatsClient.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        lSPN_EntitatsClient.setAdapter(adapter_EntitatsClient);
-        */
+        SQLEntitatsDAO.F_Entitats(Globals.g_Client.Pais, lSPN_EntitatsClient);
         // Codi del Spinner de entitats del client
         lSPN_EntitatsClient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -167,6 +156,11 @@ public class ac_entitat_solicitar extends ActionBarActivity {
                     Globals.g_Native.getString(R.string.error_Layout),
                     Toast.LENGTH_LONG).show();
         }
+    }
+
+    // Funcio per obrir la finestra de recerca de entitats
+    public void btnAfegirEntitatOnClick(View view){
+
     }
 
     @Override

@@ -33,7 +33,7 @@ else{
     else{
 		// Estudiem la operativa
 		switch ($Operativa){
-			case 0: // Solicitem associacio
+			case 0: // Llista de entitats segons pais
 				/* Recuperem les dades d'entrada */
 				$Pais = $_POST['Pais'];
 				

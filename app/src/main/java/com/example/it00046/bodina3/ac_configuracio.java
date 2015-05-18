@@ -172,33 +172,33 @@ public class ac_configuracio extends ActionBarActivity {
     public void btnAcceptarOnClick(View view){
         Client l_client = new Client();
 
-        // Validem que els camps estiguin informats
-        if (ValidarFinestra()) {
-            l_client.CodiClientIntern = Globals.g_Client.CodiClientIntern;
-            l_client.CodiClient = Globals.g_Client.CodiClient;
-            l_client.Nom = lTXT_Name.getText().toString();
-            l_client.eMail = lTXT_eMail.getText().toString();
-            l_client.Contacte = lTXT_Contacte.getText().toString();
-            l_client.Pais = lSPN_Paissos.getSelectedItem().toString();
-            l_client.Idioma = lSPN_Idioma.getSelectedItem().toString();
-            //
-            if (Globals.g_NoHiHanDades) {
-                SQLClientsDAO.Definir(l_client);
-                Globals.g_NoHiHanDades = false;
-            }
-            else{
-                SQLClientsDAO.Modificar(l_client);
-            }
-            // Gravem les dades del client i tornem enrera
-            Globals.g_Client = l_client;
-            this.finish();
+    // Validem que els camps estiguin informats
+    if (ValidarFinestra()) {
+        l_client.CodiClientIntern = Globals.g_Client.CodiClientIntern;
+        l_client.CodiClient = Globals.g_Client.CodiClient;
+        l_client.Nom = lTXT_Name.getText().toString();
+        l_client.eMail = lTXT_eMail.getText().toString();
+        l_client.Contacte = lTXT_Contacte.getText().toString();
+        l_client.Pais = lSPN_Paissos.getSelectedItem().toString();
+        l_client.Idioma = lSPN_Idioma.getSelectedItem().toString();
+        //
+        if (Globals.g_NoHiHanDades) {
+            SQLClientsDAO.Definir(l_client);
+            Globals.g_NoHiHanDades = false;
         }
         else{
-            Toast.makeText(ac_configuracio.this,
-                    Globals.g_Native.getString(R.string.error_Layout),
-                    Toast.LENGTH_LONG).show();
+            SQLClientsDAO.Modificar(l_client);
         }
+        // Gravem les dades del client i tornem enrera
+        Globals.g_Client = l_client;
+        this.finish();
     }
+    else{
+        Toast.makeText(ac_configuracio.this,
+                Globals.g_Native.getString(R.string.error_Layout),
+                Toast.LENGTH_LONG).show();
+    }
+}
 
     public void btnEsborrarOnClick(View view) {
         lTXT_Prova.setError(null);

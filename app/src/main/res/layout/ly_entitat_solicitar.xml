@@ -63,7 +63,8 @@
                     android:layout_marginRight="40dp"
                     android:id="@+id/spinnerEntitatSolicitar_Entitat"
                     android:background="#ffff854d"
-                    android:spinnerMode="dialog" />
+                    android:spinnerMode="dropdown"
+                    android:popupBackground="#ffff854d" />
 
                 <Button
                     android:id="@+id/AspaProva"

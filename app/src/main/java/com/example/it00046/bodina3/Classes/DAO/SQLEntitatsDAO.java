@@ -1,5 +1,8 @@
 package com.example.it00046.bodina3.Classes.DAO;
 
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.PhpJson;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SpnEntitat;
@@ -30,7 +33,7 @@ public class SQLEntitatsDAO {
     // Funció per llegir les entitats de un pais, retornem la info per un Spinner
     // AIXÓ DEL SPINNER HO TINDRES QUE PARAMETRITZAR PER ALTRES SITUACIONS!!!!!!!!!!!!!!!!!!!!!!!!!
     //
-    public static List<SpnEntitat> F_Entitats (String p_Pais){
+    public static void F_Entitats (String p_Pais, final Spinner SPN_EntitatsClient){
         final List <SpnEntitat> l_Entitats = new ArrayList<SpnEntitat>();
 
         if (Globals.isNetworkAvailable()){
@@ -72,7 +75,13 @@ public class SQLEntitatsDAO {
                                 SpnEntitat l_spinner = new SpnEntitat(l_entitat, l_entitat.Nom);
                                 l_Entitats.add(l_spinner);
                             }
-                        } else {
+                            ArrayAdapter<SpnEntitat> dataAdapter = new ArrayAdapter<SpnEntitat>(Globals.g_Native.getApplicationContext(),android.R.layout.simple_spinner_item, l_Entitats);
+                            // Drop down layout style - list view with radio button
+                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            // attaching data adapter to spinner
+                            SPN_EntitatsClient.setAdapter(dataAdapter);
+                        }
+                        else {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
                                     Globals.g_Native.getString(R.string.error_greu));
                         }
@@ -87,7 +96,5 @@ public class SQLEntitatsDAO {
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                     Globals.g_Native.getString(R.string.error_greu));
         }
-
-        return l_Entitats;
     }
 }
