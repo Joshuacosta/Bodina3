@@ -1,5 +1,6 @@
 package com.example.it00046.bodina3;
 
+import android.content.Intent;
 import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -59,7 +60,7 @@ public class ac_entitat_solicitar extends ActionBarActivity {
             public void onNothingSelected(AdapterView parent) {
             }
         });
-        // Codi de validacio de la finestra (fem servir la clase estàtica Validació)
+        // Codi de validacio de la finestra (fem servir la clase estï¿½tica Validaciï¿½)
         lTXT_Descripcio.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 Validacio.hasText(lTXT_Descripcio);
@@ -90,7 +91,7 @@ public class ac_entitat_solicitar extends ActionBarActivity {
             }
         });
         /*
-        // Codi de control del camp de texte (la visibilitat del aspa). Aixó anirà dintre
+        // Codi de control del camp de texte (la visibilitat del aspa). Aixï¿½ anirï¿½ dintre
         // del component que has de crear !!!!
         lTXT_Prova.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
@@ -160,6 +161,10 @@ public class ac_entitat_solicitar extends ActionBarActivity {
 
     // Funcio per obrir la finestra de recerca de entitats
     public void btnAfegirEntitatOnClick(View view){
+        Intent intent;
+
+        intent = new Intent(this, ac_entitat_recerca.class);
+        startActivity(intent);
 
     }
 

@@ -43,14 +43,14 @@ else{
 				$Descripcio			= $_POST['DescripcioAssociacio'];
 				$eMail				= $_POST['eMailAssociacio'];
 				//
-				$result = mysql_query("INSERT INTO Associacions (CodiClient, CodiEntitat, DataPeticio, Contacte, Descripcio, eMail, DataDarrerCanvi, Estat)
+				$result = mysql_query("INSERT INTO Associacions (CodiClient, CodiEntitat, DataPeticio, Contacte, Descripcio, eMail, DataDarrerCanvi)
 													VALUES ('".$CodiClient."',
 															'".$CodiEntitat."',
 															'".$Ara."',
 															'".addslashes($Contacte)."',
 															'".addslashes($Descripcio)."',
 															'".$eMail."',
-															'".$Ara."', TRUE)");
+															'".$Ara."'");
 				if (!$result){
 					$response["valids"] = "2";
 					$gestor = fopen("errors/bd.txt","a");

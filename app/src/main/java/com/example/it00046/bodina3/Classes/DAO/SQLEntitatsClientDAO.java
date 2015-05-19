@@ -397,8 +397,8 @@ public final class SQLEntitatsClientDAO {
         l_values.put(TAG_DataDarrerCanviAssociacio, p_entitatClient.DataDarrerCanviAssociacio);
         l_values.put(TAG_EstatAssociacio, p_entitatClient.EstatAssociacio);
         // Com gravem a la BD local posem a false per sapiguer que no es actualiztat al servidor
-        // (ho posarem a cert si l'actualització al servidor va be, es la operacio que es fa
-        // a continuació de gravar a la BBDD local).
+        // (ho posarem a cert si l'actualitzaciï¿½ al servidor va be, es la operacio que es fa
+        // a continuaciï¿½ de gravar a la BBDD local).
         l_values.put(TAG_ActualitzatServidor, false);
         l_values.put(TAG_DataGrabacioLocal, Globals.F_Avui());
         return l_values;

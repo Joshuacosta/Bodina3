@@ -66,12 +66,11 @@ public class ac_principal extends ActionBarActivity {
                 startActivity(intent);
                 return true;
             case R.id.celebracions_AfegirEntitat:
+                intent = new Intent(this, ac_entitat_solicitar.class);
+                startActivity(intent);
                 /*
                     Experiment pasar dades a una activitat
 
-                intent = new Intent(this, ac_entitat_solicitar.class);
-                startActivity(intent);
-                */
                 PAREntitat details = new PAREntitat();
                 details.Adresa = "Adresa";
                 details.eMail = "eMail";
@@ -82,17 +81,14 @@ public class ac_principal extends ActionBarActivity {
                 Intent l_intent = new Intent(this, ac_entitat_detall.class);
                 l_intent.putExtra("Info", details);
                 startActivity(l_intent);
+
+                */
                 return true;
             case R.id.celebracions_Configuracio:
                 intent = new Intent(this, ac_configuracio.class);
                 startActivity(intent);
                 return true;
             case R.id.celebracions_Actualitzar:
-                //  Experiment obrir una activitat amb recerca
-
-                intent = new Intent(this, ac_entitat_solicitar.class);
-                startActivity(intent);
-
                 //
                 return true;
         }
