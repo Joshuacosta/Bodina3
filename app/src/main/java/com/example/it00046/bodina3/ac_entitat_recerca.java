@@ -16,11 +16,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.it00046.bodina3.Classes.DAO.SQLEntitatsDAO;
+import com.example.it00046.bodina3.Classes.Globals;
+import com.example.it00046.bodina3.Classes.SpinnerClasses.SpnEntitat;
+import com.example.it00046.bodina3.Classes.Tipus.Entitat;
+import com.example.it00046.bodina3.Classes.params.PAREntitat;
 
 import org.json.JSONArray;
 
@@ -38,6 +43,55 @@ public class ac_entitat_recerca extends Activity {
         //resultText = (TextView)findViewById(R.id.searchViewResult);
 
         setupSearchView();
+
+        searchResults.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, final View view,
+                                        int position, long id) {
+
+                return true;
+            }
+        });
+
+        searchResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+                SpnEntitat l_Aux;
+                Entitat l_Entitat;
+
+                l_Aux = (SpnEntitat) parent.getItemAtPosition(position);
+                l_Entitat = l_Aux.getId();
+                PAREntitat details = new PAREntitat();
+                details.Adresa = l_Entitat.Adresa;
+                details.eMail = l_Entitat.eMail;
+                details.Nom = l_Entitat.Nom;
+                details.Telefon = l_Entitat.Telefon;
+                details.Contacte = l_Entitat.Contacte;
+
+                Intent l_intent = new Intent(Globals.g_Native.getApplicationContext(), ac_entitat_detall.class);
+                l_intent.putExtra("Info", details);
+                startActivity(l_intent);
+                //overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
+                /*
+                final String item = (String) parent.getItemAtPosition(position);
+                view.animate().setDuration(2000).alpha(0)
+                        .withEndAction(new Runnable() {
+                            @Override
+                            public void run() {
+                                list.remove(item);
+                                adapter.notifyDataSetChanged();
+                                view.setAlpha(1);
+                            }
+                        });
+                */
+            }
+
+        });
     }
 
     private void setupSearchView() {
