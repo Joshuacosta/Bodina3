@@ -22,6 +22,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.it00046.bodina3.Classes.DAO.SQLEntitatsDAO;
+import com.example.it00046.bodina3.Classes.ExpandAnimation;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SpnEntitat;
 import com.example.it00046.bodina3.Classes.Tipus.Entitat;
@@ -59,6 +60,16 @@ public class ac_entitat_recerca extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
+
+                View toolbar = view.findViewById(R.id.toolbar);
+
+                // Creating the expand animation for the item
+                ExpandAnimation expandAni = new ExpandAnimation(toolbar, 100);
+
+                // Start the animation on the toolbar
+                toolbar.startAnimation(expandAni);
+
+                /*
                 SpnEntitat l_Aux;
                 Entitat l_Entitat;
 

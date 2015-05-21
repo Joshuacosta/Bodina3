@@ -1,8 +1,14 @@
 package com.example.it00046.bodina3.Classes.DAO;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.PhpJson;
@@ -125,6 +131,10 @@ public class SQLEntitatsDAO {
                     try {
                         String l_Resposta = p_entitats.getString(Globals.TAG_VALIDS);
                         if (l_Resposta.equals(Globals.k_PHPOK)) {
+                            //
+                            //ArrayAdapter<String> listAdapter = new CustomListAdapter(Globals.g_Native.getApplicationContext(), R.layout.list_item);
+                            ArrayAdapter<Entitat> listAdapter = new CustomListAdapter(Globals.g_Native.getApplicationContext(), R.layout.list_item);
+
                             // Llegim les entitats
                             JSONArray l_ArrayEntitats = null;
                             l_ArrayEntitats = p_entitats.getJSONArray(Globals.g_Native.getString(R.string.TEntitats));
@@ -143,14 +153,22 @@ public class SQLEntitatsDAO {
                                 // Carreguem
                                 SpnEntitat l_spinner = new SpnEntitat(l_entitat, l_entitat.Nom);
                                 l_Entitats.add(l_spinner);
+
+
+                                listAdapter.add(l_entitat);
                             }
                             //ArrayAdapter<SpnEntitat> dataAdapter = new ArrayAdapter<SpnEntitat>(Globals.g_Native.getApplicationContext(),android.R.layout.simple_spinner_item, l_Entitats);
                             // Drop down layout style - list view with radio button
                             //dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             // attaching data adapter to list
+                            /*
                             final ArrayAdapter dataAdapter = new ArrayAdapter(Globals.g_Native.getApplicationContext(),
                                     android.R.layout.simple_list_item_1, l_Entitats);
                             LV_Entitats.setAdapter(dataAdapter);
+                            */
+
+                            LV_Entitats.setAdapter(listAdapter);
+
                         }
                         else {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
@@ -166,6 +184,33 @@ public class SQLEntitatsDAO {
         else{
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                     Globals.g_Native.getString(R.string.error_greu));
+        }
+    }
+
+    static class CustomListAdapter extends ArrayAdapter<Entitat> {
+
+        public CustomListAdapter(Context context, int textViewResourceId) {
+            super(context, textViewResourceId);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            LayoutInflater inflater = LayoutInflater.from(Globals.g_Native);
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.list_item, null);
+            }
+
+            ((TextView)convertView.findViewById(R.id.NomEntitatRecerca)).setText(getItem(position).Nom);
+            ((TextView)convertView.findViewById(R.id.AdresaRecerca)).setText(getItem(position).Adresa);
+            ((TextView)convertView.findViewById(R.id.ContacteRecerca)).setText(getItem(position).Contacte);
+
+            // Resets the toolbar to be closed
+            View toolbar = convertView.findViewById(R.id.toolbar);
+            ((LinearLayout.LayoutParams) toolbar.getLayoutParams()).bottomMargin = -50;
+            toolbar.setVisibility(View.GONE);
+
+            return convertView;
         }
     }
 }
