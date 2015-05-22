@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    tools:context=".ac_entitat_recerca">
+
     <TextView android:id="@+id/NomEntitatRecerca"
         android:padding="20dip"
         android:focusable="false"
@@ -17,9 +20,9 @@
     <!--***********************-->
 
     <LinearLayout android:id="@+id/toolbar"
-        android:layout_marginBottom="-100dip"
+        android:layout_marginBottom="-120dip"
         android:visibility="gone"
-        android:layout_height="100dip"
+        android:layout_height="120dip"
         android:orientation="vertical"
         android:layout_width="fill_parent">
         <TextView android:id="@+id/AdresaRecerca"
@@ -34,12 +37,23 @@
             android:focusableInTouchMode="false"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
-        <Button android:id="@+id/doSomething1"
-            android:layout_height="50dip"
+        <TextView android:id="@+id/TelefonRecerca"
             android:focusable="false"
             android:paddingLeft="40dp"
             android:focusableInTouchMode="false"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/eMailRecerca"
+            android:focusable="false"
+            android:paddingLeft="40dp"
+            android:focusableInTouchMode="false"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+        <Button android:id="@+id/Seleccionar"
+            android:layout_height="50dip"
+            android:paddingLeft="40dp"
             android:layout_width="wrap_content"
-            android:text="Harder"/>
+            android:text="@string/Seleccionar"
+            android:onClick="btnEntitatRecerca_Acceptar"/>
     </LinearLayout>
 </LinearLayout>

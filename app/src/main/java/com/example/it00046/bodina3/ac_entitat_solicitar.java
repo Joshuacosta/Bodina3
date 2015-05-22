@@ -1,5 +1,6 @@
 package com.example.it00046.bodina3;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
@@ -33,6 +34,8 @@ public class ac_entitat_solicitar extends ActionBarActivity {
     private Spinner lSPN_EntitatsClient;
     private EditText lTXT_Descripcio, lTXT_Contacte, lTXT_eMail;
     private TextView lTextEntitat;
+
+    static final int PICK_ENTITAT_RECERCA = 1;  // The request code
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,9 +166,26 @@ public class ac_entitat_solicitar extends ActionBarActivity {
     public void btnAfegirEntitatOnClick(View view){
         Intent intent;
 
-        intent = new Intent(this, ac_entitat_recerca.class);
-        startActivity(intent);
 
+        intent = new Intent(this, ac_entitat_recerca.class);
+        startActivityForResult(intent, PICK_ENTITAT_RECERCA);
+
+    }
+
+    // Resposta de la recerca
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (PICK_ENTITAT_RECERCA) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    PAREntitat l_dadesEntitat = (PAREntitat) data.getSerializableExtra("Seleccio");
+
+                    lSPN_EntitatsClient.setSelection(((ArrayAdapter)lSPN_EntitatsClient.getAdapter()).getPosition(l_dadesEntitat.Nom));
+                }
+                break;
+            }
+        }
     }
 
     @Override

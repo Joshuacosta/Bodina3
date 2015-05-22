@@ -141,12 +141,26 @@ public class ac_entitat_recerca extends Activity {
                     //myAsyncTask m = (myAsyncTask) new myAsyncTask().execute(newText);
                     SQLEntitatsDAO.F_LlistaEntitats("", searchResults);
                 } else {
-
                     searchResults.setVisibility(View.INVISIBLE);
                 }
                 return false;
             }
         });
+    }
+
+
+    public void btnEntitatRecerca_Acceptar(View view) {
+        // Acceptem la entitat triada
+        Intent resultIntent = new Intent();
+        // TODO Add extras or a data URI to this intent as appropriate.
+        PAREntitat l_Parametre = new PAREntitat();
+        Entitat l_Entitat = (Entitat)searchResults.getSelectedItem();
+
+        l_Parametre.Codi = l_Entitat.Codi;
+        l_Parametre.Nom = l_Entitat.Nom;
+        resultIntent.putExtra("Seleccio", l_Parametre);
+        setResult(Activity.RESULT_OK, resultIntent);
+        this.finish();
     }
 
     /*

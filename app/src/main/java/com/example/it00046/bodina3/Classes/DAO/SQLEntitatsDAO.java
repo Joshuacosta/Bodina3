@@ -204,10 +204,12 @@ public class SQLEntitatsDAO {
             ((TextView)convertView.findViewById(R.id.NomEntitatRecerca)).setText(getItem(position).Nom);
             ((TextView)convertView.findViewById(R.id.AdresaRecerca)).setText(getItem(position).Adresa);
             ((TextView)convertView.findViewById(R.id.ContacteRecerca)).setText(getItem(position).Contacte);
+            ((TextView)convertView.findViewById(R.id.TelefonRecerca)).setText(getItem(position).Telefon);
+            ((TextView)convertView.findViewById(R.id.eMailRecerca)).setText(getItem(position).eMail);
 
             // Resets the toolbar to be closed
             View toolbar = convertView.findViewById(R.id.toolbar);
-            ((LinearLayout.LayoutParams) toolbar.getLayoutParams()).bottomMargin = -50;
+            ((LinearLayout.LayoutParams) toolbar.getLayoutParams()).bottomMargin = -120;
             toolbar.setVisibility(View.GONE);
 
             return convertView;

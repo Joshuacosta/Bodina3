@@ -14,6 +14,7 @@
     <string name="op_esborrar_ok">Deleted item</string>
     <string name="boto_Acceptar">Accept</string>
     <string name="boto_Cancelar">Cancel</string>
+    <string name="Seleccionar">Select</string>
 
     <!-- Errors codi -->
     <string name="error_avis">Alert</string>
