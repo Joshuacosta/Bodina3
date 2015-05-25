@@ -68,8 +68,12 @@ public class ac_entitat_solicitar extends ActionBarActivity {
             public void afterTextChanged(Editable s) {
                 Validacio.hasText(lTXT_Descripcio);
             }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){}
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
         });
         lTXT_Contacte.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
@@ -181,7 +185,17 @@ public class ac_entitat_solicitar extends ActionBarActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     PAREntitat l_dadesEntitat = (PAREntitat) data.getSerializableExtra("Seleccio");
 
-                    lSPN_EntitatsClient.setSelection(((ArrayAdapter)lSPN_EntitatsClient.getAdapter()).getPosition(l_dadesEntitat.Nom));
+                    //int aux = ((ArrayAdapter)lSPN_EntitatsClient.getAdapter()).getPosition(l_dadesEntitat.Nom);
+                    //lSPN_EntitatsClient.setSelection(aux);
+                    Entitat l_entitat = new Entitat();
+                    l_entitat.Nom = l_dadesEntitat.Nom;
+                    l_entitat.Codi = l_dadesEntitat.Codi;
+
+                    SpnEntitat l_spinner = new SpnEntitat(l_entitat, l_entitat.Nom);
+
+                    ((ArrayAdapter)lSPN_EntitatsClient.getAdapter()).add(l_spinner);
+                    ((ArrayAdapter)lSPN_EntitatsClient.getAdapter()).notifyDataSetChanged();
+                    lSPN_EntitatsClient.setSelection(lSPN_EntitatsClient.getCount());
                 }
                 break;
             }

@@ -35,6 +35,7 @@ public class ac_entitat_recerca extends Activity {
 
     private TextView resultText;
     ListView searchResults;
+    private int l_Posicio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class ac_entitat_recerca extends Activity {
         setContentView(R.layout.ly_entitat_recerca);
 
         //resultText = (TextView)findViewById(R.id.searchViewResult);
-
+        Globals.g_Recerca = this;
         setupSearchView();
 
         searchResults.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -60,6 +61,8 @@ public class ac_entitat_recerca extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
+
+                l_Posicio = position;
 
                 View toolbar = view.findViewById(R.id.toolbar);
 
@@ -152,9 +155,9 @@ public class ac_entitat_recerca extends Activity {
     public void btnEntitatRecerca_Acceptar(View view) {
         // Acceptem la entitat triada
         Intent resultIntent = new Intent();
-        // TODO Add extras or a data URI to this intent as appropriate.
+        // Fem servir PAREntitat perque es serializable
         PAREntitat l_Parametre = new PAREntitat();
-        Entitat l_Entitat = (Entitat)searchResults.getSelectedItem();
+        Entitat l_Entitat = (Entitat)searchResults.getItemAtPosition(l_Posicio);
 
         l_Parametre.Codi = l_Entitat.Codi;
         l_Parametre.Nom = l_Entitat.Nom;

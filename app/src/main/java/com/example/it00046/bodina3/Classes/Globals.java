@@ -30,6 +30,7 @@ public final class Globals
     public static Boolean g_NoHiHanDades = true;
     public static Client g_Client = new Client();
     public static Context g_Native;
+    public static Context g_Recerca;
     public static Boolean g_HiHaXarxa = false;
 
     public static SQLClientsDAO g_Clients_DAO;

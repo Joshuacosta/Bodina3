@@ -1,21 +1,14 @@
 package com.example.it00046.bodina3.Classes.DAO;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
+import com.example.it00046.bodina3.Classes.CustomList.RecercaEntitats;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.PhpJson;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SpnEntitat;
-import com.example.it00046.bodina3.Classes.Tipus.Client;
 import com.example.it00046.bodina3.Classes.Tipus.Entitat;
-import com.example.it00046.bodina3.Classes.params.PAREntitat;
 import com.example.it00046.bodina3.R;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -105,12 +98,9 @@ public class SQLEntitatsDAO {
         }
     }
     //
-    // Funci� per llegir les entitats de un pais, retornem la info per un Spinner
-    // AIX� DEL SPINNER HO TINDRES QUE PARAMETRITZAR PER ALTRES SITUACIONS!!!!!!!!!!!!!!!!!!!!!!!!!
+    // Funció per llegir les entitats de un pais, retornem la info per un ListView
     //
     public static void F_LlistaEntitats (String p_Pais, final ListView LV_Entitats){
-        final List <SpnEntitat> l_Entitats = new ArrayList<SpnEntitat>();
-
         if (Globals.isNetworkAvailable()){
             // Montem el php
             g_parametresPHP = new RequestParams();
@@ -132,8 +122,7 @@ public class SQLEntitatsDAO {
                         String l_Resposta = p_entitats.getString(Globals.TAG_VALIDS);
                         if (l_Resposta.equals(Globals.k_PHPOK)) {
                             //
-                            //ArrayAdapter<String> listAdapter = new CustomListAdapter(Globals.g_Native.getApplicationContext(), R.layout.list_item);
-                            ArrayAdapter<Entitat> listAdapter = new CustomListAdapter(Globals.g_Native.getApplicationContext(), R.layout.list_item);
+                            ArrayAdapter<Entitat> listAdapter = new RecercaEntitats(Globals.g_Native.getApplicationContext(), R.layout.custom_recerca_entitats);
 
                             // Llegim les entitats
                             JSONArray l_ArrayEntitats = null;
@@ -151,24 +140,10 @@ public class SQLEntitatsDAO {
                                 l_entitat.Pais = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Pais));
                                 l_entitat.Estat = l_entitatServidor.getInt(Globals.g_Native.getString(R.string.TEntitats_Estat));
                                 // Carreguem
-                                SpnEntitat l_spinner = new SpnEntitat(l_entitat, l_entitat.Nom);
-                                l_Entitats.add(l_spinner);
-
-
                                 listAdapter.add(l_entitat);
                             }
-                            //ArrayAdapter<SpnEntitat> dataAdapter = new ArrayAdapter<SpnEntitat>(Globals.g_Native.getApplicationContext(),android.R.layout.simple_spinner_item, l_Entitats);
-                            // Drop down layout style - list view with radio button
-                            //dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            // attaching data adapter to list
-                            /*
-                            final ArrayAdapter dataAdapter = new ArrayAdapter(Globals.g_Native.getApplicationContext(),
-                                    android.R.layout.simple_list_item_1, l_Entitats);
-                            LV_Entitats.setAdapter(dataAdapter);
-                            */
-
+                            // Associem
                             LV_Entitats.setAdapter(listAdapter);
-
                         }
                         else {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
@@ -184,35 +159,6 @@ public class SQLEntitatsDAO {
         else{
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                     Globals.g_Native.getString(R.string.error_greu));
-        }
-    }
-
-    static class CustomListAdapter extends ArrayAdapter<Entitat> {
-
-        public CustomListAdapter(Context context, int textViewResourceId) {
-            super(context, textViewResourceId);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            LayoutInflater inflater = LayoutInflater.from(Globals.g_Native);
-            if (convertView == null) {
-                convertView = inflater.inflate(R.layout.list_item, null);
-            }
-
-            ((TextView)convertView.findViewById(R.id.NomEntitatRecerca)).setText(getItem(position).Nom);
-            ((TextView)convertView.findViewById(R.id.AdresaRecerca)).setText(getItem(position).Adresa);
-            ((TextView)convertView.findViewById(R.id.ContacteRecerca)).setText(getItem(position).Contacte);
-            ((TextView)convertView.findViewById(R.id.TelefonRecerca)).setText(getItem(position).Telefon);
-            ((TextView)convertView.findViewById(R.id.eMailRecerca)).setText(getItem(position).eMail);
-
-            // Resets the toolbar to be closed
-            View toolbar = convertView.findViewById(R.id.toolbar);
-            ((LinearLayout.LayoutParams) toolbar.getLayoutParams()).bottomMargin = -120;
-            toolbar.setVisibility(View.GONE);
-
-            return convertView;
         }
     }
 }
