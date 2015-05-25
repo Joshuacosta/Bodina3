@@ -122,7 +122,7 @@ public class SQLEntitatsDAO {
                         String l_Resposta = p_entitats.getString(Globals.TAG_VALIDS);
                         if (l_Resposta.equals(Globals.k_PHPOK)) {
                             //
-                            ArrayAdapter<Entitat> listAdapter = new RecercaEntitats(Globals.g_Native.getApplicationContext(), R.layout.custom_recerca_entitats);
+                            ArrayAdapter<Entitat> listAdapter = new RecercaEntitats(Globals.g_Native.getApplicationContext(), R.layout.lycustom_recerca_entitats);
 
                             // Llegim les entitats
                             JSONArray l_ArrayEntitats = null;

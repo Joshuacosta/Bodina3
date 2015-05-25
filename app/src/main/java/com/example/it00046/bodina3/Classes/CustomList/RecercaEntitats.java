@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.Tipus.Entitat;
 import com.example.it00046.bodina3.R;
 
@@ -16,22 +17,16 @@ import com.example.it00046.bodina3.R;
  */
 public final class RecercaEntitats extends ArrayAdapter<Entitat> {
 
-    private final Context context;
-
     public RecercaEntitats(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
-        this.context = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater inflater = LayoutInflater.from(Globals.g_Recerca);
-
-        //LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.custom_recerca_entitats, null);
+            convertView = inflater.inflate(R.layout.lycustom_recerca_entitats, null);
         }
 
         ((TextView)convertView.findViewById(R.id.NomEntitatRecerca)).setText(getItem(position).Nom);
