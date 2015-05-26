@@ -33,14 +33,14 @@ public class SQLEntitatsDAO {
     // Funci� per llegir les entitats de un pais, retornem la info per un Spinner
     // AIX� DEL SPINNER HO TINDRES QUE PARAMETRITZAR PER ALTRES SITUACIONS!!!!!!!!!!!!!!!!!!!!!!!!!
     //
-    public static void F_Entitats (String p_Pais, final Spinner SPN_EntitatsClient){
+    public static void F_Entitats (String p_CodiClient, final Spinner SPN_EntitatsClient){
         final List <SpnEntitat> l_Entitats = new ArrayList<SpnEntitat>();
 
         if (Globals.isNetworkAvailable()){
             // Montem el php
             g_parametresPHP = new RequestParams();
-            g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Pais), p_Pais);
-            g_parametresPHP.put(Globals.TAG_OPERATIVA, Globals.k_OPE_LlegirEntitatsPais);
+            g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_CodiClient), p_CodiClient);
+            g_parametresPHP.put(Globals.TAG_OPERATIVA, Globals.k_OPE_LlegirEntitatsClient);
             PhpJson.post("Entitats.php", g_parametresPHP, new JsonHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode,

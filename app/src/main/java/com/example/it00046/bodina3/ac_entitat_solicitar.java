@@ -51,7 +51,7 @@ public class ac_entitat_solicitar extends ActionBarActivity {
         // Spinners:
         lSPN_EntitatsClient = (Spinner)findViewById(R.id.spinnerEntitatSolicitar_Entitat);
         // Codi per tractar el spinner de les entitats del client
-        SQLEntitatsDAO.F_Entitats(Globals.g_Client.Pais, lSPN_EntitatsClient);
+        SQLEntitatsDAO.F_Entitats(Globals.g_Client.CodiClient, lSPN_EntitatsClient);
         // Codi del Spinner de entitats del client
         lSPN_EntitatsClient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
