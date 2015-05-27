@@ -35,7 +35,7 @@ public class ac_entitat_solicitar extends ActionBarActivity {
     private EditText lTXT_Descripcio, lTXT_Contacte, lTXT_eMail;
     private TextView lTextEntitat;
 
-    static final int PICK_ENTITAT_RECERCA = 1;  // The request code
+    static final int PICK_ENTITAT_RECERCA = 1;  // Codis de resposta
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,75 +50,71 @@ public class ac_entitat_solicitar extends ActionBarActivity {
         lTextEntitat = (TextView) findViewById(R.id.litEntitatSolicitar_Entitat);
         // Spinners:
         lSPN_EntitatsClient = (Spinner)findViewById(R.id.spinnerEntitatSolicitar_Entitat);
-        // Codi per tractar el spinner de les entitats del client
-        SQLEntitatsDAO.F_Entitats(Globals.g_Client.CodiClient, lSPN_EntitatsClient);
+        // Llegim LOCALMENT les entitats amb les que el client te activitat
+        SQLEntitatsDAO.F_LOCAL_LlegirEntitats(lSPN_EntitatsClient);
         // Codi del Spinner de entitats del client
         lSPN_EntitatsClient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView parent, View view, int pos, long id) {
+                SpnEntitat l_SpnEntitat;
+                Entitat l_dadesEntitat = new Entitat();
                 // Esborrem possible error
                 lTextEntitat.setError(null);
+                // Si es una entitat de les "nostres" (amb la que hem treballat) recuperem
+                // el e-mail i el contacte que vem donar i els posem en els camps
+                l_SpnEntitat = (SpnEntitat) lSPN_EntitatsClient.getSelectedItem();
+                if (l_SpnEntitat.EsNova() == false) {
+                    l_dadesEntitat = l_SpnEntitat.getId();
+                    lTXT_eMail.setText(l_dadesEntitat.eMail);
+                    lTXT_Contacte.setText(l_dadesEntitat.Contacte);
+                }
+                else{
+                    lTXT_eMail.setText("");
+                    lTXT_Contacte.setText("");
+                }
             }
             @Override
             public void onNothingSelected(AdapterView parent) {
             }
         });
-        // Codi de validacio de la finestra (fem servir la clase est�tica Validaci�)
+        // Codi de validacio dels camps de la finestra (fem servir la clase estatica Validacio)
         lTXT_Descripcio.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                Validacio.hasText(lTXT_Descripcio);
+                //Validacio.hasText(lTXT_Descripcio);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                lTXT_Descripcio.setError(null);
             }
         });
         lTXT_Contacte.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                Validacio.hasText(lTXT_Contacte);
+                //Validacio.hasText(lTXT_Contacte);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                lTXT_Contacte.setError(null);
             }
         });
         lTXT_eMail.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                Validacio.isEmailAddress(lTXT_eMail, true);
+                //Validacio.isEmailAddress(lTXT_eMail, true);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                lTXT_eMail.setError(null);
             }
         });
-        /*
-        // Codi de control del camp de texte (la visibilitat del aspa). Aix� anir� dintre
-        // del component que has de crear !!!!
-        lTXT_Prova.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    l_BotoEsborrar.setVisibility(View.VISIBLE);
-                } else {
-                    l_BotoEsborrar.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
-        */
-
     }
-
     // Funcio interna per validar la finestra
     private boolean ValidarFinestra() {
         boolean ret = true;
@@ -126,34 +122,40 @@ public class ac_entitat_solicitar extends ActionBarActivity {
         if (!Validacio.hasText(lTXT_Descripcio)) ret = false;
         if (!Validacio.hasText(lTXT_Contacte)) ret = false;
         if (!Validacio.isEmailAddress(lTXT_eMail, true)) ret = false;
-        if (lSPN_EntitatsClient.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))){
-            lTextEntitat.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
+        if (lSPN_EntitatsClient.getCount() > 0) {
+            if (lSPN_EntitatsClient.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))) {
+                lTextEntitat.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
+                ret = false;
+            }
+        }
+        else{
             ret = false;
         }
-
         return ret;
     }
-
+    // Codi de acceptació
     public void btnEntitatSolicitar_Acceptar(View view) {
         EntitatClient l_entitatClient = new EntitatClient();
         Entitat l_dadesEntitat = new Entitat();
         PAREntitat l_entitat = new PAREntitat();
-        SpnEntitat l_Aux;
+        SpnEntitat l_SpnEntitat;
 
         // Validem que els camps estiguin informats
         if (ValidarFinestra()) {
             l_entitatClient.DescripcioAssociacio = lTXT_Descripcio.getText().toString();
             l_entitatClient.ContacteAssociacio = lTXT_Contacte.getText().toString();
             l_entitatClient.eMailAssociacio = lTXT_eMail.getText().toString();
-            l_Aux = (SpnEntitat) lSPN_EntitatsClient.getSelectedItem();
-            l_dadesEntitat = l_Aux.getId();
+            l_SpnEntitat = (SpnEntitat) lSPN_EntitatsClient.getSelectedItem();
+            l_dadesEntitat = l_SpnEntitat.getId();
 
             l_entitatClient.CodiEntitat = l_dadesEntitat.Codi;
+            l_entitatClient.NomEntitat = l_dadesEntitat.Nom;
             l_entitatClient.eMailEntitat = l_dadesEntitat.eMail;
             l_entitatClient.ContacteEntitat = l_dadesEntitat.Contacte;
             l_entitatClient.AdresaEntitat = l_dadesEntitat.Adresa;
             l_entitatClient.TelefonEntitat = l_dadesEntitat.Telefon;
             l_entitatClient.PaisEntitat = l_dadesEntitat.Pais;
+            // Ho poso a 1 o llegeixo la info recuperada?...
             l_entitatClient.EstatEntitat = 1;
             //
             SQLEntitatsClientDAO.Solicitar(l_entitatClient);
@@ -165,17 +167,12 @@ public class ac_entitat_solicitar extends ActionBarActivity {
                     Toast.LENGTH_LONG).show();
         }
     }
-
+    //
     // Funcio per obrir la finestra de recerca de entitats
     public void btnAfegirEntitatOnClick(View view){
-        Intent intent;
-
-
-        intent = new Intent(this, ac_entitat_recerca.class);
+        Intent intent = new Intent(this, ac_entitat_recerca.class);
         startActivityForResult(intent, PICK_ENTITAT_RECERCA);
-
     }
-
     // Resposta de la recerca
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -184,16 +181,19 @@ public class ac_entitat_solicitar extends ActionBarActivity {
             case (PICK_ENTITAT_RECERCA) : {
                 if (resultCode == Activity.RESULT_OK) {
                     PAREntitat l_dadesEntitat = (PAREntitat) data.getSerializableExtra("Seleccio");
-
-                    //int aux = ((ArrayAdapter)lSPN_EntitatsClient.getAdapter()).getPosition(l_dadesEntitat.Nom);
-                    //lSPN_EntitatsClient.setSelection(aux);
                     Entitat l_entitat = new Entitat();
-                    l_entitat.Nom = l_dadesEntitat.Nom;
+                    // Recuperem les dades de la entitat amb la que volem associar-nos i l'afegirm
+                    // al Spinner
                     l_entitat.Codi = l_dadesEntitat.Codi;
-
-                    SpnEntitat l_spinner = new SpnEntitat(l_entitat, l_entitat.Nom);
-
+                    l_entitat.Pais = l_dadesEntitat.Pais;
+                    l_entitat.Nom = l_dadesEntitat.Nom;
+                    l_entitat.eMail = l_dadesEntitat.eMail;
+                    l_entitat.Contacte = l_dadesEntitat.Contacte;
+                    l_entitat.Adresa = l_dadesEntitat.Adresa;
+                    l_entitat.Telefon = l_dadesEntitat.Telefon;
+                    SpnEntitat l_spinner = new SpnEntitat(l_entitat, l_entitat.Nom, true);
                     ((ArrayAdapter)lSPN_EntitatsClient.getAdapter()).add(l_spinner);
+                    // Notifiquem el canvi i ens posicionem al final per seleccionar el element
                     ((ArrayAdapter)lSPN_EntitatsClient.getAdapter()).notifyDataSetChanged();
                     lSPN_EntitatsClient.setSelection(lSPN_EntitatsClient.getCount());
                 }

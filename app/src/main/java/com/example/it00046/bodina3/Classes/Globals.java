@@ -9,7 +9,7 @@ import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.provider.Settings;
+import android.provider.Settings.Secure;
 
 import com.example.it00046.bodina3.Classes.DAO.SQLClientsDAO;
 import com.example.it00046.bodina3.Classes.Tipus.Client;
@@ -78,7 +78,7 @@ public final class Globals
         //return wInfo.getMacAddress();
         //
         // I amb aquest recuperem el que ens interesa, el ANDROID_ID
-        return Settings.Secure.ANDROID_ID;
+        return Secure.ANDROID_ID.toString();
     }
 
     public static void F_Alert(String p_capcalera, String p_texte) {

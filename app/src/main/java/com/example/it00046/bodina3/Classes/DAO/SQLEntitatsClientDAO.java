@@ -50,7 +50,7 @@ public final class SQLEntitatsClientDAO {
     private static final String TAG_DataDarrerCanviAssociacio = Globals.g_Native.getString(R.string.TEntitatsClient_DataDarrerCanviAssociacio);
     private static final String TAG_EstatAssociacio = Globals.g_Native.getString(R.string.TEntitatsClient_EstatAssociacio);
     private static final String TAG_ActualitzatServidor = Globals.g_Native.getString(R.string.TEntitatsClient_ActualitzatServidor);
-    private static final String TAG_DataGrabacioLocal = Globals.g_Native.getString(R.string.TEntitatsClient_DataGrabaciotLocal);
+    private static final String TAG_DataGrabacioLocal = Globals.g_Native.getString(R.string.TEntitatsClient_DataGrabacioLocal);
     private static final String TAG_DataGrabacioServidor = Globals.g_Native.getString(R.string.TEntitatsClient_DataGrabacioServidor);
     //
     //

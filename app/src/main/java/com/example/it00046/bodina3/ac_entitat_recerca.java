@@ -51,7 +51,6 @@ public class ac_entitat_recerca extends Activity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, final View view,
                                         int position, long id) {
-
                 return true;
             }
         });
@@ -116,9 +115,14 @@ public class ac_entitat_recerca extends Activity {
         // Fem servir PAREntitat perque es serializable
         PAREntitat l_Parametre = new PAREntitat();
         Entitat l_Entitat = (Entitat)searchResults.getItemAtPosition(l_Posicio);
-        // Carreguem les dades
+        // Carreguem les dades de la entitat i les tornem
         l_Parametre.Codi = l_Entitat.Codi;
         l_Parametre.Nom = l_Entitat.Nom;
+        l_Parametre.Adresa = l_Entitat.Adresa;
+        l_Parametre.Contacte = l_Entitat.Contacte;
+        l_Parametre.eMail = l_Entitat.eMail;
+        l_Parametre.Pais = l_Entitat.Pais;
+        l_Parametre.Telefon = l_Entitat.Telefon;
         resultIntent.putExtra("Seleccio", l_Parametre);
         setResult(Activity.RESULT_OK, resultIntent);
         this.finish();

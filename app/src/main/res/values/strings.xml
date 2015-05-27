@@ -146,7 +146,7 @@
     <string name="TEntitatsClient_DataDarrerCanviAssociacio">DataDarrerCanviAssociacio</string>
     <string name="TEntitatsClient_EstatAssociacio">EstatAssociacio</string>
     <string name="TEntitatsClient_ActualitzatServidor">ActualitzatServidor</string>
-    <string name="TEntitatsClient_DataGrabaciotLocal">DataGrabacioLocal</string>
+    <string name="TEntitatsClient_DataGrabacioLocal">DataGrabacioLocal</string>
     <string name="TEntitatsClient_DataGrabacioServidor">DataGrabacioServidor</string>
     <!-- LLista camps -->
     <string-array name="TEntitatsClient_Camps">
@@ -168,12 +168,12 @@
         <item>@string/TEntitatsClient_DataDarrerCanviAssociacio</item>
         <item>@string/TEntitatsClient_EstatAssociacio</item>
         <item>@string/TEntitatsClient_ActualitzatServidor</item>
-        <item>@string/TEntitatsClient_DataGrabaciotLocal</item>
+        <item>@string/TEntitatsClient_DataGrabacioLocal</item>
         <item>@string/TEntitatsClient_DataGrabacioServidor</item>
     </string-array>
     <!-- Funcions -->
-    <string name="TEntitatsClientCreate">CREATE TABLE %1$s (
-                                %2$d INTEGER PRIMARY KEY,
+    <string name="TEntitatsClient_Create">CREATE TABLE %1$s (
+                                %2$s VARCHAR(10) PRIMARY KEY,
                                 %3$s VARCHAR(100),
 				                %4$s VARCHAR(100),
 				                %5$s VARCHAR(20),
