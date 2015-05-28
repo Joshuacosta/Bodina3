@@ -66,7 +66,7 @@ else{
 				}
 				break;
 				
-			case 1: // Llista de entitats segons client (son les entitats amb les que ha treballar el client)
+			case 1: // Llista de entitats segons client (son les entitats amb les treballa el client)
 				/* Recuperem les dades d'entrada */
 				$CodiClient = $_POST['CodiClient'];			
 				// Fem la select amb les entitats del client
@@ -104,9 +104,9 @@ else{
 					}	
 				}						
 				break;
-				
+
 			case 2: //
-				break;				
+				break;
         }
 	}
 }

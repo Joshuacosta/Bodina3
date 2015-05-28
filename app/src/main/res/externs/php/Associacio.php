@@ -59,7 +59,33 @@ else{
 				}
 				break;
 				
-			case 1: //
+			case 1: // Llegim les associacions del client
+				/* Recuperem les dades d'entrada */
+				$CodiClient = $_POST['CodiClient'];
+				$result = mysql_query("SELECT * FROM Associacions WHERE CodiClient = '".$CodiClient."'");
+				if (!$result){
+					$response["valids"] = "2";
+					$gestor = fopen("errors/bd.txt","a");
+					fwrite($gestor,$Avui.">>> Associacio.PHP//Clients//Select associacions client//".mysql_errno()."//".mysql_error()."//Values:".$CodiClient."\n");
+					fclose($gestor);
+				}
+				else{
+					$response["Associacions"] = array();
+					if (mysql_num_rows($result) > 0) {	 
+						while ($row = mysql_fetch_array($result)) {
+							$Associacio = array();
+							$Associacio["Codi"] = $row["Codi"];
+							$Associacio["Nom"] = $row["Nom"];
+							$Associacio["eMail"] = $row["eMail"];
+							$Associacio["Pais"] = $row["Pais"];
+							$Associacio["Adresa"] = $row["Adresa"];
+							$Associacio["Contacte"] = $row["Contacte"];
+							$Associacio["Telefon"] = $row["Telefon"];
+							$Associacio["Estat"] = $row["Estat"];
+							array_push($response["Associacions"], $Associacio);
+						}							
+					}						
+				}
 				break;
 				
 			case 2: //

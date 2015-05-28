@@ -50,8 +50,8 @@ public class ac_entitat_solicitar extends ActionBarActivity {
         lTextEntitat = (TextView) findViewById(R.id.litEntitatSolicitar_Entitat);
         // Spinners:
         lSPN_EntitatsClient = (Spinner)findViewById(R.id.spinnerEntitatSolicitar_Entitat);
-        // Llegim LOCALMENT les entitats amb les que el client te activitat
-        SQLEntitatsDAO.F_LOCAL_LlegirEntitats(lSPN_EntitatsClient);
+        // Llegim en el SERVIDOR les entitats del pais del client
+        SQLEntitatsDAO.F_SERVIDOR_LlistaEntitats(Globals.g_Client.Pais, lSPN_EntitatsClient);
         // Codi del Spinner de entitats del client
         lSPN_EntitatsClient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -79,40 +79,19 @@ public class ac_entitat_solicitar extends ActionBarActivity {
         });
         // Codi de validacio dels camps de la finestra (fem servir la clase estatica Validacio)
         lTXT_Descripcio.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-                //Validacio.hasText(lTXT_Descripcio);
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                lTXT_Descripcio.setError(null);
-            }
+            public void afterTextChanged(Editable s) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {lTXT_Descripcio.setError(null);}
         });
         lTXT_Contacte.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-                //Validacio.hasText(lTXT_Contacte);
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                lTXT_Contacte.setError(null);
-            }
+            public void afterTextChanged(Editable s) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {lTXT_Contacte.setError(null);}
         });
         lTXT_eMail.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-                //Validacio.isEmailAddress(lTXT_eMail, true);
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                lTXT_eMail.setError(null);
-            }
+            public void afterTextChanged(Editable s) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {lTXT_eMail.setError(null);}
         });
     }
     // Funcio interna per validar la finestra
@@ -122,13 +101,8 @@ public class ac_entitat_solicitar extends ActionBarActivity {
         if (!Validacio.hasText(lTXT_Descripcio)) ret = false;
         if (!Validacio.hasText(lTXT_Contacte)) ret = false;
         if (!Validacio.isEmailAddress(lTXT_eMail, true)) ret = false;
-        if (lSPN_EntitatsClient.getCount() > 0) {
-            if (lSPN_EntitatsClient.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))) {
-                lTextEntitat.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
-                ret = false;
-            }
-        }
-        else{
+        if (lSPN_EntitatsClient.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))) {
+            lTextEntitat.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
             ret = false;
         }
         return ret;
@@ -180,6 +154,9 @@ public class ac_entitat_solicitar extends ActionBarActivity {
         switch(requestCode) {
             case (PICK_ENTITAT_RECERCA) : {
                 if (resultCode == Activity.RESULT_OK) {
+                    /*
+                    // Aquest codi ja no es fa servir pero el deixem per exemple
+
                     PAREntitat l_dadesEntitat = (PAREntitat) data.getSerializableExtra("Seleccio");
                     Entitat l_entitat = new Entitat();
                     // Recuperem les dades de la entitat amb la que volem associar-nos i l'afegirm
@@ -196,6 +173,10 @@ public class ac_entitat_solicitar extends ActionBarActivity {
                     // Notifiquem el canvi i ens posicionem al final per seleccionar el element
                     ((ArrayAdapter)lSPN_EntitatsClient.getAdapter()).notifyDataSetChanged();
                     lSPN_EntitatsClient.setSelection(lSPN_EntitatsClient.getCount());
+                    */
+
+                    int l_Posicio = data.getIntExtra("Seleccio", -1);
+                    lSPN_EntitatsClient.setSelection(l_Posicio);
                 }
                 break;
             }

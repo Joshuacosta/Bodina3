@@ -7,7 +7,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    android:background="@color/purple"
     tools:context=".ac_entitat_solicitar">
 
     <LinearLayout
@@ -58,14 +57,14 @@
                     android:id="@+id/litEntitatSolicitar_Entitat"/>
 
                 <Spinner
-                    android:layout_marginTop="25dp"
-                    android:layout_width="match_parent"
+                    android:layout_marginTop="40dp"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="40dp"
                     android:id="@+id/spinnerEntitatSolicitar_Entitat"
-                    android:background="@color/blue"
-                    android:spinnerMode="dropdown"
-                    android:popupBackground="@color/darkblue" />
+                    android:spinnerMode="dialog"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="40dp"
+                    android:background="@color/green" />
 
                 <Button
                     android:id="@+id/AspaProva"

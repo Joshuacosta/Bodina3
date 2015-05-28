@@ -111,25 +111,19 @@ public class ac_configuracio extends ActionBarActivity {
         }
         // Codi de validacio de la finestra (fem servir la clase estàtica Validació)
         lTXT_Name.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-                Validacio.hasText(lTXT_Name);
-            }
+            public void afterTextChanged(Editable s) { }
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){ lTXT_Name.setError(null);}
         });
         lTXT_Contacte.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-                Validacio.hasText(lTXT_Contacte);
-            }
+            public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){ lTXT_Contacte.setError(null);}
         });
         lTXT_eMail.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-                Validacio.isEmailAddress(lTXT_eMail, true);
-            }
+            public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){ lTXT_eMail.setError(null);}
         });
         // Codi de control del camp de texte (la visibilitat del aspa). Aixó anirà dintre
         // del component que has de crear !!!!
@@ -147,7 +141,6 @@ public class ac_configuracio extends ActionBarActivity {
         });
 
     }
-
     // Funcio interna per validar la finestra
     private boolean ValidarFinestra() {
         boolean ret = true;

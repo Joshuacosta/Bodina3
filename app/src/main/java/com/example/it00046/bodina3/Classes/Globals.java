@@ -78,7 +78,7 @@ public final class Globals
         //return wInfo.getMacAddress();
         //
         // I amb aquest recuperem el que ens interesa, el ANDROID_ID
-        return Secure.ANDROID_ID.toString();
+        return Secure.getString(Globals.g_Native.getContentResolver(), Secure.ANDROID_ID);
     }
 
     public static void F_Alert(String p_capcalera, String p_texte) {

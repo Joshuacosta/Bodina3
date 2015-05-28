@@ -99,7 +99,7 @@ public class ac_entitat_recerca extends Activity {
                 // Recerquem a partir de 3 caracters
                 if (newText.length() > 3) {
                     searchResults.setVisibility(View.VISIBLE);
-                    SQLEntitatsDAO.F_LlistaEntitats("", searchResults);
+                    SQLEntitatsDAO.F_SERVIDOR_LlistaEntitats("", searchResults);
                 } else {
                     searchResults.setVisibility(View.INVISIBLE);
                 }
@@ -112,7 +112,12 @@ public class ac_entitat_recerca extends Activity {
     public void btnEntitatRecerca_Acceptar(View view) {
         // Retornem les dades de l'entitat seleccionada gracies a l_Posicio
         Intent resultIntent = new Intent();
+        //
+        // Aquest codi el deixo per exemple -el pas de un objecte- pero ja no ho fem servir
+        // perque retornem posicio...
+        //
         // Fem servir PAREntitat perque es serializable
+        /*
         PAREntitat l_Parametre = new PAREntitat();
         Entitat l_Entitat = (Entitat)searchResults.getItemAtPosition(l_Posicio);
         // Carreguem les dades de la entitat i les tornem
@@ -123,6 +128,8 @@ public class ac_entitat_recerca extends Activity {
         l_Parametre.eMail = l_Entitat.eMail;
         l_Parametre.Pais = l_Entitat.Pais;
         l_Parametre.Telefon = l_Entitat.Telefon;
+        */
+        int l_Parametre = l_Posicio +1;
         resultIntent.putExtra("Seleccio", l_Parametre);
         setResult(Activity.RESULT_OK, resultIntent);
         this.finish();

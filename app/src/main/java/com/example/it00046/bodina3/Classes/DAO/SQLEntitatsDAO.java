@@ -41,7 +41,7 @@ public class SQLEntitatsDAO {
     //
     // Funció per llegir LOCALMENT les entitats del client
     //
-    public static void F_LOCAL_LlegirEntitats(final Spinner P_SPN_EntitatsClient){
+    public static void F_LOCAL_EntitatsClient(final Spinner P_SPN_EntitatsClient){
         final List <SpnEntitat> l_Entitats = new ArrayList<SpnEntitat>();
 
         try {
@@ -75,10 +75,10 @@ public class SQLEntitatsDAO {
         }
     }
     //
-    // Funci� per llegir del SERVIDOR les entitats de un client, retornem la info per un Spinner
-    // AIX� DEL SPINNER HO TINDRES QUE PARAMETRITZAR PER ALTRES SITUACIONS!!!!!!!!!!!!!!!!!!!!!!!!!
+    // Funció per llegir del SERVIDOR les entitats de un client, retornem la info per un Spinner
+    // AIXÓ DEL SPINNER HO TINDRES QUE PARAMETRITZAR PER ALTRES SITUACIONS!!!!!!!!!!!!!!!!!!!!!!!!!
     //
-    public static void F_EntitatsClient (String p_CodiClient, final Spinner SPN_EntitatsClient){
+    public static void F_SERVIDOR_EntitatsClient (String p_CodiClient, final Spinner SPN_EntitatsClient){
         final List <SpnEntitat> l_Entitats = new ArrayList<SpnEntitat>();
 
         if (Globals.isNetworkAvailable()){
@@ -106,24 +106,15 @@ public class SQLEntitatsDAO {
                             l_ArrayEntitats = p_entitats.getJSONArray(Globals.g_Native.getString(R.string.TEntitats));
                             for (int i = 0; i < l_ArrayEntitats.length(); i++) {
                                 JSONObject l_entitatServidor = l_ArrayEntitats.getJSONObject(i);
-                                Entitat l_entitat = new Entitat();
                                 // Pasa les dades del objecte JSON a la Entitat
-                                l_entitat.Codi = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Codi));
-                                l_entitat.Nom = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Nom));
-                                l_entitat.Adresa = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Adresa));
-                                l_entitat.Telefon = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Telefon));
-                                l_entitat.Contacte = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Contacte));
-                                l_entitat.eMail = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_eMail));
-                                l_entitat.Pais = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Pais));
-                                l_entitat.Estat = l_entitatServidor.getInt(Globals.g_Native.getString(R.string.TEntitats_Estat));
+                                Entitat l_entitat = f_JSONToEntitat(l_entitatServidor);;
                                 // Carreguem
                                 SpnEntitat l_spinner = new SpnEntitat(l_entitat, l_entitat.Nom, true);
                                 l_Entitats.add(l_spinner);
                             }
+                            // Associem
                             ArrayAdapter<SpnEntitat> dataAdapter = new ArrayAdapter<SpnEntitat>(Globals.g_Native.getApplicationContext(),android.R.layout.simple_spinner_item, l_Entitats);
-                            // Drop down layout style - list view with radio button
                             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            // attaching data adapter to spinner
                             SPN_EntitatsClient.setAdapter(dataAdapter);
                         }
                         else {
@@ -145,7 +136,9 @@ public class SQLEntitatsDAO {
     //
     // Funció per llegir del SERVIDOR les entitats de un pais, retornem la info per un ListView
     //
-    public static void F_LlistaEntitats (String p_Pais, final ListView LV_Entitats){
+    public static void F_SERVIDOR_LlistaEntitats (String p_Pais, final ListView LV_Entitats){
+        final ArrayAdapter<Entitat> listAdapter = new RecercaEntitats(Globals.g_Native.getApplicationContext(), R.layout.lycustom_recerca_entitats);
+
         if (Globals.isNetworkAvailable()){
             // Montem el php
             g_parametresPHP = new RequestParams();
@@ -166,29 +159,80 @@ public class SQLEntitatsDAO {
                     try {
                         String l_Resposta = p_entitats.getString(Globals.TAG_VALIDS);
                         if (l_Resposta.equals(Globals.k_PHPOK)) {
-                            //
-                            ArrayAdapter<Entitat> listAdapter = new RecercaEntitats(Globals.g_Native.getApplicationContext(), R.layout.lycustom_recerca_entitats);
-
                             // Llegim les entitats
                             JSONArray l_ArrayEntitats = null;
                             l_ArrayEntitats = p_entitats.getJSONArray(Globals.g_Native.getString(R.string.TEntitats));
                             for (int i = 0; i < l_ArrayEntitats.length(); i++) {
                                 JSONObject l_entitatServidor = l_ArrayEntitats.getJSONObject(i);
-                                Entitat l_entitat = new Entitat();
                                 // Pasa les dades del objecte JSON a la Entitat
-                                l_entitat.Codi = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Codi));
-                                l_entitat.Nom = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Nom));
-                                l_entitat.Adresa = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Adresa));
-                                l_entitat.Telefon = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Telefon));
-                                l_entitat.Contacte = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Contacte));
-                                l_entitat.eMail = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_eMail));
-                                l_entitat.Pais = l_entitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Pais));
-                                l_entitat.Estat = l_entitatServidor.getInt(Globals.g_Native.getString(R.string.TEntitats_Estat));
+                                Entitat l_entitat = f_JSONToEntitat(l_entitatServidor);
                                 // Carreguem
                                 listAdapter.add(l_entitat);
                             }
                             // Associem
                             LV_Entitats.setAdapter(listAdapter);
+                        }
+                        else {
+                            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
+                                    Globals.g_Native.getString(R.string.error_greu));
+                        }
+                    } catch (JSONException e) {
+                        Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                                Globals.g_Native.getString(R.string.error_greu));
+                    }
+                }
+            });
+        }
+        else{
+            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
+                    Globals.g_Native.getString(R.string.error_greu));
+        }
+    }
+    //
+    // Funció per llegir del SERVIDOR les entitats de un pais, retornem la info a un spinner
+    //
+    public static void F_SERVIDOR_LlistaEntitats (String p_Pais, final Spinner SPN_EntitatsClient){
+        final List <SpnEntitat> l_Entitats = new ArrayList<SpnEntitat>();
+
+        if (Globals.isNetworkAvailable()){
+            // Montem el php
+            g_parametresPHP = new RequestParams();
+            g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Pais), p_Pais);
+            g_parametresPHP.put(Globals.TAG_OPERATIVA, Globals.k_OPE_LlegirEntitatsPais);
+            PhpJson.post("Entitats.php", g_parametresPHP, new JsonHttpResponseHandler() {
+                @Override
+                public void onFailure(int statusCode,
+                                      org.apache.http.Header[] headers,
+                                      java.lang.Throwable throwable,
+                                      org.json.JSONObject errorResponse) {
+                    Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
+                            Globals.g_Native.getString(R.string.error_greu));
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject p_entitats) {
+                    try {
+                        String l_Resposta = p_entitats.getString(Globals.TAG_VALIDS);
+                        if (l_Resposta.equals(Globals.k_PHPOK)) {
+                            // Posem a la llista la entrada de "Seleccioni..."
+                            SpnEntitat l_SelectOne = new SpnEntitat(null, Globals.g_Native.getString(R.string.llista_Select), true);
+                            l_Entitats.add(l_SelectOne);
+                            // Llegim les entitats
+                            JSONArray l_ArrayEntitats = null;
+                            l_ArrayEntitats = p_entitats.getJSONArray(Globals.g_Native.getString(R.string.TEntitats));
+                            for (int i = 0; i < l_ArrayEntitats.length(); i++) {
+                                JSONObject l_entitatServidor = l_ArrayEntitats.getJSONObject(i);
+                                // Pasa les dades del objecte JSON a la Entitat
+                                Entitat l_entitat = f_JSONToEntitat(l_entitatServidor);
+                                // Carreguem
+                                SpnEntitat l_spinner = new SpnEntitat(l_entitat, l_entitat.Nom, true);
+                                l_Entitats.add(l_spinner);
+                            }
+                            // Associem
+                            //ArrayAdapter<SpnEntitat> dataAdapter = new ArrayAdapter<SpnEntitat>(Globals.g_Native.getApplicationContext(),android.R.layout.simple_spinner_item, l_Entitats);
+                            ArrayAdapter<SpnEntitat> dataAdapter = new ArrayAdapter<SpnEntitat>(Globals.g_Native, R.layout.ly_spinnerdefecte, l_Entitats);
+                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            SPN_EntitatsClient.setAdapter(dataAdapter);
                         }
                         else {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
@@ -221,6 +265,27 @@ public class SQLEntitatsDAO {
         l_entitat.Adresa = p_cursor.getString(p_cursor.getColumnIndex(TAG_AdresaEntitat));
         l_entitat.Telefon = p_cursor.getString(p_cursor.getColumnIndex(TAG_TelefonEntitat));
 
+        return l_entitat;
+    }
+    //
+    // Pasa les dades del objecte JSON a la Entitat
+    private static Entitat f_JSONToEntitat(JSONObject P_EntitatServidor){
+        Entitat l_entitat = new Entitat();
+
+        try {
+            l_entitat.Codi = P_EntitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Codi));
+            l_entitat.Nom = P_EntitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Nom));
+            l_entitat.Adresa = P_EntitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Adresa));
+            l_entitat.Telefon = P_EntitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Telefon));
+            l_entitat.Contacte = P_EntitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Contacte));
+            l_entitat.eMail = P_EntitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_eMail));
+            l_entitat.Pais = P_EntitatServidor.getString(Globals.g_Native.getString(R.string.TEntitats_Pais));
+            l_entitat.Estat = P_EntitatServidor.getInt(Globals.g_Native.getString(R.string.TEntitats_Estat));
+        }
+        catch (JSONException e) {
+            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                    Globals.g_Native.getString(R.string.error_greu));
+        }
         return l_entitat;
     }
 }
