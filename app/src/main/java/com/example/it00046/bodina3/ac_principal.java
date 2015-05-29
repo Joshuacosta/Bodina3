@@ -1,16 +1,25 @@
 package com.example.it00046.bodina3;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ExpandableListView;
 
+import com.example.it00046.bodina3.Classes.CustomList.LV_EntitatsClientCelebracions;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.params.PAREntitat;
 
+import java.util.ArrayList;
+
 
 public class ac_principal extends ActionBarActivity {
+
+    private ArrayList<String> parentItems = new ArrayList<String>();
+    private ArrayList<Object> childItems = new ArrayList<Object>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,11 +30,7 @@ public class ac_principal extends ActionBarActivity {
 
         // Definim contexte a nivel global
         Globals.g_Native = this;
-
-        //Globals.g_DB_DAO = new SQLClientsDAO(this);
-        //Globals.g_DB_DAO.open();
         Globals.CreateBBDD();
-
         // Si estem executant i no hem trobat dades (no existia la BBDD) obrim la finestra de
         // configuració perque l'usuari determini Pais, idioma (abans hem aplicat el del
         // telefon) i resta de informació personal (aquest informació es basica per poder
@@ -38,9 +43,63 @@ public class ac_principal extends ActionBarActivity {
             startActivity(intent);
         }
         else{
-            //Haurem de carregar la llista de entitats i celebracions del client;
+            // Haurem de carregar desde la BBDD local la llista de entitats i celebracions
+            // del client
+            ExpandableListView expandableList = (ExpandableListView) findViewById(R.id.exLV_EntitatsClient);
+            expandableList.setDividerHeight(2);
+            expandableList.setGroupIndicator(null);
+            expandableList.setClickable(true);
 
+            setGroupParents();
+            setChildData();
+
+            LV_EntitatsClientCelebracions adapter = new LV_EntitatsClientCelebracions(parentItems, childItems);
+
+            adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
+            expandableList.setAdapter(adapter);
+            //expandableList.setOnChildClickListener(this);
         }
+    }
+
+    public void setGroupParents() {
+        parentItems.add("Android");
+        parentItems.add("Core Java");
+        parentItems.add("Desktop Java");
+        parentItems.add("Enterprise Java");
+    }
+
+    public void setChildData() {
+
+        // Android
+        ArrayList<String> child = new ArrayList<String>();
+        child.add("Core");
+        child.add("Games");
+        childItems.add(child);
+
+        // Core Java
+        child = new ArrayList<String>();
+        child.add("Apache");
+        child.add("Applet");
+        child.add("AspectJ");
+        child.add("Beans");
+        child.add("Crypto");
+        childItems.add(child);
+
+        // Desktop Java
+        child = new ArrayList<String>();
+        child.add("Accessibility");
+        child.add("AWT");
+        child.add("ImageIO");
+        child.add("Print");
+        childItems.add(child);
+
+        // Enterprise Java
+        child = new ArrayList<String>();
+        child.add("EJB3");
+        child.add("GWT");
+        child.add("Hibernate");
+        child.add("JSP");
+        childItems.add(child);
     }
 
 

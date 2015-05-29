@@ -2,12 +2,15 @@ package com.example.it00046.bodina3.Classes.DAO;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.PhpJson;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SpnEntitat;
 import com.example.it00046.bodina3.Classes.Tipus.Client;
+import com.example.it00046.bodina3.Classes.Tipus.Entitat;
 import com.example.it00046.bodina3.Classes.Tipus.EntitatClient;
 import com.example.it00046.bodina3.Classes.params.PAREntitat;
 import com.example.it00046.bodina3.R;
@@ -129,7 +132,7 @@ public final class SQLEntitatsClientDAO {
     */
     //
     // Funcio privada per inserir les dades localment
-    private static Boolean f_InserirLocal(Client p_client){
+    private static Boolean F_LOCAL_Inserir(Client p_client){
         ContentValues l_values = new ContentValues();
         long l_resultat;
 
@@ -198,41 +201,37 @@ public final class SQLEntitatsClientDAO {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    // Funcio per llegir les dades del client
+    //
+    // Funció per llegir LOCALMENT les entitats del client
+    //
     /*
-    public static void Llegir(){
-        // Recerquem localment
+    public static void F_LOCAL_EntitatsClient(final Spinner P_SPN_EntitatsClient){
+        final List <SpnEntitat> l_Entitats = new ArrayList<SpnEntitat>();
+
         try {
-            // Aquest valor l'informem ja (CodiInternClient es la MAC)
-            Globals.g_Client.CodiClientIntern = Globals.F_RecuperaID();
-            //
-            Cursor cursor = Globals.g_DB.query(Globals.g_Native.getString(R.string.TClient),
-                    Globals.g_Native.getResources().getStringArray(R.array.TClient_Camps),
+            Cursor cursor = Globals.g_DB.query(Globals.g_Native.getString(R.string.TEntitatsClient),
+                    Globals.g_Native.getResources().getStringArray(R.array.TEntitatsClient_Camps),
                     null, // c. selections
                     null, // d. selections args
                     null, // e. group by
                     null, // f. having
                     null, // g. order by
                     null); // h. limit
-            if (cursor.getCount() == 1) {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                Globals.g_Client = f_cursorToClient(cursor);
-                // Si hi ha xarxa validem la integritat de les dades, o sigui, si les nostres dades
-                // no hi son actualitzades o fem.
-                if (Globals.isNetworkAvailable()){
-                    if (Globals.g_Client.Actualitzat == false){
-                        f_ModificarGlobal(Globals.g_Client);
-                    }
+                for (int i = 0; i < cursor.getCount(); i++) {
+                    Entitat l_Entitat = f_cursorToEntitat(cursor);
+                    // Carreguem
+                    SpnEntitat l_spinner = new SpnEntitat(l_Entitat, l_Entitat.Nom, false);
+                    l_Entitats.add(l_spinner);
+                    //
+                    cursor.moveToNext();
                 }
-                // Si que hi han dades
-                Globals.g_NoHiHanDades = false;
             }
-            else {
-                // Recerquem al servidor per si lo que ha passat es que l'usuari ha esborrat
-                // les dades locals (en aquest cas les tornarem a grabar).
-                Globals.g_Clients_DAO.f_LlegirServidorClauInterna(Globals.g_Client.CodiClientIntern);
-                // ...
-            }
+            // Informem el Spinner
+            ArrayAdapter<SpnEntitat> dataAdapter = new ArrayAdapter<SpnEntitat>(Globals.g_Native.getApplicationContext(),android.R.layout.simple_spinner_item, l_Entitats);
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            P_SPN_EntitatsClient.setAdapter(dataAdapter);
         }
         catch(Exception e) {
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
@@ -240,25 +239,61 @@ public final class SQLEntitatsClientDAO {
         }
     }
     //
-    // Funcio per modificar les dades del client
-    public static void Modificar(Client p_client){
-        // Primer modifiquem localment i despres globalment
-        try {
-            Globals.g_DB.update(Globals.g_Native.getString(R.string.TClient),
-                    f_clientToContentValues(p_client),
-                    Globals.g_Native.getString(R.string.TClient_CodiClient) + "= '" + p_client.CodiClient + "'",
-                    null);
+    // Funció per llegir del SERVIDOR les entitats de un client
+    //
+    public static void F_SERVIDOR_EntitatsClient(String p_CodiClient, final Spinner SPN_EntitatsClient){
+        final List <SpnEntitat> l_Entitats = new ArrayList<SpnEntitat>();
+
+        if (Globals.isNetworkAvailable()){
+            // Montem el php
+            g_parametresPHP = new RequestParams();
+            g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_CodiClient), p_CodiClient);
+            g_parametresPHP.put(Globals.TAG_OPERATIVA, Globals.k_OPE_LlegirEntitatsClient);
+            PhpJson.post("Entitats.php", g_parametresPHP, new JsonHttpResponseHandler() {
+                @Override
+                public void onFailure(int statusCode,
+                                      org.apache.http.Header[] headers,
+                                      java.lang.Throwable throwable,
+                                      org.json.JSONObject errorResponse) {
+                    Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
+                            Globals.g_Native.getString(R.string.error_greu));
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject p_entitats) {
+                    try {
+                        String l_Resposta = p_entitats.getString(Globals.TAG_VALIDS);
+                        if (l_Resposta.equals(Globals.k_PHPOK)) {
+                            // Llegim les entitats
+                            JSONArray l_ArrayEntitats = null;
+                            l_ArrayEntitats = p_entitats.getJSONArray(Globals.g_Native.getString(R.string.TEntitats));
+                            for (int i = 0; i < l_ArrayEntitats.length(); i++) {
+                                JSONObject l_entitatServidor = l_ArrayEntitats.getJSONObject(i);
+                                // Pasa les dades del objecte JSON a la Entitat
+                                Entitat l_entitat = f_JSONToEntitat(l_entitatServidor);;
+                                // Carreguem
+                                SpnEntitat l_spinner = new SpnEntitat(l_entitat, l_entitat.Nom, true);
+                                l_Entitats.add(l_spinner);
+                            }
+                            // Associem
+                            ArrayAdapter<SpnEntitat> dataAdapter = new ArrayAdapter<SpnEntitat>(Globals.g_Native.getApplicationContext(),android.R.layout.simple_spinner_item, l_Entitats);
+                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            SPN_EntitatsClient.setAdapter(dataAdapter);
+                        }
+                        else {
+                            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
+                                    Globals.g_Native.getString(R.string.error_greu));
+                        }
+                    } catch (JSONException e) {
+                        Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                                Globals.g_Native.getString(R.string.error_greu));
+                    }
+                }
+            });
         }
-        catch(Exception e) {
-            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+        else{
+            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                     Globals.g_Native.getString(R.string.error_greu));
-        }
-        finally{
-            // Actualitzem el servidor
-            if (Globals.isNetworkAvailable()) {
-                // Montem el php
-                f_ModificarGlobal(p_client);
-            }
         }
     }
     */
