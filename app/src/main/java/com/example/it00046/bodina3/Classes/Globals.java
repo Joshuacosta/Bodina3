@@ -33,7 +33,7 @@ public final class Globals
     public static Context g_Recerca;
     public static Boolean g_HiHaXarxa = false;
 
-    public static SQLClientsDAO g_Clients_DAO;
+    //public static SQLClientsDAO g_Clients_DAO;
     public static SQLiteDatabase g_DB;
     public static SQLDB g_BBDD;
     // Constants
@@ -41,9 +41,9 @@ public final class Globals
     public static final String k_OPE_Alta = "0";
     public static final String k_OPE_Update = "1";
     public static final String k_OPE_Select = "2";
+    public static final String k_OPE_SelectCodiClientIntern = "21";
     public static final String k_OPE_LlegirEntitatsPais = "0";
     public static final String k_OPE_LlegirEntitatsClient = "1";
-    public static final String k_OPE_SelectCodiClientIntern = "21";
     public static final String k_OPE_SelectEntitatsClient = "0";
     public static final String k_DirectoriPHP = "http://bodina.virtuol.com/php/";
     // - Treball

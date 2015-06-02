@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -16,8 +17,9 @@
             android:name=".ac_principal"
             android:label="@string/app_name" >
             <intent-filter>
-                   <action android:name="android.intent.action.MAIN" />
-                   <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -33,18 +35,24 @@
             android:label="@string/title_activity_ac_celebracio_alta" >
         </activity>
         <activity
-            android:launchMode="singleTop"
             android:name=".ac_entitat_recerca"
-            android:label="@string/title_activity_ac_entitat_recerca" >
+            android:label="@string/title_activity_ac_entitat_recerca"
+            android:launchMode="singleTop" >
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
+                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                       android:resource="@xml/searchable"/>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
         <activity
             android:name=".ac_entitat_detall"
             android:label="@string/title_activity_ac_entitat_detall" >
+        </activity>
+        <activity
+            android:name=".ac_entitat_pral"
+            android:label="@string/title_activity_ac_entitats" >
         </activity>
     </application>
 

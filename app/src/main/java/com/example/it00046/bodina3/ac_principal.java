@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.ExpandableListView;
 
 import com.example.it00046.bodina3.Classes.CustomList.LV_EntitatsClientCelebracions;
+import com.example.it00046.bodina3.Classes.DAO.SQLClientsDAO;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.params.PAREntitat;
 
@@ -37,16 +38,17 @@ public class ac_principal extends ActionBarActivity {
         // treballar amb la aplicacio) i cal que aquesta informació sigui guardada al
         // servidor, sino, no es pot treballar amb l'aplicació sense connexió, necessitem
         // CodiClient.
-        Globals.g_Clients_DAO.Llegir();
+        //Globals.g_Clients_DAO.Llegir();
+        SQLClientsDAO.Llegir();
         if (Globals.g_NoHiHanDades == true) {
             intent = new Intent(this, ac_configuracio.class);
             startActivity(intent);
         }
         else{
-            // Haurem de carregar desde la BBDD local la llista de entitats i celebracions
-            // del client
+            // Haurem de carregar desde la BBDD local la llista de celebracions del client
             ExpandableListView expandableList = (ExpandableListView) findViewById(R.id.exLV_EntitatsClient);
             expandableList.setDividerHeight(2);
+            // Aixó es el tema del indicador de si te elements
             expandableList.setGroupIndicator(null);
             expandableList.setClickable(true);
 
@@ -113,12 +115,8 @@ public class ac_principal extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         switch (id) {
             case R.id.celebracions_Afegir:
                 intent = new Intent(this, ac_celebracio_alta.class);

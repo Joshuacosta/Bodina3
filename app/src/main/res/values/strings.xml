@@ -43,6 +43,11 @@
     <string name="Configuracio_DataAlta">Entry date</string>
     <string name="Configuracio_BotoAcceptar">Accept</string>
 
+    <!-- Layout Entitat principal -->
+    <string name="title_activity_ac_entitat_pral">Entities</string>
+    <string name="EntitatPral_mn_SolicitarEntitat">Request entity</string>
+    <string name="EntitatPral_mn_Actualitzar">Refresh</string>
+
     <!-- Layout Entitat alta -->
     <string name="title_activity_ac_entitat_alta">Append entity</string>
 
@@ -490,4 +495,5 @@
         <item>Zambia</item>
         <item>Zimbabwe</item>
     </string-array>
+    <string name="title_activity_ac_entitats">Entitats</string>
 </resources>

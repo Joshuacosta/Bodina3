@@ -152,8 +152,9 @@ public final class SQLEntitatsClientDAO {
     }
     //
     //
-    private static void f_ModificarGlobal(final Client p_client){
+    private static void f_ModificarGlobal(final EntitatClient p_EntitatCient){
         // Montem el php
+        /*
         g_parametresPHP = new RequestParams();
         g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_CodiClient), p_client.CodiClient);
         g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_eMail), p_client.eMail);
@@ -197,10 +198,50 @@ public final class SQLEntitatsClientDAO {
                 }
             }
         });
+        */
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
+    // Funcio per llegir les entitats del client
+    public static void Llegir(){
+        EntitatClient l_EntitatClient;
+        // Recerquem localment
+        try {
+            // Aquest valor l'informem ja (CodiInternClient es la MAC)
+            Globals.g_Client.CodiClientIntern = Globals.F_RecuperaID();
+            //
+            Cursor cursor = Globals.g_DB.query(Globals.g_Native.getString(R.string.TEntitatsClient),
+                    Globals.g_Native.getResources().getStringArray(R.array.TEntitatsClient_Camps),
+                    null, // c. selections
+                    null, // d. selections args
+                    null, // e. group by
+                    null, // f. having
+                    null, // g. order by
+                    null); // h. limit
+            if (cursor.getCount() > 0) {
+                // Recuperem entitats
+                for (int i =0; i < cursor.getCount(); i++){
+                    cursor.moveToPosition(i);
+                    l_EntitatClient = f_cursorToEntitatClient(cursor);
+                    // Si hi ha xarxa validem la integritat de les dades, o sigui, si les nostres dades
+                    // no hi son actualitzades o fem.
+                    if (Globals.isNetworkAvailable()) {
+                        if (l_EntitatClient.Actualitzat == false) {
+                            f_ModificarGlobal(l_EntitatClient);
+                        }
+                    }
+                }
+            }
+            else {
+                // No te cap entitat
+            }
+        }
+        catch(Exception e) {
+            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                    Globals.g_Native.getString(R.string.error_greu));
+        }
+    }
     //
     // Funció per llegir LOCALMENT les entitats del client
     //

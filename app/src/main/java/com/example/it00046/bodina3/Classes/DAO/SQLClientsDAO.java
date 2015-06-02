@@ -86,7 +86,8 @@ public final class SQLClientsDAO {
                                     Globals.g_NoHiHanDades = false;
                                 }
                             }
-                        } else {
+                        }
+                        else {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
                                     Globals.g_Native.getString(R.string.error_greu));
                         }
@@ -204,7 +205,8 @@ public final class SQLClientsDAO {
             else {
                 // Recerquem al servidor per si lo que ha passat es que l'usuari ha esborrat
                 // les dades locals (en aquest cas les tornarem a grabar).
-                Globals.g_Clients_DAO.f_LlegirServidorClauInterna(Globals.g_Client.CodiClientIntern);
+                //Globals.g_Clients_DAO.f_LlegirServidorClauInterna(Globals.g_Client.CodiClientIntern);
+                SQLClientsDAO.f_LlegirServidorClauInterna(Globals.g_Client.CodiClientIntern);
                 // ...
             }
         }
