@@ -5,16 +5,22 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import com.example.it00046.bodina3.Classes.DAO.SQLEntitatsClientDAO;
 
 
 public class ac_entitat_pral extends ActionBarActivity {
+    private ListView l_EntitatsClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ly_entitat_pral);
         // Carreguen les entitats del client
-
+        l_EntitatsClient = (ListView) findViewById(R.id.LV_Entitats);
+        //SQLEntitatsClientDAO.F_LOCAL_Llegir(l_EntitatsClient);
+        SQLEntitatsClientDAO.F_LOCAL_Llegir(l_EntitatsClient, R.layout.ly_entitat_listview_linia);
     }
 
     @Override

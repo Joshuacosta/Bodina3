@@ -2,10 +2,13 @@ package com.example.it00046.bodina3.Classes.DAO;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.text.Layout;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.it00046.bodina3.Classes.CustomList.LV_LlistaEntitatsClient;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.PhpJson;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SpnEntitat;
@@ -203,14 +206,14 @@ public final class SQLEntitatsClientDAO {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    // Funcio per llegir les entitats del client
-    public static void Llegir(){
+    // Funcio per llegir les entitats del client en una listview
+    public static void F_LOCAL_Llegir(final ListView P_LlistaEntitats, int P_Layout){
+        //final ArrayAdapter<EntitatClient> l_Llista = new LV_LlistaEntitatsClient(Globals.g_Native.getApplicationContext(), R.layout.ly_entitat_listview_linia);
+        final ArrayAdapter<EntitatClient> l_Llista = new LV_LlistaEntitatsClient(Globals.g_Native.getApplicationContext(), P_Layout);
         EntitatClient l_EntitatClient;
+        int l_NumEntitats;
         // Recerquem localment
         try {
-            // Aquest valor l'informem ja (CodiInternClient es la MAC)
-            Globals.g_Client.CodiClientIntern = Globals.F_RecuperaID();
-            //
             Cursor cursor = Globals.g_DB.query(Globals.g_Native.getString(R.string.TEntitatsClient),
                     Globals.g_Native.getResources().getStringArray(R.array.TEntitatsClient_Camps),
                     null, // c. selections
@@ -219,22 +222,27 @@ public final class SQLEntitatsClientDAO {
                     null, // f. having
                     null, // g. order by
                     null); // h. limit
-            if (cursor.getCount() > 0) {
-                // Recuperem entitats
-                for (int i =0; i < cursor.getCount(); i++){
+            l_NumEntitats = cursor.getCount();
+            if (l_NumEntitats > 0) {
+                // Llegim les entitats
+                for (int i =0; i < l_NumEntitats; i++){
                     cursor.moveToPosition(i);
                     l_EntitatClient = f_cursorToEntitatClient(cursor);
-                    // Si hi ha xarxa validem la integritat de les dades, o sigui, si les nostres dades
-                    // no hi son actualitzades o fem.
-                    if (Globals.isNetworkAvailable()) {
+                    // Si hi ha xarxa validem la integritat de les dades si així està parametritzat,
+                    // si les nostres dades no hi son actualitzades o fem.
+                    if (Globals.isNetworkAvailable() && (Globals.g_Client.Sincronitzacio)){
                         if (l_EntitatClient.Actualitzat == false) {
                             f_ModificarGlobal(l_EntitatClient);
                         }
                     }
+                    // Apuntem l'entitat del client a la llista
+                    l_Llista.add(l_EntitatClient);
                 }
+                // Adpatem
+                P_LlistaEntitats.setAdapter(l_Llista);
             }
             else {
-                // No te cap entitat
+                // El client no te cap entitat
             }
         }
         catch(Exception e) {
@@ -451,6 +459,38 @@ public final class SQLEntitatsClientDAO {
         return l_entitatClient;
     }
     //
+    // Pasa les dades del objecte JSON a la EntitatClient
+    private static EntitatClient f_JSONToEntitatClient (JSONObject P_EntitatClientServidor){
+        EntitatClient l_EntitatClient = new EntitatClient();
+
+        try {
+            l_EntitatClient.CodiEntitat = P_EntitatClientServidor.getString(TAG_CodiEntitat);
+            l_EntitatClient.eMailEntitat = P_EntitatClientServidor.getString(TAG_eMailEntitat);
+            l_EntitatClient.NomEntitat = P_EntitatClientServidor.getString(TAG_NomEntitat);
+            l_EntitatClient.PaisEntitat = P_EntitatClientServidor.getString(TAG_PaisEntitat);
+            l_EntitatClient.ContacteEntitat = P_EntitatClientServidor.getString(TAG_ContacteEntitat);
+            l_EntitatClient.AdresaEntitat = P_EntitatClientServidor.getString(TAG_AdresaEntitat);
+            l_EntitatClient.TelefonEntitat = P_EntitatClientServidor.getString(TAG_TelefonEntitat);
+            l_EntitatClient.EstatEntitat = P_EntitatClientServidor.getInt(TAG_EstatEntitat);
+            l_EntitatClient.DataDarrerCanviEntitat = P_EntitatClientServidor.getString(TAG_DataDarrerCanviEntitat);
+            l_EntitatClient.DataPeticioAssociacio = P_EntitatClientServidor.getString(TAG_DataPeticioAssociacio);
+            l_EntitatClient.ContacteAssociacio= P_EntitatClientServidor.getString(TAG_ContacteAssociacio);
+            l_EntitatClient.DescripcioAssociacio= P_EntitatClientServidor.getString(TAG_DescripcioAssociacio);
+            l_EntitatClient.eMailAssociacio = P_EntitatClientServidor.getString(TAG_eMailAssociacio);
+            l_EntitatClient.DataAltaAssociacio = P_EntitatClientServidor.getString(TAG_DataAltaAssociacio);
+            l_EntitatClient.DataFiAssociacio = P_EntitatClientServidor.getString(TAG_DataFiAssociacio);
+            l_EntitatClient.DataDarrerCanviAssociacio = P_EntitatClientServidor.getString(TAG_DataDarrerCanviAssociacio);
+            l_EntitatClient.EstatAssociacio = P_EntitatClientServidor.getString(TAG_EstatAssociacio);
+            l_EntitatClient.Actualitzat = (P_EntitatClientServidor.getInt(TAG_ActualitzatServidor) != 0);
+            l_EntitatClient.DataActualitzat = P_EntitatClientServidor.getString(TAG_DataGrabacioLocal);
+            l_EntitatClient.DataGrabacioServidor = P_EntitatClientServidor.getString(TAG_DataGrabacioServidor);
+        }
+        catch (JSONException e) {
+            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                    Globals.g_Native.getString(R.string.error_greu));
+        }
+        return l_EntitatClient;
+    }
     // Posa les dades de la entitat client a contentValue per inserir a la BBDD local
     private static ContentValues f_entitatClientToContentValues(EntitatClient p_entitatClient) {
         ContentValues l_values = new ContentValues();

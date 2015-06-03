@@ -19,6 +19,7 @@ public class Client
     public String Contacte = new String();
     public String DataAlta = new String();
     public String Idioma = new String();
+    public Boolean Sincronitzacio;
     public Boolean Actualitzat;
     public String DataActualitzat;
     public String DataGrabacioServidor;
@@ -33,6 +34,7 @@ public class Client
         Contacte = "";
         Idioma = "";
         DataAlta = "";
+        Sincronitzacio = false;
         Actualitzat = false;
         DataActualitzat = "";
         DataGrabacioServidor = "";
