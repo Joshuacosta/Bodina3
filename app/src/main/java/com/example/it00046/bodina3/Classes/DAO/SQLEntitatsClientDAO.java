@@ -206,6 +206,10 @@ public final class SQLEntitatsClientDAO {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
+    // Funcio per actualitzar les dades entre servidor i client
+    public static void F_SERVIDOR_ACTUALITZAR(){
+
+    }
     // Funcio per llegir les entitats del client en una listview
     public static void F_LOCAL_Llegir(final ListView P_LlistaEntitats, int P_Layout){
         //final ArrayAdapter<EntitatClient> l_Llista = new LV_LlistaEntitatsClient(Globals.g_Native.getApplicationContext(), R.layout.ly_entitat_listview_linia);
@@ -228,9 +232,11 @@ public final class SQLEntitatsClientDAO {
                 for (int i =0; i < l_NumEntitats; i++){
                     cursor.moveToPosition(i);
                     l_EntitatClient = f_cursorToEntitatClient(cursor);
-                    // Si hi ha xarxa validem la integritat de les dades si així està parametritzat,
-                    // si les nostres dades no hi son actualitzades o fem.
-                    if (Globals.isNetworkAvailable() && (Globals.g_Client.Sincronitzacio)){
+                    // Si hi ha xarxa validem la integritat de les dades si així està parametritzat.
+                    //
+                    // Manca la sincronitzacio!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    //if (Globals.isNetworkAvailable() && (Globals.g_Client.Sincronitzacio)){
+                    if (Globals.isNetworkAvailable()){
                         if (l_EntitatClient.Actualitzat == false) {
                             f_ModificarGlobal(l_EntitatClient);
                         }
@@ -455,6 +461,8 @@ public final class SQLEntitatsClientDAO {
         l_entitatClient.Actualitzat = (p_cursor.getInt(p_cursor.getColumnIndex(TAG_ActualitzatServidor)) != 0);
         l_entitatClient.DataActualitzat = p_cursor.getString(p_cursor.getColumnIndex(TAG_DataGrabacioLocal));
         l_entitatClient.DataGrabacioServidor = p_cursor.getString(p_cursor.getColumnIndex(TAG_DataGrabacioServidor));
+        //
+        l_entitatClient.HiHanCanvis = false;
 
         return l_entitatClient;
     }

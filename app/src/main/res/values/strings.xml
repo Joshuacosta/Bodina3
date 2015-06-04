@@ -28,7 +28,7 @@
 
     <!-- Layout principal -->
     <string name="app_name">Bodina</string>
-    <string name="menu_celebracions_AfegirEntitat">Add entity</string>
+    <string name="menu_celebracions_Entitats">Entities</string>
     <string name="menu_celebracions_Afegir">Add event</string>
     <string name="menu_celebracions_Configuracio">Settings</string>
     <string name="menu_celebracions_Actualitzar">Refresh</string>

@@ -31,14 +31,13 @@ public class SQLEntitatsDAO {
     private static RequestParams g_parametresPHP = new RequestParams();
     private static final String TAG_Entitat = "entitat";
     private static final String TAG_Codi = Globals.g_Native.getString(R.string.TEntitats_Codi);
-    private static final String TAG_CodiEntitat = Globals.g_Native.getString(R.string.TEntitatsClient_CodiEntitat);
-    private static final String TAG_eMailEntitat = Globals.g_Native.getString(R.string.TEntitatsClient_eMailEntitat);
-    private static final String TAG_NomEntitat = Globals.g_Native.getString(R.string.TEntitatsClient_NomEntitat);
-    private static final String TAG_PaisEntitat = Globals.g_Native.getString(R.string.TEntitatsClient_PaisEntitat);
-    private static final String TAG_ContacteEntitat = Globals.g_Native.getString(R.string.TEntitatsClient_ContacteEntitat);
-    private static final String TAG_AdresaEntitat = Globals.g_Native.getString(R.string.TEntitatsClient_AdresaEntitat);
-    private static final String TAG_TelefonEntitat = Globals.g_Native.getString(R.string.TEntitatsClient_TelefonEntitat);
-    private static final String TAG_EstatEntitat = Globals.g_Native.getString(R.string.TEntitatsClient_EstatEntitat);
+    private static final String TAG_eMail = Globals.g_Native.getString(R.string.TEntitats_eMail);
+    private static final String TAG_Nom = Globals.g_Native.getString(R.string.TEntitats_Nom);
+    private static final String TAG_Pais = Globals.g_Native.getString(R.string.TEntitats_Pais);
+    private static final String TAG_Contacte = Globals.g_Native.getString(R.string.TEntitats_Contacte);
+    private static final String TAG_Adresa = Globals.g_Native.getString(R.string.TEntitats_Adresa);
+    private static final String TAG_Telefon = Globals.g_Native.getString(R.string.TEntitats_Telefon);
+    private static final String TAG_Estat = Globals.g_Native.getString(R.string.TEntitats_Estat);
     //
     // Funció per llegir del SERVIDOR les entitats de un pais, retornem la info per un ListView
     //
@@ -162,13 +161,13 @@ public class SQLEntitatsDAO {
     private static Entitat f_cursorToEntitat(Cursor p_cursor){
         Entitat l_entitat = new Entitat();
 
-        l_entitat.Codi = p_cursor.getString(p_cursor.getColumnIndex(TAG_CodiEntitat));
-        l_entitat.eMail = p_cursor.getString(p_cursor.getColumnIndex(TAG_eMailEntitat));
-        l_entitat.Nom = p_cursor.getString(p_cursor.getColumnIndex(TAG_NomEntitat));
-        l_entitat.Pais = p_cursor.getString(p_cursor.getColumnIndex(TAG_PaisEntitat));
-        l_entitat.Contacte = p_cursor.getString(p_cursor.getColumnIndex(TAG_ContacteEntitat));
-        l_entitat.Adresa = p_cursor.getString(p_cursor.getColumnIndex(TAG_AdresaEntitat));
-        l_entitat.Telefon = p_cursor.getString(p_cursor.getColumnIndex(TAG_TelefonEntitat));
+        l_entitat.Codi = p_cursor.getString(p_cursor.getColumnIndex(TAG_Codi));
+        l_entitat.eMail = p_cursor.getString(p_cursor.getColumnIndex(TAG_eMail));
+        l_entitat.Nom = p_cursor.getString(p_cursor.getColumnIndex(TAG_Nom));
+        l_entitat.Pais = p_cursor.getString(p_cursor.getColumnIndex(TAG_Pais));
+        l_entitat.Contacte = p_cursor.getString(p_cursor.getColumnIndex(TAG_Contacte));
+        l_entitat.Adresa = p_cursor.getString(p_cursor.getColumnIndex(TAG_Adresa));
+        l_entitat.Telefon = p_cursor.getString(p_cursor.getColumnIndex(TAG_Telefon));
 
         return l_entitat;
     }
@@ -178,14 +177,14 @@ public class SQLEntitatsDAO {
         Entitat l_entitat = new Entitat();
 
         try {
-            l_entitat.Codi = P_EntitatServidor.getString(TAG_CodiEntitat);
-            l_entitat.Nom = P_EntitatServidor.getString(TAG_NomEntitat);
-            l_entitat.Adresa = P_EntitatServidor.getString(TAG_AdresaEntitat);
-            l_entitat.Telefon = P_EntitatServidor.getString(TAG_TelefonEntitat);
-            l_entitat.Contacte = P_EntitatServidor.getString(TAG_ContacteEntitat);
-            l_entitat.eMail = P_EntitatServidor.getString(TAG_eMailEntitat);
-            l_entitat.Pais = P_EntitatServidor.getString(TAG_PaisEntitat);
-            l_entitat.Estat = P_EntitatServidor.getInt(TAG_EstatEntitat);
+            l_entitat.Codi = P_EntitatServidor.getString(TAG_Codi);
+            l_entitat.Nom = P_EntitatServidor.getString(TAG_Nom);
+            l_entitat.Adresa = P_EntitatServidor.getString(TAG_Adresa);
+            l_entitat.Telefon = P_EntitatServidor.getString(TAG_Telefon);
+            l_entitat.Contacte = P_EntitatServidor.getString(TAG_Contacte);
+            l_entitat.eMail = P_EntitatServidor.getString(TAG_eMail);
+            l_entitat.Pais = P_EntitatServidor.getString(TAG_Pais);
+            l_entitat.Estat = P_EntitatServidor.getInt(TAG_Estat);
         }
         catch (JSONException e) {
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),

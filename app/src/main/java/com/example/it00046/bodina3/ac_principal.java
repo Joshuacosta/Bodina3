@@ -118,13 +118,14 @@ public class ac_principal extends ActionBarActivity {
         int id = item.getItemId();
 
         switch (id) {
+            case R.id.celebracions_Entitats:
+                intent = new Intent(this, ac_entitat_pral.class);
+                startActivity(intent);
+                break;
             case R.id.celebracions_Afegir:
                 intent = new Intent(this, ac_celebracio_alta.class);
                 startActivity(intent);
                 return true;
-            case R.id.celebracions_AfegirEntitat:
-                intent = new Intent(this, ac_entitat_solicitar.class);
-                startActivity(intent);
                 /*
                     Experiment pasar dades a una activitat
 
@@ -140,7 +141,6 @@ public class ac_principal extends ActionBarActivity {
                 startActivity(l_intent);
 
                 */
-                return true;
             case R.id.celebracions_Configuracio:
                 intent = new Intent(this, ac_configuracio.class);
                 startActivity(intent);

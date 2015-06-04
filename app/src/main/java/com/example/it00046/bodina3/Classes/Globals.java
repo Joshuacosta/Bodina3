@@ -46,6 +46,10 @@ public final class Globals
     public static final String k_OPE_LlegirEntitatsClient = "1";
     public static final String k_OPE_SelectEntitatsClient = "0";
     public static final String k_DirectoriPHP = "http://bodina.virtuol.com/php/";
+    // Altres
+    public static final int k_EntitatBaixa = 0;
+    public static final int k_EntitatActiva = 1;
+    public static final int k_EntitatPendent = 2;
     // - Treball
     public static final String k_ClientNOU = "NOU";
     public static final String k_PHPOK = "1";

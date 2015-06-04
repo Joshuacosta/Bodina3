@@ -1,8 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".ac_principal">
-    <item android:id="@+id/celebracions_AfegirEntitat"
-        android:title="@string/menu_celebracions_AfegirEntitat"
+    <item android:id="@+id/celebracions_Entitats"
+        android:title="@string/menu_celebracions_Entitats"
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/celebracions_Afegir"
         android:title="@string/menu_celebracions_Afegir"

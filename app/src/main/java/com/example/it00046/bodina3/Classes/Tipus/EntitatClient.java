@@ -24,6 +24,8 @@ public class EntitatClient {
     public Boolean Actualitzat;
     public String DataActualitzat;
     public String DataGrabacioServidor;
+    // Camp per sapiguer si se acaba de actualitzar
+    public Boolean HiHanCanvis;
 
     public void EntitatClient()
     {
@@ -47,5 +49,7 @@ public class EntitatClient {
         Actualitzat = false;
         DataActualitzat = "";
         DataGrabacioServidor = "";
+        //
+        HiHanCanvis = false;
     }
 }
