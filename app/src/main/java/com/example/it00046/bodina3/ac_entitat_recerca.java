@@ -35,7 +35,7 @@ public class ac_entitat_recerca extends Activity {
 
     private TextView resultText;
     ListView searchResults;
-    private int l_Posicio;
+    private int l_Posicio = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +60,18 @@ public class ac_entitat_recerca extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
-                // Apuntem en quina linia estem (per si desprès l'usuari selecciona l'entitat)
-                l_Posicio = position;
-                View toolbar = view.findViewById(R.id.toolbar);
-                // Definim l'animació del item
-                ExpandAnimation expandAni = new ExpandAnimation(toolbar, 100);
-                toolbar.startAnimation(expandAni);
+                if (l_Posicio != position) {
+                    // Apuntem en quina linia estem (per si desprès l'usuari selecciona l'entitat)
+                    l_Posicio = position;
+                    View toolbar = view.findViewById(R.id.toolbar);
+                    // Definim l'animació del item
+                    ExpandAnimation expandAni = new ExpandAnimation(toolbar, 100);
+                    toolbar.startAnimation(expandAni);
+                }
+                else{
+                    // Ho tanquem, l'usuari ha marcat el obert
+
+                }
             }
 
         });

@@ -176,7 +176,9 @@ public class ac_entitat_solicitar extends ActionBarActivity {
                     */
 
                     int l_Posicio = data.getIntExtra("Seleccio", -1);
-                    lSPN_EntitatsClient.setSelection(l_Posicio);
+                    if (l_Posicio != -1) {
+                        lSPN_EntitatsClient.setSelection(l_Posicio);
+                    }
                 }
                 break;
             }
