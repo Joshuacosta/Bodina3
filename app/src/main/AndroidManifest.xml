@@ -52,7 +52,7 @@
         </activity>
         <activity
             android:name=".ac_entitat_pral"
-            android:label="@string/title_activity_ac_entitats" >
+            android:label="@string/title_activity_ac_entitat_pral" >
         </activity>
     </application>
 

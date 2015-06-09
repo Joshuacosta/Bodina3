@@ -1,5 +1,6 @@
 package com.example.it00046.bodina3.Classes.DAO;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -41,8 +42,9 @@ public class SQLEntitatsDAO {
     //
     // Funció per llegir del SERVIDOR les entitats de un pais, retornem la info per un ListView
     //
-    public static void F_SERVIDOR_LlistaEntitats (String p_Pais, final ListView LV_Entitats){
-        final ArrayAdapter<Entitat> listAdapter = new RecercaEntitats(Globals.g_Native.getApplicationContext(), R.layout.lycustom_recerca_entitats);
+    public static void F_SERVIDOR_LlistaEntitats (String p_Pais, final ListView LV_Entitats, Context P_Context){
+        //final ArrayAdapter<Entitat> listAdapter = new RecercaEntitats(Globals.g_Native.getApplicationContext(), R.layout.lycustom_recerca_entitats);
+        final ArrayAdapter<Entitat> listAdapter = new RecercaEntitats(P_Context, R.layout.lycustom_recerca_entitats);
 
         if (Globals.isNetworkAvailable()){
             // Montem el php

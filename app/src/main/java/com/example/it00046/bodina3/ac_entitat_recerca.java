@@ -16,11 +16,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.example.it00046.bodina3.Classes.CustomList.RecercaEntitats;
 import com.example.it00046.bodina3.Classes.DAO.SQLEntitatsDAO;
 import com.example.it00046.bodina3.Classes.ExpandAnimation;
 import com.example.it00046.bodina3.Classes.Globals;
@@ -36,6 +38,7 @@ public class ac_entitat_recerca extends Activity {
     private TextView resultText;
     ListView searchResults;
     private int l_Posicio = -1;
+    private Context Jo = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +108,7 @@ public class ac_entitat_recerca extends Activity {
                 // Recerquem a partir de 3 caracters
                 if (newText.length() > 3) {
                     searchResults.setVisibility(View.VISIBLE);
-                    SQLEntitatsDAO.F_SERVIDOR_LlistaEntitats("", searchResults);
+                    SQLEntitatsDAO.F_SERVIDOR_LlistaEntitats("", searchResults, Jo);
                 } else {
                     searchResults.setVisibility(View.INVISIBLE);
                 }
@@ -136,6 +139,7 @@ public class ac_entitat_recerca extends Activity {
         l_Parametre.Telefon = l_Entitat.Telefon;
         */
         int l_Parametre = l_Posicio +1;
+        ViewParent lpapa = view.getParent();
         resultIntent.putExtra("Seleccio", l_Parametre);
         setResult(Activity.RESULT_OK, resultIntent);
         this.finish();

@@ -17,16 +17,24 @@ import com.example.it00046.bodina3.R;
  */
 public final class RecercaEntitats extends ArrayAdapter<Entitat> {
 
+    private Context l_context;
+    private int l_textViewResourceId;
+    public int lPosicio = -1;
+
     public RecercaEntitats(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
+        l_context = context;
+        l_textViewResourceId = textViewResourceId;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        LayoutInflater inflater = LayoutInflater.from(Globals.g_Recerca);
+        //LayoutInflater inflater = LayoutInflater.from(Globals.g_Recerca);
+        LayoutInflater inflater = LayoutInflater.from(this.l_context);
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.lycustom_recerca_entitats, null);
+            //convertView = inflater.inflate(R.layout.lycustom_recerca_entitats, null);
+            convertView = inflater.inflate(l_textViewResourceId, null);
         }
 
         ((TextView)convertView.findViewById(R.id.NomEntitatRecerca)).setText(getItem(position).Nom);
@@ -34,6 +42,11 @@ public final class RecercaEntitats extends ArrayAdapter<Entitat> {
         ((TextView)convertView.findViewById(R.id.ContacteRecerca)).setText(getItem(position).Contacte);
         ((TextView)convertView.findViewById(R.id.TelefonRecerca)).setText(getItem(position).Telefon);
         ((TextView)convertView.findViewById(R.id.eMailRecerca)).setText(getItem(position).eMail);
+
+        //
+        if (lPosicio == -1){
+            lPosicio = position;
+        }
 
         // Resets the toolbar to be closed
         View toolbar = convertView.findViewById(R.id.toolbar);
