@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewParent;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -39,6 +41,8 @@ public class ac_entitat_recerca extends Activity {
     ListView searchResults;
     private int l_Posicio = -1;
     private Context Jo = this;
+    TextView l_NomAnterior;
+    View l_ToolbarAnterior;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,7 @@ public class ac_entitat_recerca extends Activity {
         setContentView(R.layout.ly_entitat_recerca);
 
         //resultText = (TextView)findViewById(R.id.searchViewResult);
-        Globals.g_Recerca = this;
+        //Globals.g_Recerca = this;
         setupSearchView();
 
         searchResults.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -64,16 +68,33 @@ public class ac_entitat_recerca extends Activity {
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
                 if (l_Posicio != position) {
+                    // Desmarquem el que hi havia marcat
+                    if (l_NomAnterior != null) {
+                        // Recuperem color
+                        l_NomAnterior.setBackgroundResource(R.color.blue);
+                        // El colapsem
+                        ((LinearLayout.LayoutParams) l_ToolbarAnterior.getLayoutParams()).bottomMargin = -80;
+                        l_ToolbarAnterior.setVisibility(View.GONE);
+                    }
+                    // Modifiquem el color de fons de la linia
+                    TextView l_Nom = (TextView)view.findViewById(R.id.NomEntitatRecerca);
+                    l_Nom.setBackgroundResource(R.color.green);
                     // Apuntem en quina linia estem (per si desprès l'usuari selecciona l'entitat)
                     l_Posicio = position;
                     View toolbar = view.findViewById(R.id.toolbar);
                     // Definim l'animació del item
                     ExpandAnimation expandAni = new ExpandAnimation(toolbar, 100);
                     toolbar.startAnimation(expandAni);
+                    l_NomAnterior = l_Nom;
+                    l_ToolbarAnterior = toolbar;
                 }
                 else{
-                    // Ho tanquem, l'usuari ha marcat el obert
-
+                    // Ens seleccionan
+                    Intent resultIntent = new Intent();
+                    int l_Parametre = l_Posicio +1;
+                    resultIntent.putExtra("Seleccio", l_Parametre);
+                    setResult(Activity.RESULT_OK, resultIntent);
+                    finish();
                 }
             }
 

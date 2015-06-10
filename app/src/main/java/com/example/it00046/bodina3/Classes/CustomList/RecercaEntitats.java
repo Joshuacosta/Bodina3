@@ -50,7 +50,7 @@ public final class RecercaEntitats extends ArrayAdapter<Entitat> {
 
         // Resets the toolbar to be closed
         View toolbar = convertView.findViewById(R.id.toolbar);
-        ((LinearLayout.LayoutParams) toolbar.getLayoutParams()).bottomMargin = -120;
+        ((LinearLayout.LayoutParams) toolbar.getLayoutParams()).bottomMargin = -80;
         toolbar.setVisibility(View.GONE);
         return convertView;
     }

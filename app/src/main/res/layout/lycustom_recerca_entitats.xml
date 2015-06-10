@@ -17,9 +17,9 @@
     <!--***********************-->
 
     <LinearLayout android:id="@+id/toolbar"
-        android:layout_marginBottom="-120dip"
+        android:layout_marginBottom="-80dip"
         android:visibility="gone"
-        android:layout_height="120dip"
+        android:layout_height="80dip"
         android:orientation="vertical"
         android:layout_width="fill_parent">
         <TextView android:id="@+id/AdresaRecerca"
@@ -46,11 +46,5 @@
             android:focusableInTouchMode="false"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
-        <Button android:id="@+id/Seleccionar"
-            android:layout_height="50dip"
-            android:paddingLeft="40dp"
-            android:layout_width="wrap_content"
-            android:text="@string/Seleccionar"
-            android:onClick="btnEntitatRecerca_Acceptar"/>
     </LinearLayout>
 </LinearLayout>
