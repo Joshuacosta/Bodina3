@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewParent;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -67,11 +68,15 @@ public class ac_entitat_recerca extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
+                ImageView l_icon;
+
                 if (l_Posicio != position) {
+                    l_icon = (ImageView) view.findViewById(R.id.ic_liniarecera);
                     // Desmarquem el que hi havia marcat
                     if (l_NomAnterior != null) {
-                        // Recuperem color
+                        // Recuperem color i amaguem seleccio
                         l_NomAnterior.setBackgroundResource(R.color.blue);
+                        l_icon.setVisibility(View.GONE);
                         // El colapsem
                         ((LinearLayout.LayoutParams) l_ToolbarAnterior.getLayoutParams()).bottomMargin = -80;
                         l_ToolbarAnterior.setVisibility(View.GONE);
@@ -79,6 +84,7 @@ public class ac_entitat_recerca extends Activity {
                     // Modifiquem el color de fons de la linia
                     TextView l_Nom = (TextView)view.findViewById(R.id.NomEntitatRecerca);
                     l_Nom.setBackgroundResource(R.color.green);
+                    l_icon.setVisibility(View.VISIBLE);
                     // Apuntem en quina linia estem (per si desprès l'usuari selecciona l'entitat)
                     l_Posicio = position;
                     View toolbar = view.findViewById(R.id.toolbar);
