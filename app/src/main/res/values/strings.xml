@@ -40,7 +40,7 @@
     <string name="Configuracio_Idioma">Language to comunicate</string>
     <string name="Configuracio_Pais">Country</string>
     <string name="Configuracio_Contacte">Contact</string>
-    <string name="Configuracio_UpdateDades">If communication active syncronize info with server</string>
+    <string name="Configuracio_UpdateDades">If communication active auto-sync info with server</string>
     <string name="Configuracio_DataAlta">Entry date</string>
     <string name="Configuracio_BotoAcceptar">Accept</string>
 

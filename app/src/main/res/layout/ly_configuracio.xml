@@ -49,11 +49,11 @@
                 android:id="@+id/litIdioma" />
 
             <Spinner
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinnerIdioma"
-                android:background="#ffff854d"
+                android:padding="10dp"
                 android:spinnerMode="dialog" />
         </FrameLayout>
 
@@ -71,11 +71,11 @@
                 android:id="@+id/litPais"/>
 
             <Spinner
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinnerPais"
-                android:background="#ffff854d"
+                android:padding="10dp"
                 android:spinnerMode="dialog" />
 
         </FrameLayout>

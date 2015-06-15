@@ -47,7 +47,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
-                android:padding="5dp">
+                android:layout_margin="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -57,22 +57,23 @@
                     android:id="@+id/litEntitatSolicitar_Entitat"/>
 
                 <Spinner
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="25dp"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/spinnerEntitatSolicitar_Entitat"
                     android:spinnerMode="dialog"
+                    android:background="@color/white"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="40dp"
-                    android:background="@color/green" />
+                    android:layout_marginRight="40dp"/>
 
                 <Button
                     android:id="@+id/AspaProva"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical|right"
-                    android:background="@drawable/ic_esborrar"
+                    android:background="@drawable/ic_search"
                     android:onClick="btnAfegirEntitatOnClick" />
 
             </FrameLayout>
