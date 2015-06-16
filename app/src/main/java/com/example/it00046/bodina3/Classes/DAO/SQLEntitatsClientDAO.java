@@ -215,6 +215,9 @@ public final class SQLEntitatsClientDAO {
         //final ArrayAdapter<EntitatClient> l_Llista = new LV_LlistaEntitatsClient(Globals.g_Native.getApplicationContext(), R.layout.ly_entitat_listview_linia);
         final ArrayAdapter<EntitatClient> l_Llista = new LV_LlistaEntitatsClient(Globals.g_Native.getApplicationContext(), P_Layout);
         EntitatClient l_EntitatClient;
+        //
+        EntitatClient l_EntitatClientX = new EntitatClient();
+        //
         int l_NumEntitats;
         // Recerquem localment
         try {
@@ -243,7 +246,21 @@ public final class SQLEntitatsClientDAO {
                     }
                     // Apuntem l'entitat del client a la llista
                     l_Llista.add(l_EntitatClient);
+
+                    l_Llista.add(l_EntitatClient);
+                    l_Llista.add(l_EntitatClient);
+                    l_Llista.add(l_EntitatClient);
+                    l_Llista.add(l_EntitatClient);
+                    l_Llista.add(l_EntitatClient);
+                    l_Llista.add(l_EntitatClient);
+                    l_Llista.add(l_EntitatClient);
+                    l_Llista.add(l_EntitatClient);
+                    l_Llista.add(l_EntitatClient);
+                    l_Llista.add(l_EntitatClient);
+                    l_Llista.add(l_EntitatClient);
+                    l_Llista.add(l_EntitatClient);
                 }
+                //
                 // Adpatem
                 P_LlistaEntitats.setAdapter(l_Llista);
             }
