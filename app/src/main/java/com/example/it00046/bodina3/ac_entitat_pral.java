@@ -1,6 +1,7 @@
 package com.example.it00046.bodina3;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -38,6 +39,10 @@ public class ac_entitat_pral extends ActionBarActivity {
                 arg0.startAnimation(animAlpha);
             }
         });
+        //
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_esborrar);
     }
 
     @Override
