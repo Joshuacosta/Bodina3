@@ -13,6 +13,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <!-- Activitat proncipal -->
         <activity
             android:name=".ac_principal"
             android:label="@string/app_name" >
@@ -21,41 +22,61 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- Fill 1: Configuració -->
         <activity
             android:name=".ac_configuracio"
-            android:label="@string/title_activity_ac_configuracio" >
+            android:label="@string/title_activity_ac_configuracio"
+            android:parentActivityName=".ac_principal">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ac_principal" />
         </activity>
-        <activity
-            android:name=".ac_entitat_solicitar"
-            android:label="@string/title_activity_ac_entitat_solicitar" >
-        </activity>
+        <!-- Fill 2: Alta celebracio -->
         <activity
             android:name=".ac_celebracio_alta"
             android:label="@string/title_activity_ac_celebracio_alta" >
         </activity>
-        <activity
-            android:name=".ac_entitat_recerca"
-            android:label="@string/title_activity_ac_entitat_recerca"
-            android:launchMode="singleTop" >
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
-        <activity
-            android:name=".ac_entitat_detall"
-            android:label="@string/title_activity_ac_entitat_detall" >
-        </activity>
+        <!-- Fill 3: Entitats -->
         <activity
             android:name=".ac_entitat_pral"
-            android:parentActivityName=".ac_principal" >
+            android:parentActivityName=".ac_principal"
             android:label="@string/title_activity_ac_entitat_pral" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ac_principal" />
+        </activity>
+        <!-- Fill 1 de Entitats: Solicitar -->
+        <activity
+            android:name=".ac_entitat_solicitar"
+            android:label="@string/title_activity_ac_entitat_solicitar"
+            android:parentActivityName=".ac_entitat_pral">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ac_entitat_pral" />
+        </activity>
+        <!-- Finestra de recerca, dintre de solicitar -->
+        <activity
+            android:name=".ac_entitat_recerca"
+            android:label="@string/title_activity_ac_entitat_recerca"
+            android:parentActivityName=".ac_entitat_solicitar"
+            android:launchMode="singleTop" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ac_entitat_solicitar" />
+        </activity>
+        <activity
+            android:name=".ac_entitat_detall"
+            android:parentActivityName=".ac_entitat_pral"
+            android:label="@string/title_activity_ac_entitat_detall" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ac_entitat_pral" />
         </activity>
 
     </application>
