@@ -42,7 +42,6 @@ public class ac_entitat_pral extends ActionBarActivity {
         //
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_esborrar);
     }
 
     @Override

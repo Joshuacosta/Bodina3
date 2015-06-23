@@ -2,7 +2,6 @@
 <resources>
 
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
 
     <!-- Generic -->
     <string name="error_CampObligatori">Required field</string>
@@ -15,6 +14,7 @@
     <string name="boto_Acceptar">Accept</string>
     <string name="boto_Cancelar">Cancel</string>
     <string name="Seleccionar">Select</string>
+    <string name="Acceptar">Accept</string>
 
     <!-- Errors codi -->
     <string name="error_avis">Alert</string>

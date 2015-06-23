@@ -121,25 +121,34 @@ public class ac_configuracio extends ActionBarActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count){ lTXT_Contacte.setError(null);}
         });
         lTXT_eMail.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {}
-            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){ lTXT_eMail.setError(null);}
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                lTXT_eMail.setError(null);
+            }
         });
         // Codi de control del camp de texte (la visibilitat del aspa). Aixó anirà dintre
         // del component que has de crear !!!!
         lTXT_Prova.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {}
-            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){
-                if (s.length() > 0){
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
                     l_BotoEsborrar.setVisibility(View.VISIBLE);
-                }
-                else{
+                } else {
                     l_BotoEsborrar.setVisibility(View.INVISIBLE);
                 }
             }
         });
-
+        // Control de en
     }
     // Funcio interna per validar la finestra
     private boolean ValidarFinestra() {
@@ -162,36 +171,37 @@ public class ac_configuracio extends ActionBarActivity {
         return ret;
     }
 
-    public void btnAcceptarOnClick(View view){
+    //public void btnAcceptarOnClick(View view){
+    public void btnAcceptarOnClick(){
         Client l_client = new Client();
 
-    // Validem que els camps estiguin informats
-    if (ValidarFinestra()) {
-        l_client.CodiClientIntern = Globals.g_Client.CodiClientIntern;
-        l_client.CodiClient = Globals.g_Client.CodiClient;
-        l_client.Nom = lTXT_Name.getText().toString();
-        l_client.eMail = lTXT_eMail.getText().toString();
-        l_client.Contacte = lTXT_Contacte.getText().toString();
-        l_client.Pais = lSPN_Paissos.getSelectedItem().toString();
-        l_client.Idioma = lSPN_Idioma.getSelectedItem().toString();
-        //
-        if (Globals.g_NoHiHanDades) {
-            SQLClientsDAO.Definir(l_client);
-            Globals.g_NoHiHanDades = false;
+        // Validem que els camps estiguin informats
+        if (ValidarFinestra()) {
+            l_client.CodiClientIntern = Globals.g_Client.CodiClientIntern;
+            l_client.CodiClient = Globals.g_Client.CodiClient;
+            l_client.Nom = lTXT_Name.getText().toString();
+            l_client.eMail = lTXT_eMail.getText().toString();
+            l_client.Contacte = lTXT_Contacte.getText().toString();
+            l_client.Pais = lSPN_Paissos.getSelectedItem().toString();
+            l_client.Idioma = lSPN_Idioma.getSelectedItem().toString();
+            //
+            if (Globals.g_NoHiHanDades) {
+                SQLClientsDAO.Definir(l_client);
+                Globals.g_NoHiHanDades = false;
+            }
+            else{
+                SQLClientsDAO.Modificar(l_client);
+            }
+            // Gravem les dades del client i tornem enrera
+            Globals.g_Client = l_client;
+            this.finish();
         }
         else{
-            SQLClientsDAO.Modificar(l_client);
+            Toast.makeText(ac_configuracio.this,
+                    Globals.g_Native.getString(R.string.error_Layout),
+                    Toast.LENGTH_LONG).show();
         }
-        // Gravem les dades del client i tornem enrera
-        Globals.g_Client = l_client;
-        this.finish();
     }
-    else{
-        Toast.makeText(ac_configuracio.this,
-                Globals.g_Native.getString(R.string.error_Layout),
-                Toast.LENGTH_LONG).show();
-    }
-}
 
     public void btnEsborrarOnClick(View view) {
         lTXT_Prova.setError(null);
@@ -214,7 +224,8 @@ public class ac_configuracio extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            btnAcceptarOnClick();
+            //return true;
         }
 
         return super.onOptionsItemSelected(item);

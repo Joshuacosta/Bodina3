@@ -3,6 +3,7 @@ package com.example.it00046.bodina3;
 import android.app.Activity;
 import android.content.Intent;
 import android.provider.Settings;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -93,6 +94,10 @@ public class ac_entitat_solicitar extends ActionBarActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             public void onTextChanged(CharSequence s, int start, int before, int count) {lTXT_eMail.setError(null);}
         });
+        // Control de enrera
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_esborrar);
     }
     // Funcio interna per validar la finestra
     private boolean ValidarFinestra() {
