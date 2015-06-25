@@ -1,4 +1,4 @@
-package com.example.it00046.bodina3.Classes.CustomList;
+package com.example.it00046.bodina3.Classes.Custom;
 
 import java.util.ArrayList;
 import android.app.Activity;
@@ -12,14 +12,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.it00046.bodina3.R;
 
-public class LV_EntitatsClientCelebracions extends BaseExpandableListAdapter {
+public class LVWEntitatsClientCelebracions extends BaseExpandableListAdapter {
 
     private Activity activity;
     private ArrayList<Object> childtems;
     private LayoutInflater inflater;
     private ArrayList<String> parentItems, child;
 
-    public LV_EntitatsClientCelebracions(ArrayList<String> parents, ArrayList<Object> childern) {
+    public LVWEntitatsClientCelebracions(ArrayList<String> parents, ArrayList<Object> childern) {
         this.parentItems = parents;
         this.childtems = childern;
     }

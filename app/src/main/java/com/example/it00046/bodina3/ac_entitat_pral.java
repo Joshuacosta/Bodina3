@@ -12,7 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.example.it00046.bodina3.Classes.DAO.SQLEntitatsClientDAO;
+import com.example.it00046.bodina3.Classes.DAO.DAOEntitatsClient;
 import com.melnykov.fab.FloatingActionButton;
 
 
@@ -26,7 +26,7 @@ public class ac_entitat_pral extends ActionBarActivity {
         // Carreguen les entitats del client
         l_EntitatsClient = (ListView) findViewById(R.id.LV_Entitats);
         //SQLEntitatsClientDAO.F_LOCAL_Llegir(l_EntitatsClient);
-        SQLEntitatsClientDAO.F_LOCAL_Llegir(l_EntitatsClient, R.layout.ly_entitat_listview_linia);
+        DAOEntitatsClient.F_LOCAL_Llegir(l_EntitatsClient, R.layout.ly_entitat_listview_linia);
         //
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.attachToListView(l_EntitatsClient);

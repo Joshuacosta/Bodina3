@@ -1,10 +1,8 @@
-package com.example.it00046.bodina3.Classes.Tipus;
+package com.example.it00046.bodina3.Classes.Entitats;
 
 /**
  * Created by it00046 on 13/02/2015.
  */
-
-import java.util.Date;
 
 /**
  * Created by Joshua on 04/02/2015.

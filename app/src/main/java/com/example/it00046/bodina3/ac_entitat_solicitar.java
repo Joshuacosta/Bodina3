@@ -2,7 +2,6 @@ package com.example.it00046.bodina3;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.provider.Settings;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,22 +11,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.it00046.bodina3.Classes.DAO.SQLEntitatsDAO;
-import com.example.it00046.bodina3.Classes.Tipus.Entitat;
-import com.example.it00046.bodina3.Classes.Tipus.EntitatClient;
+import com.example.it00046.bodina3.Classes.DAO.DAOEntitats;
+import com.example.it00046.bodina3.Classes.Entitats.Entitat;
+import com.example.it00046.bodina3.Classes.Entitats.EntitatClient;
 import com.example.it00046.bodina3.Classes.Globals;
-import com.example.it00046.bodina3.Classes.DAO.SQLEntitatsClientDAO;
-import com.example.it00046.bodina3.Classes.SpinnerClasses.SpnEntitat;
+import com.example.it00046.bodina3.Classes.DAO.DAOEntitatsClient;
+import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNEntitat;
 import com.example.it00046.bodina3.Classes.Validacio;
-import com.example.it00046.bodina3.Classes.params.PAREntitat;
-
-import java.util.List;
+import com.example.it00046.bodina3.Classes.Params.PAREntitat;
 
 
 public class ac_entitat_solicitar extends ActionBarActivity {
@@ -52,20 +48,20 @@ public class ac_entitat_solicitar extends ActionBarActivity {
         // Spinners:
         lSPN_EntitatsClient = (Spinner)findViewById(R.id.spinnerEntitatSolicitar_Entitat);
         // Llegim en el SERVIDOR les entitats del pais del client
-        SQLEntitatsDAO.F_SERVIDOR_LlistaEntitats(Globals.g_Client.Pais, lSPN_EntitatsClient);
+        DAOEntitats.F_SERVIDOR_LlistaEntitats(Globals.g_Client.Pais, lSPN_EntitatsClient);
         // Codi del Spinner de entitats del client
         lSPN_EntitatsClient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView parent, View view, int pos, long id) {
-                SpnEntitat l_SpnEntitat;
+                SPNEntitat l_SPNEntitat;
                 Entitat l_dadesEntitat = new Entitat();
                 // Esborrem possible error
                 lTextEntitat.setError(null);
                 // Si es una entitat de les "nostres" (amb la que hem treballat) recuperem
                 // el e-mail i el contacte que vem donar i els posem en els camps
-                l_SpnEntitat = (SpnEntitat) lSPN_EntitatsClient.getSelectedItem();
-                if (l_SpnEntitat.EsNova() == false) {
-                    l_dadesEntitat = l_SpnEntitat.getId();
+                l_SPNEntitat = (SPNEntitat) lSPN_EntitatsClient.getSelectedItem();
+                if (l_SPNEntitat.EsNova() == false) {
+                    l_dadesEntitat = l_SPNEntitat.getId();
                     lTXT_eMail.setText(l_dadesEntitat.eMail);
                     lTXT_Contacte.setText(l_dadesEntitat.Contacte);
                 }
@@ -117,15 +113,15 @@ public class ac_entitat_solicitar extends ActionBarActivity {
         EntitatClient l_entitatClient = new EntitatClient();
         Entitat l_dadesEntitat = new Entitat();
         PAREntitat l_entitat = new PAREntitat();
-        SpnEntitat l_SpnEntitat;
+        SPNEntitat l_SPNEntitat;
 
         // Validem que els camps estiguin informats
         if (ValidarFinestra()) {
             l_entitatClient.DescripcioAssociacio = lTXT_Descripcio.getText().toString();
             l_entitatClient.ContacteAssociacio = lTXT_Contacte.getText().toString();
             l_entitatClient.eMailAssociacio = lTXT_eMail.getText().toString();
-            l_SpnEntitat = (SpnEntitat) lSPN_EntitatsClient.getSelectedItem();
-            l_dadesEntitat = l_SpnEntitat.getId();
+            l_SPNEntitat = (SPNEntitat) lSPN_EntitatsClient.getSelectedItem();
+            l_dadesEntitat = l_SPNEntitat.getId();
 
             l_entitatClient.CodiEntitat = l_dadesEntitat.Codi;
             l_entitatClient.NomEntitat = l_dadesEntitat.Nom;
@@ -137,7 +133,7 @@ public class ac_entitat_solicitar extends ActionBarActivity {
             // Ho poso a 1 o llegeixo la info recuperada?...
             l_entitatClient.EstatEntitat = 1;
             //
-            SQLEntitatsClientDAO.Solicitar(l_entitatClient);
+            DAOEntitatsClient.Solicitar(l_entitatClient);
             this.finish();
         }
         else{

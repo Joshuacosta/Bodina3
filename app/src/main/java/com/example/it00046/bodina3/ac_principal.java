@@ -9,10 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
 
-import com.example.it00046.bodina3.Classes.CustomList.LV_EntitatsClientCelebracions;
-import com.example.it00046.bodina3.Classes.DAO.SQLClientsDAO;
+import com.example.it00046.bodina3.Classes.Custom.LVWEntitatsClientCelebracions;
+import com.example.it00046.bodina3.Classes.DAO.DAOClients;
 import com.example.it00046.bodina3.Classes.Globals;
-import com.example.it00046.bodina3.Classes.params.PAREntitat;
 
 import java.util.ArrayList;
 
@@ -39,9 +38,9 @@ public class ac_principal extends ActionBarActivity {
         // servidor, sino, no es pot treballar amb l'aplicació sense connexió, necessitem
         // CodiClient.
         //Globals.g_Clients_DAO.Llegir();
-        SQLClientsDAO.Llegir();
+        DAOClients.Llegir();
         if (Globals.g_NoHiHanDades == true) {
-            intent = new Intent(this, ac_configuracio.class);
+            intent = new Intent(this, configuracio.class);
             startActivity(intent);
         }
         else{
@@ -55,7 +54,7 @@ public class ac_principal extends ActionBarActivity {
             setGroupParents();
             setChildData();
 
-            LV_EntitatsClientCelebracions adapter = new LV_EntitatsClientCelebracions(parentItems, childItems);
+            LVWEntitatsClientCelebracions adapter = new LVWEntitatsClientCelebracions(parentItems, childItems);
 
             adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
             expandableList.setAdapter(adapter);
@@ -142,7 +141,7 @@ public class ac_principal extends ActionBarActivity {
 
                 */
             case R.id.celebracions_Configuracio:
-                intent = new Intent(this, ac_configuracio.class);
+                intent = new Intent(this, configuracio.class);
                 startActivity(intent);
                 return true;
             case R.id.celebracions_Actualitzar:

@@ -6,12 +6,11 @@ package com.example.it00046.bodina3.Classes.DAO;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.PhpJson;
-import com.example.it00046.bodina3.Classes.Tipus.Client;
+import com.example.it00046.bodina3.Classes.Entitats.Client;
 import com.example.it00046.bodina3.R;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -21,7 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class SQLClientsDAO {
+public final class DAOClients {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A    S E R V I D O R    ( P R I V A D A )
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -206,7 +205,7 @@ public final class SQLClientsDAO {
                 // Recerquem al servidor per si lo que ha passat es que l'usuari ha esborrat
                 // les dades locals (en aquest cas les tornarem a grabar).
                 //Globals.g_Clients_DAO.f_LlegirServidorClauInterna(Globals.g_Client.CodiClientIntern);
-                SQLClientsDAO.f_LlegirServidorClauInterna(Globals.g_Client.CodiClientIntern);
+                DAOClients.f_LlegirServidorClauInterna(Globals.g_Client.CodiClientIntern);
                 // ...
             }
         }
@@ -234,6 +233,12 @@ public final class SQLClientsDAO {
             if (Globals.isNetworkAvailable()) {
                 // Montem el php
                 f_ModificarGlobal(p_client);
+            }
+            else{
+                // Informem de la operativa feta
+                Toast.makeText(Globals.g_Native,
+                        Globals.g_Native.getString(R.string.op_modificacio_ok),
+                        Toast.LENGTH_LONG).show();
             }
         }
     }

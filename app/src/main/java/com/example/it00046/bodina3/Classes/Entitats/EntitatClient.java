@@ -1,4 +1,4 @@
-package com.example.it00046.bodina3.Classes.Tipus;
+package com.example.it00046.bodina3.Classes.Entitats;
 
 /**
  * Created by it00046 on 11/05/2015.

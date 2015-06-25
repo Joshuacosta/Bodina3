@@ -15,9 +15,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.it00046.bodina3.Classes.Tipus.Client;
+import com.example.it00046.bodina3.Classes.Entitats.Client;
 import com.example.it00046.bodina3.Classes.Globals;
-import com.example.it00046.bodina3.Classes.DAO.SQLClientsDAO;
+import com.example.it00046.bodina3.Classes.DAO.DAOClients;
 import com.example.it00046.bodina3.Classes.Validacio;
 
 import java.text.DateFormat;
@@ -25,12 +25,12 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class ac_configuracio extends ActionBarActivity {
+public class configuracio extends ActionBarActivity {
 
-    private Spinner lSPN_Idioma, lSPN_Paissos;
-    private EditText lTXT_Name, lTXT_eMail, lTXT_Contacte, lTXT_Prova;
-    private TextView lTextIdioma, lTextPais, l_textDataAlta;
-    private Button l_BotoEsborrar;
+    private Spinner g_SPN_Idioma, g_SPN_Paissos;
+    private EditText g_TXT_Name, g_TXT_eMail, g_TXT_Contacte, g_TXT_Prova;
+    private TextView g_TextIdioma, g_TextPais, g_textDataAlta;
+    private Button g_BotoEsborrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,30 +40,29 @@ public class ac_configuracio extends ActionBarActivity {
         setContentView(R.layout.ly_configuracio);
         // Anem recuperant els controls:
         //  Entrada de dades
-        lTXT_Name = (EditText) findViewById(R.id.TextName);
-        lTXT_Contacte = (EditText) findViewById(R.id.TexteContacte);
-        lTXT_eMail = (EditText) findViewById(R.id.TexteMail);
-        lTXT_Prova = (EditText) findViewById(R.id.TextProva);
+        g_TXT_Name = (EditText) findViewById(R.id.TextName);
+        g_TXT_Contacte = (EditText) findViewById(R.id.TexteContacte);
+        g_TXT_eMail = (EditText) findViewById(R.id.TexteMail);
+        g_TXT_Prova = (EditText) findViewById(R.id.TextProva);
         //  Literals
-        lTextIdioma = (TextView) findViewById(R.id.litIdioma);
-        lTextPais = (TextView) findViewById(R.id.litPais);
-        //
-        l_textDataAlta = (TextView) findViewById(R.id.textDataAlta);
-        l_BotoEsborrar = (Button) findViewById(R.id.AspaProva);
-        l_BotoEsborrar.setVisibility(View.INVISIBLE);
+        g_TextIdioma = (TextView) findViewById(R.id.litIdioma);
+        g_TextPais = (TextView) findViewById(R.id.litPais);
+        // Resta camps
+        g_textDataAlta = (TextView) findViewById(R.id.textDataAlta);
+        g_BotoEsborrar = (Button) findViewById(R.id.AspaProva);
+        g_BotoEsborrar.setVisibility(View.INVISIBLE);
         // Spinners
-        lSPN_Idioma = (Spinner)findViewById(R.id.spinnerIdioma);
-        lSPN_Paissos = (Spinner)findViewById(R.id.spinnerPais);
+        g_SPN_Idioma = (Spinner)findViewById(R.id.spinnerIdioma);
+        g_SPN_Paissos = (Spinner)findViewById(R.id.spinnerPais);
         // Codi per tractar el spinner del idioma
         ArrayAdapter<CharSequence> adapter_Idioma = ArrayAdapter.createFromResource(this,R.array.Idioma,android.R.layout.simple_spinner_item);
         adapter_Idioma.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        lSPN_Idioma.setAdapter(adapter_Idioma);
         // Codi del Spinner de idioma
-        lSPN_Idioma.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        g_SPN_Idioma.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView parent, View view, int pos, long id) {
                 // Esborrem possible error
-                lTextIdioma.setError(null);
+                g_TextIdioma.setError(null);
             }
 
             @Override
@@ -73,13 +72,13 @@ public class ac_configuracio extends ActionBarActivity {
         // Codi per tractar el spinner de paissos
         ArrayAdapter<CharSequence> adapter_Pais = ArrayAdapter.createFromResource(this,R.array.Paisos,android.R.layout.simple_spinner_item);
         adapter_Pais.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        lSPN_Paissos.setAdapter(adapter_Pais);
+        g_SPN_Paissos.setAdapter(adapter_Pais);
         // Codi del Spinner de pais
-        lSPN_Paissos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        g_SPN_Paissos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView parent, View view, int pos, long id) {
                 // Esborrem possible error
-                lTextPais.setError(null);
+                g_TextPais.setError(null);
             }
 
             @Override
@@ -89,82 +88,79 @@ public class ac_configuracio extends ActionBarActivity {
         // Informem les dades si es necessari
         if (!Globals.g_Client.CodiClient.equals("")){
             // Mostrem dades
-            lTXT_Name.setText(Globals.g_Client.Nom);
-            lTXT_eMail.setText(Globals.g_Client.eMail);
-            lTXT_Contacte.setText(Globals.g_Client.Contacte);
+            g_TXT_Name.setText(Globals.g_Client.Nom);
+            g_TXT_eMail.setText(Globals.g_Client.eMail);
+            g_TXT_Contacte.setText(Globals.g_Client.Contacte);
             if (!Globals.g_Client.Idioma.isEmpty()){
                 spinnerPostion = adapter_Idioma.getPosition(Globals.g_Client.Idioma);
-                lSPN_Idioma.setSelection(spinnerPostion);
+                g_SPN_Idioma.setSelection(spinnerPostion);
             }
             if (!Globals.g_Client.Pais.isEmpty()){
                 spinnerPostion = adapter_Pais.getPosition(Globals.g_Client.Pais);
-                lSPN_Paissos.setSelection(spinnerPostion);
+                g_SPN_Paissos.setSelection(spinnerPostion);
             }
-            l_textDataAlta.setText(Globals.g_Client.DataAlta);
+            g_textDataAlta.setText(Globals.g_Client.DataAlta);
         }
         else{
             // Mostrem com a data de alta la del dia
             DateFormat l_df;
             Date l_date = new Date();
             l_df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
-            l_textDataAlta.setText(l_df.format(l_date));
+            g_textDataAlta.setText(l_df.format(l_date));
         }
         // Codi de validacio de la finestra (fem servir la clase estàtica Validació)
-        lTXT_Name.addTextChangedListener(new TextWatcher() {
+        g_TXT_Name.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) { }
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){ lTXT_Name.setError(null);}
+            public void onTextChanged(CharSequence s, int start, int before, int count){ g_TXT_Name.setError(null);}
         });
-        lTXT_Contacte.addTextChangedListener(new TextWatcher() {
+        g_TXT_Contacte.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){ lTXT_Contacte.setError(null);}
+            public void onTextChanged(CharSequence s, int start, int before, int count){ g_TXT_Contacte.setError(null);}
         });
-        lTXT_eMail.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                lTXT_eMail.setError(null);
-            }
+        g_TXT_eMail.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) { g_TXT_eMail.setError(null);}
         });
+        /*
+            De moment no ho fem servir
+
         // Codi de control del camp de texte (la visibilitat del aspa). Aixó anirà dintre
         // del component que has de crear !!!!
-        lTXT_Prova.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-            }
+        g_SPN_Idioma.setAdapter(adapter_Idioma);
+        g_TXT_Prova.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {}
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() > 0) {
-                    l_BotoEsborrar.setVisibility(View.VISIBLE);
+                    g_BotoEsborrar.setVisibility(View.VISIBLE);
                 } else {
-                    l_BotoEsborrar.setVisibility(View.INVISIBLE);
+                    g_BotoEsborrar.setVisibility(View.INVISIBLE);
                 }
             }
         });
-        // Control de en
+        */
     }
     // Funcio interna per validar la finestra
     private boolean ValidarFinestra() {
         boolean ret = true;
-        TextView lTextIdioma = (TextView) findViewById(R.id.litIdioma);
-        TextView lTextPais = (TextView) findViewById(R.id.litPais);
+        TextView g_TextIdioma = (TextView) findViewById(R.id.litIdioma);
+        TextView g_TextPais = (TextView) findViewById(R.id.litPais);
 
-        if (!Validacio.hasText(lTXT_Name)) ret = false;
-        if (!Validacio.hasText(lTXT_Contacte)) ret = false;
-        if (!Validacio.isEmailAddress(lTXT_eMail, true)) ret = false;
-        if (lSPN_Idioma.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))){
-            lTextIdioma.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
+        if (!Validacio.hasText(g_TXT_Name)) ret = false;
+        if (!Validacio.hasText(g_TXT_Contacte)) ret = false;
+        if (!Validacio.isEmailAddress(g_TXT_eMail, true)) ret = false;
+        if (g_SPN_Idioma.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))){
+            g_TextIdioma.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
             ret = false;
         }
-        if (lSPN_Paissos.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))) {
-            lTextPais.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
+        if (g_SPN_Paissos.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))) {
+            g_TextPais.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
             ret = false;
         }
 
@@ -179,33 +175,33 @@ public class ac_configuracio extends ActionBarActivity {
         if (ValidarFinestra()) {
             l_client.CodiClientIntern = Globals.g_Client.CodiClientIntern;
             l_client.CodiClient = Globals.g_Client.CodiClient;
-            l_client.Nom = lTXT_Name.getText().toString();
-            l_client.eMail = lTXT_eMail.getText().toString();
-            l_client.Contacte = lTXT_Contacte.getText().toString();
-            l_client.Pais = lSPN_Paissos.getSelectedItem().toString();
-            l_client.Idioma = lSPN_Idioma.getSelectedItem().toString();
+            l_client.Nom = g_TXT_Name.getText().toString();
+            l_client.eMail = g_TXT_eMail.getText().toString();
+            l_client.Contacte = g_TXT_Contacte.getText().toString();
+            l_client.Pais = g_SPN_Paissos.getSelectedItem().toString();
+            l_client.Idioma = g_SPN_Idioma.getSelectedItem().toString();
             //
             if (Globals.g_NoHiHanDades) {
-                SQLClientsDAO.Definir(l_client);
+                DAOClients.Definir(l_client);
                 Globals.g_NoHiHanDades = false;
             }
             else{
-                SQLClientsDAO.Modificar(l_client);
+                DAOClients.Modificar(l_client);
             }
             // Gravem les dades del client i tornem enrera
             Globals.g_Client = l_client;
             this.finish();
         }
         else{
-            Toast.makeText(ac_configuracio.this,
+            Toast.makeText(configuracio.this,
                     Globals.g_Native.getString(R.string.error_Layout),
                     Toast.LENGTH_LONG).show();
         }
     }
 
     public void btnEsborrarOnClick(View view) {
-        lTXT_Prova.setError(null);
-        lTXT_Prova.setText(null);
+        g_TXT_Prova.setError(null);
+        g_TXT_Prova.setText(null);
     }
 
     @Override
@@ -225,7 +221,7 @@ public class ac_configuracio extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             btnAcceptarOnClick();
-            //return true;
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

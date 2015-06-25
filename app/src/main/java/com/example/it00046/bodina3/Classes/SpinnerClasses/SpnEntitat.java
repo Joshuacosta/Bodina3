@@ -1,16 +1,16 @@
 package com.example.it00046.bodina3.Classes.SpinnerClasses;
 
-import com.example.it00046.bodina3.Classes.Tipus.Entitat;
+import com.example.it00046.bodina3.Classes.Entitats.Entitat;
 
 /**
  * Created by it00046 on 13/05/2015.
  */
-public class SpnEntitat {
+public class SPNEntitat {
     private Entitat l_entitat;
     private String l_Nom;
     private boolean l_Nova;
 
-    public SpnEntitat ( Entitat Entitat , String P_Nom , boolean P_Nova) {
+    public SPNEntitat(Entitat Entitat, String P_Nom, boolean P_Nova) {
         this.l_entitat = Entitat;
         this.l_Nom = P_Nom;
         this.l_Nova = P_Nova;

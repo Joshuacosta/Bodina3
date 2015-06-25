@@ -6,12 +6,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.example.it00046.bodina3.Classes.CustomList.RecercaEntitats;
+import com.example.it00046.bodina3.Classes.Custom.LVWRecercaEntitats;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.PhpJson;
-import com.example.it00046.bodina3.Classes.SpinnerClasses.SpnEntitat;
-import com.example.it00046.bodina3.Classes.Tipus.Entitat;
-import com.example.it00046.bodina3.Classes.Tipus.EntitatClient;
+import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNEntitat;
+import com.example.it00046.bodina3.Classes.Entitats.Entitat;
 import com.example.it00046.bodina3.R;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -27,7 +26,7 @@ import java.util.List;
 /**
  * Created by it00046 on 13/05/2015.
  */
-public class SQLEntitatsDAO {
+public final class DAOEntitats {
     // Variables
     private static RequestParams g_parametresPHP = new RequestParams();
     private static final String TAG_Entitat = "entitat";
@@ -44,7 +43,7 @@ public class SQLEntitatsDAO {
     //
     public static void F_SERVIDOR_LlistaEntitats (String p_Pais, final ListView LV_Entitats, Context P_Context){
         //final ArrayAdapter<Entitat> listAdapter = new RecercaEntitats(Globals.g_Native.getApplicationContext(), R.layout.lycustom_recerca_entitats);
-        final ArrayAdapter<Entitat> listAdapter = new RecercaEntitats(P_Context, R.layout.lycustom_recerca_entitats);
+        final ArrayAdapter<Entitat> listAdapter = new LVWRecercaEntitats(P_Context, R.layout.lycustom_recerca_entitats);
 
         if (Globals.isNetworkAvailable()){
             // Montem el php
@@ -99,7 +98,7 @@ public class SQLEntitatsDAO {
     // Funció per llegir del SERVIDOR les entitats de un pais, retornem la info a un spinner
     //
     public static void F_SERVIDOR_LlistaEntitats (String p_Pais, final Spinner SPN_EntitatsClient){
-        final List <SpnEntitat> l_Entitats = new ArrayList<SpnEntitat>();
+        final List <SPNEntitat> l_Entitats = new ArrayList<SPNEntitat>();
 
         if (Globals.isNetworkAvailable()){
             // Montem el php
@@ -122,7 +121,7 @@ public class SQLEntitatsDAO {
                         String l_Resposta = p_entitats.getString(Globals.TAG_VALIDS);
                         if (l_Resposta.equals(Globals.k_PHPOK)) {
                             // Posem a la llista la entrada de "Seleccioni..."
-                            SpnEntitat l_SelectOne = new SpnEntitat(null, Globals.g_Native.getString(R.string.llista_Select), true);
+                            SPNEntitat l_SelectOne = new SPNEntitat(null, Globals.g_Native.getString(R.string.llista_Select), true);
                             l_Entitats.add(l_SelectOne);
                             // Llegim les entitats
                             JSONArray l_ArrayEntitats = null;
@@ -132,11 +131,11 @@ public class SQLEntitatsDAO {
                                 // Pasa les dades del objecte JSON a la Entitat
                                 Entitat l_entitat = f_JSONToEntitat(l_entitatServidor);
                                 // Carreguem
-                                SpnEntitat l_spinner = new SpnEntitat(l_entitat, l_entitat.Nom, true);
+                                SPNEntitat l_spinner = new SPNEntitat(l_entitat, l_entitat.Nom, true);
                                 l_Entitats.add(l_spinner);
                             }
                             // Associem
-                            ArrayAdapter<SpnEntitat> dataAdapter = new ArrayAdapter<SpnEntitat>(Globals.g_Native, R.layout.ly_spinnerdefecte, l_Entitats);
+                            ArrayAdapter<SPNEntitat> dataAdapter = new ArrayAdapter<SPNEntitat>(Globals.g_Native, R.layout.ly_spinnerdefecte, l_Entitats);
                             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             SPN_EntitatsClient.setAdapter(dataAdapter);
                         }

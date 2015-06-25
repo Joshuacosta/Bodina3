@@ -24,7 +24,7 @@
         </activity>
         <!-- Fill 1: Configuració -->
         <activity
-            android:name=".ac_configuracio"
+            android:name=".configuracio"
             android:label="@string/title_activity_ac_configuracio"
             android:parentActivityName=".ac_principal">
             <meta-data

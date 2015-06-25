@@ -2,36 +2,27 @@ package com.example.it00046.bodina3.Classes.DAO;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.text.Layout;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.it00046.bodina3.Classes.CustomList.LV_LlistaEntitatsClient;
+import com.example.it00046.bodina3.Classes.Custom.LVWLlistaEntitatsClient;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.PhpJson;
-import com.example.it00046.bodina3.Classes.SpinnerClasses.SpnEntitat;
-import com.example.it00046.bodina3.Classes.Tipus.Client;
-import com.example.it00046.bodina3.Classes.Tipus.Entitat;
-import com.example.it00046.bodina3.Classes.Tipus.EntitatClient;
-import com.example.it00046.bodina3.Classes.params.PAREntitat;
+import com.example.it00046.bodina3.Classes.Entitats.Client;
+import com.example.it00046.bodina3.Classes.Entitats.EntitatClient;
 import com.example.it00046.bodina3.R;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by it00046 on 06/05/2015.
  */
-public final class SQLEntitatsClientDAO {
+public final class DAOEntitatsClient {
     // Variables
     private static RequestParams g_parametresPHP = new RequestParams();
     private static final String TAG_VALIDS = "valids";
@@ -213,7 +204,7 @@ public final class SQLEntitatsClientDAO {
     // Funcio per llegir les entitats del client en una listview
     public static void F_LOCAL_Llegir(final ListView P_LlistaEntitats, int P_Layout){
         //final ArrayAdapter<EntitatClient> l_Llista = new LV_LlistaEntitatsClient(Globals.g_Native.getApplicationContext(), R.layout.ly_entitat_listview_linia);
-        final ArrayAdapter<EntitatClient> l_Llista = new LV_LlistaEntitatsClient(Globals.g_Native.getApplicationContext(), P_Layout);
+        final ArrayAdapter<EntitatClient> l_Llista = new LVWLlistaEntitatsClient(Globals.g_Native.getApplicationContext(), P_Layout);
         EntitatClient l_EntitatClient;
         //
         EntitatClient l_EntitatClientX = new EntitatClient();

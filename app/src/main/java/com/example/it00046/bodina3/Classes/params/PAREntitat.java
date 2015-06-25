@@ -1,4 +1,4 @@
-package com.example.it00046.bodina3.Classes.params;
+package com.example.it00046.bodina3.Classes.Params;
 
 import java.io.Serializable;
 

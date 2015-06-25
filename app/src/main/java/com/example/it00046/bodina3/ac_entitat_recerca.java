@@ -1,20 +1,11 @@
 package com.example.it00046.bodina3;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.os.AsyncTask;
-import android.provider.ContactsContract;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewParent;
@@ -25,15 +16,8 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import com.example.it00046.bodina3.Classes.CustomList.RecercaEntitats;
-import com.example.it00046.bodina3.Classes.DAO.SQLEntitatsDAO;
+import com.example.it00046.bodina3.Classes.DAO.DAOEntitats;
 import com.example.it00046.bodina3.Classes.ExpandAnimation;
-import com.example.it00046.bodina3.Classes.Globals;
-import com.example.it00046.bodina3.Classes.SpinnerClasses.SpnEntitat;
-import com.example.it00046.bodina3.Classes.Tipus.Entitat;
-import com.example.it00046.bodina3.Classes.params.PAREntitat;
-
-import org.json.JSONArray;
 
 
 public class ac_entitat_recerca extends Activity {
@@ -135,7 +119,7 @@ public class ac_entitat_recerca extends Activity {
                 // Recerquem a partir de 3 caracters
                 if (newText.length() > 3) {
                     searchResults.setVisibility(View.VISIBLE);
-                    SQLEntitatsDAO.F_SERVIDOR_LlistaEntitats("", searchResults, Jo);
+                    DAOEntitats.F_SERVIDOR_LlistaEntitats("", searchResults, Jo);
                 } else {
                     searchResults.setVisibility(View.INVISIBLE);
                 }

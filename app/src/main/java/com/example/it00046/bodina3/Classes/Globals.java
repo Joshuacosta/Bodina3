@@ -11,8 +11,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings.Secure;
 
-import com.example.it00046.bodina3.Classes.DAO.SQLClientsDAO;
-import com.example.it00046.bodina3.Classes.Tipus.Client;
+import com.example.it00046.bodina3.Classes.Entitats.Client;
 
 import java.text.DateFormat;
 import java.text.ParseException;

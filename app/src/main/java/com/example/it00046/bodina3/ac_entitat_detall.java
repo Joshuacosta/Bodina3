@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.example.it00046.bodina3.Classes.params.PAREntitat;
+import com.example.it00046.bodina3.Classes.Params.PAREntitat;
 
 
 public class ac_entitat_detall extends ActionBarActivity {
