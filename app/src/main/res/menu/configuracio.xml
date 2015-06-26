@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ac_configuracio">
-    <item android:id="@+id/action_settings" android:title="@string/Acceptar"
+    <item android:id="@+id/configuracioMNUacceptar" android:title="@string/Acceptar"
         android:orderInCategory="100"
         android:icon="@drawable/ic_validar"
         app:showAsAction="always" />

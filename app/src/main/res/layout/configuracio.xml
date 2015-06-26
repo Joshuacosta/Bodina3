@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ac_configuracio">
+    tools:context=".configuracio">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
@@ -17,23 +17,23 @@
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/configuracioETXnom"
             android:layout_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:hint="@string/Configuracio_Nom"
+            android:hint="@string/configuracio_Nom"
             android:ems="10"
-            android:id="@+id/TextName"
             android:layout_gravity="center_horizontal"/>
 
         <EditText
+            android:id="@+id/configuracioETXeMail"
             android:layout_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:ems="10"
-            android:id="@+id/TexteMail"
-            android:hint="@string/Configuracio_eMail" />
+            android:hint="@string/configuracio_eMail" />
 
         <FrameLayout
             android:layout_width="fill_parent"
@@ -42,17 +42,17 @@
             android:padding="5dp">
 
             <TextView
+                android:id="@+id/configuracioTXTidioma"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/Configuracio_Idioma"
-                android:id="@+id/litIdioma" />
+                android:text="@string/configuracio_Idioma"/>
 
             <Spinner
+                android:id="@+id/configuracioSPNidioma"
                 android:layout_marginTop="25dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinnerIdioma"
                 android:padding="10dp"
                 android:spinnerMode="dialog" />
         </FrameLayout>
@@ -64,56 +64,35 @@
             android:padding="5dp">
 
             <TextView
+                android:id="@+id/configuracioTXTpais"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/Configuracio_Pais"
-                android:id="@+id/litPais"/>
+                android:text="@string/configuracio_Pais"/>
 
             <Spinner
+                android:id="@+id/configuracioSPNpais"
                 android:layout_marginTop="25dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinnerPais"
                 android:padding="10dp"
                 android:spinnerMode="dialog" />
 
         </FrameLayout>
 
         <EditText
+            android:id="@+id/configuracioETXContacte"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/TexteContacte"
-            android:hint="@string/Configuracio_Contacte"
+            android:hint="@string/configuracio_Contacte"
             android:layout_marginTop="20dp" />
 
         <CheckBox
+            android:id="@+id/configuracioCBXsincronitzacio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Configuracio_UpdateDades"
-            android:id="@+id/CBXSincronitzacio"
+            android:text="@string/configuracio_UpdateDades"
             android:layout_marginTop="20dp" />
-
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="9dp">
-
-            <EditText
-                android:id="@+id/TextProva"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/Configuracio_Contacte"/>
-
-            <Button
-                android:id="@+id/AspaProva"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="center_vertical|right"
-                android:background="@drawable/ic_esborrar"
-                android:onClick="btnEsborrarOnClick" />
-        </FrameLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -123,28 +102,20 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/configuracioTXTdataAlta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/Configuracio_DataAlta"
-                android:id="@+id/litDataAlta"/>
+                android:text="@string/configuracio_DataAlta"/>
 
             <TextView
+                android:id="@+id/configuracioETXdataAlta"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/textDataAlta"/>
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         </LinearLayout>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Configuracio_BotoAcceptar"
-            android:id="@+id/btnAceptar"
-            android:layout_gravity="right"
-            android:onClick="btnAcceptarOnClick" />
 
     </LinearLayout>
 </ScrollView>

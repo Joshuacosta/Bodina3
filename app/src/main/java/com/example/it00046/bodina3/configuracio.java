@@ -33,27 +33,22 @@ public class configuracio extends ActionBarActivity {
     private Button g_BotoEsborrar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        int spinnerPostion;
+    protected void onCreate(Bundle p_savedInstanceState) {
+        int l_spinnerPosition;
+        DateFormat l_df;
+        Date l_date = new Date();
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.ly_configuracio);
+        super.onCreate(p_savedInstanceState);
+        setContentView(R.layout.configuracio);
         // Anem recuperant els controls:
-        //  Entrada de dades
-        g_TXT_Name = (EditText) findViewById(R.id.TextName);
-        g_TXT_Contacte = (EditText) findViewById(R.id.TexteContacte);
-        g_TXT_eMail = (EditText) findViewById(R.id.TexteMail);
-        g_TXT_Prova = (EditText) findViewById(R.id.TextProva);
-        //  Literals
-        g_TextIdioma = (TextView) findViewById(R.id.litIdioma);
-        g_TextPais = (TextView) findViewById(R.id.litPais);
-        // Resta camps
-        g_textDataAlta = (TextView) findViewById(R.id.textDataAlta);
-        g_BotoEsborrar = (Button) findViewById(R.id.AspaProva);
-        g_BotoEsborrar.setVisibility(View.INVISIBLE);
-        // Spinners
-        g_SPN_Idioma = (Spinner)findViewById(R.id.spinnerIdioma);
-        g_SPN_Paissos = (Spinner)findViewById(R.id.spinnerPais);
+        g_TXT_Name = (EditText) findViewById(R.id.configuracioETXnom);
+        g_TXT_Contacte = (EditText) findViewById(R.id.configuracioETXContacte);
+        g_TXT_eMail = (EditText) findViewById(R.id.configuracioETXeMail);
+        g_TextIdioma = (TextView) findViewById(R.id.configuracioTXTidioma);
+        g_TextPais = (TextView) findViewById(R.id.configuracioTXTpais);
+        g_textDataAlta = (TextView) findViewById(R.id.configuracioTXTdataAlta);
+        g_SPN_Idioma = (Spinner)findViewById(R.id.configuracioSPNidioma);
+        g_SPN_Paissos = (Spinner)findViewById(R.id.configuracioSPNpais);
         // Codi per tractar el spinner del idioma
         ArrayAdapter<CharSequence> adapter_Idioma = ArrayAdapter.createFromResource(this,R.array.Idioma,android.R.layout.simple_spinner_item);
         adapter_Idioma.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -92,19 +87,17 @@ public class configuracio extends ActionBarActivity {
             g_TXT_eMail.setText(Globals.g_Client.eMail);
             g_TXT_Contacte.setText(Globals.g_Client.Contacte);
             if (!Globals.g_Client.Idioma.isEmpty()){
-                spinnerPostion = adapter_Idioma.getPosition(Globals.g_Client.Idioma);
-                g_SPN_Idioma.setSelection(spinnerPostion);
+                l_spinnerPosition = adapter_Idioma.getPosition(Globals.g_Client.Idioma);
+                g_SPN_Idioma.setSelection(l_spinnerPosition);
             }
             if (!Globals.g_Client.Pais.isEmpty()){
-                spinnerPostion = adapter_Pais.getPosition(Globals.g_Client.Pais);
-                g_SPN_Paissos.setSelection(spinnerPostion);
+                l_spinnerPosition = adapter_Pais.getPosition(Globals.g_Client.Pais);
+                g_SPN_Paissos.setSelection(l_spinnerPosition);
             }
             g_textDataAlta.setText(Globals.g_Client.DataAlta);
         }
         else{
             // Mostrem com a data de alta la del dia
-            DateFormat l_df;
-            Date l_date = new Date();
             l_df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
             g_textDataAlta.setText(l_df.format(l_date));
         }
@@ -148,27 +141,24 @@ public class configuracio extends ActionBarActivity {
     }
     // Funcio interna per validar la finestra
     private boolean ValidarFinestra() {
-        boolean ret = true;
-        TextView g_TextIdioma = (TextView) findViewById(R.id.litIdioma);
-        TextView g_TextPais = (TextView) findViewById(R.id.litPais);
+        boolean l_ret = true;
 
-        if (!Validacio.hasText(g_TXT_Name)) ret = false;
-        if (!Validacio.hasText(g_TXT_Contacte)) ret = false;
-        if (!Validacio.isEmailAddress(g_TXT_eMail, true)) ret = false;
+        if (!Validacio.hasText(g_TXT_Name)) l_ret = false;
+        if (!Validacio.hasText(g_TXT_Contacte)) l_ret = false;
+        if (!Validacio.isEmailAddress(g_TXT_eMail, true)) l_ret = false;
         if (g_SPN_Idioma.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))){
             g_TextIdioma.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
-            ret = false;
+            l_ret = false;
         }
         if (g_SPN_Paissos.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))) {
             g_TextPais.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
-            ret = false;
+            l_ret = false;
         }
-
-        return ret;
+        //
+        return l_ret;
     }
 
-    //public void btnAcceptarOnClick(View view){
-    public void btnAcceptarOnClick(){
+    private void FerOperativa(){
         Client l_client = new Client();
 
         // Validem que els camps estiguin informats
@@ -199,32 +189,27 @@ public class configuracio extends ActionBarActivity {
         }
     }
 
-    public void btnEsborrarOnClick(View view) {
-        g_TXT_Prova.setError(null);
-        g_TXT_Prova.setText(null);
-    }
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu p_menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.mn_configuracio, menu);
+        getMenuInflater().inflate(R.menu.configuracio, p_menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem p_item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        int l_id = p_item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            btnAcceptarOnClick();
+        if (l_id == R.id.configuracioMNUacceptar) {
+            FerOperativa();
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(p_item);
     }
 
 }

@@ -16,7 +16,7 @@ import com.example.it00046.bodina3.Classes.Globals;
 import java.util.ArrayList;
 
 
-public class ac_principal extends ActionBarActivity {
+public class principal extends ActionBarActivity {
 
     private ArrayList<String> parentItems = new ArrayList<String>();
     private ArrayList<Object> childItems = new ArrayList<Object>();
@@ -26,7 +26,7 @@ public class ac_principal extends ActionBarActivity {
         Intent intent;
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ly_principal);
+        setContentView(R.layout.principal);
 
         // Definim contexte a nivel global
         Globals.g_Native = this;
@@ -107,7 +107,7 @@ public class ac_principal extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.mn_principal, menu);
+        getMenuInflater().inflate(R.menu.principal, menu);
         return true;
     }
 
@@ -117,11 +117,11 @@ public class ac_principal extends ActionBarActivity {
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.celebracions_Entitats:
+            case R.id.principalMNUentitats:
                 intent = new Intent(this, ac_entitat_pral.class);
                 startActivity(intent);
                 break;
-            case R.id.celebracions_Afegir:
+            case R.id.principalMNUafegir:
                 intent = new Intent(this, ac_celebracio_alta.class);
                 startActivity(intent);
                 return true;
@@ -140,11 +140,11 @@ public class ac_principal extends ActionBarActivity {
                 startActivity(l_intent);
 
                 */
-            case R.id.celebracions_Configuracio:
+            case R.id.principalMNUconfiguracio:
                 intent = new Intent(this, configuracio.class);
                 startActivity(intent);
                 return true;
-            case R.id.celebracions_Actualitzar:
+            case R.id.principalMNUactualitzar:
                 //
                 return true;
         }

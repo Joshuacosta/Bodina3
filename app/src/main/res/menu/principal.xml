@@ -1,16 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".ac_principal">
-    <item android:id="@+id/celebracions_Entitats"
-        android:title="@string/menu_celebracions_Entitats"
+    <item android:id="@+id/principalMNUentitats"
+        android:title="@string/principalMNUentitats"
         android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/celebracions_Afegir"
-        android:title="@string/menu_celebracions_Afegir"
+    <item android:id="@+id/principalMNUafegir"
+        android:title="@string/principalMNUafegir"
         android:orderInCategory="101" app:showAsAction="ifRoom" />
-    <item android:id="@+id/celebracions_Configuracio"
-        android:title="@string/menu_celebracions_Configuracio"
+    <item android:id="@+id/principalMNUconfiguracio"
+        android:title="@string/principalMNUconfiguracio"
         android:orderInCategory="102" app:showAsAction="never" />
-    <item android:id="@+id/celebracions_Actualitzar"
-        android:title="@string/menu_celebracions_Actualitzar"
+    <item android:id="@+id/principalMNUactualitzar"
+        android:title="@string/principalMNUactualitzar"
         android:orderInCategory="103" app:showAsAction="never" />
 </menu>

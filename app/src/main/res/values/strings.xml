@@ -28,21 +28,20 @@
 
     <!-- Layout principal -->
     <string name="app_name">Bodina</string>
-    <string name="menu_celebracions_Entitats">Entities</string>
-    <string name="menu_celebracions_Afegir">Add event</string>
-    <string name="menu_celebracions_Configuracio">Settings</string>
-    <string name="menu_celebracions_Actualitzar">Refresh</string>
+    <string name="principalMNUentitats">Entities</string>
+    <string name="principalMNUafegir">Add event</string>
+    <string name="principalMNUconfiguracio">Settings</string>
+    <string name="principalMNUactualitzar">Refresh</string>
 
     <!-- Layout Configuracio -->
-    <string name="title_activity_ac_configuracio">Settings</string>
-    <string name="Configuracio_Nom">Name</string>
-    <string name="Configuracio_eMail">e-Mail</string>
-    <string name="Configuracio_Idioma">Language to comunicate</string>
-    <string name="Configuracio_Pais">Country</string>
-    <string name="Configuracio_Contacte">Contact</string>
-    <string name="Configuracio_UpdateDades">If communication active auto-sync info with server</string>
-    <string name="Configuracio_DataAlta">Entry date</string>
-    <string name="Configuracio_BotoAcceptar">Accept</string>
+    <string name="configuracioTitol">Settings</string>
+    <string name="configuracio_Nom">Name</string>
+    <string name="configuracio_eMail">e-Mail</string>
+    <string name="configuracio_Idioma">Language to comunicate</string>
+    <string name="configuracio_Pais">Country</string>
+    <string name="configuracio_Contacte">Contact</string>
+    <string name="configuracio_UpdateDades">If communication active auto-sync info with server</string>
+    <string name="configuracio_DataAlta">Entry date</string>
 
     <!-- Layout Entitat principal -->
     <string name="title_activity_ac_entitat_pral">Entities</string>
