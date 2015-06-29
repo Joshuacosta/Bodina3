@@ -7,10 +7,10 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.example.it00046.bodina3.Classes.Custom.LVWRecercaEntitats;
+import com.example.it00046.bodina3.Classes.Entitats.Entitat;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.PhpJson;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNEntitat;
-import com.example.it00046.bodina3.Classes.Entitats.Entitat;
 import com.example.it00046.bodina3.R;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Created by it00046 on 13/05/2015.
  */
-public final class DAOEntitats {
+public final class DAOEntitatsOLD {
     // Variables
     private static RequestParams g_parametresPHP = new RequestParams();
     private static final String TAG_Entitat = "entitat";
@@ -64,9 +64,9 @@ public final class DAOEntitats {
             PhpJson.post("Entitats.php", g_parametresPHP, new JsonHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode,
-                                      org.apache.http.Header[] headers,
-                                      java.lang.Throwable throwable,
-                                      org.json.JSONObject errorResponse) {
+                                      Header[] headers,
+                                      Throwable throwable,
+                                      JSONObject errorResponse) {
                     Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                             Globals.g_Native.getString(R.string.error_greu));
                 }
@@ -117,9 +117,9 @@ public final class DAOEntitats {
             PhpJson.post("Entitats.php", g_parametresPHP, new JsonHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode,
-                                      org.apache.http.Header[] headers,
-                                      java.lang.Throwable throwable,
-                                      org.json.JSONObject errorResponse) {
+                                      Header[] headers,
+                                      Throwable throwable,
+                                      JSONObject errorResponse) {
                     Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                             Globals.g_Native.getString(R.string.error_greu));
                 }

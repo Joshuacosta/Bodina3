@@ -22,10 +22,10 @@ public class principal extends ActionBarActivity {
     private ArrayList<Object> childItems = new ArrayList<Object>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        Intent intent;
+    protected void onCreate(Bundle p_savedInstanceState) {
+        Intent l_intent;
 
-        super.onCreate(savedInstanceState);
+        super.onCreate(p_savedInstanceState);
         setContentView(R.layout.principal);
 
         // Definim contexte a nivel global
@@ -40,8 +40,8 @@ public class principal extends ActionBarActivity {
         //Globals.g_Clients_DAO.Llegir();
         DAOClients.Llegir();
         if (Globals.g_NoHiHanDades == true) {
-            intent = new Intent(this, configuracio.class);
-            startActivity(intent);
+            l_intent = new Intent(this, configuracio.class);
+            startActivity(l_intent);
         }
         else{
             // Haurem de carregar desde la BBDD local la llista de celebracions del client
@@ -105,49 +105,34 @@ public class principal extends ActionBarActivity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu p_menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.principal, menu);
+        getMenuInflater().inflate(R.menu.principal, p_menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        int id = item.getItemId();
+    public boolean onOptionsItemSelected(MenuItem p_item) {
+        Intent l_intent;
+        int l_id = p_item.getItemId();
 
-        switch (id) {
+        switch (l_id) {
             case R.id.principalMNUentitats:
-                intent = new Intent(this, ac_entitat_pral.class);
-                startActivity(intent);
+                l_intent = new Intent(this, ac_entitat_pral.class);
+                startActivity(l_intent);
                 break;
             case R.id.principalMNUafegir:
-                intent = new Intent(this, ac_celebracio_alta.class);
-                startActivity(intent);
-                return true;
-                /*
-                    Experiment pasar dades a una activitat
-
-                PAREntitat details = new PAREntitat();
-                details.Adresa = "Adresa";
-                details.eMail = "eMail";
-                details.Nom = "Nom";
-                details.Telefon = "Telefon";
-                details.Contacte = "Contacte";
-
-                Intent l_intent = new Intent(this, ac_entitat_detall.class);
-                l_intent.putExtra("Info", details);
+                l_intent = new Intent(this, ac_celebracio_alta.class);
                 startActivity(l_intent);
-
-                */
+                return true;
             case R.id.principalMNUconfiguracio:
-                intent = new Intent(this, configuracio.class);
-                startActivity(intent);
+                l_intent = new Intent(this, configuracio.class);
+                startActivity(l_intent);
                 return true;
             case R.id.principalMNUactualitzar:
                 //
                 return true;
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(p_item);
     }
 }

@@ -28,9 +28,8 @@ import java.util.Locale;
 public class configuracio extends ActionBarActivity {
 
     private Spinner g_SPN_Idioma, g_SPN_Paissos;
-    private EditText g_TXT_Name, g_TXT_eMail, g_TXT_Contacte, g_TXT_Prova;
-    private TextView g_TextIdioma, g_TextPais, g_textDataAlta;
-    private Button g_BotoEsborrar;
+    private EditText g_ETX_Name, g_ETX_eMail, g_ETX_Contacte;
+    private TextView g_TXT_Idioma, g_TXT_Pais, g_TXT_DataAlta;
 
     @Override
     protected void onCreate(Bundle p_savedInstanceState) {
@@ -41,12 +40,12 @@ public class configuracio extends ActionBarActivity {
         super.onCreate(p_savedInstanceState);
         setContentView(R.layout.configuracio);
         // Anem recuperant els controls:
-        g_TXT_Name = (EditText) findViewById(R.id.configuracioETXnom);
-        g_TXT_Contacte = (EditText) findViewById(R.id.configuracioETXContacte);
-        g_TXT_eMail = (EditText) findViewById(R.id.configuracioETXeMail);
-        g_TextIdioma = (TextView) findViewById(R.id.configuracioTXTidioma);
-        g_TextPais = (TextView) findViewById(R.id.configuracioTXTpais);
-        g_textDataAlta = (TextView) findViewById(R.id.configuracioTXTdataAlta);
+        g_ETX_Name = (EditText) findViewById(R.id.configuracioETXnom);
+        g_ETX_Contacte = (EditText) findViewById(R.id.configuracioETXContacte);
+        g_ETX_eMail = (EditText) findViewById(R.id.configuracioETXeMail);
+        g_TXT_Idioma = (TextView) findViewById(R.id.configuracioTXTidioma);
+        g_TXT_Pais = (TextView) findViewById(R.id.configuracioTXTpais);
+        g_TXT_DataAlta = (TextView) findViewById(R.id.configuracioTXTdataAlta);
         g_SPN_Idioma = (Spinner)findViewById(R.id.configuracioSPNidioma);
         g_SPN_Paissos = (Spinner)findViewById(R.id.configuracioSPNpais);
         // Codi per tractar el spinner del idioma
@@ -57,7 +56,7 @@ public class configuracio extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView parent, View view, int pos, long id) {
                 // Esborrem possible error
-                g_TextIdioma.setError(null);
+                g_TXT_Idioma.setError(null);
             }
 
             @Override
@@ -73,7 +72,7 @@ public class configuracio extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView parent, View view, int pos, long id) {
                 // Esborrem possible error
-                g_TextPais.setError(null);
+                g_TXT_Pais.setError(null);
             }
 
             @Override
@@ -83,9 +82,9 @@ public class configuracio extends ActionBarActivity {
         // Informem les dades si es necessari
         if (!Globals.g_Client.CodiClient.equals("")){
             // Mostrem dades
-            g_TXT_Name.setText(Globals.g_Client.Nom);
-            g_TXT_eMail.setText(Globals.g_Client.eMail);
-            g_TXT_Contacte.setText(Globals.g_Client.Contacte);
+            g_ETX_Name.setText(Globals.g_Client.Nom);
+            g_ETX_eMail.setText(Globals.g_Client.eMail);
+            g_ETX_Contacte.setText(Globals.g_Client.Contacte);
             if (!Globals.g_Client.Idioma.isEmpty()){
                 l_spinnerPosition = adapter_Idioma.getPosition(Globals.g_Client.Idioma);
                 g_SPN_Idioma.setSelection(l_spinnerPosition);
@@ -94,64 +93,43 @@ public class configuracio extends ActionBarActivity {
                 l_spinnerPosition = adapter_Pais.getPosition(Globals.g_Client.Pais);
                 g_SPN_Paissos.setSelection(l_spinnerPosition);
             }
-            g_textDataAlta.setText(Globals.g_Client.DataAlta);
+            g_TXT_DataAlta.setText(Globals.g_Client.DataAlta);
         }
         else{
             // Mostrem com a data de alta la del dia
             l_df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
-            g_textDataAlta.setText(l_df.format(l_date));
+            g_TXT_DataAlta.setText(l_df.format(l_date));
         }
         // Codi de validacio de la finestra (fem servir la clase estàtica Validació)
-        g_TXT_Name.addTextChangedListener(new TextWatcher() {
+        g_ETX_Name.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) { }
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){ g_TXT_Name.setError(null);}
+            public void onTextChanged(CharSequence s, int start, int before, int count){ g_ETX_Name.setError(null);}
         });
-        g_TXT_Contacte.addTextChangedListener(new TextWatcher() {
+        g_ETX_Contacte.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){ g_TXT_Contacte.setError(null);}
+            public void onTextChanged(CharSequence s, int start, int before, int count){ g_ETX_Contacte.setError(null);}
         });
-        g_TXT_eMail.addTextChangedListener(new TextWatcher() {
+        g_ETX_eMail.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            public void onTextChanged(CharSequence s, int start, int before, int count) { g_TXT_eMail.setError(null);}
+            public void onTextChanged(CharSequence s, int start, int before, int count) { g_ETX_eMail.setError(null);}
         });
-        /*
-            De moment no ho fem servir
-
-        // Codi de control del camp de texte (la visibilitat del aspa). Aixó anirà dintre
-        // del component que has de crear !!!!
-        g_SPN_Idioma.setAdapter(adapter_Idioma);
-        g_TXT_Prova.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {}
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    g_BotoEsborrar.setVisibility(View.VISIBLE);
-                } else {
-                    g_BotoEsborrar.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
-        */
     }
     // Funcio interna per validar la finestra
     private boolean ValidarFinestra() {
         boolean l_ret = true;
 
-        if (!Validacio.hasText(g_TXT_Name)) l_ret = false;
-        if (!Validacio.hasText(g_TXT_Contacte)) l_ret = false;
-        if (!Validacio.isEmailAddress(g_TXT_eMail, true)) l_ret = false;
+        if (!Validacio.hasText(g_ETX_Name)) l_ret = false;
+        if (!Validacio.hasText(g_ETX_Contacte)) l_ret = false;
+        if (!Validacio.isEmailAddress(g_ETX_eMail, true)) l_ret = false;
         if (g_SPN_Idioma.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))){
-            g_TextIdioma.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
+            g_TXT_Idioma.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
             l_ret = false;
         }
         if (g_SPN_Paissos.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))) {
-            g_TextPais.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
+            g_TXT_Pais.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
             l_ret = false;
         }
         //
@@ -165,9 +143,9 @@ public class configuracio extends ActionBarActivity {
         if (ValidarFinestra()) {
             l_client.CodiClientIntern = Globals.g_Client.CodiClientIntern;
             l_client.CodiClient = Globals.g_Client.CodiClient;
-            l_client.Nom = g_TXT_Name.getText().toString();
-            l_client.eMail = g_TXT_eMail.getText().toString();
-            l_client.Contacte = g_TXT_Contacte.getText().toString();
+            l_client.Nom = g_ETX_Name.getText().toString();
+            l_client.eMail = g_ETX_eMail.getText().toString();
+            l_client.Contacte = g_ETX_Contacte.getText().toString();
             l_client.Pais = g_SPN_Paissos.getSelectedItem().toString();
             l_client.Idioma = g_SPN_Idioma.getSelectedItem().toString();
             //
@@ -211,5 +189,4 @@ public class configuracio extends ActionBarActivity {
 
         return super.onOptionsItemSelected(p_item);
     }
-
 }

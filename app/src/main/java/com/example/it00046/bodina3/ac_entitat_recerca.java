@@ -119,7 +119,7 @@ public class ac_entitat_recerca extends Activity {
                 // Recerquem a partir de 3 caracters
                 if (newText.length() > 3) {
                     searchResults.setVisibility(View.VISIBLE);
-                    DAOEntitats.F_SERVIDOR_LlistaEntitats("", searchResults, Jo);
+                    DAOEntitats.Llegir("", searchResults, Jo);
                 } else {
                     searchResults.setVisibility(View.INVISIBLE);
                 }

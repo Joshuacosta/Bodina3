@@ -8,9 +8,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.widget.Toast;
 
+import com.example.it00046.bodina3.Classes.Entitats.Client;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.PhpJson;
-import com.example.it00046.bodina3.Classes.Entitats.Client;
 import com.example.it00046.bodina3.R;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -20,7 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class DAOClients {
+public final class DAOClientsOLD {
     // Variables
     private static RequestParams g_parametresPHP = new RequestParams();
     private static final String TAG_VALIDS = "valids";
@@ -134,9 +134,9 @@ public final class DAOClients {
                 PhpJson.post("Clients.php", g_parametresPHP, new JsonHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode,
-                                          org.apache.http.Header[] headers,
-                                          java.lang.Throwable throwable,
-                                          org.json.JSONObject errorResponse) {
+                                          Header[] headers,
+                                          Throwable throwable,
+                                          JSONObject errorResponse) {
                         Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                                 Globals.g_Native.getString(R.string.error_greu));
                     }
@@ -198,9 +198,9 @@ public final class DAOClients {
             PhpJson.post("Clients.php", g_parametresPHP, new JsonHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode,
-                                      org.apache.http.Header[] headers,
-                                      java.lang.Throwable throwable,
-                                      org.json.JSONObject errorResponse) {
+                                      Header[] headers,
+                                      Throwable throwable,
+                                      JSONObject errorResponse) {
                     Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                             Globals.g_Native.getString(R.string.error_greu));
                 }
@@ -287,9 +287,9 @@ public final class DAOClients {
         PhpJson.post("Clients.php", g_parametresPHP, new JsonHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode,
-                                  org.apache.http.Header[] headers,
-                                  java.lang.Throwable throwable,
-                                  org.json.JSONObject errorResponse) {
+                                  Header[] headers,
+                                  Throwable throwable,
+                                  JSONObject errorResponse) {
                 Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                         Globals.g_Native.getString(R.string.error_greu));
             }

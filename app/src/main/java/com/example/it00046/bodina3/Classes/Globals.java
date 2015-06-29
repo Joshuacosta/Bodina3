@@ -38,6 +38,9 @@ public final class Globals
     // Constants
     // Operatives
     public static final String k_OPE_Alta = "0";
+    public static final String k_OPE_AssociacioSolicitar = "0";
+    public static final String k_OPE_AssociacioLlegir = "1";
+    public static final String k_OPE_AssociacioModificar = "2";
     public static final String k_OPE_Update = "1";
     public static final String k_OPE_Select = "2";
     public static final String k_OPE_SelectCodiClientIntern = "21";

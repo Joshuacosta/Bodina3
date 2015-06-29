@@ -54,7 +54,7 @@ else{
 				if (!$result){
 					$response["valids"] = "2";
 					$gestor = fopen("errors/bd.txt","a");
-					fwrite($gestor,$Avui.">>> Associacio.PHP//Clients//Insert//".mysql_errno()."//".mysql_error()."//Values:".$CodiClient."/".$CodiEntitat."/".$DataPeticio."/".$Contacte."/".$Descripcio."/".$eMail."\n");
+					fwrite($gestor,$Avui.">>> Associacio.PHP//Associacions//Insert//".mysql_errno()."//".mysql_error()."//Values:".$CodiClient."/".$CodiEntitat."/".$DataPeticio."/".$Contacte."/".$Descripcio."/".$eMail."\n");
 					fclose($gestor);
 				}
 				break;
@@ -66,7 +66,7 @@ else{
 				if (!$result){
 					$response["valids"] = "2";
 					$gestor = fopen("errors/bd.txt","a");
-					fwrite($gestor,$Avui.">>> Associacio.PHP//Clients//Select associacions client//".mysql_errno()."//".mysql_error()."//Values:".$CodiClient."\n");
+					fwrite($gestor,$Avui.">>> Associacio.PHP//Associacions//Select associacions client//".mysql_errno()."//".mysql_error()."//Values:".$CodiClient."\n");
 					fclose($gestor);
 				}
 				else{
@@ -88,7 +88,35 @@ else{
 				}
 				break;
 				
-			case 2: //
+			case 2: // Updatem la associacio donada
+				$Ara = date("Y-m-d H:i:s");
+				/* Recuperem les dades d'entrada */
+				$CodiClient         = $_POST['CodiClient'];
+				$CodiEntitat		= $_POST['CodiEntitat'];
+				$Contacte			= $_POST['ContacteAssociacio'];
+				$Descripcio			= $_POST['DescripcioAssociacio'];
+				$eMail				= $_POST['eMailAssociacio'];
+				$DataFi   			= $_POST['DataFiAssociacio'];
+				$Estat				= $_POST['EstatAssociacio'];
+				$result = mysql_query("UPDATE Associacions SET 	eMail='".$eMail."', 
+																Descripcio='".addslashes($Descripcio)."',
+																Contacte='".addslashes($Contacte)."',
+																DataFi='".$DataFi."',
+																Estat=".$Estat.",
+																DataDarrerCanvi='".$Ara."'
+														   WHERE CodiClient='".$CodiClient."' AND CodiEntitat = '".$CodiEntitat."');
+				if (!$result){
+					$response["valids"] = "2";
+					$gestor = fopen("errors/bd.txt","a");
+					fwrite($gestor,$Avui.">>> Associacio.PHP//Clients//Update associacions client//".mysql_errno()."//".mysql_error()."//Values:".$CodiClient."/".
+																																				  $CodiEntitat."/".
+																																				  $Contacte."/".
+																																				  $Descripcio."/".
+																																				  $eMail."/".
+																																				  $DataFi."/".
+																																				  $Estat."\n");
+					fclose($gestor);
+				}
 				break;				
         }
 	}

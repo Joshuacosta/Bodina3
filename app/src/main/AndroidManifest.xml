@@ -47,7 +47,7 @@
         </activity>
         <!-- Fill 1 de Entitats: Solicitar -->
         <activity
-            android:name=".ac_entitat_solicitar"
+            android:name=".entitat_solicitar"
             android:label="@string/title_activity_ac_entitat_solicitar"
             android:parentActivityName=".ac_entitat_pral">
             <meta-data
@@ -58,7 +58,7 @@
         <activity
             android:name=".ac_entitat_recerca"
             android:label="@string/title_activity_ac_entitat_recerca"
-            android:parentActivityName=".ac_entitat_solicitar"
+            android:parentActivityName=".entitat_solicitar"
             android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -68,7 +68,7 @@
                 android:resource="@xml/searchable" />
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ac_entitat_solicitar" />
+                android:value=".entitat_solicitar" />
         </activity>
         <activity
             android:name=".ac_entitat_detall"

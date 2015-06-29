@@ -7,10 +7,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.Custom.LVWLlistaEntitatsClient;
+import com.example.it00046.bodina3.Classes.Entitats.EntitatClient;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.PhpJson;
-import com.example.it00046.bodina3.Classes.Entitats.Client;
-import com.example.it00046.bodina3.Classes.Entitats.EntitatClient;
 import com.example.it00046.bodina3.R;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -22,7 +21,7 @@ import org.json.JSONObject;
 /**
  * Created by it00046 on 06/05/2015.
  */
-public final class DAOEntitatsClient {
+public final class DAOEntitatsClientOLD {
     // Variables
     private static RequestParams g_parametresPHP = new RequestParams();
     private static final String TAG_VALIDS = "valids";
@@ -114,9 +113,9 @@ public final class DAOEntitatsClient {
                 PhpJson.post("Associacio.php", Solicitar_entitatClientToRequestParams(p_EntitatClient), new JsonHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode,
-                                          org.apache.http.Header[] headers,
-                                          java.lang.Throwable throwable,
-                                          org.json.JSONObject errorResponse) {
+                                          Header[] headers,
+                                          Throwable throwable,
+                                          JSONObject errorResponse) {
                         Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                                 Globals.g_Native.getString(R.string.error_greu));
                     }
@@ -164,9 +163,9 @@ public final class DAOEntitatsClient {
         PhpJson.post("Associacio.php", Modificar_entitatClientToRequestParams(p_EntitatClient), new JsonHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode,
-                                  org.apache.http.Header[] headers,
-                                  java.lang.Throwable throwable,
-                                  org.json.JSONObject errorResponse) {
+                                  Header[] headers,
+                                  Throwable throwable,
+                                  JSONObject errorResponse) {
                 Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                         Globals.g_Native.getString(R.string.error_greu));
             }

@@ -26,7 +26,7 @@ public class ac_entitat_pral extends ActionBarActivity {
         // Carreguen les entitats del client
         l_EntitatsClient = (ListView) findViewById(R.id.LV_Entitats);
         //SQLEntitatsClientDAO.F_LOCAL_Llegir(l_EntitatsClient);
-        DAOEntitatsClient.F_LOCAL_Llegir(l_EntitatsClient, R.layout.ly_entitat_listview_linia);
+        DAOEntitatsClient.Llegir(l_EntitatsClient, R.layout.ly_entitat_listview_linia);
         //
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.attachToListView(l_EntitatsClient);
@@ -58,7 +58,7 @@ public class ac_entitat_pral extends ActionBarActivity {
 
         switch (id) {
             case R.id.entitat_SolicitarEntitat:
-                intent = new Intent(this, ac_entitat_solicitar.class);
+                intent = new Intent(this, entitat_solicitar.class);
                 startActivity(intent);
                 return true;
             case R.id.entitat_Actualitzar:
