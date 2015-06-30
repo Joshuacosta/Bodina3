@@ -97,61 +97,48 @@ public final class DAOEntitatsClient {
     }
     // Funcio per solicitar una associacio amb una entitat
     public static void Solicitar(final EntitatClient p_EntitatClient){
-        // Primer definim localment i despres globalment.
-        try {
-            Globals.g_DB.insert(Globals.g_Native.getString(R.string.TEntitatsClient),
-                    null,
-                    entitatClientToContentValues(p_EntitatClient));
-        }
-        catch(Exception e) {
-            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                    Globals.g_Native.getString(R.string.error_greu));
-        }
-        finally {
-            // Actualitzem el servidor
-            if (Globals.isNetworkAvailable()) {
-                // Cridem al php
-                PhpJson.post("Associacio.php", Solicitar_entitatClientToRequestParams(p_EntitatClient), new JsonHttpResponseHandler() {
-                    @Override
-                    public void onFailure(int statusCode,
+        // Actualitzem el servidor
+        if (Globals.isNetworkAvailable()) {
+            // Cridem al php
+            PhpJson.post("Associacio.php", Solicitar_entitatClientToRequestParams(p_EntitatClient), new JsonHttpResponseHandler() {
+                @Override
+                public void onFailure(int statusCode,
                                           org.apache.http.Header[] headers,
                                           java.lang.Throwable throwable,
                                           org.json.JSONObject errorResponse) {
-                        Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
-                                Globals.g_Native.getString(R.string.error_greu));
-                    }
+                        Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces), Globals.g_Native.getString(R.string.error_greu));
+                }
 
-                    @Override
-                    public void onSuccess(int p_statusCode, Header[] p_headers, JSONObject p_entitatClientServidor) {
-                        try {
-                            String l_Resposta = p_entitatClientServidor.getString(TAG_VALIDS);
-                            if (l_Resposta.equals(Globals.k_PHPOK)) {
-                                // Actualitzem el camp actualitzat a la BBDD local
-                                if (ModificarActualitzat(p_EntitatClient.CodiEntitat)) {
-                                    // Informem al usuari que hem modificat les dades
-                                    Toast.makeText(Globals.g_Native,
-                                            Globals.g_Native.getString(R.string.op_afegir_ok),
-                                            Toast.LENGTH_LONG).show();
-                                }
-                                else{
-                                    // Error a la BBDD local
-                                    Toast.makeText(Globals.g_Native,
-                                            Globals.g_Native.getString(R.string.errorlocal_BBDD),
-                                            Toast.LENGTH_LONG).show();
-
-                                }
+                @Override
+                public void onSuccess(int p_statusCode, Header[] p_headers, JSONObject p_entitatClientServidor) {
+                    try {
+                        String l_Resposta = p_entitatClientServidor.getString(TAG_VALIDS);
+                        if (l_Resposta.equals(Globals.k_PHPOK)) {
+                            // Actualitzem el camp actualitzat a la BBDD local
+                            if (ModificarActualitzat(p_EntitatClient.CodiEntitat)) {
+                                // Informem al usuari que hem modificat les dades
+                                Toast.makeText(Globals.g_Native,
+                                                Globals.g_Native.getString(R.string.op_afegir_ok),
+                                                Toast.LENGTH_LONG).show();
                             }
-                            else {
-                                Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
-                                        Globals.g_Native.getString(R.string.error_greu));
+                            else{
+                                // Error a la BBDD local
+                                Toast.makeText(Globals.g_Native,
+                                                Globals.g_Native.getString(R.string.errorlocal_BBDD),
+                                                Toast.LENGTH_LONG).show();
                             }
-                        } catch (JSONException e) {
-                            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                                    Globals.g_Native.getString(R.string.error_greu));
+                        }
+                        else {
+                            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
+                                            Globals.g_Native.getString(R.string.error_greu));
                         }
                     }
-                });
-            }
+                    catch (JSONException e) {
+                            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                                            Globals.g_Native.getString(R.string.error_greu));
+                    }
+                }
+            });
         }
     }
 
@@ -319,7 +306,7 @@ public final class DAOEntitatsClient {
     private static RequestParams Solicitar_entitatClientToRequestParams(EntitatClient p_entitatClient) {
         RequestParams l_values = new RequestParams();
 
-        l_values.put(TAG_CodiClient, Globals.g_Client.CodiClient);
+        l_values.put(TAG_CodiClient, Globals.g_Client.Codi);
         l_values.put(TAG_CodiEntitat, p_entitatClient.CodiEntitat);
         l_values.put(TAG_ContacteAssociacio, p_entitatClient.ContacteAssociacio);
         l_values.put(TAG_DescripcioAssociacio, p_entitatClient.DescripcioAssociacio);
@@ -333,7 +320,7 @@ public final class DAOEntitatsClient {
     private static RequestParams Modificar_entitatClientToRequestParams(EntitatClient p_entitatClient) {
         RequestParams l_values = new RequestParams();
 
-        l_values.put(TAG_CodiClient, Globals.g_Client.CodiClient);
+        l_values.put(TAG_CodiClient, Globals.g_Client.Codi);
         l_values.put(TAG_CodiEntitat, p_entitatClient.CodiEntitat);
         l_values.put(TAG_ContacteAssociacio, p_entitatClient.ContacteAssociacio);
         l_values.put(TAG_DescripcioAssociacio, p_entitatClient.DescripcioAssociacio);

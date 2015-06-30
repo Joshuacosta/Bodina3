@@ -25,7 +25,7 @@ public final class DAOClients {
     private static RequestParams g_parametresPHP = new RequestParams();
     private static final String TAG_VALIDS = "valids";
     private static final String TAG_client = "client";
-    private static final String TAG_CodiClient = Globals.g_Native.getString(R.string.TClient_CodiClient);
+    private static final String TAG_Codi = Globals.g_Native.getString(R.string.TClient_Codi);
     private static final String TAG_eMail = Globals.g_Native.getString(R.string.TClient_eMail);
     private static final String TAG_Nom = Globals.g_Native.getString(R.string.TClient_Nom);
     private static final String TAG_Contacte = Globals.g_Native.getString(R.string.TClient_Contacte);
@@ -41,7 +41,7 @@ public final class DAOClients {
         // Recerquem localment
         try {
             // Aquest valor l'informem ja (CodiInternClient es la MAC)
-            Globals.g_Client.CodiClientIntern = Globals.F_RecuperaID();
+            Globals.g_Client.CodiIntern = Globals.F_RecuperaID();
             //
             Cursor l_cursor = Globals.g_DB.query(Globals.g_Native.getString(R.string.TClient),
                     Globals.g_Native.getResources().getStringArray(R.array.TClient_Camps),
@@ -67,7 +67,7 @@ public final class DAOClients {
             else {
                 // Recerquem al servidor per si lo que ha passat es que l'usuari ha esborrat
                 // les dades locals (en aquest cas les tornarem a grabar).
-                SRV_LlegirClauInterna(Globals.g_Client.CodiClientIntern);
+                SRV_LlegirClauInterna(Globals.g_Client.CodiIntern);
                 // ... hem de tractar tot lo que recuperem
             }
         }
@@ -83,7 +83,7 @@ public final class DAOClients {
         try {
             Globals.g_DB.update(Globals.g_Native.getString(R.string.TClient),
                     ClientToContentValues(p_client),
-                    Globals.g_Native.getString(R.string.TClient_CodiClient) + "= '" + p_client.CodiClient + "'",
+                    Globals.g_Native.getString(R.string.TClient_Codi) + "= '" + p_client.Codi + "'",
                     null);
         }
         catch(Exception e) {
@@ -124,7 +124,7 @@ public final class DAOClients {
             if (Globals.isNetworkAvailable()) {
                 // Montem el php
                 g_parametresPHP = new RequestParams();
-                g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_CodiClientIntern), p_client.CodiClientIntern);
+                g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_CodiIntern), p_client.CodiIntern);
                 g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_eMail), p_client.eMail);
                 g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Nom), p_client.Nom);
                 g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Pais), p_client.Pais);
@@ -152,15 +152,15 @@ public final class DAOClients {
                             }
                             if (l_Resposta.equals(Globals.k_PHPOK) || l_Resposta.equals(Globals.k_PHPErrorMail)) {
                                 // Recuperem el codi de client calcular al servidor
-                                String l_CodiClient = p_clientServidor.getString(TAG_CodiClient);
+                                String l_Codi = p_clientServidor.getString(TAG_Codi);
                                 // Actualitzem el camp actualitzat a la BBDD local
-                                if (LOC_ModificaCodiClient(l_CodiClient)) {
+                                if (LOC_ModificaCodiClient(l_Codi)) {
                                     // Informem al usuari que hem modificat les dades
                                     Toast.makeText(Globals.g_Native,
                                             Globals.g_Native.getString(R.string.op_afegir_ok),
                                             Toast.LENGTH_LONG).show();
                                     // Actualitzem les dades globals de client
-                                    p_client.CodiClient = l_CodiClient;
+                                    p_client.Codi = l_Codi;
                                     Globals.g_Client = p_client;
                                 }
                                 else{
@@ -188,12 +188,12 @@ public final class DAOClients {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Llegim el client del servidor, si existeix en el servidor el recuprem localment (el grabem
     // a la BBDD local)
-    private static void SRV_LlegirClauInterna(final String p_CodiClientIntern){
+    private static void SRV_LlegirClauInterna(final String p_CodiIntern){
         // Validem que la xarxa estigui activa
         if (Globals.isNetworkAvailable()){
             // Montem el php
             g_parametresPHP = new RequestParams();
-            g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_CodiClientIntern), p_CodiClientIntern);
+            g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_CodiIntern), p_CodiIntern);
             g_parametresPHP.put("Operativa", Globals.k_OPE_SelectCodiClientIntern);
             PhpJson.post("Clients.php", g_parametresPHP, new JsonHttpResponseHandler() {
                 @Override
@@ -212,15 +212,15 @@ public final class DAOClients {
 
                         if (l_Resposta.equals(Globals.k_PHPOK)) {
                             // Apuntem codi intern
-                            Globals.g_Client.CodiClientIntern = p_CodiClientIntern;
+                            Globals.g_Client.CodiIntern = p_CodiIntern;
                             // Llegim el client (nomes tornem un)
                             JSONArray l_ArrayClient = null;
                             l_ArrayClient = p_clientServidor.getJSONArray(TAG_client);
                             JSONObject l_client = l_ArrayClient.getJSONObject(0);
-                            if (l_client.getString(TAG_CodiClient).equals(Globals.k_ClientNOU)) {
+                            if (l_client.getString(TAG_Codi).equals(Globals.k_ClientNOU)) {
                                 // Client nou, no hem de fer res
                             } else {
-                                Globals.g_Client.CodiClient = l_client.getString(TAG_CodiClient);
+                                Globals.g_Client.Codi = l_client.getString(TAG_Codi);
                                 Globals.g_Client.eMail = l_client.getString(TAG_eMail);
                                 Globals.g_Client.Nom = l_client.getString(TAG_Nom);
                                 Globals.g_Client.Contacte = l_client.getString(TAG_Contacte);
@@ -260,7 +260,7 @@ public final class DAOClients {
         long l_resultat;
 
         p_client.Actualitzat = true;
-        l_values.put(Globals.g_Native.getString(R.string.TClient_CodiClient), p_client.CodiClient);
+        l_values.put(Globals.g_Native.getString(R.string.TClient_Codi), p_client.Codi);
         l_values.put(Globals.g_Native.getString(R.string.TClient_Contacte), p_client.Contacte);
         l_values.put(Globals.g_Native.getString(R.string.TClient_DataAlta), p_client.DataAlta);
         l_values.put(Globals.g_Native.getString(R.string.TClient_eMail), p_client.eMail);
@@ -277,7 +277,7 @@ public final class DAOClients {
     private static void SRV_Modificar(final Client p_client){
         // Montem el php
         g_parametresPHP = new RequestParams();
-        g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_CodiClient), p_client.CodiClient);
+        g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Codi), p_client.Codi);
         g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_eMail), p_client.eMail);
         g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Nom), p_client.Nom);
         g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Pais), p_client.Pais);
@@ -300,7 +300,7 @@ public final class DAOClients {
                     String l_Resposta = p_clientServidor.getString(TAG_VALIDS);
                     if (l_Resposta.equals(Globals.k_PHPOK)) {
                         // Actualitzem el camp actualitzat a la BBDD local
-                        if (LOC_ModificarActualitzat(p_client.CodiClient)) {
+                        if (LOC_ModificarActualitzat(p_client.Codi)) {
                             // Informem al usuari que hem modificat les dades
                             Toast.makeText(Globals.g_Native,
                                     Globals.g_Native.getString(R.string.op_modificacio_ok),
@@ -321,11 +321,11 @@ public final class DAOClients {
         });
     }
     // Funcio per updatar codi client (com nomes tenim un no posem where)
-    private static Boolean LOC_ModificaCodiClient(String p_CodiClient){
+    private static Boolean LOC_ModificaCodiClient(String p_Codi){
         ContentValues l_actualitzat = new ContentValues();
         Boolean l_resposta = true;
 
-        l_actualitzat.put(Globals.g_Native.getString(R.string.TClient_CodiClient), p_CodiClient);
+        l_actualitzat.put(Globals.g_Native.getString(R.string.TClient_Codi), p_Codi);
         l_actualitzat.put(Globals.g_Native.getString(R.string.TClient_Actualitzat), true);
         try {
             Globals.g_DB.update(Globals.g_Native.getString(R.string.TClient),
@@ -343,7 +343,7 @@ public final class DAOClients {
     }
     //
     // Funcio per updatar el camp actualitzat
-    private static Boolean LOC_ModificarActualitzat(String p_CodiClient) {
+    private static Boolean LOC_ModificarActualitzat(String p_Codi) {
         ContentValues l_actualitzat = new ContentValues();
         Boolean l_resposta = true;
 
@@ -351,7 +351,7 @@ public final class DAOClients {
         try {
             Globals.g_DB.update(Globals.g_Native.getString(R.string.TClient),
                     l_actualitzat,
-                    Globals.g_Native.getString(R.string.TClient_CodiClient) + "='" + p_CodiClient + "'",
+                    Globals.g_Native.getString(R.string.TClient_Codi) + "='" + p_Codi + "'",
                     null);
         }
         catch (Exception e) {
@@ -367,16 +367,14 @@ public final class DAOClients {
     private static Client CursorToClient(Cursor p_cursor){
         Client l_client = new Client();
 
-        l_client.CodiClient = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_CodiClient)));
+        l_client.Codi = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Codi)));
         l_client.eMail = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_eMail)));
         l_client.Nom = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Nom)));
         l_client.Pais = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Pais)));
         l_client.Contacte = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Contacte)));
         l_client.DataAlta = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_DataAlta)));
         l_client.Idioma = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Idioma)));
-        l_client.DataGrabacioServidor = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_DataGrabacioServidor)));
         l_client.Actualitzat = (p_cursor.getInt(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Actualitzat))) != 0);
-        l_client.DataActualitzat = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_DataActualitzat)));
 
         return l_client;
     }
@@ -385,7 +383,7 @@ public final class DAOClients {
     private static ContentValues ClientToContentValues(Client p_client) {
         ContentValues l_values = new ContentValues();
 
-        l_values.put(Globals.g_Native.getString(R.string.TClient_CodiClient), p_client.CodiClient);
+        l_values.put(Globals.g_Native.getString(R.string.TClient_Codi), p_client.Codi);
         l_values.put(Globals.g_Native.getString(R.string.TClient_Contacte), p_client.Contacte);
         l_values.put(Globals.g_Native.getString(R.string.TClient_DataAlta), p_client.DataAlta);
         l_values.put(Globals.g_Native.getString(R.string.TClient_eMail), p_client.eMail);

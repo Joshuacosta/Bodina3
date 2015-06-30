@@ -29,7 +29,6 @@ import java.util.List;
 public final class DAOEntitats {
     // Variables
     private static RequestParams g_parametresPHP = new RequestParams();
-    private static final String TAG_Entitat = "entitat";
     private static final String TAG_Codi = Globals.g_Native.getString(R.string.TEntitats_Codi);
     private static final String TAG_eMail = Globals.g_Native.getString(R.string.TEntitats_eMail);
     private static final String TAG_Nom = Globals.g_Native.getString(R.string.TEntitats_Nom);
