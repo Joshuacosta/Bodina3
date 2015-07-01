@@ -38,9 +38,9 @@ public final class Globals
     // Constants
     // Operatives
     public static final String k_OPE_Alta = "0";
-    public static final String k_OPE_AssociacioSolicitar = "0";
-    public static final String k_OPE_AssociacioLlegir = "1";
-    public static final String k_OPE_AssociacioModificar = "2";
+    public static final String k_OPE_AssociacionsSolicitar = "0";
+    public static final String k_OPE_AssociacionsLlegir = "1";
+    public static final String k_OPE_AssociacionsModificar = "2";
     public static final String k_OPE_Update = "1";
     public static final String k_OPE_Select = "2";
     public static final String k_OPE_SelectCodiClientIntern = "21";
@@ -49,9 +49,9 @@ public final class Globals
     public static final String k_OPE_SelectEntitatsClient = "0";
     public static final String k_DirectoriPHP = "http://bodina.virtuol.com/php/";
     // Altres
-    public static final int k_EntitatBaixa = 0;
-    public static final int k_EntitatActiva = 1;
-    public static final int k_EntitatPendent = 2;
+    public static final String k_EntitatBaixa = "0";
+    public static final String k_EntitatActiva = "1";
+    public static final String k_EntitatPendent = "2";
     // - Treball
     public static final String k_ClientNOU = "NOU";
     public static final String k_PHPOK = "1";

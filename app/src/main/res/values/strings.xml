@@ -170,6 +170,25 @@
         <item>@string/TEntitatsClient_DataGrabacioLocal</item>
         <item>@string/TEntitatsClient_DataGrabacioServidor</item>
     </string-array>
+    <!-- .................................................................................. -->
+    <!-- ASSOCIACIONS -->
+    <string name="TAssociacions">Associacions</string>
+    <!-- Camps -->
+    <string name="TAssociacions_CodiEntitat">CodiEntitat</string>
+    <string name="TAssociacions_NomEntitat">NomEntitat</string>
+    <string name="TAssociacions_eMailEntitat">eMailEntitat</string>
+    <string name="TAssociacions_PaisEntitat">PaisEntitat</string>
+    <string name="TAssociacions_AdresaEntitat">AdresaEntitat</string>
+    <string name="TAssociacions_ContacteEntitat">ContacteEntitat</string>
+    <string name="TAssociacions_TelefonEntitat">TelefonEntitat</string>
+    <string name="TAssociacions_EstatEntitat">EstatEntitat</string>
+    <string name="TAssociacions_Contacte">Contacte</string>
+    <string name="TAssociacions_Descripcio">Descripcio</string>
+    <string name="TAssociacions_eMail">eMail</string>
+    <string name="TAssociacions_DataAlta">DataAlta</string>
+    <string name="TAssociacions_DataFi">DataFi</string>
+    <string name="TAssociacions_Estat">Estat</string>
+
     <!-- Funcions -->
     <string name="TEntitatsClient_Create">CREATE TABLE %1$s (
                                 %2$s VARCHAR(10) PRIMARY KEY,
@@ -238,255 +257,255 @@
     </string-array>
     <string-array name="Paisos">
         <item>@string/llista_Select</item>
-        <item>Andorra (AND)</item>
-        <item>United Arab Emirates (ARE)</item>
-        <item>Afghanistan (AFG)</item>
-        <item>Antigua and Barbuda (ATG)</item>
-        <item>Anguilla (AIA)</item>
-        <item>Albania (ALB)</item>
-        <item>Armenia (ARM)</item>
-        <item>Angola (AGO)</item>
-        <item>Antarctica (ATA)</item>
-        <item>Argentina (ARG)</item>
-        <item>American Samoa (ASM)</item>
-        <item>Austria (AUT)</item>
-        <item>Australia (AUS)</item>
-        <item>Aruba (ABW)</item>
-        <item>Åland (ALA)</item>
-        <item>Azerbaijan (AZE)</item>
-        <item>Bosnia and Herzegovina (BIH)</item>
-        <item>Barbados (BRB)</item>
-        <item>Bangladesh (BGD)</item>
-        <item>Belgium (BEL)</item>
-        <item>Burkina Faso (BFA)</item>
-        <item>Bulgaria (BGR)</item>
-        <item>Bahrain (BHR)</item>
-        <item>Burundi (BDI)</item>
-        <item>Benin (BEN)</item>
-        <item>Saint Barthélemy (BLM)</item>
-        <item>Bermuda (BMU)</item>
-        <item>Brunei (BRN)</item>
-        <item>Bolivia (BOL)</item>
-        <item>Bonaire (BES)</item>
-        <item>Brazil (BRA)</item>
-        <item>Bahamas (BHS)</item>
-        <item>Bhutan (BTN)</item>
-        <item>Bouvet Island (BVT)</item>
-        <item>Botswana (BWA)</item>
-        <item>Belarus (BLR)</item>
-        <item>Belize (BLZ)</item>
-        <item>Canada (CAN)</item>
-        <item>Cocos [Keeling] Islands (CCK)</item>
-        <item>Democratic Republic of the Congo (COD)</item>
-        <item>Central African Republic (CAF)</item>
-        <item>Republic of the Congo (COG)</item>
-        <item>Switzerland (CHE)</item>
-        <item>Ivory Coast (CIV)</item>
-        <item>Cook Islands (COK)</item>
-        <item>Chile (CHL)</item>
-        <item>Cameroon (CMR)</item>
-        <item>China (CHN)</item>
-        <item>Colombia (COL)</item>
-        <item>Costa Rica (CRI)</item>
-        <item>Comoros (COM)</item>
-        <item>Cape Verde (CPV)</item>
-        <item>Cuba (CUB)</item>
-        <item>Curacao (CUW)</item>
-        <item>Christmas Island (CXR)</item>
-        <item>Cyprus (CYP)</item>
-        <item>Czech Republic (CZE)</item>
-        <item>Germany (DEU)</item>
-        <item>Djibouti (DJI)</item>
-        <item>Denmark (DNK)</item>
-        <item>Dominica (DMA)</item>
-        <item>Dominican Republic (DOM)</item>
-        <item>Algeria (DZA)</item>
-        <item>Ecuador (ECU)</item>
-        <item>Estonia (EST)</item>
-        <item>Egypt (EGY)</item>
-        <item>Western Sahara (ESH)</item>
-        <item>Eritrea (ERI)</item>
-        <item>Spain (ESP)</item>
-        <item>Ethiopia (ETH)</item>
-        <item>Finland (FIN)</item>
-        <item>Fiji (FJI)</item>
-        <item>Falkland Islands (FLK)</item>
-        <item>Micronesia (FSM)</item>
-        <item>Faroe Islands (FRO)</item>
-        <item>France (FRA)</item>
-        <item>Gabon (GAB)</item>
-        <item>United Kingdom (GBR)</item>
-        <item>Grenada (GRD)</item>
-        <item>Georgia (GEO)</item>
-        <item>French Guiana (GUF)</item>
-        <item>Guernsey (GGY)</item>
-        <item>Ghana (GHA)</item>
-        <item>Gibraltar (GIB)</item>
-        <item>Greenland (GRL)</item>
-        <item>Gambia (GMB)</item>
-        <item>Guinea (GIN)</item>
-        <item>Guadeloupe (GLP)</item>
-        <item>Equatorial Guinea (GNQ)</item>
-        <item>Greece (GRC)</item>
-        <item>South Georgia and South Sandwich Islands (SGS)</item>
-        <item>Guatemala (GTM)</item>
-        <item>Guam (GUM)</item>
-        <item>Guinea-Bissau (GNB)</item>
-        <item>Guyana (GUY)</item>
-        <item>Hong Kong (HKG)</item>
-        <item>Heard Island and McDonald Islands (HMD)</item>
-        <item>Honduras (HND)</item>
-        <item>Croatia (HRV)</item>
-        <item>Haiti (HTI)</item>
-        <item>Hungary (HUN)</item>
-        <item>Indonesia (IDN)</item>
-        <item>Ireland (IRL)</item>
-        <item>Israel (ISR)</item>
-        <item>Isle of Man (IMN)</item>
-        <item>India (IND)</item>
-        <item>British Indian Ocean Territory (IOT)</item>
-        <item>Iraq (IRQ)</item>
-        <item>Iran (IRN)</item>
-        <item>Iceland (ISL)</item>
-        <item>Italy (ITA)</item>
-        <item>Jersey (JEY)</item>
-        <item>Jamaica (JAM)</item>
-        <item>Jordan (JOR)</item>
-        <item>Japan (JPN)</item>
-        <item>Kenya (KEN)</item>
-        <item>Kyrgyzstan (KGZ)</item>
-        <item>Cambodia (KHM)</item>
-        <item>Kiribati (KIR)</item>
-        <item>Saint Kitts and Nevis (KNA)</item>
-        <item>North Korea (PRK)</item>
-        <item>South Korea (KOR)</item>
-        <item>Kuwait (KWT)</item>
-        <item>Cayman Islands (CYM)</item>
-        <item>Kazakhstan (KAZ)</item>
-        <item>Laos (LAO)</item>
-        <item>Lebanon (LBN)</item>
-        <item>Saint Lucia (LCA)</item>
-        <item>Liechtenstein (LIE)</item>
-        <item>Sri Lanka (LKA)</item>
-        <item>Liberia (LBR)</item>
-        <item>Lesotho (LSO)</item>
-        <item>Lithuania (LTU)</item>
-        <item>Luxembourg (LUX)</item>
-        <item>Latvia (LVA)</item>
-        <item>Libya (LBY)</item>
-        <item>Morocco (MAR)</item>
-        <item>Monaco (MCO)</item>
-        <item>Moldova (MDA)</item>
-        <item>Montenegro (MNE)</item>
-        <item>Saint Martin (MAF)</item>
-        <item>Madagascar (MDG)</item>
-        <item>Marshall Islands (MHL)</item>
-        <item>Macedonia (MKD)</item>
-        <item>Mali (MLI)</item>
-        <item>Myanmar [Burma] (MMR)</item>
-        <item>Mongolia (MNG)</item>
-        <item>Macao (MAC)</item>
-        <item>Northern Mariana Islands (MNP)</item>
-        <item>Martinique (MTQ)</item>
-        <item>Mauritania (MRT)</item>
-        <item>Montserrat (MSR)</item>
-        <item>Malta (MLT)</item>
-        <item>Mauritius (MUS)</item>
-        <item>Maldives (MDV)</item>
-        <item>Malawi (MWI)</item>
-        <item>Mexico (MEX)</item>
-        <item>Malaysia (MYS)</item>
-        <item>Mozambique (MOZ)</item>
-        <item>Namibia (NAM)</item>
-        <item>New Caledonia (NCL)</item>
-        <item>Niger (NER)</item>
-        <item>Norfolk Island (NFK)</item>
-        <item>Nigeria (NGA)</item>
-        <item>Nicaragua (NIC)</item>
-        <item>Netherlands (NLD)</item>
-        <item>Norway (NOR)</item>
-        <item>Nepal (NPL)</item>
-        <item>Nauru (NRU)</item>
-        <item>Niue (NIU)</item>
-        <item>New Zealand (NZL)</item>
-        <item>Oman (OMN)</item>
-        <item>Panama (PAN)</item>
-        <item>Peru (PER)</item>
-        <item>French Polynesia (PYF)</item>
-        <item>Papua New Guinea (PNG)</item>
-        <item>Philippines (PHL)</item>
-        <item>Pakistan (PAK)</item>
-        <item>Poland (POL)</item>
-        <item>Saint Pierre and Miquelon (SPM)</item>
-        <item>Pitcairn Islands (PCN)</item>
-        <item>Puerto Rico (PRI)</item>
-        <item>Palestine (PSE)</item>
-        <item>Portugal (PRT)</item>
-        <item>Palau (PLW)</item>
-        <item>Paraguay (PRY)</item>
-        <item>Qatar (QAT)</item>
-        <item>Réunion (REU)</item>
-        <item>Romania (ROU)</item>
-        <item>Serbia (SRB)</item>
-        <item>Russia (RUS)</item>
-        <item>Rwanda (RWA)</item>
-        <item>Saudi Arabia (SAU)</item>
-        <item>Solomon Islands (SLB)</item>
-        <item>Seychelles (SYC)</item>
-        <item>Sudan (SDN)</item>
-        <item>Sweden (SWE)</item>
-        <item>Singapore (SGP)</item>
-        <item>Saint Helena (SHN)</item>
-        <item>Slovenia (SVN)</item>
-        <item>Svalbard and Jan Mayen (SJM)</item>
-        <item>Slovakia (SVK)</item>
-        <item>Sierra Leone (SLE)</item>
-        <item>San Marino (SMR)</item>
-        <item>Senegal (SEN)</item>
-        <item>Somalia (SOM)</item>
-        <item>Suriname (SUR)</item>
-        <item>South Sudan (SSD)</item>
-        <item>São Tomé and Príncipe (STP)</item>
-        <item>El Salvador (SLV)</item>
-        <item>Sint Maarten (SXM)</item>
-        <item>Syria (SYR)</item>
-        <item>Swaziland (SWZ)</item>
-        <item>Turks and Caicos Islands (TCA)</item>
-        <item>Chad (TCD)</item>
-        <item>French Southern Territories (ATF)</item>
-        <item>Togo (TGO)</item>
-        <item>Thailand (THA)</item>
-        <item>Tajikistan (TJK)</item>
-        <item>Tokelau (TKL)</item>
-        <item>East Timor (TLS)</item>
-        <item>Turkmenistan (TKM)</item>
-        <item>Tunisia (TUN)</item>
-        <item>Tonga (TON)</item>
-        <item>Turkey (TUR)</item>
-        <item>Trinidad and Tobago (TTO)</item>
-        <item>Tuvalu (TUV)</item>
-        <item>Taiwan (TWN)</item>
-        <item>Tanzania (TZA)</item>
-        <item>Ukraine (UKR)</item>
-        <item>Uganda (UGA)</item>
-        <item>U.S. Minor Outlying Islands (UMI)</item>
-        <item>United States (USA)</item>
-        <item>Uruguay (URY)</item>
-        <item>Uzbekistan (UZB)</item>
-        <item>Vatican City (VAT)</item>
-        <item>Saint Vincent and the Grenadines (VCT)</item>
-        <item>Venezuela (VEN)</item>
-        <item>British Virgin Islands (VGB)</item>
-        <item>U.S. Virgin Islands (VIR)</item>
-        <item>Vietnam (VNM)</item>
-        <item>Vanuatu (VUT)</item>
-        <item>Wallis and Futuna (WLF)</item>
-        <item>Samoa (WSM)</item>
-        <item>Kosovo (UNK)</item>
-        <item>Yemen (YEM)</item>
-        <item>Mayotte (MYT)</item>
-        <item>South Africa (ZAF)</item>
-        <item>Zambia (ZMB)</item>
-        <item>Zimbabwe (ZWE)</item>
+        <item>Andorra -AND</item>
+        <item>United Arab Emirates -ARE</item>
+        <item>Afghanistan -AFG</item>
+        <item>Antigua and Barbuda -ATG</item>
+        <item>Anguilla -AIA</item>
+        <item>Albania -ALB</item>
+        <item>Armenia -ARM</item>
+        <item>Angola -AGO</item>
+        <item>Antarctica -ATA</item>
+        <item>Argentina -ARG</item>
+        <item>American Samoa -ASM</item>
+        <item>Austria -AUT</item>
+        <item>Australia -AUS</item>
+        <item>Aruba -ABW</item>
+        <item>Åland -ALA</item>
+        <item>Azerbaijan -AZE</item>
+        <item>Bosnia and Herzegovina -BIH</item>
+        <item>Barbados -BRB</item>
+        <item>Bangladesh -BGD</item>
+        <item>Belgium -BEL</item>
+        <item>Burkina Faso -BFA</item>
+        <item>Bulgaria -BGR</item>
+        <item>Bahrain -BHR</item>
+        <item>Burundi -BDI</item>
+        <item>Benin -BEN</item>
+        <item>Saint Barthélemy -BLM</item>
+        <item>Bermuda -BMU</item>
+        <item>Brunei -BRN</item>
+        <item>Bolivia -BOL</item>
+        <item>Bonaire -BES</item>
+        <item>Brazil -BRA</item>
+        <item>Bahamas -BHS</item>
+        <item>Bhutan -BTN</item>
+        <item>Bouvet Island -BVT</item>
+        <item>Botswana -BWA</item>
+        <item>Belarus -BLR</item>
+        <item>Belize -BLZ</item>
+        <item>Canada -CAN</item>
+        <item>Cocos [Keeling] Islands -CCK</item>
+        <item>Democratic Republic of the Congo -COD</item>
+        <item>Central African Republic -CAF</item>
+        <item>Republic of the Congo -COG</item>
+        <item>Switzerland -CHE</item>
+        <item>Ivory Coast -CIV</item>
+        <item>Cook Islands -COK</item>
+        <item>Chile -CHL</item>
+        <item>Cameroon -CMR</item>
+        <item>China -CHN</item>
+        <item>Colombia -COL</item>
+        <item>Costa Rica -CRI</item>
+        <item>Comoros -COM</item>
+        <item>Cape Verde -CPV</item>
+        <item>Cuba -CUB</item>
+        <item>Curacao -CUW</item>
+        <item>Christmas Island -CXR</item>
+        <item>Cyprus -CYP</item>
+        <item>Czech Republic -CZE</item>
+        <item>Germany -DEU</item>
+        <item>Djibouti -DJI</item>
+        <item>Denmark -DNK</item>
+        <item>Dominica -DMA</item>
+        <item>Dominican Republic -DOM</item>
+        <item>Algeria -DZA</item>
+        <item>Ecuador -ECU</item>
+        <item>Estonia -EST</item>
+        <item>Egypt -EGY</item>
+        <item>Western Sahara -ESH</item>
+        <item>Eritrea -ERI</item>
+        <item>Spain -ESP</item>
+        <item>Ethiopia -ETH</item>
+        <item>Finland -FIN</item>
+        <item>Fiji -FJI</item>
+        <item>Falkland Islands -FLK</item>
+        <item>Micronesia -FSM</item>
+        <item>Faroe Islands -FRO</item>
+        <item>France -FRA</item>
+        <item>Gabon -GAB</item>
+        <item>United Kingdom -GBR</item>
+        <item>Grenada -GRD</item>
+        <item>Georgia -GEO</item>
+        <item>French Guiana -GUF</item>
+        <item>Guernsey -GGY</item>
+        <item>Ghana -GHA</item>
+        <item>Gibraltar -GIB</item>
+        <item>Greenland -GRL</item>
+        <item>Gambia -GMB</item>
+        <item>Guinea -GIN</item>
+        <item>Guadeloupe -GLP</item>
+        <item>Equatorial Guinea -GNQ</item>
+        <item>Greece -GRC</item>
+        <item>South Georgia and South Sandwich Islands -SGS</item>
+        <item>Guatemala -GTM</item>
+        <item>Guam -GUM</item>
+        <item>Guinea-Bissau -GNB</item>
+        <item>Guyana -GUY</item>
+        <item>Hong Kong -HKG</item>
+        <item>Heard Island and McDonald Islands -HMD</item>
+        <item>Honduras -HND</item>
+        <item>Croatia -HRV</item>
+        <item>Haiti -HTI</item>
+        <item>Hungary -HUN</item>
+        <item>Indonesia -IDN</item>
+        <item>Ireland -IRL</item>
+        <item>Israel -ISR</item>
+        <item>Isle of Man -IMN</item>
+        <item>India -IND</item>
+        <item>British Indian Ocean Territory -IOT</item>
+        <item>Iraq -IRQ</item>
+        <item>Iran -IRN</item>
+        <item>Iceland -ISL</item>
+        <item>Italy -ITA</item>
+        <item>Jersey -JEY</item>
+        <item>Jamaica -JAM</item>
+        <item>Jordan -JOR</item>
+        <item>Japan -JPN</item>
+        <item>Kenya -KEN</item>
+        <item>Kyrgyzstan -KGZ</item>
+        <item>Cambodia -KHM</item>
+        <item>Kiribati -KIR</item>
+        <item>Saint Kitts and Nevis -KNA</item>
+        <item>North Korea -PRK</item>
+        <item>South Korea -KOR</item>
+        <item>Kuwait -KWT</item>
+        <item>Cayman Islands -CYM</item>
+        <item>Kazakhstan -KAZ</item>
+        <item>Laos -LAO</item>
+        <item>Lebanon -LBN</item>
+        <item>Saint Lucia -LCA</item>
+        <item>Liechtenstein -LIE</item>
+        <item>Sri Lanka -LKA</item>
+        <item>Liberia -LBR</item>
+        <item>Lesotho -LSO</item>
+        <item>Lithuania -LTU</item>
+        <item>Luxembourg -LUX</item>
+        <item>Latvia -LVA</item>
+        <item>Libya -LBY</item>
+        <item>Morocco -MAR</item>
+        <item>Monaco -MCO</item>
+        <item>Moldova -MDA</item>
+        <item>Montenegro -MNE</item>
+        <item>Saint Martin -MAF</item>
+        <item>Madagascar -MDG</item>
+        <item>Marshall Islands -MHL</item>
+        <item>Macedonia -MKD</item>
+        <item>Mali -MLI</item>
+        <item>Myanmar [Burma] -MMR</item>
+        <item>Mongolia -MNG</item>
+        <item>Macao -MAC</item>
+        <item>Northern Mariana Islands -MNP</item>
+        <item>Martinique -MTQ</item>
+        <item>Mauritania -MRT</item>
+        <item>Montserrat -MSR</item>
+        <item>Malta -MLT</item>
+        <item>Mauritius -MUS</item>
+        <item>Maldives -MDV</item>
+        <item>Malawi -MWI</item>
+        <item>Mexico -MEX</item>
+        <item>Malaysia -MYS</item>
+        <item>Mozambique -MOZ</item>
+        <item>Namibia -NAM</item>
+        <item>New Caledonia -NCL</item>
+        <item>Niger -NER</item>
+        <item>Norfolk Island -NFK</item>
+        <item>Nigeria -NGA</item>
+        <item>Nicaragua -NIC</item>
+        <item>Netherlands -NLD</item>
+        <item>Norway -NOR</item>
+        <item>Nepal -NPL</item>
+        <item>Nauru -NRU</item>
+        <item>Niue -NIU</item>
+        <item>New Zealand -NZL</item>
+        <item>Oman -OMN</item>
+        <item>Panama -PAN</item>
+        <item>Peru -PER</item>
+        <item>French Polynesia -PYF</item>
+        <item>Papua New Guinea -PNG</item>
+        <item>Philippines -PHL</item>
+        <item>Pakistan -PAK</item>
+        <item>Poland -POL</item>
+        <item>Saint Pierre and Miquelon -SPM</item>
+        <item>Pitcairn Islands -PCN</item>
+        <item>Puerto Rico -PRI</item>
+        <item>Palestine -PSE</item>
+        <item>Portugal -PRT</item>
+        <item>Palau -PLW</item>
+        <item>Paraguay -PRY</item>
+        <item>Qatar -QAT</item>
+        <item>Réunion -REU</item>
+        <item>Romania -ROU</item>
+        <item>Serbia -SRB</item>
+        <item>Russia -RUS</item>
+        <item>Rwanda -RWA</item>
+        <item>Saudi Arabia -SAU</item>
+        <item>Solomon Islands -SLB</item>
+        <item>Seychelles -SYC</item>
+        <item>Sudan -SDN</item>
+        <item>Sweden -SWE</item>
+        <item>Singapore -SGP</item>
+        <item>Saint Helena -SHN</item>
+        <item>Slovenia -SVN</item>
+        <item>Svalbard and Jan Mayen -SJM</item>
+        <item>Slovakia -SVK</item>
+        <item>Sierra Leone -SLE</item>
+        <item>San Marino -SMR</item>
+        <item>Senegal -SEN</item>
+        <item>Somalia -SOM</item>
+        <item>Suriname -SUR</item>
+        <item>South Sudan -SSD</item>
+        <item>São Tomé and Príncipe -STP</item>
+        <item>El Salvador -SLV</item>
+        <item>Sint Maarten -SXM</item>
+        <item>Syria -SYR</item>
+        <item>Swaziland -SWZ</item>
+        <item>Turks and Caicos Islands -TCA</item>
+        <item>Chad -TCD</item>
+        <item>French Southern Territories -ATF</item>
+        <item>Togo -TGO</item>
+        <item>Thailand -THA</item>
+        <item>Tajikistan -TJK</item>
+        <item>Tokelau -TKL</item>
+        <item>East Timor -TLS</item>
+        <item>Turkmenistan -TKM</item>
+        <item>Tunisia -TUN</item>
+        <item>Tonga -TON</item>
+        <item>Turkey -TUR</item>
+        <item>Trinidad and Tobago -TTO</item>
+        <item>Tuvalu -TUV</item>
+        <item>Taiwan -TWN</item>
+        <item>Tanzania -TZA</item>
+        <item>Ukraine -UKR</item>
+        <item>Uganda -UGA</item>
+        <item>U.S. Minor Outlying Islands -UMI</item>
+        <item>United States -USA</item>
+        <item>Uruguay -URY</item>
+        <item>Uzbekistan -UZB</item>
+        <item>Vatican City -VAT</item>
+        <item>Saint Vincent and the Grenadines -VCT</item>
+        <item>Venezuela -VEN</item>
+        <item>British Virgin Islands -VGB</item>
+        <item>U.S. Virgin Islands -VIR</item>
+        <item>Vietnam -VNM</item>
+        <item>Vanuatu -VUT</item>
+        <item>Wallis and Futuna -WLF</item>
+        <item>Samoa -WSM</item>
+        <item>Kosovo -UNK</item>
+        <item>Yemen -YEM</item>
+        <item>Mayotte -MYT</item>
+        <item>South Africa -ZAF</item>
+        <item>Zambia -ZMB</item>
+        <item>Zimbabwe -ZWE</item>
     </string-array>
 </resources>

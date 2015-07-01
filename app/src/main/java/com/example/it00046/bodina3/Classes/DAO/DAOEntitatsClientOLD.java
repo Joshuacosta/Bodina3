@@ -6,7 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.it00046.bodina3.Classes.Custom.LVWLlistaEntitatsClient;
+import com.example.it00046.bodina3.Classes.Custom.LVWLlistaAssociacionsClient;
 import com.example.it00046.bodina3.Classes.Entitats.EntitatClient;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.PhpJson;
@@ -53,7 +53,7 @@ public final class DAOEntitatsClientOLD {
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
     public static void Llegir(final ListView p_LlistaEntitats, int p_Layout) {
-        final ArrayAdapter<EntitatClient> l_Llista = new LVWLlistaEntitatsClient(Globals.g_Native.getApplicationContext(), p_Layout);
+        final ArrayAdapter<EntitatClient> l_Llista = new LVWLlistaAssociacionsClient(Globals.g_Native.getApplicationContext(), p_Layout);
         EntitatClient l_EntitatClient;
         int l_NumEntitats;
 

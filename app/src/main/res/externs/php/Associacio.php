@@ -59,10 +59,18 @@ else{
 				}
 				break;
 				
-			case 1: // Llegim les associacions del client
+			case 1: // Llegim les associacions del client, amb la informació de la entitat
 				/* Recuperem les dades d'entrada */
 				$CodiClient = $_POST['CodiClient'];
-				$result = mysql_query("SELECT * FROM Associacions WHERE CodiClient = '".$CodiClient."'");
+								// Fem la select amb les entitats del client
+				$result = mysql_query("SELECT    E.Codi, E.Nom, E.eMail, E.Pais, E.Adresa, E.Contacte, E.Telefon, E.Estat, 
+												 A.Contacte As ContacteAssociacio, A.eMail As eMailAssociacio, A.Estat As EstatAssociacio,
+												 A.DataAlta, A.DataFi, A.Descripcio
+                                       FROM      Associacions AS A
+                                       LEFT JOIN Entitats AS E
+                                       ON       (E.Codi = A.CodiEntitat)
+                                       WHERE     A.CodiClient = '".$CodiClient."'
+                                       GROUP BY  E.Codi");
 				if (!$result){
 					$response["valids"] = "2";
 					$gestor = fopen("errors/bd.txt","a");
@@ -74,14 +82,22 @@ else{
 					if (mysql_num_rows($result) > 0) {	 
 						while ($row = mysql_fetch_array($result)) {
 							$Associacio = array();
-							$Associacio["Codi"] = $row["Codi"];
-							$Associacio["Nom"] = $row["Nom"];
-							$Associacio["eMail"] = $row["eMail"];
-							$Associacio["Pais"] = $row["Pais"];
-							$Associacio["Adresa"] = $row["Adresa"];
-							$Associacio["Contacte"] = $row["Contacte"];
-							$Associacio["Telefon"] = $row["Telefon"];
-							$Associacio["Estat"] = $row["Estat"];
+							// Dades de la associacio
+							$Associacio["Contacte"] = $row["ContacteAssociacio"];
+							$Associacio["Descripcio"] = $row["Descripcio"];
+							$Associacio["eMail"] = $row["eMailAssociacio"];
+							$Associacio["DataAlta"] = $row["DataAlta"];
+							$Associacio["DataFi"] = $row["DataFi"];
+							$Associacio["Estat"] = $row["EstatAssociacio"];
+							// Dades de la entitat
+							$Associacio["CodiEntitat"] = $row["Codi"];
+							$Associacio["NomEntitat"] = $row["Nom"];
+							$Associacio["eMailEntitat"] = $row["eMail"];
+							$Associacio["PaisEntitat"] = $row["Pais"];
+							$Associacio["AdresaEntitat"] = $row["Adresa"];
+							$Associacio["ContacteEntitat"] = $row["Contacte"];
+							$Associacio["TelefonEntitat"] = $row["Telefon"];
+							$Associacio["EstatEntitat"] = $row["Estat"];
 							array_push($response["Associacions"], $Associacio);
 						}							
 					}						

@@ -6,21 +6,21 @@ $Temps  	= getdate();
 $Avui   	= $Temps[mday]."/".$Temps[mon]."/".$Temps[year]." ".$Temps[hours].":".$Temps[minutes].":".$Temps[seconds];
 $Resposta 	= "";
 /* Recuperem les dades d'entrada */
-$CodiClient         = $_POST['CodiClient'];
-$CodiClientIntern	= $_POST['CodiClientIntern'];
-$eMail				= $_POST['eMail'];
-$Nom				= $_POST['Nom'];
-$Pais				= $_POST['Pais'];
-$Contacte			= $_POST['Contacte'];
-$Idioma				= $_POST['Idioma'];
+$Codi       = $_POST['Codi'];          // Aquest valor no hi serà definit quan donem d'alta un client (recorda que es generat)
+$CodiIntern	= $_POST['CodiIntern'];
+$eMail		= $_POST['eMail'];
+$Nom		= $_POST['Nom'];
+$Pais		= $_POST['Pais'];
+$Contacte	= $_POST['Contacte'];
+$Idioma		= $_POST['Idioma'];
 // Array per la resposta JSON
-$response 			= array();
+$response 	= array();
 $response["valids"] = "1";
 //
 // Operativa: 	0- Alta
 //            	1- Update
-//            	2- Recuperar dades amb CodiClient
-//				21- Recuperar dades amb CodiClientIntern
+//            	2- Recuperar dades amb Codi
+//				21- Recuperar dades amb CodiIntern
 //            
 $Operativa = $_POST['Operativa'];
 // Obrim la BBDD 
@@ -44,7 +44,7 @@ else{
 		switch ($Operativa){
 			case 0: // Alta
 				$Ara = date("Y-m-d H:i:s");
-				$result = mysql_query("SELECT CodiClient FROM Clients WHERE Pais='".$Pais."'");
+				$result = mysql_query("SELECT Codi FROM Clients WHERE Pais='".$Pais."'");
 				if (!$result){
 					$response["valids"] = "2";
 					$gestor = fopen("errors/bd.txt","a");
@@ -52,11 +52,14 @@ else{
 					fclose($gestor);
 				}				
 				else{
-					$Numero = mysql_num_rows($result) + 1;				
-					$CodiClient = $Pais."/".$Numero;
-					$result = mysql_query("INSERT INTO Clients (CodiClient,CodiClientIntern,eMail,Nom,Pais,Contacte,DataAlta,Idioma,DataDarrerCanvi,Estat)
-														VALUES ('".$CodiClient."',
-																'".$CodiClientIntern."',
+					$Numero = mysql_num_rows($result) + 1;
+					// Construim el codi
+					$Aux = explode($Pais,"-");
+					$CodiPais = $Aux[count($Aux)-1]; // Així triem el darrer element, ho fem per si a la definició del pais hi han mes "-"
+					$Codi = $CodiPais."/".$Numero;
+					$result = mysql_query("INSERT INTO Clients (Codi,CodiIntern,eMail,Nom,Pais,Contacte,DataAlta,Idioma,DataDarrerCanvi,Estat)
+														VALUES ('".$Codi."',
+																'".$CodiIntern."',
 																'".$eMail."',
 																'".addslashes($Nom)."',
 																'".$Pais."',
@@ -65,12 +68,12 @@ else{
 					if (!$result){
 						$response["valids"] = "2";
 						$gestor = fopen("errors/bd.txt","a");
-						fwrite($gestor,$Avui.">>> Clients.PHP//Clients//Insert//".mysql_errno()."//".mysql_error()."//Values:".$CodiClient."/".$CodiClientIntern."/".$eMail."/".$Nom."/".$Pais."/".$Contacte."/".$Idioma."\n");
+						fwrite($gestor,$Avui.">>> Clients.PHP//Clients//Insert//".mysql_errno()."//".mysql_error()."//Values:".$Codi."/".$CodiIntern."/".$eMail."/".$Nom."/".$Pais."/".$Contacte."/".$Idioma."\n");
 						fclose($gestor);
 					}
 					else{					
 						// Anotem el codi de client per la resposta					
-						$response["CodiClient"] = $CodiClient;
+						$response["Codi"] = $Codi;
 						// Enviem mail de confirmació
 						require "class.phpmailer.php";
 						$mail = new phpmailer();
@@ -128,11 +131,11 @@ else{
 														  Contacte='".addslashes($Contacte)."',
 														  Idioma='".$Idioma."',
 														  DataDarrerCanvi='".$Ara."'
-														  WHERE CodiClient='".$CodiClient."' AND Estat = TRUE");
+														  WHERE Codi='".$Codi."' AND Estat = TRUE");
 				if (!$result){
 					$response["valids"] = "2";
 					$gestor = fopen("errors/bd.txt","a");
-					fwrite($gestor,$Avui.">>> Clients.PHP//Clients//Update//".mysql_errno()."//".mysql_error()."//Values:".$CodiClient."/".
+					fwrite($gestor,$Avui.">>> Clients.PHP//Clients//Update//".mysql_errno()."//".mysql_error()."//Values:".$Codi."/".
 																														  $eMail."/".
 																														  $Nom."/".
 																														  $Pais."/".
@@ -142,12 +145,12 @@ else{
 				}					
 				break;
 				
-			case 2: // Recuperem les dades amb CodiClient
-				$result = mysql_query("SELECT eMail, Nom, Contacte, Pais, Idioma, DataAlta FROM Clients WHERE CodiClient='".$CodiClient."' AND Estat = TRUE");
+			case 2: // Recuperem les dades amb Codi
+				$result = mysql_query("SELECT eMail, Nom, Contacte, Pais, Idioma, DataAlta FROM Clients WHERE Codi='".$Codi."' AND Estat = TRUE");
 				if (!$result){
 					$response["valids"] = "2";
 					$gestor = fopen("errors/bd.txt","a");
-					fwrite($gestor,$Avui.">>> Clients.PHP//Clients//Select amb CodiClient//".mysql_errno()."//".mysql_error()."//WHERE:".$CodiClient."\n");
+					fwrite($gestor,$Avui.">>> Clients.PHP//Clients//Select amb Codi//".mysql_errno()."//".mysql_error()."//WHERE:".$Codi."\n");
 					fclose($gestor);
 				}
 				else{
@@ -155,7 +158,7 @@ else{
 						$row = mysql_fetch_array($result);						
 						//
 						$client = array();
-						$client["CodiClient"] = $row[CodiClient];
+						$client["Codi"] = $row[Codi];
 						$client["eMail"] = stripslashes($row[eMail]);
 						$client["Nom"] = stripslashes($row[Nom]);
 						$client["Contacte"] = stripslashes($row[Contacte]);
@@ -169,12 +172,12 @@ else{
 				}
 				break;
 				
-			case 21: // Recuperem les dades amb CodiClientIntern (es el que fem servir quan no hi ha BBDD client perque es la primera vegada o s'esborrat)				
-				$result = mysql_query("SELECT CodiClient, eMail, Nom, Contacte, Pais, Idioma, DataAlta FROM Clients WHERE CodiClientIntern='".$CodiClientIntern."' AND Estat = TRUE");
+			case 21: // Recuperem les dades amb CodiIntern (es el que fem servir quan no hi ha BBDD client perque es la primera vegada o s'esborrat)				
+				$result = mysql_query("SELECT Codi, eMail, Nom, Contacte, Pais, Idioma, DataAlta FROM Clients WHERE CodiIntern='".$CodiIntern."' AND Estat = TRUE");
 				if (!$result){
 					$response["valids"] = "2";
 					$gestor = fopen("errors/bd.txt","a");
-					fwrite($gestor,$Avui.">>> Clients.PHP//Clients//Select amb CodiClientIntern//".mysql_errno()."//".mysql_error()."//WHERE:".$CodiClientIntern."\n");
+					fwrite($gestor,$Avui.">>> Clients.PHP//Clients//Select amb CodiIntern//".mysql_errno()."//".mysql_error()."//WHERE:".$CodiIntern."\n");
 					fclose($gestor);
 				}
 				else{
@@ -182,7 +185,7 @@ else{
 					// Si existeix, retornem les dades que l'usuari s'ha esborrat localment
 					if (mysql_num_rows($result) == 1){
 						$row = mysql_fetch_array($result);
-						$client["CodiClient"] = $row[CodiClient];
+						$client["Codi"] = $row[Codi];
 						$client["eMail"] = stripslashes($row[eMail]);
 						$client["Nom"] = stripslashes($row[Nom]);
 						$client["Contacte"] = stripslashes($row[Contacte]);
@@ -192,7 +195,7 @@ else{
 					}
 					else{
 						// Es nou, nou
-						$client["CodiClient"] = "NOU";
+						$client["Codi"] = "NOU";
 					}
 					$response["client"] = array(); 
 					array_push($response["client"], $client);	 

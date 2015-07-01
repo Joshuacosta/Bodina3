@@ -20,7 +20,7 @@ import com.example.it00046.bodina3.Classes.DAO.DAOEntitats;
 import com.example.it00046.bodina3.Classes.Entitats.Entitat;
 import com.example.it00046.bodina3.Classes.Entitats.EntitatClient;
 import com.example.it00046.bodina3.Classes.Globals;
-import com.example.it00046.bodina3.Classes.DAO.DAOEntitatsClient;
+import com.example.it00046.bodina3.Classes.DAO.DAOAssociacions;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNEntitat;
 import com.example.it00046.bodina3.Classes.Validacio;
 import com.example.it00046.bodina3.Classes.Params.PAREntitat;
@@ -129,7 +129,7 @@ public class entitat_solicitar extends ActionBarActivity {
             // Ho poso a 1 o llegeixo la info recuperada?...
             l_entitatClient.EstatEntitat = 1;
             //
-            DAOEntitatsClient.Solicitar(l_entitatClient);
+            DAOAssociacions.Solicitar(l_entitatClient);
             this.finish();
         }
         else{
