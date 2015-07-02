@@ -41,10 +41,11 @@ public final class DAOEntitats {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    // Funcio per retornar les entitats de un pais en
+    // Funcio per retornar les entitats de un pais en ListView
     public static void Llegir(String p_Pais, final ListView p_LVW_Entitat, Context p_Context){
         SRV_LlistaEntitats(p_Pais, p_LVW_Entitat, p_Context);
     }
+    // en Spinner
     public static void Llegir(String p_Pais, final Spinner p_SPN_EntitatsClient){
         SRV_LlistaEntitats(p_Pais, p_SPN_EntitatsClient);
     }

@@ -9,22 +9,15 @@ package com.example.it00046.bodina3.Classes.Entitats;
  */
 public class Associacio
 {
-    public String CodiEntitat = new String();
-    public String NomEntitat = new String();
-    public String eMailEntitat = new String();
-    public String PaisEntitat = new String();
-    public String AdresaEntitat = new String();
-    public String ContacteEntitat = new String();
-    public String TelefonEntitat = new String();
-    public String EstatEntitat = new String();
+    public Entitat entitat = new Entitat();
     public String Contacte = new String();
     public String Descripcio = new String();
     public String eMail = new String();
     public String DataAlta = new String();
     public String DataFi = new String();
-    public String Estat = new String();
+    public int Estat;
 
-    public void AssociacioEntitat()
+    public void Associacio()
     {
     }
 }

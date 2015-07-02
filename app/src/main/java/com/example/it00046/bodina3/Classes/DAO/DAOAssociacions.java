@@ -45,7 +45,6 @@ public final class DAOAssociacions {
     private static final String TAG_DataAlta = Globals.g_Native.getString(R.string.TAssociacions_DataAlta);
     private static final String TAG_DataFi = Globals.g_Native.getString(R.string.TAssociacions_DataFi);
     private static final String TAG_Estat = Globals.g_Native.getString(R.string.TAssociacions_Estat);
-
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -139,7 +138,6 @@ public final class DAOAssociacions {
             });
         }
     }
-
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Funcions privades
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -148,7 +146,7 @@ public final class DAOAssociacions {
         RequestParams l_values = new RequestParams();
 
         l_values.put(TAG_CodiClient, Globals.g_Client.Codi);
-        l_values.put(TAG_CodiEntitat, p_Associacio.CodiEntitat);
+        l_values.put(TAG_CodiEntitat, p_Associacio.entitat.Codi);
         l_values.put(TAG_Contacte, p_Associacio.Contacte);
         l_values.put(TAG_Descripcio, p_Associacio.Descripcio);
         l_values.put(TAG_eMail, p_Associacio.eMail);
@@ -156,25 +154,24 @@ public final class DAOAssociacions {
 
         return l_values;
     }
-
     // Pasa les dades del objecte JSON a la Associacio
     private static Associacio JSONToAssociacio(JSONObject p_Associacio){
         Associacio l_Associacio = new Associacio();
 
         try {
-            l_Associacio.CodiEntitat = p_Associacio.getString(TAG_CodiEntitat);
-            l_Associacio.NomEntitat = p_Associacio.getString(TAG_NomEntitat);
-            l_Associacio.eMailEntitat = p_Associacio.getString(TAG_eMailEntitat);
-            l_Associacio.PaisEntitat = p_Associacio.getString(TAG_PaisEntitat);
-            l_Associacio.AdresaEntitat = p_Associacio.getString(TAG_AdresaEntitat);
-            l_Associacio.ContacteEntitat = p_Associacio.getString(TAG_ContacteEntitat);
-            l_Associacio.TelefonEntitat = p_Associacio.getString(TAG_TelefonEntitat);
-            l_Associacio.EstatEntitat = p_Associacio.getString(TAG_EstatEntitat);
+            l_Associacio.entitat.Codi = p_Associacio.getString(TAG_CodiEntitat);
+            l_Associacio.entitat.Nom = p_Associacio.getString(TAG_NomEntitat);
+            l_Associacio.entitat.eMail = p_Associacio.getString(TAG_eMailEntitat);
+            l_Associacio.entitat.Pais = p_Associacio.getString(TAG_PaisEntitat);
+            l_Associacio.entitat.Adresa = p_Associacio.getString(TAG_AdresaEntitat);
+            l_Associacio.entitat.Contacte = p_Associacio.getString(TAG_ContacteEntitat);
+            l_Associacio.entitat.Telefon = p_Associacio.getString(TAG_TelefonEntitat);
+            l_Associacio.entitat.Estat = p_Associacio.getInt(TAG_EstatEntitat);
             l_Associacio.Contacte = p_Associacio.getString(TAG_Contacte);
             l_Associacio.eMail = p_Associacio.getString(TAG_eMail);
             l_Associacio.DataAlta = p_Associacio.getString(TAG_DataAlta);
             l_Associacio.DataFi = p_Associacio.getString(TAG_DataFi);
-            l_Associacio.Estat = p_Associacio.getString(TAG_Estat);
+            l_Associacio.Estat = p_Associacio.getInt(TAG_Estat);
         }
         catch (JSONException e) {
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),

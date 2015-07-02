@@ -170,25 +170,6 @@
         <item>@string/TEntitatsClient_DataGrabacioLocal</item>
         <item>@string/TEntitatsClient_DataGrabacioServidor</item>
     </string-array>
-    <!-- .................................................................................. -->
-    <!-- ASSOCIACIONS -->
-    <string name="TAssociacions">Associacions</string>
-    <!-- Camps -->
-    <string name="TAssociacions_CodiEntitat">CodiEntitat</string>
-    <string name="TAssociacions_NomEntitat">NomEntitat</string>
-    <string name="TAssociacions_eMailEntitat">eMailEntitat</string>
-    <string name="TAssociacions_PaisEntitat">PaisEntitat</string>
-    <string name="TAssociacions_AdresaEntitat">AdresaEntitat</string>
-    <string name="TAssociacions_ContacteEntitat">ContacteEntitat</string>
-    <string name="TAssociacions_TelefonEntitat">TelefonEntitat</string>
-    <string name="TAssociacions_EstatEntitat">EstatEntitat</string>
-    <string name="TAssociacions_Contacte">Contacte</string>
-    <string name="TAssociacions_Descripcio">Descripcio</string>
-    <string name="TAssociacions_eMail">eMail</string>
-    <string name="TAssociacions_DataAlta">DataAlta</string>
-    <string name="TAssociacions_DataFi">DataFi</string>
-    <string name="TAssociacions_Estat">Estat</string>
-
     <!-- Funcions -->
     <string name="TEntitatsClient_Create">CREATE TABLE %1$s (
                                 %2$s VARCHAR(10) PRIMARY KEY,
@@ -211,6 +192,39 @@
                                 %19$s INTEGER,
                                 %20$s VARCHAR(20),
                                 %21$s VARCHAR(20))</string>
+    <!-- .................................................................................. -->
+    <!-- ASSOCIACIONS -->
+    <string name="TAssociacions">Associacions</string>
+    <!-- Camps -->
+    <string name="TAssociacions_CodiEntitat">CodiEntitat</string>
+    <string name="TAssociacions_NomEntitat">NomEntitat</string>
+    <string name="TAssociacions_eMailEntitat">eMailEntitat</string>
+    <string name="TAssociacions_PaisEntitat">PaisEntitat</string>
+    <string name="TAssociacions_AdresaEntitat">AdresaEntitat</string>
+    <string name="TAssociacions_ContacteEntitat">ContacteEntitat</string>
+    <string name="TAssociacions_TelefonEntitat">TelefonEntitat</string>
+    <string name="TAssociacions_EstatEntitat">EstatEntitat</string>
+    <string name="TAssociacions_Contacte">Contacte</string>
+    <string name="TAssociacions_Descripcio">Descripcio</string>
+    <string name="TAssociacions_eMail">eMail</string>
+    <string name="TAssociacions_DataAlta">DataAlta</string>
+    <string name="TAssociacions_DataFi">DataFi</string>
+    <string name="TAssociacions_Estat">Estat</string>
+    <!-- .................................................................................. -->
+    <!-- INVITACIONS -->
+    <string name="TInvitacions">Invitacions</string>
+    <!-- Camps -->
+    <string name="TInvitacions_CodiEntitat">CodiEntitat</string>
+    <string name="TInvitacions_NomEntitat">NomEntitat</string>
+    <string name="TInvitacions_eMailEntitat">eMailEntitat</string>
+    <string name="TInvitacions_PaisEntitat">PaisEntitat</string>
+    <string name="TInvitacions_AdresaEntitat">AdresaEntitat</string>
+    <string name="TInvitacions_ContacteEntitat">ContacteEntitat</string>
+    <string name="TInvitacions_TelefonEntitat">TelefonEntitat</string>
+    <string name="TInvitacions_EstatEntitat">EstatEntitat</string>
+    <string name="TInvitacions_DataInvitacio">DataInvitacio</string>
+    <string name="TInvitacions_DataConfirmacio">DataConfirmacio</string>
+    <string name="TInvitacions_Estat">Estat</string>
     <!-- .................................................................................. -->
     <!-- ENTITATS -->
     <string name="TEntitats">Entitats</string>
