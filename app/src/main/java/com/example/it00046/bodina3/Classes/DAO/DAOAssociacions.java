@@ -1,17 +1,14 @@
 package com.example.it00046.bodina3.Classes.DAO;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.it00046.bodina3.Classes.Custom.LVWLlistaAssociacionsClient;
+import com.example.it00046.bodina3.Classes.Custom.LVWLlistaAssociacions;
 import com.example.it00046.bodina3.Classes.Entitats.Associacio;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.PhpJson;
-import com.example.it00046.bodina3.Classes.Entitats.EntitatClient;
 import com.example.it00046.bodina3.R;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -50,9 +47,7 @@ public final class DAOAssociacions {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Llegim de la BBDD del servidor les associacions del client
     public static void Llegir(final ListView p_LVW_Associacions, int p_Layout, Context p_Context) {
-        final ArrayAdapter<Associacio> l_Llista = new LVWLlistaAssociacionsClient(p_Context, p_Layout);
-        EntitatClient l_EntitatClient;
-        int l_NumEntitats;
+        final ArrayAdapter<Associacio> l_Llista = new LVWLlistaAssociacions(p_Context, p_Layout);
 
         if (Globals.isNetworkAvailable()){
             // Montem el php
@@ -79,7 +74,7 @@ public final class DAOAssociacions {
                             l_ArrayAssociacions = p_Associacions.getJSONArray(Globals.g_Native.getString(R.string.TAssociacions));
                             for (int i = 0; i < l_ArrayAssociacions.length(); i++) {
                                 JSONObject l_JSONAssociacio = l_ArrayAssociacions.getJSONObject(i);
-                                // Pasa les dades del objecte JSON a la Entitat
+                                // Pasa les dades del objecte JSON a la Associacio
                                 Associacio l_Associacio = JSONToAssociacio(l_JSONAssociacio);
                                 // Carreguem
                                 l_Llista.add(l_Associacio);
@@ -108,7 +103,7 @@ public final class DAOAssociacions {
         // Actualitzem el servidor
         if (Globals.isNetworkAvailable()) {
             // Cridem al php
-            PhpJson.post("Associacio.php", Solicitar_entitatClientToRequestParams(p_Associacio), new JsonHttpResponseHandler() {
+            PhpJson.post("Associacio.php", Solicitar_AssociacioToRequestParams(p_Associacio), new JsonHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode,
                                       org.apache.http.Header[] headers,
@@ -118,9 +113,9 @@ public final class DAOAssociacions {
                 }
 
                 @Override
-                public void onSuccess(int p_statusCode, Header[] p_headers, JSONObject p_entitatClientServidor) {
+                public void onSuccess(int p_statusCode, Header[] p_headers, JSONObject p_Resposta) {
                     try {
-                        String l_Resposta = p_entitatClientServidor.getString(TAG_VALIDS);
+                        String l_Resposta = p_Resposta.getString(TAG_VALIDS);
                         if (l_Resposta.equals(Globals.k_PHPOK)) {
                             // Informem al usuari que hem modificat les dades
                             Toast.makeText(Globals.g_Native,
@@ -142,7 +137,7 @@ public final class DAOAssociacions {
     // Funcions privades
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Posa les dades a contentValue per cridar al PHP per solicitar una associacio
-    private static RequestParams Solicitar_entitatClientToRequestParams(Associacio p_Associacio) {
+    private static RequestParams Solicitar_AssociacioToRequestParams(Associacio p_Associacio) {
         RequestParams l_values = new RequestParams();
 
         l_values.put(TAG_CodiClient, Globals.g_Client.Codi);

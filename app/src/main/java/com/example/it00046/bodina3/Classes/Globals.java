@@ -42,6 +42,9 @@ public final class Globals
     public static final String k_OPE_AssociacionsLlegir = "1";
     public static final String k_OPE_Llegir = "1"; // La generalitzo?
     public static final String k_OPE_AssociacionsModificar = "2";
+    public static final String k_OPE_InvitacionsLlegir = "0";
+    public static final String k_OPE_InvitacionsAcceptar = "1";
+    public static final String k_OPE_InvitacionsRebutjar = "2";
     public static final String k_OPE_Update = "1";
     public static final String k_OPE_Select = "2";
     public static final String k_OPE_SelectCodiClientIntern = "21";

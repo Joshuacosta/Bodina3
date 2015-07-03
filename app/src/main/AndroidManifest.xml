@@ -56,7 +56,7 @@
         </activity>
         <!-- Finestra de recerca, dintre de solicitar -->
         <activity
-            android:name=".ac_entitat_recerca"
+            android:name=".entitat_recerca"
             android:label="@string/title_activity_ac_entitat_recerca"
             android:parentActivityName=".entitat_solicitar"
             android:launchMode="singleTop" >

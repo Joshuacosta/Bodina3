@@ -36,11 +36,11 @@ public final class LVWRecercaEntitats extends ArrayAdapter<Entitat> {
             convertView = inflater.inflate(l_textViewResourceId, null);
         }
 
-        ((TextView)convertView.findViewById(R.id.NomEntitatRecerca)).setText(getItem(position).Nom);
-        ((TextView)convertView.findViewById(R.id.AdresaRecerca)).setText(getItem(position).Adresa);
-        ((TextView)convertView.findViewById(R.id.ContacteRecerca)).setText(getItem(position).Contacte);
-        ((TextView)convertView.findViewById(R.id.TelefonRecerca)).setText(getItem(position).Telefon);
-        ((TextView)convertView.findViewById(R.id.eMailRecerca)).setText(getItem(position).eMail);
+        ((TextView)convertView.findViewById(R.id.LiniaLVWRecercaEntitatsNom)).setText(getItem(position).Nom);
+        ((TextView)convertView.findViewById(R.id.LiniaLVWRecercaEntitatsTXTAdresa)).setText(getItem(position).Adresa);
+        ((TextView)convertView.findViewById(R.id.LiniaLVWRecercaEntitatsTXTContacte)).setText(getItem(position).Contacte);
+        ((TextView)convertView.findViewById(R.id.LiniaLVWRecercaEntitatsTXTTelefon)).setText(getItem(position).Telefon);
+        ((TextView)convertView.findViewById(R.id.LiniaLVWRecercaEntitatsTXTeMail)).setText(getItem(position).eMail);
 
         //
         if (lPosicio == -1){
@@ -48,7 +48,7 @@ public final class LVWRecercaEntitats extends ArrayAdapter<Entitat> {
         }
 
         // Resets the toolbar to be closed
-        View toolbar = convertView.findViewById(R.id.toolbar);
+        View toolbar = convertView.findViewById(R.id.LiniaLVWRecercaEntitatsLINToolbar);
         ((LinearLayout.LayoutParams) toolbar.getLayoutParams()).bottomMargin = -80;
         toolbar.setVisibility(View.GONE);
         return convertView;

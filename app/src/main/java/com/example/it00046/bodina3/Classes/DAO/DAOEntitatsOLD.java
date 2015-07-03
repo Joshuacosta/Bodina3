@@ -54,7 +54,7 @@ public final class DAOEntitatsOLD {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Funció per llegir del SERVIDOR les entitats de un pais, retornem la info per un ListView
     private static void SRV_LlistaEntitats (String p_Pais, final ListView p_LVW_Entitats, Context p_Context){
-        final ArrayAdapter<Entitat> l_listAdapter = new LVWRecercaEntitats(p_Context, R.layout.lycustom_recerca_entitats);
+        final ArrayAdapter<Entitat> l_listAdapter = new LVWRecercaEntitats(p_Context, R.layout.LiniaLVWRecercaEntitats);
 
         if (Globals.isNetworkAvailable()){
             // Montem el php

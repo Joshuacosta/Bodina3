@@ -17,13 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.DAO.DAOEntitats;
+import com.example.it00046.bodina3.Classes.Entitats.Associacio;
 import com.example.it00046.bodina3.Classes.Entitats.Entitat;
-import com.example.it00046.bodina3.Classes.Entitats.EntitatClient;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.DAO.DAOAssociacions;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNEntitat;
 import com.example.it00046.bodina3.Classes.Validacio;
-import com.example.it00046.bodina3.Classes.Params.PAREntitat;
 
 
 public class entitat_solicitar extends ActionBarActivity {
@@ -36,7 +35,7 @@ public class entitat_solicitar extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle p_savedInstanceState) {
         super.onCreate(p_savedInstanceState);
-        setContentView(R.layout.ly_entitat_solicitar);
+        setContentView(R.layout.entitat_solicitar);
         // Recuperem controls del layout
         g_ETX_Descripcio = (EditText) findViewById(R.id.TexteEntitatSolicitar_Descripcio);
         g_ETX_Contacte = (EditText) findViewById(R.id.TexteEntitatSolicitar_Contacte);
@@ -106,30 +105,27 @@ public class entitat_solicitar extends ActionBarActivity {
     }
     // Codi de acceptació
     public void btnEntitatSolicitar_Acceptar(View view) {
-        EntitatClient l_entitatClient = new EntitatClient();
-        Entitat l_dadesEntitat = new Entitat();
-        PAREntitat l_entitat = new PAREntitat();
+        Associacio l_Associacio = new Associacio();
+        Entitat l_dadesEntitat;
         SPNEntitat l_SPNEntitat;
 
         // Validem que els camps estiguin informats
         if (ValidarFinestra()) {
-            l_entitatClient.DescripcioAssociacio = g_ETX_Descripcio.getText().toString();
-            l_entitatClient.ContacteAssociacio = g_ETX_Contacte.getText().toString();
-            l_entitatClient.eMailAssociacio = g_ETX_eMail.getText().toString();
+            l_Associacio.Descripcio = g_ETX_Descripcio.getText().toString();
+            l_Associacio.Contacte = g_ETX_Contacte.getText().toString();
+            l_Associacio.eMail = g_ETX_eMail.getText().toString();
             l_SPNEntitat = (SPNEntitat) g_SPN_EntitatsClient.getSelectedItem();
             l_dadesEntitat = l_SPNEntitat.getId();
-
-            l_entitatClient.CodiEntitat = l_dadesEntitat.Codi;
-            l_entitatClient.NomEntitat = l_dadesEntitat.Nom;
-            l_entitatClient.eMailEntitat = l_dadesEntitat.eMail;
-            l_entitatClient.ContacteEntitat = l_dadesEntitat.Contacte;
-            l_entitatClient.AdresaEntitat = l_dadesEntitat.Adresa;
-            l_entitatClient.TelefonEntitat = l_dadesEntitat.Telefon;
-            l_entitatClient.PaisEntitat = l_dadesEntitat.Pais;
-            // Ho poso a 1 o llegeixo la info recuperada?...
-            l_entitatClient.EstatEntitat = 1;
+            l_Associacio.entitat.Codi = l_dadesEntitat.Codi;
+            l_Associacio.entitat.Nom = l_dadesEntitat.Nom;
+            l_Associacio.entitat.eMail = l_dadesEntitat.eMail;
+            l_Associacio.entitat.Contacte = l_dadesEntitat.Contacte;
+            l_Associacio.entitat.Adresa = l_dadesEntitat.Adresa;
+            l_Associacio.entitat.Telefon = l_dadesEntitat.Telefon;
+            l_Associacio.entitat.Pais = l_dadesEntitat.Pais;
+            l_Associacio.entitat.Estat = l_dadesEntitat.Estat;
             //
-            DAOAssociacions.Solicitar(l_entitatClient);
+            DAOAssociacions.Solicitar(l_Associacio);
             this.finish();
         }
         else{
@@ -141,7 +137,7 @@ public class entitat_solicitar extends ActionBarActivity {
     //
     // Funcio per obrir la finestra de recerca de entitats
     public void btnAfegirEntitatOnClick(View view){
-        Intent intent = new Intent(this, ac_entitat_recerca.class);
+        Intent intent = new Intent(this, entitat_recerca.class);
         startActivityForResult(intent, g_RQC_ENTITAT_RECERCA);
     }
     // Resposta de la recerca

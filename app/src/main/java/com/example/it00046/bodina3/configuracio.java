@@ -80,7 +80,7 @@ public class configuracio extends ActionBarActivity {
             }
         });
         // Informem les dades si es necessari
-        if (!Globals.g_Client.CodiClient.equals("")){
+        if (!Globals.g_Client.Codi.equals("")){
             // Mostrem dades
             g_ETX_Name.setText(Globals.g_Client.Nom);
             g_ETX_eMail.setText(Globals.g_Client.eMail);
@@ -141,8 +141,8 @@ public class configuracio extends ActionBarActivity {
 
         // Validem que els camps estiguin informats
         if (ValidarFinestra()) {
-            l_client.CodiClientIntern = Globals.g_Client.CodiClientIntern;
-            l_client.CodiClient = Globals.g_Client.CodiClient;
+            l_client.CodiIntern = Globals.g_Client.CodiIntern;
+            l_client.Codi = Globals.g_Client.Codi;
             l_client.Nom = g_ETX_Name.getText().toString();
             l_client.eMail = g_ETX_eMail.getText().toString();
             l_client.Contacte = g_ETX_Contacte.getText().toString();

@@ -11,6 +11,8 @@
     <string name="op_modificacio_ok">Update done</string>
     <string name="op_afegir_ok">Added item</string>
     <string name="op_esborrar_ok">Deleted item</string>
+    <string name="op_acceptar_invitacio">Accept invitacion</string>
+    <string name="op_rebutjar_invitacio">Rejected invitacion</string>
     <string name="boto_Acceptar">Accept</string>
     <string name="boto_Cancelar">Cancel</string>
     <string name="Seleccionar">Select</string>
@@ -223,7 +225,7 @@
     <string name="TInvitacions_TelefonEntitat">TelefonEntitat</string>
     <string name="TInvitacions_EstatEntitat">EstatEntitat</string>
     <string name="TInvitacions_DataInvitacio">DataInvitacio</string>
-    <string name="TInvitacions_DataConfirmacio">DataConfirmacio</string>
+    <string name="TInvitacions_DataResolucio">DataResolucio</string>
     <string name="TInvitacions_Estat">Estat</string>
     <!-- .................................................................................. -->
     <!-- ENTITATS -->

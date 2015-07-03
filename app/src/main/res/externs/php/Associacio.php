@@ -33,6 +33,9 @@ else{
     else{
 		// Estudiem la operativa
 		switch ($Operativa){
+			//
+			// OPERATIVA CLIENT
+			//
 			case 0: // Solicitem associacio
 				$Ara = date("Y-m-d H:i:s");
 				/* Recuperem les dades d'entrada */
@@ -42,15 +45,15 @@ else{
 				$Contacte			= $_POST['ContacteAssociacio'];
 				$Descripcio			= $_POST['DescripcioAssociacio'];
 				$eMail				= $_POST['eMailAssociacio'];
-				//
-				$result = mysql_query("INSERT INTO Associacions (CodiClient, CodiEntitat, DataPeticio, Contacte, Descripcio, eMail, DataDarrerCanvi)
+				// Inserim la petició de associacio, definim el seu estat en 2.
+				$result = mysql_query("INSERT INTO Associacions (CodiClient, CodiEntitat, DataPeticio, Contacte, Descripcio, eMail, DataDarrerCanvi, Estat)
 													VALUES ('".$CodiClient."',
 															'".$CodiEntitat."',
 															'".$Ara."',
 															'".addslashes($Contacte)."',
 															'".addslashes($Descripcio)."',
 															'".$eMail."',
-															'".$Ara."')");
+															'".$Ara."', 2)");
 				if (!$result){
 					$response["valids"] = "2";
 					$gestor = fopen("errors/bd.txt","a");
@@ -120,7 +123,7 @@ else{
 																DataFi='".$DataFi."',
 																Estat=".$Estat.",
 																DataDarrerCanvi='".$Ara."'
-														   WHERE CodiClient='".$CodiClient."' AND CodiEntitat = '".$CodiEntitat."');
+														   WHERE CodiClient='".$CodiClient."' AND CodiEntitat = '".$CodiEntitat."'");
 				if (!$result){
 					$response["valids"] = "2";
 					$gestor = fopen("errors/bd.txt","a");
@@ -131,6 +134,25 @@ else{
 																																				  $eMail."/".
 																																				  $DataFi."/".
 																																				  $Estat."\n");
+					fclose($gestor);
+				}
+				break;				
+			//
+			// OPERATIVA ENTITAT
+			//
+			case 3: // Acceptem la associacio
+				$Ara = date("Y-m-d H:i:s");
+				/* Recuperem les dades d'entrada */
+				$CodiClient         = $_POST['CodiClient'];
+				$CodiEntitat		= $_POST['CodiEntitat'];
+				$result = mysql_query("UPDATE Associacions SET 	Estat = 1,
+																DataDarrerCanvi='".$Ara."'
+														   WHERE CodiClient='".$CodiClient."' AND CodiEntitat = '".$CodiEntitat."'");
+				if (!$result){
+					$response["valids"] = "2";
+					$gestor = fopen("errors/bd.txt","a");
+					fwrite($gestor,$Avui.">>> Associacio.PHP//Clients//Update acceptar//".mysql_errno()."//".mysql_error()."//Values:".$CodiClient."/".
+																																	   $CodiEntitat."\n");
 					fclose($gestor);
 				}
 				break;				
