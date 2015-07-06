@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,6 +22,7 @@ import com.example.it00046.bodina3.Classes.ExpandAnimation;
 public class entitat_recerca extends Activity {
 
     private ListView g_LVW_searchResults;
+    private View g_LIN_ToolbarAnterior = null;
     private int g_Posicio = -1;
     private Context Jo = this;
 
@@ -49,7 +49,7 @@ public class entitat_recerca extends Activity {
                                     int position, long id) {
                 ImageView l_IMA_Icon;
                 TextView l_TXT_NomAnterior = null, l_TXT_Nom;
-                View l_LIN_ToolbarAnterior = null, l_LIN_Toolbar;
+                View l_LIN_Toolbar;
 
                 if (g_Posicio != position) {
                     l_IMA_Icon = (ImageView) view.findViewById(R.id.LiniaLVWRecercaEntitatsIMAIcona);
@@ -59,8 +59,8 @@ public class entitat_recerca extends Activity {
                         l_TXT_NomAnterior.setBackgroundResource(R.color.blue);
                         l_IMA_Icon.setVisibility(View.GONE);
                         // El colapsem
-                        ((LinearLayout.LayoutParams) l_LIN_ToolbarAnterior.getLayoutParams()).bottomMargin = -80;
-                        l_LIN_ToolbarAnterior.setVisibility(View.GONE);
+                        ((LinearLayout.LayoutParams) g_LIN_ToolbarAnterior.getLayoutParams()).bottomMargin = -80;
+                        g_LIN_ToolbarAnterior.setVisibility(View.GONE);
                     }
                     // Modifiquem el color de fons de la linia
                     l_TXT_Nom = (TextView)view.findViewById(R.id.LiniaLVWLlistaInvitacionsTXTNom);
@@ -73,7 +73,7 @@ public class entitat_recerca extends Activity {
                     ExpandAnimation l_expandAni = new ExpandAnimation(l_LIN_Toolbar, 100);
                     l_LIN_Toolbar.startAnimation(l_expandAni);
                     l_TXT_NomAnterior = l_TXT_Nom;
-                    l_LIN_ToolbarAnterior = l_LIN_Toolbar;
+                    g_LIN_ToolbarAnterior = l_LIN_Toolbar;
                 }
                 else{
                     // Ens seleccionan

@@ -33,12 +33,12 @@
         </activity>
         <!-- Fill 2: Alta celebracio -->
         <activity
-            android:name=".ac_celebracio_alta"
+            android:name=".celebracio_alta"
             android:label="@string/title_activity_ac_celebracio_alta" >
         </activity>
         <!-- Fill 3: Entitats -->
         <activity
-            android:name=".ac_entitat_pral"
+            android:name=".entitat_pral"
             android:parentActivityName=".principal"
             android:label="@string/title_activity_ac_entitat_pral" >
             <meta-data
@@ -49,10 +49,10 @@
         <activity
             android:name=".entitat_solicitar"
             android:label="@string/title_activity_ac_entitat_solicitar"
-            android:parentActivityName=".ac_entitat_pral">
+            android:parentActivityName=".entitat_pral">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ac_entitat_pral" />
+                android:value=".entitat_pral" />
         </activity>
         <!-- Finestra de recerca, dintre de solicitar -->
         <activity
@@ -71,12 +71,12 @@
                 android:value=".entitat_solicitar" />
         </activity>
         <activity
-            android:name=".ac_entitat_detall"
-            android:parentActivityName=".ac_entitat_pral"
+            android:name=".entitat_detall"
+            android:parentActivityName=".entitat_pral"
             android:label="@string/title_activity_ac_entitat_detall" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ac_entitat_pral" />
+                android:value=".entitat_pral" />
         </activity>
 
     </application>

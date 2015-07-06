@@ -16,41 +16,36 @@ import com.example.it00046.bodina3.R;
  */
 public final class LVWRecercaEntitats extends ArrayAdapter<Entitat> {
 
-    private Context l_context;
-    private int l_textViewResourceId;
-    public int lPosicio = -1;
+    private Context g_context;
+    private int g_Layout;
+    public int g_Posicio = -1;
 
-    public LVWRecercaEntitats(Context context, int textViewResourceId) {
-        super(context, textViewResourceId);
-        l_context = context;
-        l_textViewResourceId = textViewResourceId;
+    public LVWRecercaEntitats(Context p_context, int p_textViewResourceId) {
+        super(p_context, p_textViewResourceId);
+        g_context = p_context;
+        g_Layout = p_textViewResourceId;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int p_position, View p_convertView, ViewGroup p_parent) {
 
-        //LayoutInflater inflater = LayoutInflater.from(Globals.g_Recerca);
-        LayoutInflater inflater = LayoutInflater.from(this.l_context);
-        if (convertView == null) {
-            //convertView = inflater.inflate(R.layout.lycustom_recerca_entitats, null);
-            convertView = inflater.inflate(l_textViewResourceId, null);
+        LayoutInflater inflater = LayoutInflater.from(g_context);
+        if (p_convertView == null) {
+            p_convertView = inflater.inflate(g_Layout, null);
         }
-
-        ((TextView)convertView.findViewById(R.id.LiniaLVWRecercaEntitatsNom)).setText(getItem(position).Nom);
-        ((TextView)convertView.findViewById(R.id.LiniaLVWRecercaEntitatsTXTAdresa)).setText(getItem(position).Adresa);
-        ((TextView)convertView.findViewById(R.id.LiniaLVWRecercaEntitatsTXTContacte)).setText(getItem(position).Contacte);
-        ((TextView)convertView.findViewById(R.id.LiniaLVWRecercaEntitatsTXTTelefon)).setText(getItem(position).Telefon);
-        ((TextView)convertView.findViewById(R.id.LiniaLVWRecercaEntitatsTXTeMail)).setText(getItem(position).eMail);
-
+        ((TextView)p_convertView.findViewById(R.id.LiniaLVWRecercaEntitatsNom)).setText(getItem(p_position).Nom);
+        ((TextView)p_convertView.findViewById(R.id.LiniaLVWRecercaEntitatsTXTAdresa)).setText(getItem(p_position).Adresa);
+        ((TextView)p_convertView.findViewById(R.id.LiniaLVWRecercaEntitatsTXTContacte)).setText(getItem(p_position).Contacte);
+        ((TextView)p_convertView.findViewById(R.id.LiniaLVWRecercaEntitatsTXTTelefon)).setText(getItem(p_position).Telefon);
+        ((TextView)p_convertView.findViewById(R.id.LiniaLVWRecercaEntitatsTXTeMail)).setText(getItem(p_position).eMail);
         //
-        if (lPosicio == -1){
-            lPosicio = position;
+        if (g_Posicio == -1){
+            g_Posicio = p_position;
         }
-
         // Resets the toolbar to be closed
-        View toolbar = convertView.findViewById(R.id.LiniaLVWRecercaEntitatsLINToolbar);
+        View toolbar = p_convertView.findViewById(R.id.LiniaLVWRecercaEntitatsLINToolbar);
         ((LinearLayout.LayoutParams) toolbar.getLayoutParams()).bottomMargin = -80;
         toolbar.setVisibility(View.GONE);
-        return convertView;
+        return p_convertView;
     }
 }

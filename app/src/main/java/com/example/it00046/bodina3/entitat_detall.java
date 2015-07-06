@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.example.it00046.bodina3.Classes.Params.PAREntitat;
 
 
-public class ac_entitat_detall extends ActionBarActivity {
+public class entitat_detall extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +17,7 @@ public class ac_entitat_detall extends ActionBarActivity {
                  lTextTelefonEntitat, lTexteMailEntitat;
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ly_entitat_detall);
+        setContentView(R.layout.entitat_detall);
 
         // Metode tradicional
         Bundle extras = getIntent().getExtras();

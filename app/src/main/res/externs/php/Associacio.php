@@ -93,14 +93,17 @@ else{
 							$Associacio["DataFi"] = $row["DataFi"];
 							$Associacio["Estat"] = $row["EstatAssociacio"];
 							// Dades de la entitat
-							$Associacio["CodiEntitat"] = $row["Codi"];
-							$Associacio["NomEntitat"] = $row["Nom"];
-							$Associacio["eMailEntitat"] = $row["eMail"];
-							$Associacio["PaisEntitat"] = $row["Pais"];
-							$Associacio["AdresaEntitat"] = $row["Adresa"];
-							$Associacio["ContacteEntitat"] = $row["Contacte"];
-							$Associacio["TelefonEntitat"] = $row["Telefon"];
-							$Associacio["EstatEntitat"] = $row["Estat"];
+							$Entitat = array();
+							$Entitat["Codi"] = $row["Codi"];
+							$Entitat["Nom"] = $row["Nom"];
+							$Entitat["eMail"] = $row["eMail"];
+							$Entitat["Pais"] = $row["Pais"];
+							$Entitat["Adresa"] = $row["Adresa"];
+							$Entitat["Contacte"] = $row["Contacte"];
+							$Entitat["Telefon"] = $row["Telefon"];
+							$Entitat["Estat"] = $row["Estat"];
+							$Associacio["Entitat"] = $Entitat;
+							//
 							array_push($response["Associacions"], $Associacio);
 						}							
 					}						

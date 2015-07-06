@@ -26,15 +26,8 @@ public class DAOInvitacions {
     private static final String TAG_Telefon = "Telefon";
     private static final String TAG_VALIDS = "valids";
     private static final String TAG_PaisClient = Globals.g_Native.getString(R.string.TClient_Pais);
-    private static final String TAG_CodiClient = Globals.g_Native.getString(R.string.TClient_CodiClient);
+    private static final String TAG_Entitat = Globals.g_Native.getString(R.string.TEntitats);
     private static final String TAG_CodiEntitat = Globals.g_Native.getString(R.string.TInvitacions_CodiEntitat);
-    private static final String TAG_NomEntitat = Globals.g_Native.getString(R.string.TInvitacions_NomEntitat);
-    private static final String TAG_eMailEntitat = Globals.g_Native.getString(R.string.TInvitacions_eMailEntitat);
-    private static final String TAG_PaisEntitat = Globals.g_Native.getString(R.string.TInvitacions_PaisEntitat);
-    private static final String TAG_AdresaEntitat = Globals.g_Native.getString(R.string.TInvitacions_AdresaEntitat);
-    private static final String TAG_ContacteEntitat = Globals.g_Native.getString(R.string.TInvitacions_ContacteEntitat);
-    private static final String TAG_TelefonEntitat = Globals.g_Native.getString(R.string.TInvitacions_TelefonEntitat);
-    private static final String TAG_EstatEntitat = Globals.g_Native.getString(R.string.TInvitacions_EstatEntitat);
     private static final String TAG_DataInvitacio = Globals.g_Native.getString(R.string.TInvitacions_DataInvitacio);
     private static final String TAG_DataResolucio = Globals.g_Native.getString(R.string.TInvitacions_DataResolucio);
     private static final String TAG_Estat = Globals.g_Native.getString(R.string.TInvitacions_Estat);
@@ -108,7 +101,10 @@ public class DAOInvitacions {
     public static void Rebutjar(String p_CodiEntitat){
         OperativaInvitacio(p_CodiEntitat, Globals.k_OPE_InvitacionsRebutjar);
     }
-
+    // De Json a Associacio
+    public static Invitacio JSon(JSONObject p_Invitacio) {
+        return JSONToInvitacio(p_Invitacio);
+    }
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Funcions privades
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -174,17 +170,13 @@ public class DAOInvitacions {
         Invitacio l_Invitacio = new Invitacio();
 
         try {
-            l_Invitacio.entitat.Codi = p_Invitacio.getString(TAG_CodiEntitat);
-            l_Invitacio.entitat.Nom = p_Invitacio.getString(TAG_NomEntitat);
-            l_Invitacio.entitat.eMail = p_Invitacio.getString(TAG_eMailEntitat);
-            l_Invitacio.entitat.Pais = p_Invitacio.getString(TAG_PaisEntitat);
-            l_Invitacio.entitat.Adresa = p_Invitacio.getString(TAG_AdresaEntitat);
-            l_Invitacio.entitat.Contacte = p_Invitacio.getString(TAG_ContacteEntitat);
-            l_Invitacio.entitat.Telefon = p_Invitacio.getString(TAG_TelefonEntitat);
-            l_Invitacio.entitat.Estat = p_Invitacio.getInt(TAG_EstatEntitat);
+            // Dades invitacio
             l_Invitacio.DataInvitacio = p_Invitacio.getString(TAG_DataInvitacio);
             l_Invitacio.DataResolucio = p_Invitacio.getString(TAG_DataResolucio);
             l_Invitacio.Estat = p_Invitacio.getInt(TAG_Estat);
+            // Dades entitat
+            JSONObject l_Entitat = p_Invitacio.getJSONObject(TAG_Entitat);
+            l_Invitacio.entitat = DAOEntitats.JSon(l_Entitat);
         }
         catch (JSONException e) {
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),

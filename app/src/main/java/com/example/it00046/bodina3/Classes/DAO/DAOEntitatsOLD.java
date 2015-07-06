@@ -144,7 +144,7 @@ public final class DAOEntitatsOLD {
                                 l_Entitats.add(l_spinner);
                             }
                             // Associem
-                            ArrayAdapter<SPNEntitat> dataAdapter = new ArrayAdapter<SPNEntitat>(Globals.g_Native, R.layout.ly_spinnerdefecte, l_Entitats);
+                            ArrayAdapter<SPNEntitat> dataAdapter = new ArrayAdapter<SPNEntitat>(Globals.g_Native, R.layout.LiniaSPNDefecte, l_Entitats);
                             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             p_SPN_EntitatsClient.setAdapter(dataAdapter);
                         }

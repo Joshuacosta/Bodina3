@@ -4,9 +4,66 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     <TextView
-        android:id="@+id/LiniaLVWLlistaAssociacionsNom"
+        android:id="@+id/LiniaLVWLlistaAssociacionsTXTNomEntitat"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:textSize="16sp"
         android:gravity="center_vertical|left" />
+    <TextView
+        android:id="@+id/LiniaLVWLlistaAssociacionsTXTDescripcio"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:textSize="16sp"
+        android:gravity="center_vertical|left" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/LiniaLVWLlistaAssociacionsTXTDataAlta"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:textSize="14sp"
+            android:gravity="center_vertical|left"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/LiniaLVWLlistaAssociacionsTXTDataFi"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:textSize="14sp"
+            android:gravity="center_vertical|right"
+            android:layout_weight="1"/>
+    </LinearLayout>
+    <!--*** Layout que s'extent amb la informació de la entitat i la resta de info de la associacio ****-->
+    <LinearLayout android:id="@+id/LiniaLVWLlistaAssociacionsLINToolbar"
+        android:layout_marginBottom="-80dip"
+        android:visibility="gone"
+        android:layout_height="80dip"
+        android:orientation="vertical"
+        android:layout_width="fill_parent">
+        <TextView android:id="@+id/LiniaLVWLlistaAssociacionsTXTAdresaEntitat"
+            android:focusable="false"
+            android:paddingLeft="40dp"
+            android:focusableInTouchMode="false"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/LiniaLVWLlistaAssociacionsTXTContacteEntitat"
+            android:focusable="false"
+            android:paddingLeft="40dp"
+            android:focusableInTouchMode="false"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/LiniaLVWLlistaAssociacionsTXTTelefonEntitat"
+            android:focusable="false"
+            android:paddingLeft="40dp"
+            android:focusableInTouchMode="false"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/LiniaLVWLlistaAssociacionsTXTeMailEntitat"
+            android:focusable="false"
+            android:paddingLeft="40dp"
+            android:focusableInTouchMode="false"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 </LinearLayout>

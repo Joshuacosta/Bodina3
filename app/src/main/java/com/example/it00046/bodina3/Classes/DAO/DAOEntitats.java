@@ -29,6 +29,7 @@ import java.util.List;
 public final class DAOEntitats {
     // Variables
     private static RequestParams g_parametresPHP = new RequestParams();
+    // Camps de entitat
     private static final String TAG_Codi = Globals.g_Native.getString(R.string.TEntitats_Codi);
     private static final String TAG_eMail = Globals.g_Native.getString(R.string.TEntitats_eMail);
     private static final String TAG_Nom = Globals.g_Native.getString(R.string.TEntitats_Nom);
@@ -48,6 +49,10 @@ public final class DAOEntitats {
     // en Spinner
     public static void Llegir(String p_Pais, final Spinner p_SPN_EntitatsClient){
         SRV_LlistaEntitats(p_Pais, p_SPN_EntitatsClient);
+    }
+    // De Json a Entitat
+    public static Entitat JSon(JSONObject p_Entitat){
+        return JSONToEntitat(p_Entitat);
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Funcions privades
@@ -144,7 +149,7 @@ public final class DAOEntitats {
                                 l_Entitats.add(l_spinner);
                             }
                             // Associem
-                            ArrayAdapter<SPNEntitat> dataAdapter = new ArrayAdapter<SPNEntitat>(Globals.g_Native, R.layout.ly_spinnerdefecte, l_Entitats);
+                            ArrayAdapter<SPNEntitat> dataAdapter = new ArrayAdapter<SPNEntitat>(Globals.g_Native, R.layout.LiniaSPNDefecte, l_Entitats);
                             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             p_SPN_EntitatsClient.setAdapter(dataAdapter);
                         }

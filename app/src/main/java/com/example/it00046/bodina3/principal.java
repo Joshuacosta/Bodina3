@@ -118,11 +118,11 @@ public class principal extends ActionBarActivity {
 
         switch (l_id) {
             case R.id.principalMNUentitats:
-                l_intent = new Intent(this, ac_entitat_pral.class);
+                l_intent = new Intent(this, entitat_pral.class);
                 startActivity(l_intent);
                 break;
             case R.id.principalMNUafegir:
-                l_intent = new Intent(this, ac_celebracio_alta.class);
+                l_intent = new Intent(this, celebracio_alta.class);
                 startActivity(l_intent);
                 return true;
             case R.id.principalMNUconfiguracio:
