@@ -63,7 +63,7 @@ public class entitat_recerca extends Activity {
                         g_LIN_ToolbarAnterior.setVisibility(View.GONE);
                     }
                     // Modifiquem el color de fons de la linia
-                    l_TXT_Nom = (TextView)view.findViewById(R.id.LiniaLVWLlistaInvitacionsTXTNom);
+                    l_TXT_Nom = (TextView)view.findViewById(R.id.LiniaLVWRecercaEntitatsNom);
                     l_TXT_Nom.setBackgroundResource(R.color.green);
                     l_IMA_Icon.setVisibility(View.VISIBLE);
                     // Apuntem en quina linia estem (per si desprès l'usuari selecciona l'entitat)
@@ -117,7 +117,7 @@ public class entitat_recerca extends Activity {
                 // Recerquem a partir de 3 caracters
                 if (newText.length() > 3) {
                     g_LVW_searchResults.setVisibility(View.VISIBLE);
-                    DAOEntitats.Llegir("", g_LVW_searchResults, Jo, R.layout.LiniaLVWRecercaEntitats);
+                    DAOEntitats.Llegir("", g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
                 } else {
                     g_LVW_searchResults.setVisibility(View.INVISIBLE);
                 }

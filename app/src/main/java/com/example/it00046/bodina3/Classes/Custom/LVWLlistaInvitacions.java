@@ -31,7 +31,7 @@ public class LVWLlistaInvitacions extends ArrayAdapter<Invitacio> {
         l_Invitacio = getItem(position);
         LayoutInflater inflater = LayoutInflater.from(this.l_context);
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.LiniaLVWLlistaInvitacions, null);
+            convertView = inflater.inflate(R.layout.linia_lvw_llista_invitacions, null);
         }
         l_TXT_Nom = (TextView)convertView.findViewById(R.id.LiniaLVWLlistaInvitacionsTXTNom);
         l_TXT_Nom.setText(l_Invitacio.entitat.Nom);
@@ -39,7 +39,7 @@ public class LVWLlistaInvitacions extends ArrayAdapter<Invitacio> {
         l_TXT_DataInvitacio.setText(l_Invitacio.DataInvitacio);
         l_TXT_DataResolucio = (TextView)convertView.findViewById(R.id.LiniaLVWLlistaInvitacionsTXTDataResolucio);
         l_TXT_DataResolucio.setVisibility(View.INVISIBLE);
-        // Mostrem estat de la associació amb l'entitat
+        // Mostrem estat de la associacio amb l'entitat
         if(l_Invitacio.entitat.Estat == Globals.k_EstatBaixa){
             l_TXT_Nom.setBackgroundResource(R.color.red);
         }

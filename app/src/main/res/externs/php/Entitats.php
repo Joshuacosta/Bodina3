@@ -33,13 +33,12 @@ else{
     else{
 		// Estudiem la operativa
 		switch ($Operativa){
-			case 0: // Llista de entitats segons pais
+			case "0": // Llista de entitats segons pais
 				/* Recuperem les dades d'entrada */
-				$Pais = $_POST['Pais'];
-				
+				$Pais = $_POST['Pais'];				
 				// DE MOMENT HO RECUPEREM TOT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				//$result = mysql_query("SELECT * FROM Entitats Where Pais='".$Pais."' AND Estat = 1"); 
-				$result = mysql_query("SELECT * FROM Entitats AND Estat = 1"); 				
+				$result = mysql_query("SELECT * FROM Entitats Where Estat = 1"); 				
 				if (!$result){
 					$response["valids"] = "2";
 					$gestor = fopen("errors/bd.txt","a");
@@ -66,10 +65,10 @@ else{
 				}
 				break;
 				
-			case 1: //				
+			case "1": //				
 				break;
 
-			case 2: //
+			case "2": //
 				break;
         }
 	}

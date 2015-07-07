@@ -21,44 +21,18 @@ public class SQLDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Definim les taules de la BBDD
+        // Clients
         String CREATE = String.format(Globals.g_Native.getString(R.string.TClientCreate),
                 Globals.g_Native.getString(R.string.TClient),
-                Globals.g_Native.getString(R.string.TClient_CodiClient),
+                Globals.g_Native.getString(R.string.TClient_Codi),
                 Globals.g_Native.getString(R.string.TClient_eMail),
                 Globals.g_Native.getString(R.string.TClient_Nom),
                 Globals.g_Native.getString(R.string.TClient_Pais),
                 Globals.g_Native.getString(R.string.TClient_Contacte),
                 Globals.g_Native.getString(R.string.TClient_DataAlta),
                 Globals.g_Native.getString(R.string.TClient_Idioma),
-                Globals.g_Native.getString(R.string.TClient_Actualitzat),
-                Globals.g_Native.getString(R.string.TClient_DataActualitzat),
-                Globals.g_Native.getString(R.string.TClient_DataGrabacioServidor));
+                Globals.g_Native.getString(R.string.TClient_Actualitzat));
         db.execSQL(CREATE);
-        //
-        CREATE = String.format(Globals.g_Native.getString(R.string.TEntitatsClient_Create),
-                Globals.g_Native.getString(R.string.TEntitatsClient),
-                Globals.g_Native.getString(R.string.TEntitatsClient_CodiEntitat),
-                Globals.g_Native.getString(R.string.TEntitatsClient_eMailEntitat),
-                Globals.g_Native.getString(R.string.TEntitatsClient_NomEntitat),
-                Globals.g_Native.getString(R.string.TEntitatsClient_PaisEntitat),
-                Globals.g_Native.getString(R.string.TEntitatsClient_ContacteEntitat),
-                Globals.g_Native.getString(R.string.TEntitatsClient_AdresaEntitat),
-                Globals.g_Native.getString(R.string.TEntitatsClient_TelefonEntitat),
-                Globals.g_Native.getString(R.string.TEntitatsClient_EstatEntitat),
-                Globals.g_Native.getString(R.string.TEntitatsClient_DataDarrerCanviEntitat),
-                Globals.g_Native.getString(R.string.TEntitatsClient_DataPeticioAssociacio),
-                Globals.g_Native.getString(R.string.TEntitatsClient_ContacteAssociacio),
-                Globals.g_Native.getString(R.string.TEntitatsClient_DescripcioAssociacio),
-                Globals.g_Native.getString(R.string.TEntitatsClient_eMailAssociacio),
-                Globals.g_Native.getString(R.string.TEntitatsClient_DataAltaAssociacio),
-                Globals.g_Native.getString(R.string.TEntitatsClient_DataFiAssociacio),
-                Globals.g_Native.getString(R.string.TEntitatsClient_DataDarrerCanviAssociacio),
-                Globals.g_Native.getString(R.string.TEntitatsClient_EstatAssociacio),
-                Globals.g_Native.getString(R.string.TEntitatsClient_ActualitzatServidor),
-                Globals.g_Native.getString(R.string.TEntitatsClient_DataGrabacioLocal),
-                Globals.g_Native.getString(R.string.TEntitatsClient_DataGrabacioServidor));
-        db.execSQL(CREATE);
-
         // Si executem aixó es que hem creat la BBDD i no hi han dades, de moment:
         Globals.g_NoHiHanDades = true;
         //

@@ -1,6 +1,5 @@
 package com.example.it00046.bodina3;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
@@ -13,10 +12,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.it00046.bodina3.Classes.DAO.DAOAssociacions;
 import com.example.it00046.bodina3.Classes.ExpandAnimation;
@@ -35,7 +32,7 @@ public class entitat_pral extends ActionBarActivity {
         setContentView(R.layout.entitat_pral);
         // Carreguen les entitats del client
         g_LVW_Associacions = (ListView) findViewById(R.id.entitat_pralLVWAssociacions);
-        DAOAssociacions.Llegir(g_LVW_Associacions,  R.layout.LiniaLVWLlistaAssociacions, Jo);
+        DAOAssociacions.Llegir(g_LVW_Associacions,  R.layout.linia_lvw_llista_associacions, Jo);
         // Experiment boto
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.attachToListView(g_LVW_Associacions);
@@ -67,7 +64,7 @@ public class entitat_pral extends ActionBarActivity {
                     g_LIN_ToolbarAnterior.setVisibility(View.GONE);
                     // Apuntem en quina linia estem
                     g_Posicio = p_position;
-                    // Definim l'animació del item
+                    // Definim l'animacio del item
                     ExpandAnimation l_expandAni = new ExpandAnimation(l_LIN_Toolbar, 100);
                     l_LIN_Toolbar.startAnimation(l_expandAni);
                     g_LIN_ToolbarAnterior = l_LIN_Toolbar;

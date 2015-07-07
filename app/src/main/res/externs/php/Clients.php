@@ -42,8 +42,8 @@ else{
     else{
 		// Estudiem la operativa
 		switch ($Operativa){
-			case 0: // Alta
-				$Ara = date("Y-m-d H:i:s");
+			case "0": // Alta
+				$Ara = date("Y-m-d H:i:s");							
 				$result = mysql_query("SELECT Codi FROM Clients WHERE Pais='".$Pais."'");
 				if (!$result){
 					$response["valids"] = "2";
@@ -54,9 +54,9 @@ else{
 				else{
 					$Numero = mysql_num_rows($result) + 1;
 					// Construim el codi
-					$Aux = explode($Pais,"-");
+					$Aux = explode("-", $Pais);					
 					$CodiPais = $Aux[count($Aux)-1]; // Així triem el darrer element, ho fem per si a la definició del pais hi han mes "-"
-					$Codi = $CodiPais."/".$Numero;
+					$Codi = $CodiPais."/".$Numero;					
 					$result = mysql_query("INSERT INTO Clients (Codi,CodiIntern,eMail,Nom,Pais,Contacte,DataAlta,Idioma,DataDarrerCanvi,Estat)
 														VALUES ('".$Codi."',
 																'".$CodiIntern."',
@@ -123,7 +123,7 @@ else{
                 }
 				break;
 				
-			case 1: // Update
+			case "1": // Update
 				$Ara = date("Y-m-d H:i:s");
 				$result = mysql_query("UPDATE Clients SET eMail='".$eMail."', 
 														  Nom='".addslashes($Nom)."', 
@@ -145,7 +145,7 @@ else{
 				}					
 				break;
 				
-			case 2: // Recuperem les dades amb Codi
+			case "2": // Recuperem les dades amb Codi
 				$result = mysql_query("SELECT eMail, Nom, Contacte, Pais, Idioma, DataAlta FROM Clients WHERE Codi='".$Codi."' AND Estat = TRUE");
 				if (!$result){
 					$response["valids"] = "2";
@@ -172,7 +172,7 @@ else{
 				}
 				break;
 				
-			case 21: // Recuperem les dades amb CodiIntern (es el que fem servir quan no hi ha BBDD client perque es la primera vegada o s'esborrat)				
+			case "21": // Recuperem les dades amb CodiIntern (es el que fem servir quan no hi ha BBDD client perque es la primera vegada o s'esborrat)				
 				$result = mysql_query("SELECT Codi, eMail, Nom, Contacte, Pais, Idioma, DataAlta FROM Clients WHERE CodiIntern='".$CodiIntern."' AND Estat = TRUE");
 				if (!$result){
 					$response["valids"] = "2";

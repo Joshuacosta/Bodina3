@@ -26,7 +26,7 @@ public final class DAOAssociacions {
     private static RequestParams g_parametresPHP = new RequestParams();
     private static final String TAG_VALIDS = "valids";
     private static final String TAG_Entitat = "entitat";
-    private static final String TAG_CodiClient = Globals.g_Native.getString(R.string.TClient_CodiClient);
+    private static final String TAG_CodiClient = Globals.g_Native.getString(R.string.TClient_Codi);
     private static final String TAG_CodiEntitat = Globals.g_Native.getString(R.string.TEntitats_Codi);
     // Camps de la Associacio
     private static final String TAG_Contacte = Globals.g_Native.getString(R.string.TAssociacions_Contacte);

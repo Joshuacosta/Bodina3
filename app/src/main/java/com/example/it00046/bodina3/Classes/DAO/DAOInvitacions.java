@@ -93,11 +93,11 @@ public class DAOInvitacions {
                     Globals.g_Native.getString(R.string.error_greu));
         }
     }
-    // Acceptem una invitació
+    // Acceptem una invitacio
     public static void Acceptar(String p_CodiEntitat){
         OperativaInvitacio(p_CodiEntitat, Globals.k_OPE_InvitacionsAcceptar);
     }
-    // Rebutgem una invitació
+    // Rebutgem una invitacio
     public static void Rebutjar(String p_CodiEntitat){
         OperativaInvitacio(p_CodiEntitat, Globals.k_OPE_InvitacionsRebutjar);
     }
@@ -108,7 +108,7 @@ public class DAOInvitacions {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Funcions privades
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    // Operativa interna de acceptació o denegació
+    // Operativa interna de acceptacio o denegacio
     private static void OperativaInvitacio(String p_CodiEntitat, final String p_Operativa){
         TelephonyManager l_NumTelefon;
 

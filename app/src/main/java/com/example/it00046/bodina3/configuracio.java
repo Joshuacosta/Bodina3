@@ -36,6 +36,7 @@ public class configuracio extends ActionBarActivity {
         int l_spinnerPosition;
         DateFormat l_df;
         Date l_date = new Date();
+        ArrayAdapter<CharSequence> l_adapter_Idioma, l_adapter_Pais;
 
         super.onCreate(p_savedInstanceState);
         setContentView(R.layout.configuracio);
@@ -49,8 +50,9 @@ public class configuracio extends ActionBarActivity {
         g_SPN_Idioma = (Spinner)findViewById(R.id.configuracioSPNidioma);
         g_SPN_Paissos = (Spinner)findViewById(R.id.configuracioSPNpais);
         // Codi per tractar el spinner del idioma
-        ArrayAdapter<CharSequence> adapter_Idioma = ArrayAdapter.createFromResource(this,R.array.Idioma,android.R.layout.simple_spinner_item);
-        adapter_Idioma.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        l_adapter_Idioma = ArrayAdapter.createFromResource(this,R.array.Idioma,android.R.layout.simple_spinner_item);
+        l_adapter_Idioma.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        g_SPN_Idioma.setAdapter(l_adapter_Idioma);
         // Codi del Spinner de idioma
         g_SPN_Idioma.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -64,9 +66,9 @@ public class configuracio extends ActionBarActivity {
             }
         });
         // Codi per tractar el spinner de paissos
-        ArrayAdapter<CharSequence> adapter_Pais = ArrayAdapter.createFromResource(this,R.array.Paisos,android.R.layout.simple_spinner_item);
-        adapter_Pais.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        g_SPN_Paissos.setAdapter(adapter_Pais);
+        l_adapter_Pais = ArrayAdapter.createFromResource(this,R.array.Paisos,android.R.layout.simple_spinner_item);
+        l_adapter_Pais.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        g_SPN_Paissos.setAdapter(l_adapter_Pais);
         // Codi del Spinner de pais
         g_SPN_Paissos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -86,11 +88,11 @@ public class configuracio extends ActionBarActivity {
             g_ETX_eMail.setText(Globals.g_Client.eMail);
             g_ETX_Contacte.setText(Globals.g_Client.Contacte);
             if (!Globals.g_Client.Idioma.isEmpty()){
-                l_spinnerPosition = adapter_Idioma.getPosition(Globals.g_Client.Idioma);
+                l_spinnerPosition = l_adapter_Idioma.getPosition(Globals.g_Client.Idioma);
                 g_SPN_Idioma.setSelection(l_spinnerPosition);
             }
             if (!Globals.g_Client.Pais.isEmpty()){
-                l_spinnerPosition = adapter_Pais.getPosition(Globals.g_Client.Pais);
+                l_spinnerPosition = l_adapter_Pais.getPosition(Globals.g_Client.Pais);
                 g_SPN_Paissos.setSelection(l_spinnerPosition);
             }
             g_TXT_DataAlta.setText(Globals.g_Client.DataAlta);

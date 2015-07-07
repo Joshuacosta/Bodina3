@@ -32,7 +32,7 @@ public class LVWLlistaAssociacions extends ArrayAdapter<Associacio> {
         l_Associacio = getItem(p_position);
         LayoutInflater inflater = LayoutInflater.from(this.l_context);
         if (p_convertView == null) {
-            p_convertView = inflater.inflate(R.layout.LiniaLVWLlistaAssociacions, null);
+            p_convertView = inflater.inflate(R.layout.linia_lvw_llista_associacions, null);
         }
         // Omplim camps visibles
         l_TXT_NomEntitat = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaAssociacionsTXTNomEntitat);
@@ -44,7 +44,7 @@ public class LVWLlistaAssociacions extends ArrayAdapter<Associacio> {
         l_TXT_DataFi = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaAssociacionsTXTDataFi);
         l_TXT_DataFi.setText(l_Associacio.DataFi);
         l_TXT_DataFi.setVisibility(View.INVISIBLE);
-        // Omplim camps invisibles
+        // Omplim camps "invisibles"
         l_TXT_AdresaEntitat = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaAssociacionsTXTAdresaEntitat);
         l_TXT_AdresaEntitat.setText(l_Associacio.entitat.Adresa);
         l_TXT_ContacteEntitat = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaAssociacionsTXTContacteEntitat);
@@ -53,7 +53,7 @@ public class LVWLlistaAssociacions extends ArrayAdapter<Associacio> {
         l_TXT_TelefonEntitat.setText(l_Associacio.entitat.Telefon);
         l_TXT_eMailEntitat = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaAssociacionsTXTeMailEntitat);
         l_TXT_eMailEntitat.setText(l_Associacio.entitat.eMail);
-        // Mostrem estat de la associació amb l'entitat
+        // Mostrem estat de la associacio amb l'entitat
         if(l_Associacio.entitat.Estat == Globals.k_EstatBaixa){
             l_TXT_NomEntitat.setBackgroundResource(R.color.red);
         }

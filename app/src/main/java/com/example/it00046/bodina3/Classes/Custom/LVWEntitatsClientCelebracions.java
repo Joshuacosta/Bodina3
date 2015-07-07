@@ -37,7 +37,7 @@ public class LVWEntitatsClientCelebracions extends BaseExpandableListAdapter {
         TextView textView = null;
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.LiniaLVWLlistaEntitats, null);
+            convertView = inflater.inflate(R.layout.linia_lvw_llista_entitats, null);
         }
 
         textView = (TextView) convertView.findViewById(R.id.exLVCamp_EntitatClient);
@@ -59,7 +59,7 @@ public class LVWEntitatsClientCelebracions extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.LiniaLVWLlistaCelebracions, null);
+            convertView = inflater.inflate(R.layout.linia_lvw_llista_celebracions, null);
         }
 
         ((CheckedTextView) convertView).setText(parentItems.get(groupPosition));

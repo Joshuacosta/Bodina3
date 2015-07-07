@@ -126,75 +126,6 @@
 				                %8$s VARCHAR(20),
 				                %9$s INTEGER)</string>
     <!-- .................................................................................. -->
-    <!-- ENTITATSCLIENT -->
-    <string name="TEntitatsClient">EntitatsClient</string>
-    <!-- Camps -->
-    <string name="TEntitatsClient_CodiEntitat">CodiEntitat</string>
-    <string name="TEntitatsClient_eMailEntitat">eMailEntitat</string>
-    <string name="TEntitatsClient_NomEntitat">NomEntitat</string>
-    <string name="TEntitatsClient_PaisEntitat">PaisEntitat</string>
-    <string name="TEntitatsClient_ContacteEntitat">ContacteEntitat</string>
-    <string name="TEntitatsClient_AdresaEntitat">AdresaEntitat</string>
-    <string name="TEntitatsClient_TelefonEntitat">TelefonEntitat</string>
-    <string name="TEntitatsClient_EstatEntitat">EstatEntitat</string>
-    <string name="TEntitatsClient_DataDarrerCanviEntitat">DataDarrerCanviEntitat</string>
-    <string name="TEntitatsClient_DataPeticioAssociacio">DataPeticioAssociacio</string>
-    <string name="TEntitatsClient_ContacteAssociacio">ContacteAssociacio</string>
-    <string name="TEntitatsClient_DescripcioAssociacio">DescripcioAssociacio</string>
-    <string name="TEntitatsClient_eMailAssociacio">eMailAssociacio</string>
-    <string name="TEntitatsClient_DataAltaAssociacio">DataAltaAssociacio</string>
-    <string name="TEntitatsClient_DataFiAssociacio">DataFiAssociacio</string>
-    <string name="TEntitatsClient_DataDarrerCanviAssociacio">DataDarrerCanviAssociacio</string>
-    <string name="TEntitatsClient_EstatAssociacio">EstatAssociacio</string>
-    <string name="TEntitatsClient_ActualitzatServidor">ActualitzatServidor</string>
-    <string name="TEntitatsClient_DataGrabacioLocal">DataGrabacioLocal</string>
-    <string name="TEntitatsClient_DataGrabacioServidor">DataGrabacioServidor</string>
-    <!-- LLista camps -->
-    <string-array name="TEntitatsClient_Camps">
-        <item>@string/TEntitatsClient_CodiEntitat</item>
-        <item>@string/TEntitatsClient_eMailEntitat</item>
-        <item>@string/TEntitatsClient_NomEntitat</item>
-        <item>@string/TEntitatsClient_PaisEntitat</item>
-        <item>@string/TEntitatsClient_ContacteEntitat</item>
-        <item>@string/TEntitatsClient_AdresaEntitat</item>
-        <item>@string/TEntitatsClient_TelefonEntitat</item>
-        <item>@string/TEntitatsClient_EstatEntitat</item>
-        <item>@string/TEntitatsClient_DataDarrerCanviEntitat</item>
-        <item>@string/TEntitatsClient_DataPeticioAssociacio</item>
-        <item>@string/TEntitatsClient_ContacteAssociacio</item>
-        <item>@string/TEntitatsClient_DescripcioAssociacio</item>
-        <item>@string/TEntitatsClient_eMailAssociacio</item>
-        <item>@string/TEntitatsClient_DataAltaAssociacio</item>
-        <item>@string/TEntitatsClient_DataFiAssociacio</item>
-        <item>@string/TEntitatsClient_DataDarrerCanviAssociacio</item>
-        <item>@string/TEntitatsClient_EstatAssociacio</item>
-        <item>@string/TEntitatsClient_ActualitzatServidor</item>
-        <item>@string/TEntitatsClient_DataGrabacioLocal</item>
-        <item>@string/TEntitatsClient_DataGrabacioServidor</item>
-    </string-array>
-    <!-- Funcions -->
-    <string name="TEntitatsClient_Create">CREATE TABLE %1$s (
-                                %2$s VARCHAR(10) PRIMARY KEY,
-                                %3$s VARCHAR(100),
-				                %4$s VARCHAR(100),
-				                %5$s VARCHAR(20),
-				                %6$s VARCHAR(100),
-				                %7$s VARCHAR(100),
-				                %8$s VARCHAR(15),
-				                %9$s INTEGER,
-                                %10$s VARCHAR(20),
-                                %11$s VARCHAR(20),
-				                %12$s VARCHAR(100),
-				                %13$s VARCHAR(100),
-				                %14$s VARCHAR(100),
-				                %15$s VARCHAR(20),
-				                %16$s VARCHAR(20),
-				                %17$s VARCHAR(20),
-                                %18$s INTEGER,
-                                %19$s INTEGER,
-                                %20$s VARCHAR(20),
-                                %21$s VARCHAR(20))</string>
-    <!-- .................................................................................. -->
     <!-- ASSOCIACIONS -->
     <string name="TAssociacions">Associacions</string>
     <!-- Camps -->
@@ -239,27 +170,6 @@
     <string name="TEntitats_Adresa">Adresa</string>
     <string name="TEntitats_Telefon">Telefon</string>
     <string name="TEntitats_Estat">Estat</string>
-    <!-- LLista camps -->
-    <string-array name="TEntitats_Camps">
-        <item>@string/TEntitats_Codi</item>
-        <item>@string/TEntitats_eMail</item>
-        <item>@string/TEntitats_Nom</item>
-        <item>@string/TEntitats_Pais</item>
-        <item>@string/TEntitats_Contacte</item>
-        <item>@string/TEntitats_Adresa</item>
-        <item>@string/TEntitats_Telefon</item>
-        <item>@string/TEntitats_Estat</item>
-    </string-array>
-    <!-- Funcions -->
-    <string name="TEntitatsCreate">CREATE TABLE %1$s (
-                                %2$d INTEGER PRIMARY KEY,
-                                %3$s VARCHAR(100),
-				                %4$s VARCHAR(100),
-				                %5$s VARCHAR(20),
-				                %6$s VARCHAR(100),
-				                %7$s VARCHAR(100),
-				                %8$s VARCHAR(15),
-				                %9$s INTEGER)</string>
     <!-- ################################################################################### -->
     <!-- String-Arrays -->
     <!-- ################################################################################### -->
