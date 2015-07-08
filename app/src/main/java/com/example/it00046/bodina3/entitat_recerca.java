@@ -53,6 +53,7 @@ public class entitat_recerca extends Activity {
 
                 if (g_Posicio != position) {
                     l_IMA_Icon = (ImageView) view.findViewById(R.id.LiniaLVWRecercaEntitatsIMAIcona);
+                    l_IMA_Icon.setVisibility(View.VISIBLE);
                     // Desmarquem el que hi havia marcat
                     if (l_TXT_NomAnterior != null) {
                         // Recuperem color i amaguem seleccio
@@ -65,7 +66,6 @@ public class entitat_recerca extends Activity {
                     // Modifiquem el color de fons de la linia
                     l_TXT_Nom = (TextView)view.findViewById(R.id.LiniaLVWRecercaEntitatsNom);
                     l_TXT_Nom.setBackgroundResource(R.color.green);
-                    l_IMA_Icon.setVisibility(View.VISIBLE);
                     // Apuntem en quina linia estem (per si desprès l'usuari selecciona l'entitat)
                     g_Posicio = position;
                     l_LIN_Toolbar = view.findViewById(R.id.LiniaLVWRecercaEntitatsLINToolbar);

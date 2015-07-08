@@ -4,6 +4,6 @@
     tools:context=".ac_configuracio">
     <item android:id="@+id/configuracioMNUacceptar" android:title="@string/Acceptar"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_validar"
+        android:icon="@drawable/ic_check_white_48dp"
         app:showAsAction="always" />
 </menu>

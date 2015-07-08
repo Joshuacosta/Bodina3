@@ -42,28 +42,17 @@ public class entitat_solicitar extends ActionBarActivity {
         g_ETX_eMail = (EditText) findViewById(R.id.TexteEntitatSolicitar_eMail);
         g_TXT_Entitat = (TextView) findViewById(R.id.litEntitatSolicitar_Entitat);
         g_SPN_EntitatsClient = (Spinner)findViewById(R.id.spinnerEntitatSolicitar_Entitat);
+        // Informem Contacte i eMail amb els valors de la nostra compta
+        g_ETX_Contacte.setText(Globals.g_Client.Contacte);
+        g_ETX_eMail.setText(Globals.g_Client.eMail);
         // Llegim en el SERVIDOR les entitats del pais del client
         DAOEntitats.Llegir(Globals.g_Client.Pais, g_SPN_EntitatsClient);
         // Codi del Spinner de entitats del client
         g_SPN_EntitatsClient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView parent, View view, int pos, long id) {
-                SPNEntitat l_SPNEntitat;
-                Entitat l_dadesEntitat = new Entitat();
                 // Esborrem possible error
                 g_TXT_Entitat.setError(null);
-                // Si es una entitat de les "nostres" (amb la que hem treballat) recuperem
-                // el e-mail i el contacte que vem donar i els posem en els camps
-                l_SPNEntitat = (SPNEntitat) g_SPN_EntitatsClient.getSelectedItem();
-                if (l_SPNEntitat.EsNova() == false) {
-                    l_dadesEntitat = l_SPNEntitat.getId();
-                    g_ETX_eMail.setText(l_dadesEntitat.eMail);
-                    g_ETX_Contacte.setText(l_dadesEntitat.Contacte);
-                }
-                else{
-                    g_ETX_eMail.setText("");
-                    g_ETX_Contacte.setText("");
-                }
             }
             @Override
             public void onNothingSelected(AdapterView parent) {
@@ -76,20 +65,41 @@ public class entitat_solicitar extends ActionBarActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {g_ETX_Descripcio.setError(null);}
         });
         g_ETX_Contacte.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {}
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            public void onTextChanged(CharSequence s, int start, int before, int count) {g_ETX_Contacte.setError(null);}
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                g_ETX_Contacte.setError(null);
+            }
         });
         g_ETX_eMail.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {}
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            public void onTextChanged(CharSequence s, int start, int before, int count) {g_ETX_eMail.setError(null);}
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                g_ETX_eMail.setError(null);
+            }
         });
-        // Control de enrera
+        // Control de enrera/cancel·lacio
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_esborrar);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_close_white_48dp);
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        // put your code here...
+        g_ETX_Contacte.setText(Globals.g_Client.Contacte);
+        g_ETX_eMail.setText(Globals.g_Client.eMail);
+    }
+
     // Funcio interna per validar la finestra
     private boolean ValidarFinestra() {
         boolean ret = true;
@@ -104,7 +114,7 @@ public class entitat_solicitar extends ActionBarActivity {
         return ret;
     }
     // Codi de acceptació
-    public void btnEntitatSolicitar_Acceptar(View view) {
+    public void FerOperativa(){
         Associacio l_Associacio = new Associacio();
         Entitat l_dadesEntitat;
         SPNEntitat l_SPNEntitat;
@@ -140,6 +150,9 @@ public class entitat_solicitar extends ActionBarActivity {
         Intent intent = new Intent(this, entitat_recerca.class);
         startActivityForResult(intent, g_RQC_ENTITAT_RECERCA);
     }
+
+    //
+
     // Resposta de la recerca
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -193,7 +206,8 @@ public class entitat_solicitar extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.entitat_solicitarMNUacceptar) {
+            FerOperativa();
             return true;
         }
 

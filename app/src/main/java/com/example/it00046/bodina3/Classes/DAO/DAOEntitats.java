@@ -3,6 +3,7 @@ package com.example.it00046.bodina3.Classes.DAO;
 import android.content.Context;
 import android.database.Cursor;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 

@@ -9,29 +9,6 @@
     android:orientation="vertical"
     tools:context=".ac_entitat_solicitar">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/btnCancelar"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:text="@string/boto_Cancelar"
-            android:layout_weight="2"
-            android:drawableLeft="@drawable/ic_esborrar"
-            style="?android:attr/borderlessButtonStyle"
-            android:onClick="btnEntitatSolicitar_Cancelar"/>
-        <Button
-            android:id="@+id/btnAcceptar"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:text="@string/boto_Acceptar"
-            android:layout_weight="1"
-            android:drawableRight="@drawable/ic_validar"
-            style="?android:attr/borderlessButtonStyle"
-            android:onClick="btnEntitatSolicitar_Acceptar"/>
-    </LinearLayout>
-
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
