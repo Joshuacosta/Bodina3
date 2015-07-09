@@ -1,5 +1,6 @@
 package com.example.it00046.bodina3;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -30,6 +31,7 @@ public class configuracio extends ActionBarActivity {
     private Spinner g_SPN_Idioma, g_SPN_Paissos;
     private EditText g_ETX_Name, g_ETX_eMail, g_ETX_Contacte;
     private TextView g_TXT_Idioma, g_TXT_Pais, g_TXT_DataAlta;
+    private Context jo = this;
 
     @Override
     protected void onCreate(Bundle p_savedInstanceState) {
@@ -152,11 +154,11 @@ public class configuracio extends ActionBarActivity {
             l_client.Idioma = g_SPN_Idioma.getSelectedItem().toString();
             //
             if (Globals.g_NoHiHanDades) {
-                DAOClients.Definir(l_client);
+                DAOClients.Definir(l_client, jo);
                 Globals.g_NoHiHanDades = false;
             }
             else{
-                DAOClients.Modificar(l_client);
+                DAOClients.Modificar(l_client, jo);
             }
             // Gravem les dades del client i tornem enrera
             Globals.g_Client = l_client;

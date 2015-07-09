@@ -1,32 +1,31 @@
 package com.example.it00046.bodina3.Classes.SpinnerClasses;
 
 import com.example.it00046.bodina3.Classes.Entitats.Entitat;
+import com.example.it00046.bodina3.Classes.Globals;
+import com.example.it00046.bodina3.R;
 
 /**
  * Created by it00046 on 13/05/2015.
  */
 public class SPNEntitat {
-    private Entitat l_entitat;
-    private String l_Nom;
-    private boolean l_Nova;
+    private Entitat g_Entitat;
+    private String g_Nom;
 
-    public SPNEntitat(Entitat Entitat, String P_Nom, boolean P_Nova) {
-        this.l_entitat = Entitat;
-        this.l_Nom = P_Nom;
-        this.l_Nova = P_Nova;
+    public SPNEntitat(Entitat p_Entitat, String p_Nom) {
+        g_Entitat = p_Entitat;
+        g_Nom = p_Nom;
     }
 
     public Entitat getId () {
-        return l_entitat;
+        return g_Entitat;
     }
 
     public String getValue () {
-        return l_Nom;
+        return g_Nom;
     }
 
-    public boolean EsNova() { return l_Nova; }
     @Override
     public String toString () {
-        return l_Nom;
+        return g_Nom;
     }
 }

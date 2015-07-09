@@ -5,6 +5,7 @@ package com.example.it00046.bodina3.Classes.DAO;
  */
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.widget.Toast;
 
@@ -37,7 +38,7 @@ public final class DAOClients {
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Funcio per llegir les dades del client
-    public static void Llegir(){
+    public static void Llegir(final Context p_Context){
         // Recerquem localment
         try {
             // Aquest valor l'informem ja (CodiInternClient es la MAC)
@@ -58,7 +59,7 @@ public final class DAOClients {
                 // no hi son actualitzades o fem.
                 if (Globals.isNetworkAvailable()){
                     if (Globals.g_Client.Actualitzat == false){
-                        SRV_Modificar(Globals.g_Client);
+                        SRV_Modificar(Globals.g_Client, p_Context);
                     }
                 }
                 // Si que hi han dades
@@ -67,18 +68,18 @@ public final class DAOClients {
             else {
                 // Recerquem al servidor per si lo que ha passat es que l'usuari ha esborrat
                 // les dades locals (en aquest cas les tornarem a grabar).
-                SRV_LlegirClauInterna(Globals.g_Client.CodiIntern);
+                SRV_LlegirClauInterna(Globals.g_Client.CodiIntern, p_Context);
                 // ... hem de tractar tot lo que recuperem
             }
         }
         catch(Exception e) {
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                    Globals.g_Native.getString(R.string.error_greu));
+                    Globals.g_Native.getString(R.string.error_greu), p_Context);
         }
     }
     //
     // Funcio per modificar les dades del client
-    public static void Modificar(Client p_client){
+    public static void Modificar(Client p_client, final Context p_Context){
         // Primer modifiquem localment i despres globalment
         try {
             Globals.g_DB.update(Globals.g_Native.getString(R.string.TClient),
@@ -88,13 +89,13 @@ public final class DAOClients {
         }
         catch(Exception e) {
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                    Globals.g_Native.getString(R.string.error_greu));
+                    Globals.g_Native.getString(R.string.error_greu), p_Context);
         }
         finally{
             // Actualitzem el servidor
             if (Globals.isNetworkAvailable()) {
                 // Montem el php
-                SRV_Modificar(p_client);
+                SRV_Modificar(p_client, p_Context);
             }
             else{
                 // Informem de la operativa feta
@@ -106,7 +107,7 @@ public final class DAOClients {
     }
     //
     // Funcio per definir el client
-    public static void Definir(final Client p_client){
+    public static void Definir(final Client p_client, final Context p_Context){
         // Primer definim localment i despres globalment. L'unic important del procès es que el codi
         // de client ho determinem quan donem d'alta en el servidor per lo que posteriorment hem de
         // actualitzat les dades locals que hem insertat previament.
@@ -117,7 +118,7 @@ public final class DAOClients {
         }
         catch(Exception e) {
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                    Globals.g_Native.getString(R.string.error_greu));
+                    Globals.g_Native.getString(R.string.error_greu), p_Context);
         }
         finally {
             // Actualitzem el servidor
@@ -138,7 +139,7 @@ public final class DAOClients {
                                           java.lang.Throwable throwable,
                                           org.json.JSONObject errorResponse) {
                         Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
-                                Globals.g_Native.getString(R.string.error_greu));
+                                Globals.g_Native.getString(R.string.error_greu), p_Context);
                     }
 
                     @Override
@@ -154,7 +155,7 @@ public final class DAOClients {
                                 // Recuperem el codi de client calcular al servidor
                                 String l_Codi = p_clientServidor.getString(TAG_Codi);
                                 // Actualitzem el camp actualitzat a la BBDD local
-                                if (LOC_ModificaCodiClient(l_Codi)) {
+                                if (LOC_ModificaCodiClient(l_Codi, p_Context)) {
                                     // Informem al usuari que hem modificat les dades
                                     Toast.makeText(Globals.g_Native,
                                             Globals.g_Native.getString(R.string.op_afegir_ok),
@@ -172,11 +173,11 @@ public final class DAOClients {
                             }
                             else {
                                 Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
-                                        Globals.g_Native.getString(R.string.error_greu));
+                                        Globals.g_Native.getString(R.string.error_greu), p_Context);
                             }
                         } catch (JSONException e) {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                                    Globals.g_Native.getString(R.string.error_greu));
+                                    Globals.g_Native.getString(R.string.error_greu), p_Context);
                         }
                     }
                 });
@@ -188,7 +189,7 @@ public final class DAOClients {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Llegim el client del servidor, si existeix en el servidor el recuprem localment (el grabem
     // a la BBDD local)
-    private static void SRV_LlegirClauInterna(final String p_CodiIntern){
+    private static void SRV_LlegirClauInterna(final String p_CodiIntern, final Context p_Context){
         // Validem que la xarxa estigui activa
         if (Globals.isNetworkAvailable()){
             // Montem el php
@@ -202,7 +203,7 @@ public final class DAOClients {
                                       java.lang.Throwable throwable,
                                       org.json.JSONObject errorResponse) {
                     Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
-                            Globals.g_Native.getString(R.string.error_greu));
+                            Globals.g_Native.getString(R.string.error_greu), p_Context);
                 }
 
                 @Override
@@ -239,18 +240,18 @@ public final class DAOClients {
                         }
                         else {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
-                                    Globals.g_Native.getString(R.string.error_greu));
+                                    Globals.g_Native.getString(R.string.error_greu), p_Context);
                         }
                     } catch (JSONException e) {
                         Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                                Globals.g_Native.getString(R.string.error_greu));
+                                Globals.g_Native.getString(R.string.error_greu), p_Context);
                     }
                 }
             });
         }
         else{
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
-                            Globals.g_Native.getString(R.string.error_greu));
+                            Globals.g_Native.getString(R.string.error_greu), p_Context);
         }
     }
     //
@@ -274,7 +275,7 @@ public final class DAOClients {
     }
     //
     //
-    private static void SRV_Modificar(final Client p_client){
+    private static void SRV_Modificar(final Client p_client, final Context p_Context){
         // Montem el php
         g_parametresPHP = new RequestParams();
         g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Codi), p_client.Codi);
@@ -291,7 +292,7 @@ public final class DAOClients {
                                   java.lang.Throwable throwable,
                                   org.json.JSONObject errorResponse) {
                 Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
-                        Globals.g_Native.getString(R.string.error_greu));
+                        Globals.g_Native.getString(R.string.error_greu), p_Context);
             }
 
             @Override
@@ -300,7 +301,7 @@ public final class DAOClients {
                     String l_Resposta = p_clientServidor.getString(TAG_VALIDS);
                     if (l_Resposta.equals(Globals.k_PHPOK)) {
                         // Actualitzem el camp actualitzat a la BBDD local
-                        if (LOC_ModificarActualitzat(p_client.Codi)) {
+                        if (LOC_ModificarActualitzat(p_client.Codi, p_Context)) {
                             // Informem al usuari que hem modificat les dades
                             Toast.makeText(Globals.g_Native,
                                     Globals.g_Native.getString(R.string.op_modificacio_ok),
@@ -311,17 +312,17 @@ public final class DAOClients {
                     }
                     else {
                         Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
-                                Globals.g_Native.getString(R.string.error_greu));
+                                Globals.g_Native.getString(R.string.error_greu), p_Context);
                     }
                 } catch (JSONException e) {
                     Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                            Globals.g_Native.getString(R.string.error_greu));
+                            Globals.g_Native.getString(R.string.error_greu), p_Context);
                 }
             }
         });
     }
     // Funcio per updatar codi client (com nomes tenim un no posem where)
-    private static Boolean LOC_ModificaCodiClient(String p_Codi){
+    private static Boolean LOC_ModificaCodiClient(String p_Codi, Context p_Context){
         ContentValues l_actualitzat = new ContentValues();
         Boolean l_resposta = true;
 
@@ -335,7 +336,7 @@ public final class DAOClients {
         }
         catch (Exception e) {
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                    Globals.g_Native.getString(R.string.error_greu));
+                    Globals.g_Native.getString(R.string.error_greu), p_Context);
             l_resposta = false;
         }
 
@@ -343,7 +344,7 @@ public final class DAOClients {
     }
     //
     // Funcio per updatar el camp actualitzat
-    private static Boolean LOC_ModificarActualitzat(String p_Codi) {
+    private static Boolean LOC_ModificarActualitzat(String p_Codi, Context p_Context) {
         ContentValues l_actualitzat = new ContentValues();
         Boolean l_resposta = true;
 
@@ -356,7 +357,7 @@ public final class DAOClients {
         }
         catch (Exception e) {
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                    Globals.g_Native.getString(R.string.error_greu));
+                    Globals.g_Native.getString(R.string.error_greu), p_Context);
             l_resposta = false;
         }
 

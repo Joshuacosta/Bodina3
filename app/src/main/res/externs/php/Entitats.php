@@ -57,6 +57,7 @@ else{
 							$Entitat["Pais"] = $row["Pais"];
 							$Entitat["Adresa"] = $row["Adresa"];
 							$Entitat["Contacte"] = $row["Contacte"];
+							$Entitat["TipusContacte"] = $row["TipusContacte"];
 							$Entitat["Telefon"] = $row["Telefon"];
 							$Entitat["Estat"] = $row["Estat"];
 							array_push($response["Entitats"], $Entitat);

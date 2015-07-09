@@ -39,7 +39,7 @@ public final class DAOAssociacions {
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Llegim de la BBDD del servidor les associacions del client
-    public static void Llegir(final ListView p_LVW_Associacions, int p_Layout, Context p_Context) {
+    public static void Llegir(final ListView p_LVW_Associacions, int p_Layout, final Context p_Context) {
         final ArrayAdapter<Associacio> l_Llista = new LVWLlistaAssociacions(p_Context, p_Layout);
 
         if (Globals.isNetworkAvailable()){
@@ -54,7 +54,7 @@ public final class DAOAssociacions {
                                       java.lang.Throwable throwable,
                                       org.json.JSONObject errorResponse) {
                     Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
-                            Globals.g_Native.getString(R.string.error_greu));
+                            Globals.g_Native.getString(R.string.error_greu), p_Context);
                 }
 
                 @Override
@@ -69,6 +69,10 @@ public final class DAOAssociacions {
                                 JSONObject l_JSONAssociacio = l_ArrayAssociacions.getJSONObject(i);
                                 // Pasa les dades del objecte JSON a la Associacio
                                 Associacio l_Associacio = JSONToAssociacio(l_JSONAssociacio);
+                                if (l_Associacio == null){
+                                    Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                                            Globals.g_Native.getString(R.string.error_greu), p_Context);
+                                }
                                 // Carreguem
                                 l_Llista.add(l_Associacio);
                             }
@@ -77,22 +81,22 @@ public final class DAOAssociacions {
                         }
                         else {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
-                                    Globals.g_Native.getString(R.string.error_greu));
+                                    Globals.g_Native.getString(R.string.error_greu), p_Context);
                         }
                     } catch (JSONException e) {
                         Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                                Globals.g_Native.getString(R.string.error_greu));
+                                Globals.g_Native.getString(R.string.error_greu), p_Context);
                     }
                 }
             });
         }
         else{
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
-                    Globals.g_Native.getString(R.string.error_greu));
+                    Globals.g_Native.getString(R.string.error_greu), p_Context);
         }
     }
     // Funcio per solicitar una associacio amb una entitat
-    public static void Solicitar(final Associacio p_Associacio){
+    public static void Solicitar(final Associacio p_Associacio, final Context p_Context){
         // Actualitzem el servidor
         if (Globals.isNetworkAvailable()) {
             // Cridem al php
@@ -102,7 +106,7 @@ public final class DAOAssociacions {
                                       org.apache.http.Header[] headers,
                                       java.lang.Throwable throwable,
                                       org.json.JSONObject errorResponse) {
-                    Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces), Globals.g_Native.getString(R.string.error_greu));
+                    Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces), Globals.g_Native.getString(R.string.error_greu), p_Context);
                 }
 
                 @Override
@@ -116,11 +120,11 @@ public final class DAOAssociacions {
                                             Toast.LENGTH_LONG).show();
                         }else {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
-                                    Globals.g_Native.getString(R.string.error_greu));
+                                    Globals.g_Native.getString(R.string.error_greu), p_Context);
                         }
                     } catch (JSONException e) {
                         Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                                Globals.g_Native.getString(R.string.error_greu));
+                                Globals.g_Native.getString(R.string.error_greu), p_Context);
                     }
                 }
             });
@@ -162,8 +166,7 @@ public final class DAOAssociacions {
             l_Associacio.entitat = DAOEntitats.JSon(l_Entitat);
         }
         catch (JSONException e) {
-            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                    Globals.g_Native.getString(R.string.error_greu));
+            ;
         }
         return l_Associacio;
     }

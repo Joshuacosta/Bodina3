@@ -35,7 +35,7 @@ public class DAOInvitacions {
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Llegim les invitacions del client
-    public static void Llegir(final ListView p_LVW_Invitacions, int p_Layout, Context p_Context) {
+    public static void Llegir(final ListView p_LVW_Invitacions, int p_Layout, final Context p_Context) {
         final ArrayAdapter<Invitacio> l_Llista = new LVWLlistaInvitacions(p_Context, p_Layout);
         Invitacio l_Invitacio;
         TelephonyManager l_NumTelefon;
@@ -57,7 +57,7 @@ public class DAOInvitacions {
                                       java.lang.Throwable throwable,
                                       org.json.JSONObject errorResponse) {
                     Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
-                            Globals.g_Native.getString(R.string.error_greu));
+                            Globals.g_Native.getString(R.string.error_greu), p_Context);
                 }
 
                 @Override
@@ -79,27 +79,27 @@ public class DAOInvitacions {
                             p_LVW_Invitacions.setAdapter(l_Llista);
                         } else {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
-                                    Globals.g_Native.getString(R.string.error_greu));
+                                    Globals.g_Native.getString(R.string.error_greu), p_Context);
                         }
                     } catch (JSONException e) {
                         Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                                Globals.g_Native.getString(R.string.error_greu));
+                                Globals.g_Native.getString(R.string.error_greu), p_Context);
                     }
                 }
             });
         }
         else{
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
-                    Globals.g_Native.getString(R.string.error_greu));
+                    Globals.g_Native.getString(R.string.error_greu), p_Context);
         }
     }
     // Acceptem una invitacio
-    public static void Acceptar(String p_CodiEntitat){
-        OperativaInvitacio(p_CodiEntitat, Globals.k_OPE_InvitacionsAcceptar);
+    public static void Acceptar(String p_CodiEntitat, final Context p_Context){
+        OperativaInvitacio(p_CodiEntitat, Globals.k_OPE_InvitacionsAcceptar, p_Context);
     }
     // Rebutgem una invitacio
-    public static void Rebutjar(String p_CodiEntitat){
-        OperativaInvitacio(p_CodiEntitat, Globals.k_OPE_InvitacionsRebutjar);
+    public static void Rebutjar(String p_CodiEntitat, final Context p_Context){
+        OperativaInvitacio(p_CodiEntitat, Globals.k_OPE_InvitacionsRebutjar, p_Context);
     }
     // De Json a Associacio
     public static Invitacio JSon(JSONObject p_Invitacio) {
@@ -109,7 +109,7 @@ public class DAOInvitacions {
     // Funcions privades
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Operativa interna de acceptacio o denegacio
-    private static void OperativaInvitacio(String p_CodiEntitat, final String p_Operativa){
+    private static void OperativaInvitacio(String p_CodiEntitat, final String p_Operativa, final Context p_Context){
         TelephonyManager l_NumTelefon;
 
         if (Globals.isNetworkAvailable()){
@@ -129,7 +129,7 @@ public class DAOInvitacions {
                                       java.lang.Throwable throwable,
                                       org.json.JSONObject errorResponse) {
                     Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
-                            Globals.g_Native.getString(R.string.error_greu));
+                            Globals.g_Native.getString(R.string.error_greu), p_Context);
                 }
 
                 @Override
@@ -150,18 +150,18 @@ public class DAOInvitacions {
                             }
                         }else {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
-                                    Globals.g_Native.getString(R.string.error_greu));
+                                    Globals.g_Native.getString(R.string.error_greu), p_Context);
                         }
                     } catch (JSONException e) {
                         Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                                Globals.g_Native.getString(R.string.error_greu));
+                                Globals.g_Native.getString(R.string.error_greu), p_Context);
                     }
                 }
             });
         }
         else{
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
-                    Globals.g_Native.getString(R.string.error_greu));
+                    Globals.g_Native.getString(R.string.error_greu), p_Context);
         }
     }
 
@@ -179,8 +179,7 @@ public class DAOInvitacions {
             l_Invitacio.entitat = DAOEntitats.JSon(l_Entitat);
         }
         catch (JSONException e) {
-            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                    Globals.g_Native.getString(R.string.error_greu));
+            ;
         }
         return l_Invitacio;
     }

@@ -20,6 +20,7 @@ public class principal extends ActionBarActivity {
 
     private ArrayList<String> parentItems = new ArrayList<String>();
     private ArrayList<Object> childItems = new ArrayList<Object>();
+    private Context jo = this;
 
     @Override
     protected void onCreate(Bundle p_savedInstanceState) {
@@ -29,7 +30,7 @@ public class principal extends ActionBarActivity {
         setContentView(R.layout.principal);
 
         // Definim contexte a nivel global
-        Globals.g_Native = this;
+        Globals.g_Native = jo;
         Globals.CreateBBDD();
         // Si estem executant i no hem trobat dades (no existia la BBDD) obrim la finestra de
         // configuració perque l'usuari determini Pais, idioma (abans hem aplicat el del
@@ -38,7 +39,7 @@ public class principal extends ActionBarActivity {
         // servidor, sino, no es pot treballar amb l'aplicació sense connexió, necessitem
         // CodiClient.
         //Globals.g_Clients_DAO.Llegir();
-        DAOClients.Llegir();
+        DAOClients.Llegir(jo);
         if (Globals.g_NoHiHanDades == true) {
             l_intent = new Intent(this, configuracio.class);
             startActivity(l_intent);

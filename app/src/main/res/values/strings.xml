@@ -8,6 +8,8 @@
     <string name="error_eMailIncorrecte">Invalid mail</string>
     <string name="error_Layout">There are some wrong field</string>
     <string name="llista_Select">Select...</string>
+    <string name="llista_Select_pais">Select entity for country...</string>
+    <string name="nomes_invitacio">only invitation</string>
     <string name="op_modificacio_ok">Update done</string>
     <string name="op_afegir_ok">Added item</string>
     <string name="op_esborrar_ok">Deleted item</string>
@@ -27,6 +29,7 @@
     <string name="errorservidor_Mail">An error has ocurred sending confirmation e-mail.</string>
     <string name="errorlocal_BBDD">Error at database. Retry later</string>
     <string name="errorlocal_ProgramError">An error has ocurred. Retry again</string>
+    <string name="error_RequereixInvitació"> only works with invitation. You must Contact with them.</string>
 
     <!-- Layout principal -->
     <string name="app_name">Bodina</string>
@@ -167,6 +170,7 @@
     <string name="TEntitats_Nom">Nom</string>
     <string name="TEntitats_Pais">Pais</string>
     <string name="TEntitats_Contacte">Contacte</string>
+    <string name="TEntitats_TipusContacte">TipusContacte</string>
     <string name="TEntitats_Adresa">Adresa</string>
     <string name="TEntitats_Telefon">Telefon</string>
     <string name="TEntitats_Estat">Estat</string>
@@ -435,3 +439,4 @@
         <item>Zimbabwe -ZWE</item>
     </string-array>
 </resources>
+

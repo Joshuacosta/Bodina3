@@ -8,19 +8,21 @@ public class Entitat {
     public String Nom;
     public String Adresa;
     public String Contacte;
+    public int TipusContacte;
     public String Telefon;
     public String Pais;
     public String eMail;
     public int Estat;
 
     public void Entitat(){
-        this.Codi = new String();
-        this.Nom = new String();
-        this.Adresa = new String();
-        this.Contacte = new String();
-        this.Telefon = new String();
-        this.Pais = new String();
-        this.eMail = new String();
-        this.Estat = 0;
+        Codi = new String();
+        Nom = new String();
+        Adresa = new String();
+        Contacte = new String();
+        TipusContacte = 0;
+        Telefon = new String();
+        Pais = new String();
+        eMail = new String();
+        Estat = 0;
     }
 }

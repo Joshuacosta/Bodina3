@@ -1,6 +1,7 @@
 package com.example.it00046.bodina3;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -31,6 +32,7 @@ public class entitat_solicitar extends ActionBarActivity {
     private EditText g_ETX_Descripcio, g_ETX_Contacte, g_ETX_eMail;
     private TextView g_TXT_Entitat;
     static final int g_RQC_ENTITAT_RECERCA = 1;
+    private Context jo = this;
 
     @Override
     protected void onCreate(Bundle p_savedInstanceState) {
@@ -46,13 +48,25 @@ public class entitat_solicitar extends ActionBarActivity {
         g_ETX_Contacte.setText(Globals.g_Client.Contacte);
         g_ETX_eMail.setText(Globals.g_Client.eMail);
         // Llegim en el SERVIDOR les entitats del pais del client
-        DAOEntitats.Llegir(Globals.g_Client.Pais, g_SPN_EntitatsClient);
+        DAOEntitats.Llegir(Globals.g_Client.Pais, g_SPN_EntitatsClient, jo);
         // Codi del Spinner de entitats del client
         g_SPN_EntitatsClient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView parent, View view, int pos, long id) {
+                SPNEntitat l_Entitat;
+                String l_Texte;
+
                 // Esborrem possible error
                 g_TXT_Entitat.setError(null);
+                // Validem que la entitat triada admeti solicituts
+                if (pos > 0) {
+                    l_Entitat = (SPNEntitat) parent.getItemAtPosition(pos);
+                    if (l_Entitat.getId().TipusContacte == Globals.k_Entitat_NomesInvitacio) {
+                        l_Texte = l_Entitat.getId().Nom + Globals.g_Native.getString(R.string.error_RequereixInvitació);
+                        Globals.F_Alert(l_Texte, Globals.g_Native.getString(R.string.error_avis), jo);
+                        parent.setSelection(0);
+                    }
+                }
             }
             @Override
             public void onNothingSelected(AdapterView parent) {
@@ -121,22 +135,29 @@ public class entitat_solicitar extends ActionBarActivity {
 
         // Validem que els camps estiguin informats
         if (ValidarFinestra()) {
-            l_Associacio.Descripcio = g_ETX_Descripcio.getText().toString();
-            l_Associacio.Contacte = g_ETX_Contacte.getText().toString();
-            l_Associacio.eMail = g_ETX_eMail.getText().toString();
+            // Validem que la entitat triada nomes funcioni amb invitacions
             l_SPNEntitat = (SPNEntitat) g_SPN_EntitatsClient.getSelectedItem();
             l_dadesEntitat = l_SPNEntitat.getId();
-            l_Associacio.entitat.Codi = l_dadesEntitat.Codi;
-            l_Associacio.entitat.Nom = l_dadesEntitat.Nom;
-            l_Associacio.entitat.eMail = l_dadesEntitat.eMail;
-            l_Associacio.entitat.Contacte = l_dadesEntitat.Contacte;
-            l_Associacio.entitat.Adresa = l_dadesEntitat.Adresa;
-            l_Associacio.entitat.Telefon = l_dadesEntitat.Telefon;
-            l_Associacio.entitat.Pais = l_dadesEntitat.Pais;
-            l_Associacio.entitat.Estat = l_dadesEntitat.Estat;
-            //
-            DAOAssociacions.Solicitar(l_Associacio);
-            this.finish();
+            if (l_dadesEntitat.TipusContacte == Globals.k_Entitat_NomesInvitacio){
+                Globals.F_Alert(Globals.g_Native.getString(R.string.error_avis),
+                        Globals.g_Native.getString(R.string.error_RequereixInvitació), jo);
+            }
+            else {
+                l_Associacio.Descripcio = g_ETX_Descripcio.getText().toString();
+                l_Associacio.Contacte = g_ETX_Contacte.getText().toString();
+                l_Associacio.eMail = g_ETX_eMail.getText().toString();
+                l_Associacio.entitat.Codi = l_dadesEntitat.Codi;
+                l_Associacio.entitat.Nom = l_dadesEntitat.Nom;
+                l_Associacio.entitat.eMail = l_dadesEntitat.eMail;
+                l_Associacio.entitat.Contacte = l_dadesEntitat.Contacte;
+                l_Associacio.entitat.Adresa = l_dadesEntitat.Adresa;
+                l_Associacio.entitat.Telefon = l_dadesEntitat.Telefon;
+                l_Associacio.entitat.Pais = l_dadesEntitat.Pais;
+                l_Associacio.entitat.Estat = l_dadesEntitat.Estat;
+                //
+                DAOAssociacions.Solicitar(l_Associacio, jo);
+                this.finish();
+            }
         }
         else{
             Toast.makeText(entitat_solicitar.this,

@@ -64,6 +64,8 @@ public final class Globals
     public static final String k_PHPErrorMail = "3";
     public static final String TAG_OPERATIVA = "Operativa";
     public static final String TAG_VALIDS = "valids";
+    public static final int k_Entitat_NomesInvitacio = 0;
+    public static final int k_Entitat_PermetSolicitar = 1;
 
     public static void CreateBBDD(){
         g_BBDD = new SQLDB(g_Native);
@@ -92,8 +94,8 @@ public final class Globals
         return Secure.getString(Globals.g_Native.getContentResolver(), Secure.ANDROID_ID);
     }
 
-    public static void F_Alert(String p_capcalera, String p_texte) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(g_Native);
+    public static void F_Alert(String p_capcalera, String p_texte, Context p_Context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(p_Context);
         builder.setMessage(p_capcalera).setTitle(p_texte);
         builder.setCancelable(false);
         builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
