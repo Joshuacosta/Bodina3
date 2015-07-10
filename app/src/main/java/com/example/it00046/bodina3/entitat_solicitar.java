@@ -156,7 +156,7 @@ public class entitat_solicitar extends ActionBarActivity {
                 l_Associacio.entitat.Estat = l_dadesEntitat.Estat;
                 //
                 DAOAssociacions.Solicitar(l_Associacio, jo);
-                this.finish();
+                //this.finish();
             }
         }
         else{

@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,14 +16,18 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.example.it00046.bodina3.Classes.Custom.LVWRecercaEntitats;
 import com.example.it00046.bodina3.Classes.DAO.DAOEntitats;
 import com.example.it00046.bodina3.Classes.ExpandAnimation;
+import com.example.it00046.bodina3.Classes.Globals;
 
 
 public class entitat_recerca extends Activity {
 
     private ListView g_LVW_searchResults;
     private View g_LIN_ToolbarAnterior = null;
+    private TextView g_TXT_NomAnterior = null;
+    private ImageView g_IMB_Acceptar = null;
     private int g_Posicio = -1;
     private Context Jo = this;
 
@@ -45,44 +50,44 @@ public class entitat_recerca extends Activity {
         g_LVW_searchResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-                ImageView l_IMA_Icon;
-                TextView l_TXT_NomAnterior = null, l_TXT_Nom;
+            public void onItemClick(AdapterView<?> p_parent, final View p_view,
+                                    int p_position, long p_id) {
+                ImageView l_IMB_Acceptar;
+                TextView l_TXT_Nom;
                 View l_LIN_Toolbar;
 
-                if (g_Posicio != position) {
-                    l_IMA_Icon = (ImageView) view.findViewById(R.id.LiniaLVWRecercaEntitatsIMAIcona);
-                    l_IMA_Icon.setVisibility(View.VISIBLE);
+                if (g_Posicio != p_position) {
                     // Desmarquem el que hi havia marcat
-                    if (l_TXT_NomAnterior != null) {
+                    if (g_TXT_NomAnterior != null) {
                         // Recuperem color i amaguem seleccio
-                        l_TXT_NomAnterior.setBackgroundResource(R.color.blue);
-                        l_IMA_Icon.setVisibility(View.GONE);
+                        g_TXT_NomAnterior.setBackgroundResource(R.color.blue);
+                        g_IMB_Acceptar.setVisibility(View.GONE);
                         // El colapsem
                         ((LinearLayout.LayoutParams) g_LIN_ToolbarAnterior.getLayoutParams()).bottomMargin = -80;
                         g_LIN_ToolbarAnterior.setVisibility(View.GONE);
                     }
-                    // Modifiquem el color de fons de la linia
-                    l_TXT_Nom = (TextView)view.findViewById(R.id.LiniaLVWRecercaEntitatsNom);
-                    l_TXT_Nom.setBackgroundResource(R.color.green);
+                    // Marquem el actual
+                    // Modifiquem el color de fons de la linia en funcio de si es pot agafar o no
+                    // (hi ha entitats que no es poden solicitar)
+                    l_TXT_Nom = (TextView) p_view.findViewById(R.id.LiniaLVWRecercaEntitatsNom);
+                    l_IMB_Acceptar = (ImageView) p_view.findViewById(R.id.LiniaLVWRecercaEntitatsIMBAcceptar);
+                    if (p_view.getTag() == Globals.k_Entitat_PermetSolicitar) {
+                        l_IMB_Acceptar.setVisibility(View.VISIBLE);
+                        l_TXT_Nom.setBackgroundResource(R.color.green);
+                    }
+                    else{
+                        l_TXT_Nom.setBackgroundResource(R.color.red);
+                    }
                     // Apuntem en quina linia estem (per si desprès l'usuari selecciona l'entitat)
-                    g_Posicio = position;
-                    l_LIN_Toolbar = view.findViewById(R.id.LiniaLVWRecercaEntitatsLINToolbar);
+                    g_Posicio = p_position;
+                    l_LIN_Toolbar = p_view.findViewById(R.id.LiniaLVWRecercaEntitatsLINToolbar);
                     // Definim l'animació del item
                     ExpandAnimation l_expandAni = new ExpandAnimation(l_LIN_Toolbar, 100);
                     l_LIN_Toolbar.startAnimation(l_expandAni);
-                    l_TXT_NomAnterior = l_TXT_Nom;
+                    // Apuntem tot lo "anterior"
                     g_LIN_ToolbarAnterior = l_LIN_Toolbar;
-                }
-                else{
-                    // Ens seleccionan
-                    Intent l_resultIntent = new Intent();
-                    int l_Parametre = g_Posicio +1;
-
-                    l_resultIntent.putExtra("Seleccio", l_Parametre);
-                    setResult(Activity.RESULT_OK, l_resultIntent);
-                    finish();
+                    g_TXT_NomAnterior = l_TXT_Nom;
+                    g_IMB_Acceptar = l_IMB_Acceptar;
                 }
             }
 
@@ -135,6 +140,16 @@ public class entitat_recerca extends Activity {
         l_resultIntent.putExtra("Seleccio", l_Parametre);
         setResult(Activity.RESULT_OK, l_resultIntent);
         this.finish();
+    }
+
+    public void LiniaLVWRecercaEntitatsIMBAcceptar_Click(View view) {
+        // Ens seleccionan
+        Intent l_resultIntent = new Intent();
+        int l_Parametre = g_Posicio + 1;
+
+        l_resultIntent.putExtra("Seleccio", l_Parametre);
+        setResult(Activity.RESULT_OK, l_resultIntent);
+        finish();
     }
 
     @Override

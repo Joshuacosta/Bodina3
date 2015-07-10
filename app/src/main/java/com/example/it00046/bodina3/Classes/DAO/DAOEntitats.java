@@ -91,7 +91,10 @@ public final class DAOEntitats {
                                 JSONObject l_entitatServidor = l_ArrayEntitats.getJSONObject(i);
                                 // Pasa les dades del objecte JSON a la Entitat
                                 Entitat l_entitat = JSONToEntitat(l_entitatServidor);
-                                // Carreguem
+                                // Carreguem validant si l'entitat permet associar-nos
+                                if (l_entitat.TipusContacte == Globals.k_Entitat_NomesInvitacio){
+                                    l_entitat.Nom += " (" + Globals.g_Native.getString(R.string.nomes_invitacio) + ")";
+                                }
                                 l_listAdapter.add(l_entitat);
                             }
                             // Associem

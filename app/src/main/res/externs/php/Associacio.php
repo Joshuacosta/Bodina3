@@ -42,9 +42,9 @@ else{
 				$CodiClient         = $_POST['CodiClient'];
 				$CodiEntitat		= $_POST['CodiEntitat'];
 				$DataPeticio		= $_POST['DataPeticioAssociacio'];
-				$Contacte			= $_POST['ContacteAssociacio'];
-				$Descripcio			= $_POST['DescripcioAssociacio'];
-				$eMail				= $_POST['eMailAssociacio'];
+				$Contacte			= $_POST['Contacte'];
+				$Descripcio			= $_POST['Descripcio'];
+				$eMail				= $_POST['eMail'];
 				// Inserim la petició de associacio, definim el seu estat en 2.
 				$result = mysql_query("INSERT INTO Associacions (CodiClient, CodiEntitat, DataPeticio, Contacte, Descripcio, eMail, DataDarrerCanvi, Estat)
 													VALUES ('".$CodiClient."',

@@ -132,6 +132,7 @@
     <!-- ASSOCIACIONS -->
     <string name="TAssociacions">Associacions</string>
     <!-- Camps -->
+    <string name="TAssociacions_CodiClient">CodiClient</string>
     <string name="TAssociacions_CodiEntitat">CodiEntitat</string>
     <string name="TAssociacions_NomEntitat">NomEntitat</string>
     <string name="TAssociacions_eMailEntitat">eMailEntitat</string>

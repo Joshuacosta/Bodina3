@@ -1,5 +1,6 @@
 package com.example.it00046.bodina3.Classes.DAO;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -26,8 +27,8 @@ public final class DAOAssociacions {
     private static RequestParams g_parametresPHP = new RequestParams();
     private static final String TAG_VALIDS = "valids";
     private static final String TAG_Entitat = "entitat";
-    private static final String TAG_CodiClient = Globals.g_Native.getString(R.string.TClient_Codi);
-    private static final String TAG_CodiEntitat = Globals.g_Native.getString(R.string.TEntitats_Codi);
+    private static final String TAG_CodiClient = Globals.g_Native.getString(R.string.TAssociacions_CodiClient);
+    private static final String TAG_CodiEntitat = Globals.g_Native.getString(R.string.TAssociacions_CodiEntitat);
     // Camps de la Associacio
     private static final String TAG_Contacte = Globals.g_Native.getString(R.string.TAssociacions_Contacte);
     private static final String TAG_Descripcio = Globals.g_Native.getString(R.string.TAssociacions_Descripcio);
@@ -118,6 +119,9 @@ public final class DAOAssociacions {
                             Toast.makeText(Globals.g_Native,
                                             Globals.g_Native.getString(R.string.op_afegir_ok),
                                             Toast.LENGTH_LONG).show();
+                            // Tanquem a qui ens ha cridat
+                            Activity activity = (Activity) p_Context;
+                            activity.finish();
                         }else {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
                                     Globals.g_Native.getString(R.string.error_greu), p_Context);

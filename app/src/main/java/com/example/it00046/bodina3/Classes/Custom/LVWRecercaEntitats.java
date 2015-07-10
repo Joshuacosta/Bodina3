@@ -26,6 +26,10 @@ public final class LVWRecercaEntitats extends ArrayAdapter<Entitat> {
         g_Layout = p_textViewResourceId;
     }
 
+    public int prova(){
+        return 0;
+    }
+
     @Override
     public View getView(int p_position, View p_convertView, ViewGroup p_parent) {
 
@@ -42,10 +46,13 @@ public final class LVWRecercaEntitats extends ArrayAdapter<Entitat> {
         if (g_Posicio == -1){
             g_Posicio = p_position;
         }
+        // Guardem el tipus de contacte de la linia
+        p_convertView.setTag(getItem(p_position).TipusContacte);
         // Resets the toolbar to be closed
         View toolbar = p_convertView.findViewById(R.id.LiniaLVWRecercaEntitatsLINToolbar);
         ((LinearLayout.LayoutParams) toolbar.getLayoutParams()).bottomMargin = -80;
         toolbar.setVisibility(View.GONE);
         return p_convertView;
     }
+
 }
