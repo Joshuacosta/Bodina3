@@ -6,6 +6,7 @@ import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,7 +43,7 @@ public class entitat_recerca extends Activity {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, final View view,
-                                        int position, long id) {
+                                           int position, long id) {
                 return true;
             }
         });
@@ -66,16 +67,15 @@ public class entitat_recerca extends Activity {
                         ((LinearLayout.LayoutParams) g_LIN_ToolbarAnterior.getLayoutParams()).bottomMargin = -80;
                         g_LIN_ToolbarAnterior.setVisibility(View.GONE);
                     }
-                    // Marquem el actual
-                    // Modifiquem el color de fons de la linia en funcio de si es pot agafar o no
-                    // (hi ha entitats que no es poden solicitar)
+                    // Marquem el actual i modifiquem el color de fons de la linia en funcio de si es pot agafar o no
+                    // (hi ha entitats que no es poden solicitar, que treballen amb invitació)
                     l_TXT_Nom = (TextView) p_view.findViewById(R.id.LiniaLVWRecercaEntitatsNom);
                     l_IMB_Acceptar = (ImageView) p_view.findViewById(R.id.LiniaLVWRecercaEntitatsIMBAcceptar);
+                    // Recuperem la informació de si permet solicitar del tag que hem definit
                     if (p_view.getTag() == Globals.k_Entitat_PermetSolicitar) {
                         l_IMB_Acceptar.setVisibility(View.VISIBLE);
                         l_TXT_Nom.setBackgroundResource(R.color.green);
-                    }
-                    else{
+                    } else {
                         l_TXT_Nom.setBackgroundResource(R.color.red);
                     }
                     // Apuntem en quina linia estem (per si desprès l'usuari selecciona l'entitat)
@@ -93,7 +93,7 @@ public class entitat_recerca extends Activity {
 
         });
     }
-
+    // SetUp de la recerca
     private void setupSearchView() {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         final SearchView searchView = (SearchView) findViewById(R.id.entitat_recercaSVW);
@@ -130,18 +130,7 @@ public class entitat_recerca extends Activity {
             }
         });
     }
-    // Aquesta funció es cridada pels elements de la llista quan seleccionem un element de la
-    // llista
-    public void btnEntitatRecerca_Acceptar(View view) {
-        // Retornem les dades de l'entitat seleccionada gracies a l_Posicio
-        Intent l_resultIntent = new Intent();
-        int l_Parametre = g_Posicio +1;
-
-        l_resultIntent.putExtra("Seleccio", l_Parametre);
-        setResult(Activity.RESULT_OK, l_resultIntent);
-        this.finish();
-    }
-
+    // Aquesta funció es cridada pels elements de la llista quan premem el boto acceptar
     public void LiniaLVWRecercaEntitatsIMBAcceptar_Click(View view) {
         // Ens seleccionan
         Intent l_resultIntent = new Intent();
@@ -150,6 +139,37 @@ public class entitat_recerca extends Activity {
         l_resultIntent.putExtra("Seleccio", l_Parametre);
         setResult(Activity.RESULT_OK, l_resultIntent);
         finish();
+    }
+    // Boto de trucada
+    public void LiniaLVWRecercaEntitatsIMBTrucar_Click(View p_view) {
+        Intent l_callIntent = new Intent(Intent.ACTION_DIAL);
+        TextView l_TXT_Telefon;
+        String l_NumTelefon;
+        View l_parent;
+
+        // Recuperem el telefon
+        l_parent = (View)p_view.getParent();
+        if (l_parent != null) {
+            l_TXT_Telefon = (TextView) l_parent.findViewById(R.id.LiniaLVWRecercaEntitatsTXTTelefon);
+            l_NumTelefon = l_TXT_Telefon.getText().toString();
+            l_callIntent.setData(Uri.parse("tel:" + l_NumTelefon));
+            startActivity(l_callIntent);
+        }
+    }
+    // Boto de eMail
+    public void LiniaLVWRecercaEntitatsIMBeMail_Click(View p_view) {
+        Intent l_Intent;
+        TextView l_TXT_eMail;
+        View l_parent;
+
+        // Recuperem el eMail
+        l_parent = (View)p_view.getParent();
+        if (l_parent != null) {
+            l_TXT_eMail = (TextView) l_parent.findViewById(R.id.LiniaLVWRecercaEntitatsTXTeMail);
+            l_Intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", l_TXT_eMail.getText().toString(), null));
+            l_Intent.putExtra(Intent.EXTRA_SUBJECT, Globals.g_Native.getString(R.string.Subject_Invitació));
+            startActivity(Intent.createChooser(l_Intent, Globals.g_Native.getString(R.string.Tria_Mail)));
+        }
     }
 
     @Override

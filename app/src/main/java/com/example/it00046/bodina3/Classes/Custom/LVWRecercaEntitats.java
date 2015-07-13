@@ -46,7 +46,7 @@ public final class LVWRecercaEntitats extends ArrayAdapter<Entitat> {
         if (g_Posicio == -1){
             g_Posicio = p_position;
         }
-        // Guardem el tipus de contacte de la linia
+        // Guardem el tipus de contacte de la linia com a tag
         p_convertView.setTag(getItem(p_position).TipusContacte);
         // Resets the toolbar to be closed
         View toolbar = p_convertView.findViewById(R.id.LiniaLVWRecercaEntitatsLINToolbar);

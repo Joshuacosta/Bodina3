@@ -1,6 +1,7 @@
 package com.example.it00046.bodina3;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
@@ -47,7 +48,8 @@ public class entitat_solicitar extends ActionBarActivity {
         // Informem Contacte i eMail amb els valors de la nostra compta
         g_ETX_Contacte.setText(Globals.g_Client.Contacte);
         g_ETX_eMail.setText(Globals.g_Client.eMail);
-        // Llegim en el SERVIDOR les entitats del pais del client
+        // Llegim en el SERVIDOR les entitats del pais del client, mostrem una finestra de carrega
+        Globals.MostrarEspera(jo);
         DAOEntitats.Llegir(Globals.g_Client.Pais, g_SPN_EntitatsClient, jo);
         // Codi del Spinner de entitats del client
         g_SPN_EntitatsClient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -62,7 +64,7 @@ public class entitat_solicitar extends ActionBarActivity {
                 if (pos > 0) {
                     l_Entitat = (SPNEntitat) parent.getItemAtPosition(pos);
                     if (l_Entitat.getId().TipusContacte == Globals.k_Entitat_NomesInvitacio) {
-                        l_Texte = l_Entitat.getId().Nom + Globals.g_Native.getString(R.string.error_RequereixInvitació);
+                        l_Texte = l_Entitat.getId().Nom + " " + Globals.g_Native.getString(R.string.error_RequereixInvitació);
                         Globals.F_Alert(l_Texte, Globals.g_Native.getString(R.string.error_avis), jo);
                         parent.setSelection(0);
                     }
@@ -227,7 +229,7 @@ public class entitat_solicitar extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.entitat_solicitarMNUacceptar) {
+        if (id == R.id.entitat_solicitarMNUAcceptar) {
             FerOperativa();
             return true;
         }

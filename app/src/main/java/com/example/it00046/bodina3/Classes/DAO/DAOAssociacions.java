@@ -48,7 +48,7 @@ public final class DAOAssociacions {
             g_parametresPHP = new RequestParams();
             g_parametresPHP.put(TAG_CodiClient, Globals.g_Client.Codi);
             g_parametresPHP.put(Globals.TAG_OPERATIVA, Globals.k_OPE_AssociacionsLlegir);
-            PhpJson.post("Associacions.php", g_parametresPHP, new JsonHttpResponseHandler() {
+            PhpJson.post("Associacio.php", g_parametresPHP, new JsonHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode,
                                       org.apache.http.Header[] headers,
@@ -120,8 +120,9 @@ public final class DAOAssociacions {
                                             Globals.g_Native.getString(R.string.op_afegir_ok),
                                             Toast.LENGTH_LONG).show();
                             // Tanquem a qui ens ha cridat
-                            Activity activity = (Activity) p_Context;
-                            activity.finish();
+                            Activity l_activity = (Activity) p_Context;
+                            l_activity.setResult(Activity.RESULT_OK);
+                            l_activity.finish();
                         }else {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
                                     Globals.g_Native.getString(R.string.error_greu), p_Context);

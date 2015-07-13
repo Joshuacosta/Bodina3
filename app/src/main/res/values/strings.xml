@@ -19,6 +19,10 @@
     <string name="boto_Cancelar">Cancel</string>
     <string name="Seleccionar">Select</string>
     <string name="Acceptar">Accept</string>
+    <string name="Tria_Mail">Choose an Email client :</string>
+    <string name="Subject_Invitació">Dear customer, I want an invitation for you</string>
+    <string name="Carregant">Loading</string>
+    <string name="Esperi">Please wait...</string>
 
     <!-- Errors codi -->
     <string name="error_avis">Alert</string>
@@ -29,7 +33,7 @@
     <string name="errorservidor_Mail">An error has ocurred sending confirmation e-mail.</string>
     <string name="errorlocal_BBDD">Error at database. Retry later</string>
     <string name="errorlocal_ProgramError">An error has ocurred. Retry again</string>
-    <string name="error_RequereixInvitació"> only works with invitation. You must Contact with them.</string>
+    <string name="error_RequereixInvitació">only works with invitation. You must Contact with them.</string>
 
     <!-- Layout principal -->
     <string name="app_name">Bodina</string>

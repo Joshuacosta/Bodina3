@@ -4,6 +4,7 @@ package com.example.it00046.bodina3.Classes;
  * Created by it00046 on 13/02/2015.
  */
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,6 +13,7 @@ import android.net.NetworkInfo;
 import android.provider.Settings.Secure;
 
 import com.example.it00046.bodina3.Classes.Entitats.Client;
+import com.example.it00046.bodina3.R;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -31,7 +33,7 @@ public final class Globals
     public static Context g_Native;
     public static Context g_Recerca;
     public static Boolean g_HiHaXarxa = false;
-
+    public static ProgressDialog g_Dialog = null;
     //public static SQLClientsDAO g_Clients_DAO;
     public static SQLiteDatabase g_DB;
     public static SQLDB g_BBDD;
@@ -125,5 +127,15 @@ public final class Globals
         DateFormat l_sdf;
         l_sdf = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
         return l_sdf.format(c.getTime());
+    }
+
+    public static void MostrarEspera(Context p_Context){
+        g_Dialog = ProgressDialog.show(p_Context, Globals.g_Native.getString(R.string.Carregant), Globals.g_Native.getString(R.string.Esperi), true);
+    }
+
+    public static void TancarEspera(){
+        if (g_Dialog != null){
+            g_Dialog.dismiss();
+        }
     }
 }

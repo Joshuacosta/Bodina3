@@ -77,10 +77,12 @@ public final class DAOEntitats {
                                       org.json.JSONObject errorResponse) {
                     Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                             Globals.g_Native.getString(R.string.error_greu), p_Context);
+                    Globals.TancarEspera();
                 }
 
                 @Override
                 public void onSuccess(int p_statusCode, Header[] p_headers, JSONObject p_entitats) {
+                    Globals.TancarEspera();
                     try {
                         String l_Resposta = p_entitats.getString(Globals.TAG_VALIDS);
                         if (l_Resposta.equals(Globals.k_PHPOK)) {
@@ -114,6 +116,7 @@ public final class DAOEntitats {
         else{
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                     Globals.g_Native.getString(R.string.error_greu), p_Context);
+            Globals.TancarEspera();
         }
     }
     // Funció per llegir del SERVIDOR les entitats de un pais, retornem la info a un spinner
@@ -133,10 +136,12 @@ public final class DAOEntitats {
                                       org.json.JSONObject errorResponse) {
                     Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                             Globals.g_Native.getString(R.string.error_greu), p_Context);
+                    Globals.TancarEspera();
                 }
 
                 @Override
                 public void onSuccess(int p_statusCode, Header[] p_headers, JSONObject p_entitats) {
+                    Globals.TancarEspera();
                     try {
                         ArrayAdapter<SPNEntitat> l_dataAdapter;
                         String l_Resposta = p_entitats.getString(Globals.TAG_VALIDS);
@@ -180,6 +185,7 @@ public final class DAOEntitats {
         else{
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                     Globals.g_Native.getString(R.string.error_greu), p_Context);
+            Globals.TancarEspera();
         }
     }
     // Pasa les dades del objecte JSON a la Entitat
