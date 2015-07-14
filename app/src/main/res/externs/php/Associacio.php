@@ -40,8 +40,7 @@ else{
 				$Ara = date("Y-m-d H:i:s");
 				/* Recuperem les dades d'entrada */
 				$CodiClient         = $_POST['CodiClient'];
-				$CodiEntitat		= $_POST['CodiEntitat'];
-				$DataPeticio		= $_POST['DataPeticioAssociacio'];
+				$CodiEntitat		= $_POST['CodiEntitat'];				
 				$Contacte			= $_POST['Contacte'];
 				$Descripcio			= $_POST['Descripcio'];
 				$eMail				= $_POST['eMail'];
@@ -57,7 +56,7 @@ else{
 				if (!$result){
 					$response["valids"] = "2";
 					$gestor = fopen("errors/bd.txt","a");
-					fwrite($gestor,$Avui.">>> Associacio.PHP//Associacions//Insert//".mysql_errno()."//".mysql_error()."//Values:".$CodiClient."/".$CodiEntitat."/".$DataPeticio."/".$Contacte."/".$Descripcio."/".$eMail."\n");
+					fwrite($gestor,$Avui.">>> Associacio.PHP//Associacions//Insert//".mysql_errno()."//".mysql_error()."//Values:".$CodiClient."/".$CodiEntitat."/".$Contacte."/".$Descripcio."/".$eMail."\n");
 					fclose($gestor);
 				}
 				break;
@@ -66,9 +65,9 @@ else{
 				/* Recuperem les dades d'entrada */
 				$CodiClient = $_POST['CodiClient'];
 								// Fem la select amb les entitats del client
-				$result = mysql_query("SELECT    E.Codi, E.Nom, E.eMail, E.Pais, E.Adresa, E.Contacte, E.Telefon, E.Estat, 
+				$result = mysql_query("SELECT    E.Codi, E.Nom, E.eMail, E.Pais, E.Adresa, E.Contacte, E.TipusContacte, E.Telefon, E.Estat, 
 												 A.Contacte As ContacteAssociacio, A.eMail As eMailAssociacio, A.Estat As EstatAssociacio,
-												 A.DataAlta, A.DataFi, A.Descripcio
+												 A.DataAlta, A.DataFi, A.Descripcio, A.DataPeticio
                                        FROM      Associacions AS A
                                        LEFT JOIN Entitats AS E
                                        ON       (E.Codi = A.CodiEntitat)
@@ -86,12 +85,13 @@ else{
 						while ($row = mysql_fetch_array($result)) {
 							$Associacio = array();
 							// Dades de la associacio
-							$Associacio["Contacte"] = $row["ContacteAssociacio"];
-							$Associacio["Descripcio"] = $row["Descripcio"];
+							$Associacio["Contacte"] = $row["ContacteAssociacio"];							
 							$Associacio["eMail"] = $row["eMailAssociacio"];
 							$Associacio["DataAlta"] = $row["DataAlta"];
 							$Associacio["DataFi"] = $row["DataFi"];
-							$Associacio["Estat"] = $row["EstatAssociacio"];
+							$Associacio["Descripcio"] = $row["Descripcio"];
+							$Associacio["DataPeticio"] = $row["DataPeticio"];
+							$Associacio["EstatAssociacio"] = $row["EstatAssociacio"];							
 							// Dades de la entitat
 							$Entitat = array();
 							$Entitat["Codi"] = $row["Codi"];
@@ -100,6 +100,7 @@ else{
 							$Entitat["Pais"] = $row["Pais"];
 							$Entitat["Adresa"] = $row["Adresa"];
 							$Entitat["Contacte"] = $row["Contacte"];
+							$Entitat["TipusContacte"] = $row["TipusContacte"];
 							$Entitat["Telefon"] = $row["Telefon"];
 							$Entitat["Estat"] = $row["Estat"];
 							$Associacio["Entitat"] = $Entitat;

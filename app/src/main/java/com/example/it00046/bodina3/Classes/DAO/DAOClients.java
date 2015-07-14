@@ -4,6 +4,7 @@ package com.example.it00046.bodina3.Classes.DAO;
  * Created by it00046 on 13/02/2015.
  */
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -102,6 +103,11 @@ public final class DAOClients {
                 Toast.makeText(Globals.g_Native,
                         Globals.g_Native.getString(R.string.op_modificacio_ok),
                         Toast.LENGTH_LONG).show();
+                // Gravem les dades del client
+                Globals.g_Client = p_client;
+                // Tanquem a qui ens ha cridat
+                Activity l_activity = (Activity) p_Context;
+                l_activity.finish();
             }
         }
     }
@@ -150,6 +156,11 @@ public final class DAOClients {
                                 Toast.makeText(Globals.g_Native,
                                         Globals.g_Native.getString(R.string.errorservidor_Mail),
                                         Toast.LENGTH_LONG).show();
+                                // Gravem les dades del client
+                                Globals.g_Client = p_client;
+                                // Tanquem a qui ens ha cridat
+                                Activity l_activity = (Activity) p_Context;
+                                l_activity.finish();
                             }
                             if (l_Resposta.equals(Globals.k_PHPOK) || l_Resposta.equals(Globals.k_PHPErrorMail)) {
                                 // Recuperem el codi de client calcular al servidor
@@ -308,6 +319,9 @@ public final class DAOClients {
                                     Toast.LENGTH_LONG).show();
                             // Actualitzem client global
                             Globals.g_Client = p_client;
+                            // Tanquem a qui ens ha cridat
+                            Activity l_activity = (Activity) p_Context;
+                            l_activity.finish();
                         }
                     }
                     else {

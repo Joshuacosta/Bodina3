@@ -20,7 +20,7 @@
         android:layout_height="fill_parent"
         android:orientation="horizontal">
         <TextView
-            android:id="@+id/LiniaLVWLlistaAssociacionsTXTDataAlta"
+            android:id="@+id/LiniaLVWLlistaAssociacionsTXTDataAltaoPeticio"
             android:layout_width="fill_parent"
             android:layout_height="30dp"
             android:textSize="14sp"
@@ -36,9 +36,9 @@
     </LinearLayout>
     <!--*** Layout que s'extent amb la informació de la entitat i la resta de info de la associacio ****-->
     <LinearLayout android:id="@+id/LiniaLVWLlistaAssociacionsLINToolbar"
-        android:layout_marginBottom="-80dip"
+        android:layout_marginBottom="-150dip"
         android:visibility="gone"
-        android:layout_height="80dip"
+        android:layout_height="150dip"
         android:orientation="vertical"
         android:layout_width="fill_parent">
         <TextView android:id="@+id/LiniaLVWLlistaAssociacionsTXTAdresaEntitat"

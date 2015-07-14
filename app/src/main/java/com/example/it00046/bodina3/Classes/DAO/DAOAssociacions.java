@@ -26,7 +26,7 @@ public final class DAOAssociacions {
     // Variables
     private static RequestParams g_parametresPHP = new RequestParams();
     private static final String TAG_VALIDS = "valids";
-    private static final String TAG_Entitat = "entitat";
+    private static final String TAG_Entitat = "Entitat";
     private static final String TAG_CodiClient = Globals.g_Native.getString(R.string.TAssociacions_CodiClient);
     private static final String TAG_CodiEntitat = Globals.g_Native.getString(R.string.TAssociacions_CodiEntitat);
     // Camps de la Associacio
@@ -36,6 +36,7 @@ public final class DAOAssociacions {
     private static final String TAG_DataAlta = Globals.g_Native.getString(R.string.TAssociacions_DataAlta);
     private static final String TAG_DataFi = Globals.g_Native.getString(R.string.TAssociacions_DataFi);
     private static final String TAG_Estat = Globals.g_Native.getString(R.string.TAssociacions_Estat);
+    private static final String TAG_DataPeticio = Globals.g_Native.getString(R.string.TAssociacions_DataPeticio);
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -162,9 +163,11 @@ public final class DAOAssociacions {
         try {
             // Dades associacio
             l_Associacio.Contacte = p_Associacio.getString(TAG_Contacte);
+            l_Associacio.Descripcio = p_Associacio.getString(TAG_Descripcio);
             l_Associacio.eMail = p_Associacio.getString(TAG_eMail);
             l_Associacio.DataAlta = p_Associacio.getString(TAG_DataAlta);
             l_Associacio.DataFi = p_Associacio.getString(TAG_DataFi);
+            l_Associacio.DataPeticio = p_Associacio.getString(TAG_DataPeticio);
             l_Associacio.Estat = p_Associacio.getInt(TAG_Estat);
             // Dades entitat
             JSONObject l_Entitat = p_Associacio.getJSONObject(TAG_Entitat);

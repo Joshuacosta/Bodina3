@@ -62,7 +62,7 @@ public class principal extends ActionBarActivity {
             //expandableList.setOnChildClickListener(this);
         }
     }
-
+    
     public void setGroupParents() {
         parentItems.add("Android");
         parentItems.add("Core Java");

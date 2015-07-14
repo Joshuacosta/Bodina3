@@ -150,7 +150,8 @@
     <string name="TAssociacions_eMail">eMail</string>
     <string name="TAssociacions_DataAlta">DataAlta</string>
     <string name="TAssociacions_DataFi">DataFi</string>
-    <string name="TAssociacions_Estat">Estat</string>
+    <string name="TAssociacions_DataPeticio">DataPeticio</string>
+    <string name="TAssociacions_Estat">EstatAssociacio</string>
     <!-- .................................................................................. -->
     <!-- INVITACIONS -->
     <string name="TInvitacions">Invitacions</string>

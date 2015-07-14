@@ -38,7 +38,7 @@ public class entitat_pral extends ActionBarActivity {
         // Carreguen les entitats del client
         g_LVW_Associacions = (ListView) findViewById(R.id.entitat_pralLVWAssociacions);
         DAOAssociacions.Llegir(g_LVW_Associacions,  R.layout.linia_lvw_llista_associacions, Jo);
-        // El floating boto serveix per afegir associacions amb entitats (tambè es pot fer des de el menu)
+        // El floating boto serveix per afegir associacions amb entitats (tambï¿½ es pot fer des de el menu)
         l_FLB_Associacio = (FloatingActionButton) findViewById(R.id.entitat_pralFLBAfegirAssociacio);
         l_FLB_Associacio.attachToListView(g_LVW_Associacions);
         l_Animacio = AnimationUtils.loadAnimation(this, R.anim.alpha_a_zero);
@@ -54,8 +54,6 @@ public class entitat_pral extends ActionBarActivity {
             }
         });
         //
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
         // Codi de seleccio de un element de la llista de entitats/associacions
         g_LVW_Associacions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -65,11 +63,12 @@ public class entitat_pral extends ActionBarActivity {
                 View l_LIN_Toolbar;
 
                 l_LIN_Toolbar = p_view.findViewById(R.id.LiniaLVWLlistaAssociacionsLINToolbar);
-
                 if (g_Posicio != p_position) {
-                    // Desmarquem el que hi havia marcat
-                    ((LinearLayout.LayoutParams) g_LIN_ToolbarAnterior.getLayoutParams()).bottomMargin = -80;
-                    g_LIN_ToolbarAnterior.setVisibility(View.GONE);
+                    if (g_LIN_ToolbarAnterior != null) {
+                        // Desmarquem el que hi havia marcat
+                        ((LinearLayout.LayoutParams) g_LIN_ToolbarAnterior.getLayoutParams()).bottomMargin = -120;
+                        g_LIN_ToolbarAnterior.setVisibility(View.GONE);
+                    }
                     // Apuntem en quina linia estem
                     g_Posicio = p_position;
                     // Definim l'animacio del item
@@ -78,12 +77,22 @@ public class entitat_pral extends ActionBarActivity {
                     g_LIN_ToolbarAnterior = l_LIN_Toolbar;
                 }
                 else{
-                    // Ens tornen a marcar, ens tanquem
-                    ((LinearLayout.LayoutParams) l_LIN_Toolbar.getLayoutParams()).bottomMargin = -80;
+                    // Ens tornen a marcar
+                    if (l_LIN_Toolbar.getVisibility() == View.GONE) {
+                        ExpandAnimation l_expandAni = new ExpandAnimation(l_LIN_Toolbar, 100);
+                        l_LIN_Toolbar.setVisibility(View.VISIBLE);
+                    }
+                    else{
+                        ((LinearLayout.LayoutParams) l_LIN_Toolbar.getLayoutParams()).bottomMargin = -120;
+                        l_LIN_Toolbar.setVisibility(View.GONE);
+                    }
                 }
             }
 
         });
+        // Mostrem el tornar
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -101,22 +110,22 @@ public class entitat_pral extends ActionBarActivity {
         switch (l_id) {
             case R.id.entitat_solicitarMNUDemanar:
                 l_Intent = new Intent(this, entitat_solicitar.class);
-                startActivity(l_Intent);
+                startActivityForResult(l_Intent, g_RQC_ENTITAT_SOLICITEM);
                 return true;
             case R.id.entitat_solicitarMNUActualitzar:
-
+                DAOAssociacions.Llegir(g_LVW_Associacions,  R.layout.linia_lvw_llista_associacions, Jo);
                 //
                 return true;
         }
         return super.onOptionsItemSelected(p_Item);
     }
 
-    // Resposta de la recerca
+    // Resposta de les activitats que iniciem (solicitar,...)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch(requestCode) {
-            case (g_RQC_ENTITAT_SOLICITEM) : {
+            case (g_RQC_ENTITAT_SOLICITEM): {
                 if (resultCode == Activity.RESULT_OK) {
                     // Refresquem la llista (podiem ser mes optims i nomes afegir la entitat
                     // amb la que hem demanat associar-nos

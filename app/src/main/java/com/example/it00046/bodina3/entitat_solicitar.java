@@ -158,7 +158,6 @@ public class entitat_solicitar extends ActionBarActivity {
                 l_Associacio.entitat.Estat = l_dadesEntitat.Estat;
                 //
                 DAOAssociacions.Solicitar(l_Associacio, jo);
-                //this.finish();
             }
         }
         else{
@@ -173,7 +172,6 @@ public class entitat_solicitar extends ActionBarActivity {
         Intent intent = new Intent(this, entitat_recerca.class);
         startActivityForResult(intent, g_RQC_ENTITAT_RECERCA);
     }
-
     //
 
     // Resposta de la recerca

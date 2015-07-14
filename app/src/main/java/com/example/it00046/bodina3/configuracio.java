@@ -160,9 +160,6 @@ public class configuracio extends ActionBarActivity {
             else{
                 DAOClients.Modificar(l_client, jo);
             }
-            // Gravem les dades del client i tornem enrera
-            Globals.g_Client = l_client;
-            this.finish();
         }
         else{
             Toast.makeText(configuracio.this,

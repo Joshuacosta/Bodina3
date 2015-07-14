@@ -14,9 +14,11 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <!-- Activitat proncipal -->
+        <!-- Activitat principal: SINGLE -->
         <activity
             android:name=".principal"
+            android:launchMode="singleTask"
+            android:alwaysRetainTaskState="true"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,10 +39,12 @@
             android:name=".celebracio_alta"
             android:label="@string/title_activity_ac_celebracio_alta" >
         </activity>
-        <!-- Fill 3: Entitats -->
+        <!-- Fill 3: Entitats: SINGLE-->
         <activity
             android:name=".entitat_pral"
             android:parentActivityName=".principal"
+            android:launchMode="singleTask"
+            android:alwaysRetainTaskState="true"
             android:label="@string/title_activity_ac_entitat_pral" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

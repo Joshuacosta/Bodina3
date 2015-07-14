@@ -15,6 +15,7 @@ public class Associacio
     public String eMail = new String();
     public String DataAlta = new String();
     public String DataFi = new String();
+    public String DataPeticio = new String();
     public int Estat;
 
     public void Associacio()
