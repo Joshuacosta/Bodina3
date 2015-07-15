@@ -57,10 +57,12 @@ public final class DAOAssociacions {
                                       org.json.JSONObject errorResponse) {
                     Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                             Globals.g_Native.getString(R.string.error_greu), p_Context);
+                    Globals.TancarEspera();
                 }
 
                 @Override
                 public void onSuccess(int p_statusCode, Header[] p_headers, JSONObject p_Associacions) {
+                    Globals.TancarEspera();
                     try {
                         String l_Resposta = p_Associacions.getString(Globals.TAG_VALIDS);
                         if (l_Resposta.equals(Globals.k_PHPOK)) {
@@ -95,6 +97,7 @@ public final class DAOAssociacions {
         else{
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                     Globals.g_Native.getString(R.string.error_greu), p_Context);
+            Globals.TancarEspera();
         }
     }
     // Funcio per solicitar una associacio amb una entitat
@@ -109,10 +112,12 @@ public final class DAOAssociacions {
                                       java.lang.Throwable throwable,
                                       org.json.JSONObject errorResponse) {
                     Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces), Globals.g_Native.getString(R.string.error_greu), p_Context);
+                    Globals.TancarEspera();
                 }
 
                 @Override
                 public void onSuccess(int p_statusCode, Header[] p_headers, JSONObject p_Resposta) {
+                    Globals.TancarEspera();
                     try {
                         String l_Resposta = p_Resposta.getString(TAG_VALIDS);
                         if (l_Resposta.equals(Globals.k_PHPOK)) {
@@ -124,11 +129,13 @@ public final class DAOAssociacions {
                             Activity l_activity = (Activity) p_Context;
                             l_activity.setResult(Activity.RESULT_OK);
                             l_activity.finish();
-                        }else {
+                        }
+                        else {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
                                     Globals.g_Native.getString(R.string.error_greu), p_Context);
                         }
-                    } catch (JSONException e) {
+                    }
+                    catch (JSONException e) {
                         Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
                                 Globals.g_Native.getString(R.string.error_greu), p_Context);
                     }
@@ -165,9 +172,9 @@ public final class DAOAssociacions {
             l_Associacio.Contacte = p_Associacio.getString(TAG_Contacte);
             l_Associacio.Descripcio = p_Associacio.getString(TAG_Descripcio);
             l_Associacio.eMail = p_Associacio.getString(TAG_eMail);
-            l_Associacio.DataAlta = p_Associacio.getString(TAG_DataAlta);
-            l_Associacio.DataFi = p_Associacio.getString(TAG_DataFi);
-            l_Associacio.DataPeticio = p_Associacio.getString(TAG_DataPeticio);
+            l_Associacio.DataAlta = Globals.F_FormatDataServidorALocal(p_Associacio.getString(TAG_DataAlta));
+            l_Associacio.DataFi = Globals.F_FormatDataServidorALocal(p_Associacio.getString(TAG_DataFi));
+            l_Associacio.DataPeticio = Globals.F_FormatDataServidorALocal(p_Associacio.getString(TAG_DataPeticio));
             l_Associacio.Estat = p_Associacio.getInt(TAG_Estat);
             // Dades entitat
             JSONObject l_Entitat = p_Associacio.getJSONObject(TAG_Entitat);

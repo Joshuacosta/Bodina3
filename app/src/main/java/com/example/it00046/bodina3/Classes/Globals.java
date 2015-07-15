@@ -33,7 +33,7 @@ public final class Globals
     public static Context g_Native;
     public static Context g_Recerca;
     public static Boolean g_HiHaXarxa = false;
-    public static ProgressDialog g_Dialog = null;
+    public static ProgressDialog g_DialogEspera = null;
     //public static SQLClientsDAO g_Clients_DAO;
     public static SQLiteDatabase g_DB;
     public static SQLDB g_BBDD;
@@ -122,20 +122,50 @@ public final class Globals
         }
     }
 
-    public static String F_Avui(){
+    public static String Avui(){
         Calendar c = Calendar.getInstance();
         DateFormat l_sdf;
         l_sdf = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
         return l_sdf.format(c.getTime());
     }
 
-    public static void MostrarEspera(Context p_Context){
-        g_Dialog = ProgressDialog.show(p_Context, Globals.g_Native.getString(R.string.Carregant), Globals.g_Native.getString(R.string.Esperi), true);
+    public static void MostrarEspera(Context p_Context) {
+        g_DialogEspera = ProgressDialog.show(p_Context, "", Globals.g_Native.getString(R.string.Esperi), true);
+    }
+
+    public static void MostrarEsperaTitol(Context p_Context, String p_Titol){
+        String l_Titol = "";
+
+        if (p_Titol == null){
+            l_Titol = Globals.g_Native.getString(R.string.Carregant);
+        }
+        else{
+            l_Titol = p_Titol;
+        }
+        g_DialogEspera = ProgressDialog.show(p_Context, l_Titol, Globals.g_Native.getString(R.string.Esperi), true);
+    }
+
+    public static void MostrarEsperaTitolMissatge(Context p_Context, String p_Titol, String p_Missatge){
+        String l_Titol = "", l_Missatge = "";
+
+        if (p_Titol == null){
+            l_Titol = Globals.g_Native.getString(R.string.Carregant);
+        }
+        else{
+            l_Titol = p_Titol;
+        }
+        if (p_Missatge == null){
+            l_Missatge = Globals.g_Native.getString(R.string.Esperi);
+        }
+        else{
+            l_Missatge = p_Missatge;
+        }
+        g_DialogEspera = ProgressDialog.show(p_Context, l_Titol, l_Missatge, true);
     }
 
     public static void TancarEspera(){
-        if (g_Dialog != null){
-            g_Dialog.dismiss();
+        if (g_DialogEspera != null){
+            g_DialogEspera.dismiss();
         }
     }
 }

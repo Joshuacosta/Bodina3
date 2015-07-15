@@ -23,6 +23,14 @@
     <string name="Subject_Invitació">Dear customer, I want an invitation for you</string>
     <string name="Carregant">Loading</string>
     <string name="Esperi">Please wait...</string>
+    <string name="EntitatBaixa">(ENTITY CANCELLED)</string>
+    <string name="AssociacioPendent">(pending)</string>
+    <string name="AssociacioBaixa">(associacion cancelled)</string>
+    <string name="AssociacioRebutjada">(request rejected)</string>
+    <string name="DataAlta">Entry date</string>
+    <string name="DataSolicitud">Request date</string>
+    <string name="DataBaixa">Leaving date</string>
+    <string name="DataRebutjat">Rejected date</string>
 
     <!-- Errors codi -->
     <string name="error_avis">Alert</string>

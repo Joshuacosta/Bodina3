@@ -18,6 +18,7 @@ import android.widget.ListView;
 
 import com.example.it00046.bodina3.Classes.DAO.DAOAssociacions;
 import com.example.it00046.bodina3.Classes.ExpandAnimation;
+import com.example.it00046.bodina3.Classes.Globals;
 import com.melnykov.fab.FloatingActionButton;
 
 
@@ -37,6 +38,7 @@ public class entitat_pral extends ActionBarActivity {
         setContentView(R.layout.entitat_pral);
         // Carreguen les entitats del client
         g_LVW_Associacions = (ListView) findViewById(R.id.entitat_pralLVWAssociacions);
+        Globals.MostrarEspera(Jo);
         DAOAssociacions.Llegir(g_LVW_Associacions,  R.layout.linia_lvw_llista_associacions, Jo);
         // El floating boto serveix per afegir associacions amb entitats (tamb� es pot fer des de el menu)
         l_FLB_Associacio = (FloatingActionButton) findViewById(R.id.entitat_pralFLBAfegirAssociacio);
@@ -61,31 +63,26 @@ public class entitat_pral extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, final View p_view,
                                     int p_position, long p_id) {
                 View l_LIN_Toolbar;
+                ExpandAnimation l_expandAni;
 
                 l_LIN_Toolbar = p_view.findViewById(R.id.LiniaLVWLlistaAssociacionsLINToolbar);
                 if (g_Posicio != p_position) {
-                    if (g_LIN_ToolbarAnterior != null) {
+                    if (g_LIN_ToolbarAnterior != null && g_LIN_ToolbarAnterior.getVisibility() == View.VISIBLE) {
                         // Desmarquem el que hi havia marcat
-                        ((LinearLayout.LayoutParams) g_LIN_ToolbarAnterior.getLayoutParams()).bottomMargin = -120;
-                        g_LIN_ToolbarAnterior.setVisibility(View.GONE);
+                        l_expandAni = new ExpandAnimation(g_LIN_ToolbarAnterior, 100);
+                        g_LIN_ToolbarAnterior.startAnimation(l_expandAni);
                     }
                     // Apuntem en quina linia estem
                     g_Posicio = p_position;
                     // Definim l'animacio del item
-                    ExpandAnimation l_expandAni = new ExpandAnimation(l_LIN_Toolbar, 100);
+                    l_expandAni = new ExpandAnimation(l_LIN_Toolbar, 100);
                     l_LIN_Toolbar.startAnimation(l_expandAni);
                     g_LIN_ToolbarAnterior = l_LIN_Toolbar;
                 }
                 else{
                     // Ens tornen a marcar
-                    if (l_LIN_Toolbar.getVisibility() == View.GONE) {
-                        ExpandAnimation l_expandAni = new ExpandAnimation(l_LIN_Toolbar, 100);
-                        l_LIN_Toolbar.setVisibility(View.VISIBLE);
-                    }
-                    else{
-                        ((LinearLayout.LayoutParams) l_LIN_Toolbar.getLayoutParams()).bottomMargin = -120;
-                        l_LIN_Toolbar.setVisibility(View.GONE);
-                    }
+                    l_expandAni = new ExpandAnimation(l_LIN_Toolbar, 100);
+                    l_LIN_Toolbar.startAnimation(l_expandAni);
                 }
             }
 

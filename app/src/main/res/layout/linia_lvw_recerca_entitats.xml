@@ -33,7 +33,7 @@
     <!-- Layout que s'extent amb la informacio de la entitat -->
     <LinearLayout android:id="@+id/LiniaLVWRecercaEntitatsLINToolbar"
         android:layout_marginBottom="-120dip"
-        android:layout_height="120dip"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone"
         android:layout_width="fill_parent">

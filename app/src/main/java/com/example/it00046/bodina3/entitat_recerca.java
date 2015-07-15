@@ -56,6 +56,7 @@ public class entitat_recerca extends Activity {
                 ImageView l_IMB_Acceptar;
                 TextView l_TXT_Nom;
                 View l_LIN_Toolbar;
+                ExpandAnimation l_expandAni;
 
                 if (g_Posicio != p_position) {
                     // Desmarquem el que hi havia marcat
@@ -64,8 +65,8 @@ public class entitat_recerca extends Activity {
                         g_TXT_NomAnterior.setBackgroundResource(R.color.blue);
                         g_IMB_Acceptar.setVisibility(View.GONE);
                         // El colapsem
-                        ((LinearLayout.LayoutParams) g_LIN_ToolbarAnterior.getLayoutParams()).bottomMargin = -80;
-                        g_LIN_ToolbarAnterior.setVisibility(View.GONE);
+                        l_expandAni = new ExpandAnimation(g_LIN_ToolbarAnterior, 100);
+                        g_LIN_ToolbarAnterior.startAnimation(l_expandAni);
                     }
                     // Marquem el actual i modifiquem el color de fons de la linia en funcio de si es pot agafar o no
                     // (hi ha entitats que no es poden solicitar, que treballen amb invitació)
@@ -82,7 +83,7 @@ public class entitat_recerca extends Activity {
                     g_Posicio = p_position;
                     l_LIN_Toolbar = p_view.findViewById(R.id.LiniaLVWRecercaEntitatsLINToolbar);
                     // Definim l'animació del item
-                    ExpandAnimation l_expandAni = new ExpandAnimation(l_LIN_Toolbar, 100);
+                    l_expandAni = new ExpandAnimation(l_LIN_Toolbar, 100);
                     l_LIN_Toolbar.startAnimation(l_expandAni);
                     // Apuntem tot lo "anterior"
                     g_LIN_ToolbarAnterior = l_LIN_Toolbar;
@@ -122,6 +123,7 @@ public class entitat_recerca extends Activity {
                 // Recerquem a partir de 3 caracters
                 if (newText.length() > 3) {
                     g_LVW_searchResults.setVisibility(View.VISIBLE);
+                    Globals.MostrarEspera(Jo);
                     DAOEntitats.Llegir("", g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
                 } else {
                     g_LVW_searchResults.setVisibility(View.INVISIBLE);

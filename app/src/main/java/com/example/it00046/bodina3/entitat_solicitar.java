@@ -33,7 +33,7 @@ public class entitat_solicitar extends ActionBarActivity {
     private EditText g_ETX_Descripcio, g_ETX_Contacte, g_ETX_eMail;
     private TextView g_TXT_Entitat;
     static final int g_RQC_ENTITAT_RECERCA = 1;
-    private Context jo = this;
+    private Context Jo = this;
 
     @Override
     protected void onCreate(Bundle p_savedInstanceState) {
@@ -49,8 +49,8 @@ public class entitat_solicitar extends ActionBarActivity {
         g_ETX_Contacte.setText(Globals.g_Client.Contacte);
         g_ETX_eMail.setText(Globals.g_Client.eMail);
         // Llegim en el SERVIDOR les entitats del pais del client, mostrem una finestra de carrega
-        Globals.MostrarEspera(jo);
-        DAOEntitats.Llegir(Globals.g_Client.Pais, g_SPN_EntitatsClient, jo);
+        Globals.MostrarEspera(Jo);
+        DAOEntitats.Llegir(Globals.g_Client.Pais, g_SPN_EntitatsClient, Jo);
         // Codi del Spinner de entitats del client
         g_SPN_EntitatsClient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -65,7 +65,7 @@ public class entitat_solicitar extends ActionBarActivity {
                     l_Entitat = (SPNEntitat) parent.getItemAtPosition(pos);
                     if (l_Entitat.getId().TipusContacte == Globals.k_Entitat_NomesInvitacio) {
                         l_Texte = l_Entitat.getId().Nom + " " + Globals.g_Native.getString(R.string.error_RequereixInvitació);
-                        Globals.F_Alert(l_Texte, Globals.g_Native.getString(R.string.error_avis), jo);
+                        Globals.F_Alert(l_Texte, Globals.g_Native.getString(R.string.error_avis), Jo);
                         parent.setSelection(0);
                     }
                 }
@@ -109,7 +109,7 @@ public class entitat_solicitar extends ActionBarActivity {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         // put your code here...
         g_ETX_Contacte.setText(Globals.g_Client.Contacte);
@@ -123,7 +123,7 @@ public class entitat_solicitar extends ActionBarActivity {
         if (!Validacio.hasText(g_ETX_Descripcio)) ret = false;
         if (!Validacio.hasText(g_ETX_Contacte)) ret = false;
         if (!Validacio.isEmailAddress(g_ETX_eMail, true)) ret = false;
-        if (g_SPN_EntitatsClient.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))) {
+        if (g_SPN_EntitatsClient.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select_pais))) {
             g_TXT_Entitat.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
             ret = false;
         }
@@ -142,7 +142,7 @@ public class entitat_solicitar extends ActionBarActivity {
             l_dadesEntitat = l_SPNEntitat.getId();
             if (l_dadesEntitat.TipusContacte == Globals.k_Entitat_NomesInvitacio){
                 Globals.F_Alert(Globals.g_Native.getString(R.string.error_avis),
-                        Globals.g_Native.getString(R.string.error_RequereixInvitació), jo);
+                        Globals.g_Native.getString(R.string.error_RequereixInvitació), Jo);
             }
             else {
                 l_Associacio.Descripcio = g_ETX_Descripcio.getText().toString();
@@ -157,7 +157,8 @@ public class entitat_solicitar extends ActionBarActivity {
                 l_Associacio.entitat.Pais = l_dadesEntitat.Pais;
                 l_Associacio.entitat.Estat = l_dadesEntitat.Estat;
                 //
-                DAOAssociacions.Solicitar(l_Associacio, jo);
+                Globals.MostrarEspera(Jo);
+                DAOAssociacions.Solicitar(l_Associacio, Jo);
             }
         }
         else{

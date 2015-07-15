@@ -91,7 +91,7 @@ else{
 							$Associacio["DataFi"] = $row["DataFi"];
 							$Associacio["Descripcio"] = $row["Descripcio"];
 							$Associacio["DataPeticio"] = $row["DataPeticio"];
-							$Associacio["EstatAssociacio"] = $row["EstatAssociacio"];							
+							$Associacio["EstatAssociacio"] = $row["EstatAssociacio"];
 							// Dades de la entitat
 							$Entitat = array();
 							$Entitat["Codi"] = $row["Codi"];
