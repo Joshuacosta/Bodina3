@@ -59,7 +59,7 @@ public class LVWLlistaAssociacions extends ArrayAdapter<Associacio> {
             case Globals.k_EstatPendent:
                 l_TXT_NomEntitat.setText(l_TXT_NomEntitat.getText() + " " + Globals.g_Native.getString(R.string.AssociacioPendent));
                 l_TXT_NomEntitat.setTextColor(Globals.g_Native.getResources().getColor(R.color.orange));
-                l_TXT_Dates.setText(Globals.g_Native.getString(R.string.DataAlta) + ":" + l_Associacio.DataPeticio);
+                l_TXT_Dates.setText(Globals.g_Native.getString(R.string.DataPeticio) + ":" + l_Associacio.DataPeticio);
                 break;
             case Globals.k_EstatActiva:
                 l_TXT_Dates.setText(Globals.g_Native.getString(R.string.DataAlta) + ":" + l_Associacio.DataAlta);

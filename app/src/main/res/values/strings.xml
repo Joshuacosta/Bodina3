@@ -28,7 +28,7 @@
     <string name="AssociacioBaixa">(associacion cancelled)</string>
     <string name="AssociacioRebutjada">(request rejected)</string>
     <string name="DataAlta">Entry date</string>
-    <string name="DataSolicitud">Request date</string>
+    <string name="DataPeticio">Request date</string>
     <string name="DataBaixa">Leaving date</string>
     <string name="DataRebutjat">Rejected date</string>
 

@@ -3,13 +3,50 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <TextView
-        android:id="@+id/LiniaLVWLlistaAssociacionsTXTNomEntitat"
+
+    <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:gravity="center_vertical|left" />
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants"
+        android:layout_gravity="center_vertical|left">
+
+        <TextView
+            android:id="@+id/LiniaLVWLlistaAssociacionsTXTNomEntitat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="prova"
+            android:layout_gravity="center_vertical" />
+
+        <ImageButton
+            android:id="@+id/LiniaLVWLlistaAssociacionsIMBEsborrar"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="10dip"
+            android:src="@drawable/ic_delete_black_36dp"
+            android:background="@null"
+            android:onClick="LiniaLVWRecercaEntitatsIMBEsborrar_Click"/>
+
+        <!-- android:visibility="gone"-->
+
+        <ImageButton
+            android:id="@+id/LiniaLVWLlistaAssociacionsIMBEditar"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="50dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_mode_edit_black_36dp"
+            android:background="@null"
+            android:onClick="LiniaLVWRecercaEntitatsIMBEditar_Click"/>
+    </FrameLayout>
+
     <TextView
         android:id="@+id/LiniaLVWLlistaAssociacionsTXTDescripcio"
         android:layout_width="fill_parent"
@@ -22,8 +59,7 @@
         android:layout_height="20dp"
         android:textSize="14sp"
         android:textStyle="italic"
-        android:gravity="center_vertical|left"
-        android:layout_weight="1"/>
+        android:gravity="center_vertical|left"/>
     <!--*** Layout que s'extent amb la informació de la entitat i la resta de info de la associacio ****-->
     <LinearLayout android:id="@+id/LiniaLVWLlistaAssociacionsLINToolbar"
         android:layout_marginBottom="-120dip"
@@ -56,4 +92,5 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
+
 </LinearLayout>
