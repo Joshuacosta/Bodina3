@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import com.example.it00046.bodina3.Classes.Entitats.Associacio;
 import com.example.it00046.bodina3.Classes.Entitats.Entitat;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.DAO.DAOAssociacions;
+import com.example.it00046.bodina3.Classes.Params.PARAssociacio;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNEntitat;
 import com.example.it00046.bodina3.Classes.Validacio;
 
@@ -37,6 +39,8 @@ public class entitat_solicitar extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle p_savedInstanceState) {
+        Button l_botoRecerca;
+
         super.onCreate(p_savedInstanceState);
         setContentView(R.layout.entitat_solicitar);
         // Recuperem controls del layout
@@ -45,12 +49,28 @@ public class entitat_solicitar extends ActionBarActivity {
         g_ETX_eMail = (EditText) findViewById(R.id.TexteEntitatSolicitar_eMail);
         g_TXT_Entitat = (TextView) findViewById(R.id.litEntitatSolicitar_Entitat);
         g_SPN_EntitatsClient = (Spinner)findViewById(R.id.spinnerEntitatSolicitar_Entitat);
-        // Informem Contacte i eMail amb els valors de la nostra compta
-        g_ETX_Contacte.setText(Globals.g_Client.Contacte);
-        g_ETX_eMail.setText(Globals.g_Client.eMail);
-        // Llegim en el SERVIDOR les entitats del pais del client, mostrem una finestra de carrega
-        Globals.MostrarEspera(Jo);
-        DAOEntitats.Llegir(Globals.g_Client.Pais, g_SPN_EntitatsClient, Jo);
+        // Validem si estem editant una associacio
+        Intent l_intent = getIntent();
+        PARAssociacio l_dades = (PARAssociacio) l_intent.getSerializableExtra("Associacio");
+        if (l_dades != null) {
+            // Nova associacio
+            // Informem Contacte i eMail amb els valors de la nostra compta
+            g_ETX_Contacte.setText(Globals.g_Client.Contacte);
+            g_ETX_eMail.setText(Globals.g_Client.eMail);
+            // Llegim en el SERVIDOR les entitats del pais del client, mostrem una finestra de carrega
+            Globals.MostrarEspera(Jo);
+            DAOEntitats.Llegir(Globals.g_Client.Pais, g_SPN_EntitatsClient, Jo);
+        }
+        else{
+            // Editem una associacio, informem els camps
+            g_ETX_Descripcio.setText(l_dades.Descripcio);
+            g_ETX_Contacte.setText(l_dades.Contacte);
+            g_ETX_eMail.setText(l_dades.eMail);
+            // Manca definir la entitat (que estarà fixada)
+            // El boto de recerca de entitats no pot estar actiu
+            l_botoRecerca = (Button) findViewById(R.id.AspaProva);
+            l_botoRecerca.setVisibility(View.GONE);
+        }
         // Codi del Spinner de entitats del client
         g_SPN_EntitatsClient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

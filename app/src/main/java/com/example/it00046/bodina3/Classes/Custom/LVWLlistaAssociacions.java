@@ -77,6 +77,9 @@ public class LVWLlistaAssociacions extends ArrayAdapter<Associacio> {
                 l_TXT_Dates.setText(l_Associacio.DataPeticio);
                 break;
         }
+
+        p_convertView.setTag(l_Associacio);
+
         return p_convertView;
     }
 }

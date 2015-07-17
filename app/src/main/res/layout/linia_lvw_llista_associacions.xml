@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@drawable/fons_esborrar">
 
     <FrameLayout
         android:layout_width="fill_parent"
@@ -16,7 +17,6 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="prova"
             android:layout_gravity="center_vertical" />
 
         <ImageButton
@@ -26,9 +26,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="10dip"
-            android:src="@drawable/ic_delete_black_36dp"
-            android:background="@null"
+            android:layout_marginRight="5dip"
+            android:visibility="gone"
+            android:background="@drawable/boto_esborrar"
             android:onClick="LiniaLVWRecercaEntitatsIMBEsborrar_Click"/>
 
         <!-- android:visibility="gone"-->

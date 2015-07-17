@@ -3,6 +3,7 @@ package com.example.it00046.bodina3;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.TransitionDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -17,8 +18,10 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.it00046.bodina3.Classes.DAO.DAOAssociacions;
+import com.example.it00046.bodina3.Classes.Entitats.Associacio;
 import com.example.it00046.bodina3.Classes.ExpandAnimation;
 import com.example.it00046.bodina3.Classes.Globals;
+import com.example.it00046.bodina3.Classes.Params.PARAssociacio;
 import com.melnykov.fab.FloatingActionButton;
 
 
@@ -28,6 +31,7 @@ public class entitat_pral extends ActionBarActivity {
     private View g_LIN_ToolbarAnterior = null;
     private ImageButton g_IMB_Esborrar = null, g_IMB_Editar = null;
     private Context Jo = this;
+    private Boolean g_EstatEsborrar = false;
     static final int g_RQC_ENTITAT_SOLICITEM = 1;
 
     @Override
@@ -167,10 +171,70 @@ public class entitat_pral extends ActionBarActivity {
     }
 
     // Aquesta funció es cridada pels elements de la llista quan premem el boto esborrar
-    public void LiniaLVWRecercaEntitatsIMBEditar_Click(View view) {
+    public void LiniaLVWRecercaEntitatsIMBEditar_Click(View l_view) {
+        ImageButton l_IMB_Esborrar, l_IMB_Editar;
+        TransitionDrawable l_transition;
+        View l_parent, l_avi;
 
+        // Recuperem "jerarquia"
+        l_parent = (View) l_view.getParent();
+        l_avi = (View) l_parent.getParent();
+        // Validem el estat
+        if (g_EstatEsborrar) {
+            // Cancelem
+            g_EstatEsborrar = false;
+            // Boto de esborrar actiu
+            l_IMB_Esborrar = (ImageButton)l_avi.findViewById(R.id.LiniaLVWLlistaAssociacionsIMBEsborrar);
+            l_IMB_Esborrar.setImageResource(R.drawable.ic_delete_black_36dp);
+            // Boto de edicio es cancelar
+            l_IMB_Editar = (ImageButton) l_view;
+            l_IMB_Editar.setImageResource(R.drawable.ic_mode_edit_black_36dp);
+            // Camviem fons
+            l_transition = (TransitionDrawable) l_avi.getBackground();
+            l_transition.reverseTransition(300);
+            //
+        }
+        else {
+            // Editem: obrim la activitat entitat_solicitar en modus modificació
+            PARAssociacio l_Parametres = new PARAssociacio();
+            Associacio l_Associacio = (Associacio)l_avi.getTag();
+            l_Parametres.CodiEntitat = l_Associacio.entitat.Codi;
+            l_Parametres.NomEntitat = l_Associacio.entitat.Nom;
+            l_Parametres.Descripcio = l_Associacio.Descripcio;
+            l_Parametres.Contacte = l_Associacio.Contacte;
+            l_Parametres.eMail = l_Associacio.eMail;
+
+            Intent l_editem = new Intent(this, entitat_solicitar.class);
+            l_editem.putExtra("Associacio", l_Parametres);
+            startActivity(l_editem);
+        }
     }
     // Aquesta funció es cridada pels elements de la llista quan premem el boto esborrar
-    public void LiniaLVWRecercaEntitatsIMBEsborrar_Click(View view) {
+    public void LiniaLVWRecercaEntitatsIMBEsborrar_Click(View l_view) {
+        ImageButton l_IMB_Esborrar, l_IMB_Editar;
+        TransitionDrawable l_transition;
+        View l_parent, l_avi;
+
+        // Validem si "ja" esborrem
+        if (g_EstatEsborrar){
+            // Esborrem
+
+        }
+        else {
+            g_EstatEsborrar = true;
+            // Ens preparem
+            l_parent = (View) l_view.getParent();
+            l_avi = (View) l_parent.getParent();
+            // Adaptem la linia per fer la baixa.
+            // Boto de esborrar actiu
+            l_IMB_Esborrar = (ImageButton) l_view;
+            l_IMB_Esborrar.setImageResource(R.drawable.ic_check_white_48dp);
+            // Boto de edicio es cancelar
+            l_IMB_Editar = (ImageButton)l_avi.findViewById(R.id.LiniaLVWLlistaAssociacionsIMBEditar);
+            l_IMB_Editar.setImageResource(R.drawable.ic_close_white_48dp);
+            // Camviem fons
+            l_transition = (TransitionDrawable) l_avi.getBackground();
+            l_transition.startTransition(500);
+        }
     }
 }
