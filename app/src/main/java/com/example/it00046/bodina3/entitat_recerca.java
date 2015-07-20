@@ -123,7 +123,6 @@ public class entitat_recerca extends Activity {
                 // Recerquem a partir de 3 caracters
                 if (newText.length() > 3) {
                     g_LVW_searchResults.setVisibility(View.VISIBLE);
-                    Globals.MostrarEspera(Jo);
                     DAOEntitats.Llegir("", g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
                 } else {
                     g_LVW_searchResults.setVisibility(View.INVISIBLE);

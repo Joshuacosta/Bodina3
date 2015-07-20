@@ -41,6 +41,7 @@ public class DAOInvitacions {
         TelephonyManager l_NumTelefon;
         int l_NumInvitacions;
 
+        Globals.MostrarEspera(p_Context);
         if (Globals.isNetworkAvailable()){
             // Montem el php
             g_parametresPHP = new RequestParams();
@@ -58,10 +59,12 @@ public class DAOInvitacions {
                                       org.json.JSONObject errorResponse) {
                     Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                             Globals.g_Native.getString(R.string.error_greu), p_Context);
+                    Globals.TancarEspera();
                 }
 
                 @Override
                 public void onSuccess(int p_statusCode, Header[] p_headers, JSONObject p_Invitacions) {
+                    Globals.TancarEspera();
                     try {
                         String l_Resposta = p_Invitacions.getString(Globals.TAG_VALIDS);
                         if (l_Resposta.equals(Globals.k_PHPOK)) {
@@ -91,14 +94,17 @@ public class DAOInvitacions {
         else{
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                     Globals.g_Native.getString(R.string.error_greu), p_Context);
+            Globals.TancarEspera();
         }
     }
     // Acceptem una invitacio
     public static void Acceptar(String p_CodiEntitat, final Context p_Context){
+        Globals.MostrarEspera(p_Context);
         OperativaInvitacio(p_CodiEntitat, Globals.k_OPE_InvitacionsAcceptar, p_Context);
     }
     // Rebutgem una invitacio
     public static void Rebutjar(String p_CodiEntitat, final Context p_Context){
+        Globals.MostrarEspera(p_Context);
         OperativaInvitacio(p_CodiEntitat, Globals.k_OPE_InvitacionsRebutjar, p_Context);
     }
     // De Json a Associacio
@@ -130,10 +136,12 @@ public class DAOInvitacions {
                                       org.json.JSONObject errorResponse) {
                     Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                             Globals.g_Native.getString(R.string.error_greu), p_Context);
+                    Globals.TancarEspera();
                 }
 
                 @Override
                 public void onSuccess(int p_statusCode, Header[] p_headers, JSONObject p_Resposta) {
+                    Globals.TancarEspera();
                     try {
                         String l_Resposta = p_Resposta.getString(TAG_VALIDS);
                         if (l_Resposta.equals(Globals.k_PHPOK)) {
@@ -162,6 +170,7 @@ public class DAOInvitacions {
         else{
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                     Globals.g_Native.getString(R.string.error_greu), p_Context);
+            Globals.TancarEspera();
         }
     }
 

@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.it00046.bodina3.entitat_modificar">
+    <item android:id="@+id/entitat_modificarMNUAcceptar" android:title="@string/Acceptar"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_check_white_48dp"
+        app:showAsAction="always" />
+</menu>

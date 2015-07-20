@@ -13,20 +13,22 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.example.it00046.bodina3.Classes.Custom.LVWLlistaAssociacions;
 import com.example.it00046.bodina3.Classes.DAO.DAOAssociacions;
 import com.example.it00046.bodina3.Classes.Entitats.Associacio;
 import com.example.it00046.bodina3.Classes.ExpandAnimation;
-import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.Params.PARAssociacio;
 import com.melnykov.fab.FloatingActionButton;
 
 
 public class entitat_pral extends ActionBarActivity {
     private ListView g_LVW_Associacions;
+    private View g_LiniaSeleccionada;
     private int g_Posicio = -1;
     private View g_LIN_ToolbarAnterior = null;
     private ImageButton g_IMB_Esborrar = null, g_IMB_Editar = null;
@@ -43,7 +45,6 @@ public class entitat_pral extends ActionBarActivity {
         setContentView(R.layout.entitat_pral);
         // Carreguen les entitats del client
         g_LVW_Associacions = (ListView) findViewById(R.id.entitat_pralLVWAssociacions);
-        Globals.MostrarEspera(Jo);
         DAOAssociacions.Llegir(g_LVW_Associacions,  R.layout.linia_lvw_llista_associacions, Jo);
         // El floating boto serveix per afegir associacions amb entitats (tamb� es pot fer des de el menu)
         l_FLB_Associacio = (FloatingActionButton) findViewById(R.id.entitat_pralFLBAfegirAssociacio);
@@ -72,6 +73,7 @@ public class entitat_pral extends ActionBarActivity {
                 ExpandAnimation l_expandAni;
                 final Animation l_Animacio_Amagar, l_Animacio_Mostrar;
 
+                g_LiniaSeleccionada = p_view;
                 // Preparem animacions
                 l_Animacio_Amagar = AnimationUtils.loadAnimation(Jo, R.anim.alpha_a_0);
                 l_Animacio_Mostrar = AnimationUtils.loadAnimation(Jo, R.anim.alpha_a_1);
@@ -195,7 +197,7 @@ public class entitat_pral extends ActionBarActivity {
             //
         }
         else {
-            // Editem: obrim la activitat entitat_solicitar en modus modificació
+            // Obrim la activitat de modificacio de associacio
             PARAssociacio l_Parametres = new PARAssociacio();
             Associacio l_Associacio = (Associacio)l_avi.getTag();
             l_Parametres.CodiEntitat = l_Associacio.entitat.Codi;
@@ -204,7 +206,7 @@ public class entitat_pral extends ActionBarActivity {
             l_Parametres.Contacte = l_Associacio.Contacte;
             l_Parametres.eMail = l_Associacio.eMail;
 
-            Intent l_editem = new Intent(this, entitat_solicitar.class);
+            Intent l_editem = new Intent(this, entitat_modificar.class);
             l_editem.putExtra("Associacio", l_Parametres);
             startActivity(l_editem);
         }
@@ -214,17 +216,42 @@ public class entitat_pral extends ActionBarActivity {
         ImageButton l_IMB_Esborrar, l_IMB_Editar;
         TransitionDrawable l_transition;
         View l_parent, l_avi;
+        Associacio l_Associacio = new Associacio();
+        final ArrayAdapter<Associacio> l_Llista = (ArrayAdapter<Associacio>)g_LVW_Associacions.getAdapter();
 
+        // Llegim la jeraquia
+        l_parent = (View) l_view.getParent();
+        l_avi = (View) l_parent.getParent();
         // Validem si "ja" esborrem
         if (g_EstatEsborrar){
             // Esborrem
+            l_Associacio = (Associacio)l_avi.getTag();
+            //DAOAssociacions.CancelarClient(l_Associacio, Jo);
+            // Esborrem la linia (aquest codi haura d'anar dintre del DAO)
+            //l_Llista = (ArrayAdapter<Associacio>)g_LVW_Associacions.getAdapter();
+            //l_Llista.remove(l_Llista.getItem(g_Posicio));
+            //l_Llista.notifyDataSetChanged();
+            final Animation animation = AnimationUtils.loadAnimation(this,
+                    R.anim.esborrar_listview);
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
 
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    l_Llista.remove(l_Llista.getItem(g_Posicio));
+                    l_Llista.notifyDataSetChanged();
+                }
+            });
+            g_LiniaSeleccionada.startAnimation(animation);
         }
         else {
             g_EstatEsborrar = true;
-            // Ens preparem
-            l_parent = (View) l_view.getParent();
-            l_avi = (View) l_parent.getParent();
             // Adaptem la linia per fer la baixa.
             // Boto de esborrar actiu
             l_IMB_Esborrar = (ImageButton) l_view;

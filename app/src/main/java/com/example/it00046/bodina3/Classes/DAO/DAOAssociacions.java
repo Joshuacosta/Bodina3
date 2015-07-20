@@ -44,6 +44,7 @@ public final class DAOAssociacions {
     public static void Llegir(final ListView p_LVW_Associacions, int p_Layout, final Context p_Context) {
         final ArrayAdapter<Associacio> l_Llista = new LVWLlistaAssociacions(p_Context, p_Layout);
 
+        Globals.MostrarEspera(p_Context);
         if (Globals.isNetworkAvailable()){
             // Montem el php
             g_parametresPHP = new RequestParams();
@@ -103,6 +104,7 @@ public final class DAOAssociacions {
     // Funcio per solicitar una associacio amb una entitat
     public static void Solicitar(final Associacio p_Associacio, final Context p_Context){
         // Actualitzem el servidor
+        Globals.MostrarEspera(p_Context);
         if (Globals.isNetworkAvailable()) {
             // Cridem al php
             PhpJson.post("Associacio.php", Solicitar_AssociacioToRequestParams(p_Associacio), new JsonHttpResponseHandler() {
@@ -123,12 +125,100 @@ public final class DAOAssociacions {
                         if (l_Resposta.equals(Globals.k_PHPOK)) {
                             // Informem al usuari que hem modificat les dades
                             Toast.makeText(Globals.g_Native,
-                                            Globals.g_Native.getString(R.string.op_afegir_ok),
-                                            Toast.LENGTH_LONG).show();
+                                    Globals.g_Native.getString(R.string.op_afegir_ok),
+                                    Toast.LENGTH_LONG).show();
                             // Tanquem a qui ens ha cridat
                             Activity l_activity = (Activity) p_Context;
                             l_activity.setResult(Activity.RESULT_OK);
                             l_activity.finish();
+                        } else {
+                            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
+                                    Globals.g_Native.getString(R.string.error_greu), p_Context);
+                        }
+                    } catch (JSONException e) {
+                        Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                                Globals.g_Native.getString(R.string.error_greu), p_Context);
+                    }
+                }
+            });
+        }
+    }
+    // Funcio per modificar una associacio amb una entitat
+    public static void Modificar(final Associacio p_Associacio, final Context p_Context){
+        // Actualitzem el servidor
+        Globals.MostrarEspera(p_Context);
+        if (Globals.isNetworkAvailable()) {
+            // Cridem al php
+            PhpJson.post("Associacio.php", Modificar_AssociacioToRequestParams(p_Associacio), new JsonHttpResponseHandler() {
+                @Override
+                public void onFailure(int statusCode,
+                                      org.apache.http.Header[] headers,
+                                      java.lang.Throwable throwable,
+                                      org.json.JSONObject errorResponse) {
+                    Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces), Globals.g_Native.getString(R.string.error_greu), p_Context);
+                    Globals.TancarEspera();
+                }
+
+                @Override
+                public void onSuccess(int p_statusCode, Header[] p_headers, JSONObject p_Resposta) {
+                    Globals.TancarEspera();
+                    try {
+                        String l_Resposta = p_Resposta.getString(TAG_VALIDS);
+                        if (l_Resposta.equals(Globals.k_PHPOK)) {
+                            // Informem al usuari que hem modificat les dades
+                            Toast.makeText(Globals.g_Native,
+                                    Globals.g_Native.getString(R.string.op_afegir_ok),
+                                    Toast.LENGTH_LONG).show();
+                            // Tanquem a qui ens ha cridat
+                            Activity l_activity = (Activity) p_Context;
+                            l_activity.setResult(Activity.RESULT_OK);
+                            l_activity.finish();
+                        }
+                        else {
+                            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
+                                    Globals.g_Native.getString(R.string.error_greu), p_Context);
+                        }
+                    }
+                    catch (JSONException e) {
+                        Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                                Globals.g_Native.getString(R.string.error_greu), p_Context);
+                    }
+                }
+            });
+        }
+    }
+    // Funcio per modificar una associacio amb una entitat
+    public static void CancelarClient(final Associacio p_Associacio, final Context p_Context){
+        // Actualitzem el servidor
+        Globals.MostrarEspera(p_Context);
+        if (Globals.isNetworkAvailable()) {
+            // Cridem al php
+            PhpJson.post("Associacio.php", CancelarClient_AssociacioToRequestParams(p_Associacio), new JsonHttpResponseHandler() {
+                @Override
+                public void onFailure(int statusCode,
+                                      org.apache.http.Header[] headers,
+                                      java.lang.Throwable throwable,
+                                      org.json.JSONObject errorResponse) {
+                    Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces), Globals.g_Native.getString(R.string.error_greu), p_Context);
+                    Globals.TancarEspera();
+                }
+
+                @Override
+                public void onSuccess(int p_statusCode, Header[] p_headers, JSONObject p_Resposta) {
+                    Globals.TancarEspera();
+                    try {
+                        String l_Resposta = p_Resposta.getString(TAG_VALIDS);
+                        if (l_Resposta.equals(Globals.k_PHPOK)) {
+                            // Informem al usuari que hem modificat les dades
+                            Toast.makeText(Globals.g_Native,
+                                    Globals.g_Native.getString(R.string.op_afegir_ok),
+                                    Toast.LENGTH_LONG).show();
+                            // Tanquem a qui ens ha cridat
+                            /*
+                            Activity l_activity = (Activity) p_Context;
+                            l_activity.setResult(Activity.RESULT_OK);
+                            l_activity.finish();
+                            */
                         }
                         else {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
@@ -160,6 +250,29 @@ public final class DAOAssociacions {
         l_values.put(TAG_Descripcio, p_Associacio.Descripcio);
         l_values.put(TAG_eMail, p_Associacio.eMail);
         l_values.put("Operativa", Globals.k_OPE_AssociacionsSolicitar);
+
+        return l_values;
+    }
+    // Posa les dades a contentValue per cridar al PHP per modificar una associacio
+    private static RequestParams Modificar_AssociacioToRequestParams(Associacio p_Associacio) {
+        RequestParams l_values = new RequestParams();
+
+        l_values.put(TAG_CodiClient, Globals.g_Client.Codi);
+        l_values.put(TAG_CodiEntitat, p_Associacio.entitat.Codi);
+        l_values.put(TAG_Contacte, p_Associacio.Contacte);
+        l_values.put(TAG_Descripcio, p_Associacio.Descripcio);
+        l_values.put(TAG_eMail, p_Associacio.eMail);
+        l_values.put("Operativa", Globals.k_OPE_AssociacionsModificar);
+
+        return l_values;
+    }
+    // Posa les dades a contentValue per cridar al PHP per cancelar una associacio (per part del client)
+    private static RequestParams CancelarClient_AssociacioToRequestParams(Associacio p_Associacio) {
+        RequestParams l_values = new RequestParams();
+
+        l_values.put(TAG_CodiClient, Globals.g_Client.Codi);
+        l_values.put(TAG_CodiEntitat, p_Associacio.entitat.Codi);
+        l_values.put("Operativa", Globals.k_OPE_AssociacionsCancelarClient);
 
         return l_values;
     }

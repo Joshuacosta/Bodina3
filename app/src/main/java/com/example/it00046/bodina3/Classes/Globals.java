@@ -44,6 +44,7 @@ public final class Globals
     public static final String k_OPE_AssociacionsLlegir = "1";
     public static final String k_OPE_Llegir = "1"; // La generalitzo?
     public static final String k_OPE_AssociacionsModificar = "2";
+    public static final String k_OPE_AssociacionsCancelarClient = "3";
     public static final String k_OPE_InvitacionsLlegir = "0";
     public static final String k_OPE_InvitacionsAcceptar = "1";
     public static final String k_OPE_InvitacionsRebutjar = "2";
@@ -130,7 +131,9 @@ public final class Globals
     }
 
     public static void MostrarEspera(Context p_Context) {
-        g_DialogEspera = ProgressDialog.show(p_Context, "", Globals.g_Native.getString(R.string.Esperi), true);
+        if (g_DialogEspera == null) {
+            g_DialogEspera = ProgressDialog.show(p_Context, "", Globals.g_Native.getString(R.string.Esperi), true);
+        }
     }
 
     public static void MostrarEsperaTitol(Context p_Context, String p_Titol){
@@ -166,6 +169,7 @@ public final class Globals
     public static void TancarEspera(){
         if (g_DialogEspera != null){
             g_DialogEspera.dismiss();
+            g_DialogEspera = null;
         }
     }
 }

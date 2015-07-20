@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello_world">Hello world!</string>
-
     <!-- Generic -->
     <string name="error_CampObligatori">Required field</string>
     <string name="error_eMailIncorrecte">Invalid mail</string>
@@ -86,6 +84,13 @@
     <string name="EntitatDetall_Telefon">Phone</string>
     <string name="EntitatDetall_eMail">e-Mail</string>
     <string name="EntitatDetall_Pais">Country</string>
+
+    <!-- Layout Entitat modify -->
+    <string name="title_activity_entitat_modificar">Entity modify</string>
+    <string name="EntitatModificar_Entitat">Entity</string>
+    <string name="EntitatModificar_Descripcio">Description</string>
+    <string name="EntitatModificar_Contacte">Contact</string>
+    <string name="EntitatModificar_eMail">e-Mail</string>
 
     <!-- Layout celebracio alta -->
     <string name="title_activity_ac_celebracio_alta">Append event</string>

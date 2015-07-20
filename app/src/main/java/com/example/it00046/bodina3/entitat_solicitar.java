@@ -28,6 +28,9 @@ import com.example.it00046.bodina3.Classes.Params.PARAssociacio;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNEntitat;
 import com.example.it00046.bodina3.Classes.Validacio;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class entitat_solicitar extends ActionBarActivity {
 
@@ -49,28 +52,11 @@ public class entitat_solicitar extends ActionBarActivity {
         g_ETX_eMail = (EditText) findViewById(R.id.TexteEntitatSolicitar_eMail);
         g_TXT_Entitat = (TextView) findViewById(R.id.litEntitatSolicitar_Entitat);
         g_SPN_EntitatsClient = (Spinner)findViewById(R.id.spinnerEntitatSolicitar_Entitat);
-        // Validem si estem editant una associacio
-        Intent l_intent = getIntent();
-        PARAssociacio l_dades = (PARAssociacio) l_intent.getSerializableExtra("Associacio");
-        if (l_dades != null) {
-            // Nova associacio
-            // Informem Contacte i eMail amb els valors de la nostra compta
-            g_ETX_Contacte.setText(Globals.g_Client.Contacte);
-            g_ETX_eMail.setText(Globals.g_Client.eMail);
-            // Llegim en el SERVIDOR les entitats del pais del client, mostrem una finestra de carrega
-            Globals.MostrarEspera(Jo);
-            DAOEntitats.Llegir(Globals.g_Client.Pais, g_SPN_EntitatsClient, Jo);
-        }
-        else{
-            // Editem una associacio, informem els camps
-            g_ETX_Descripcio.setText(l_dades.Descripcio);
-            g_ETX_Contacte.setText(l_dades.Contacte);
-            g_ETX_eMail.setText(l_dades.eMail);
-            // Manca definir la entitat (que estarà fixada)
-            // El boto de recerca de entitats no pot estar actiu
-            l_botoRecerca = (Button) findViewById(R.id.AspaProva);
-            l_botoRecerca.setVisibility(View.GONE);
-        }
+        // Informem Contacte i eMail amb els valors de la nostra compta
+        g_ETX_Contacte.setText(Globals.g_Client.Contacte);
+        g_ETX_eMail.setText(Globals.g_Client.eMail);
+        // Llegim en el SERVIDOR les entitats del pais del client, mostrem una finestra de carrega
+        DAOEntitats.Llegir(Globals.g_Client.Pais, g_SPN_EntitatsClient, Jo);
         // Codi del Spinner de entitats del client
         g_SPN_EntitatsClient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -128,14 +114,6 @@ public class entitat_solicitar extends ActionBarActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.ic_close_white_48dp);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        // put your code here...
-        g_ETX_Contacte.setText(Globals.g_Client.Contacte);
-        g_ETX_eMail.setText(Globals.g_Client.eMail);
-    }
-
     // Funcio interna per validar la finestra
     private boolean ValidarFinestra() {
         boolean ret = true;
@@ -177,12 +155,11 @@ public class entitat_solicitar extends ActionBarActivity {
                 l_Associacio.entitat.Pais = l_dadesEntitat.Pais;
                 l_Associacio.entitat.Estat = l_dadesEntitat.Estat;
                 //
-                Globals.MostrarEspera(Jo);
                 DAOAssociacions.Solicitar(l_Associacio, Jo);
             }
         }
         else{
-            Toast.makeText(entitat_solicitar.this,
+            Toast.makeText(Jo,
                     Globals.g_Native.getString(R.string.error_Layout),
                     Toast.LENGTH_LONG).show();
         }
@@ -190,7 +167,7 @@ public class entitat_solicitar extends ActionBarActivity {
     //
     // Funcio per obrir la finestra de recerca de entitats
     public void btnAfegirEntitatOnClick(View view){
-        Intent intent = new Intent(this, entitat_recerca.class);
+        Intent intent = new Intent(Jo, entitat_recerca.class);
         startActivityForResult(intent, g_RQC_ENTITAT_RECERCA);
     }
     //
@@ -235,7 +212,6 @@ public class entitat_solicitar extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.entitat_solicitar, menu);
         return true;
     }

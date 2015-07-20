@@ -111,7 +111,50 @@ else{
 				}
 				break;
 				
-			case 2: // Updatem la associacio donada
+			case 2: // Modifiquem les dades del client
+				$Ara = date("Y-m-d H:i:s");
+				/* Recuperem les dades d'entrada */
+				$CodiClient         = $_POST['CodiClient'];
+				$CodiEntitat		= $_POST['CodiEntitat'];
+				$Contacte			= $_POST['ContacteAssociacio'];
+				$Descripcio			= $_POST['DescripcioAssociacio'];
+				$eMail				= $_POST['eMailAssociacio'];
+				$result = mysql_query("UPDATE Associacions SET 	eMail='".$eMail."', 
+																Descripcio='".addslashes($Descripcio)."',
+																Contacte='".addslashes($Contacte)."',
+																DataDarrerCanvi='".$Ara."'
+														   WHERE CodiClient='".$CodiClient."' AND CodiEntitat = '".$CodiEntitat."'");
+				if (!$result){
+					$response["valids"] = "2";
+					$gestor = fopen("errors/bd.txt","a");
+					fwrite($gestor,$Avui.">>> Associacio.PHP//Clients//Update associacions client//".mysql_errno()."//".mysql_error()."//Values:".$CodiClient."/".
+																																				  $CodiEntitat."/".
+																																				  $Contacte."/".
+																																				  $Descripcio."/".
+																																				  $eMail."/"."\n");
+					fclose($gestor);
+				}
+				break;				
+				
+			case 3: // El usuari tanca la associacio
+				$Ara = date("Y-m-d H:i:s");
+				/* Recuperem les dades d'entrada */
+				$CodiClient         = $_POST['CodiClient'];
+				$CodiEntitat		= $_POST['CodiEntitat'];
+				$result = mysql_query("UPDATE Associacions SET 	Estat = 3,
+																DataFi='".$Ara."',
+																DataDarrerCanvi='".$Ara."'
+														   WHERE CodiClient='".$CodiClient."' AND CodiEntitat = '".$CodiEntitat."'");
+				if (!$result){
+					$response["valids"] = "2";
+					$gestor = fopen("errors/bd.txt","a");
+					fwrite($gestor,$Avui.">>> Associacio.PHP//Clients//Client tanca associacio//".mysql_errno()."//".mysql_error()."//Values:".$CodiClient."/".
+																																			   $CodiEntitat."\n");
+					fclose($gestor);
+				}
+				break;				
+				
+			case 31: // Updatem la associacio donada
 				$Ara = date("Y-m-d H:i:s");
 				/* Recuperem les dades d'entrada */
 				$CodiClient         = $_POST['CodiClient'];
@@ -144,7 +187,7 @@ else{
 			//
 			// OPERATIVA ENTITAT
 			//
-			case 3: // Acceptem la associacio
+			case 32: // Acceptem la associacio
 				$Ara = date("Y-m-d H:i:s");
 				/* Recuperem les dades d'entrada */
 				$CodiClient         = $_POST['CodiClient'];

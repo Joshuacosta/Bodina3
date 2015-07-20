@@ -40,6 +40,7 @@ public final class DAOClients {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Funcio per llegir les dades del client
     public static void Llegir(final Context p_Context){
+        Globals.MostrarEspera(p_Context);
         // Recerquem localment
         try {
             // Aquest valor l'informem ja (CodiInternClient es la MAC)
@@ -62,6 +63,12 @@ public final class DAOClients {
                     if (Globals.g_Client.Actualitzat == false){
                         SRV_Modificar(Globals.g_Client, p_Context);
                     }
+                    else{
+                        Globals.TancarEspera();
+                    }
+                }
+                else{
+                    Globals.TancarEspera();
                 }
                 // Si que hi han dades
                 Globals.g_NoHiHanDades = false;
@@ -76,11 +83,13 @@ public final class DAOClients {
         catch(Exception e) {
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
                     Globals.g_Native.getString(R.string.error_greu), p_Context);
+            Globals.TancarEspera();
         }
     }
     //
     // Funcio per modificar les dades del client
     public static void Modificar(Client p_client, final Context p_Context){
+        Globals.MostrarEspera(p_Context);
         // Primer modifiquem localment i despres globalment
         try {
             Globals.g_DB.update(Globals.g_Native.getString(R.string.TClient),
@@ -91,6 +100,7 @@ public final class DAOClients {
         catch(Exception e) {
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
                     Globals.g_Native.getString(R.string.error_greu), p_Context);
+            Globals.TancarEspera();
         }
         finally{
             // Actualitzem el servidor
@@ -99,6 +109,7 @@ public final class DAOClients {
                 SRV_Modificar(p_client, p_Context);
             }
             else{
+                Globals.TancarEspera();
                 // Informem de la operativa feta
                 Toast.makeText(Globals.g_Native,
                         Globals.g_Native.getString(R.string.op_modificacio_ok),
@@ -114,6 +125,7 @@ public final class DAOClients {
     //
     // Funcio per definir el client
     public static void Definir(final Client p_client, final Context p_Context){
+        Globals.MostrarEspera(p_Context);
         // Primer definim localment i despres globalment. L'unic important del procès es que el codi
         // de client ho determinem quan donem d'alta en el servidor per lo que posteriorment hem de
         // actualitzat les dades locals que hem insertat previament.
@@ -125,6 +137,7 @@ public final class DAOClients {
         catch(Exception e) {
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
                     Globals.g_Native.getString(R.string.error_greu), p_Context);
+            Globals.TancarEspera();
         }
         finally {
             // Actualitzem el servidor
@@ -146,10 +159,12 @@ public final class DAOClients {
                                           org.json.JSONObject errorResponse) {
                         Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                                 Globals.g_Native.getString(R.string.error_greu), p_Context);
+                        Globals.TancarEspera();
                     }
 
                     @Override
                     public void onSuccess(int p_statusCode, Header[] p_headers, JSONObject p_clientServidor) {
+                        Globals.TancarEspera();
                         try {
                             String l_Resposta = p_clientServidor.getString(TAG_VALIDS);
                             if (l_Resposta.equals(Globals.k_PHPErrorMail)){
@@ -189,9 +204,13 @@ public final class DAOClients {
                         } catch (JSONException e) {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
                                     Globals.g_Native.getString(R.string.error_greu), p_Context);
+                            Globals.TancarEspera();
                         }
                     }
                 });
+            }
+            else{
+                Globals.TancarEspera();
             }
         }
     }
@@ -215,10 +234,12 @@ public final class DAOClients {
                                       org.json.JSONObject errorResponse) {
                     Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                             Globals.g_Native.getString(R.string.error_greu), p_Context);
+                    Globals.TancarEspera();
                 }
 
                 @Override
                 public void onSuccess(int p_statusCode, Header[] p_headers, JSONObject p_clientServidor) {
+                    Globals.TancarEspera();
                     try {
                         String l_Resposta = p_clientServidor.getString(TAG_VALIDS);
 
@@ -263,6 +284,7 @@ public final class DAOClients {
         else{
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                             Globals.g_Native.getString(R.string.error_greu), p_Context);
+            Globals.TancarEspera();
         }
     }
     //
@@ -304,10 +326,12 @@ public final class DAOClients {
                                   org.json.JSONObject errorResponse) {
                 Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                         Globals.g_Native.getString(R.string.error_greu), p_Context);
+                Globals.TancarEspera();
             }
 
             @Override
             public void onSuccess(int p_statusCode, Header[] p_headers, JSONObject p_clientServidor) {
+                Globals.TancarEspera();
                 try {
                     String l_Resposta = p_clientServidor.getString(TAG_VALIDS);
                     if (l_Resposta.equals(Globals.k_PHPOK)) {

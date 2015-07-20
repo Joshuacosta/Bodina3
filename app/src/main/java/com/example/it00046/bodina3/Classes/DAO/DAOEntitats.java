@@ -47,10 +47,12 @@ public final class DAOEntitats {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Funcio per retornar les entitats de un pais en ListView
     public static void Llegir(String p_Pais, final ListView p_LVW_Entitat, Context p_Context, int p_Layout){
+        Globals.MostrarEspera(p_Context);
         SRV_LlistaEntitats(p_Pais, p_LVW_Entitat, p_Context, p_Layout);
     }
     // en Spinner
     public static void Llegir(String p_Pais, final Spinner p_SPN_EntitatsClient, Context p_Context){
+        Globals.MostrarEspera(p_Context);
         SRV_LlistaEntitats(p_Pais, p_SPN_EntitatsClient, p_Context);
     }
     // De Json a Entitat
