@@ -46,7 +46,7 @@ public class entitat_modificar extends ActionBarActivity {
         return ret;
     }
 
-    // Codi de acceptació
+    // Codi de acceptacio
     public void FerOperativa(){
         Associacio l_Associacio = new Associacio();
 

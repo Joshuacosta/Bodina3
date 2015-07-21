@@ -56,9 +56,9 @@ public final class DAOAssociacions {
                                       org.apache.http.Header[] headers,
                                       java.lang.Throwable throwable,
                                       org.json.JSONObject errorResponse) {
+                    Globals.TancarEspera();
                     Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                             Globals.g_Native.getString(R.string.error_greu), p_Context);
-                    Globals.TancarEspera();
                 }
 
                 @Override
@@ -96,9 +96,9 @@ public final class DAOAssociacions {
             });
         }
         else{
+            Globals.TancarEspera();
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                     Globals.g_Native.getString(R.string.error_greu), p_Context);
-            Globals.TancarEspera();
         }
     }
     // Funcio per solicitar una associacio amb una entitat
@@ -119,9 +119,11 @@ public final class DAOAssociacions {
 
                 @Override
                 public void onSuccess(int p_statusCode, Header[] p_headers, JSONObject p_Resposta) {
+                    String l_Resposta;
+
                     Globals.TancarEspera();
                     try {
-                        String l_Resposta = p_Resposta.getString(TAG_VALIDS);
+                        l_Resposta = p_Resposta.getString(TAG_VALIDS);
                         if (l_Resposta.equals(Globals.k_PHPOK)) {
                             // Informem al usuari que hem modificat les dades
                             Toast.makeText(Globals.g_Native,
@@ -131,9 +133,22 @@ public final class DAOAssociacions {
                             Activity l_activity = (Activity) p_Context;
                             l_activity.setResult(Activity.RESULT_OK);
                             l_activity.finish();
-                        } else {
-                            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
-                                    Globals.g_Native.getString(R.string.error_greu), p_Context);
+                        }
+                        else {
+                            // Estudiem la resposta erronea
+                            switch (l_Resposta){
+                                case "3":
+                                    Globals.F_Alert(Globals.g_Native.getString(R.string.TeAssociacioActiva),
+                                                    Globals.g_Native.getString(R.string.error_greu), p_Context);
+                                    break;
+                                case "4":
+                                    Globals.F_Alert(Globals.g_Native.getString(R.string.TeAssociacioPendent),
+                                            Globals.g_Native.getString(R.string.error_greu), p_Context);
+                                    break;
+                                default:
+                                    Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
+                                            Globals.g_Native.getString(R.string.error_greu), p_Context);
+                                }
                         }
                     } catch (JSONException e) {
                         Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
@@ -167,7 +182,7 @@ public final class DAOAssociacions {
                         if (l_Resposta.equals(Globals.k_PHPOK)) {
                             // Informem al usuari que hem modificat les dades
                             Toast.makeText(Globals.g_Native,
-                                    Globals.g_Native.getString(R.string.op_afegir_ok),
+                                    Globals.g_Native.getString(R.string.op_modificacio_ok),
                                     Toast.LENGTH_LONG).show();
                             // Tanquem a qui ens ha cridat
                             Activity l_activity = (Activity) p_Context;
@@ -188,7 +203,7 @@ public final class DAOAssociacions {
         }
     }
     // Funcio per modificar una associacio amb una entitat
-    public static void CancelarClient(final Associacio p_Associacio, final Context p_Context){
+    public static void CancelarClient(final Associacio p_Associacio, final Context p_Context, final ListView p_LVW_Associacions, final int p_Layout){
         // Actualitzem el servidor
         Globals.MostrarEspera(p_Context);
         if (Globals.isNetworkAvailable()) {
@@ -211,14 +226,11 @@ public final class DAOAssociacions {
                         if (l_Resposta.equals(Globals.k_PHPOK)) {
                             // Informem al usuari que hem modificat les dades
                             Toast.makeText(Globals.g_Native,
-                                    Globals.g_Native.getString(R.string.op_afegir_ok),
+                                    Globals.g_Native.getString(R.string.op_modificacio_ok),
                                     Toast.LENGTH_LONG).show();
-                            // Tanquem a qui ens ha cridat
-                            /*
-                            Activity l_activity = (Activity) p_Context;
-                            l_activity.setResult(Activity.RESULT_OK);
-                            l_activity.finish();
-                            */
+                            // Actualitzem les dades de la llista (hem modificat l'estat de
+                            // la associacio
+                            Llegir(p_LVW_Associacions, p_Layout, p_Context);
                         }
                         else {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),

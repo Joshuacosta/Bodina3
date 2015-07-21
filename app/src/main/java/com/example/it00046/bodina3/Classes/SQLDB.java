@@ -21,7 +21,7 @@ public class SQLDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Definim les taules de la BBDD
-        // Clients
+        // Client
         String CREATE = String.format(Globals.g_Native.getString(R.string.TClientCreate),
                 Globals.g_Native.getString(R.string.TClient),
                 Globals.g_Native.getString(R.string.TClient_Codi),

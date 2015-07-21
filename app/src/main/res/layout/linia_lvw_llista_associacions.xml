@@ -56,9 +56,10 @@
     <TextView
         android:id="@+id/LiniaLVWLlistaAssociacionsTXTDates"
         android:layout_width="fill_parent"
-        android:layout_height="20dp"
+        android:layout_height="wrap_content"
         android:textSize="14sp"
         android:textStyle="italic"
+        android:layout_weight="1"
         android:gravity="center_vertical|left"/>
     <!--*** Layout que s'extent amb la informació de la entitat i la resta de info de la associacio ****-->
     <LinearLayout android:id="@+id/LiniaLVWLlistaAssociacionsLINToolbar"

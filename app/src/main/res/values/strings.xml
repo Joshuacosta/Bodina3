@@ -29,6 +29,8 @@
     <string name="DataPeticio">Request date</string>
     <string name="DataBaixa">Leaving date</string>
     <string name="DataRebutjat">Rejected date</string>
+    <string name="TeAssociacioActiva">Dear customer, you already have an association with this entity.</string>
+    <string name="TeAssociacioPendent">Dear customer, you have a pending association with this entity.</string>
 
     <!-- Errors codi -->
     <string name="error_avis">Alert</string>

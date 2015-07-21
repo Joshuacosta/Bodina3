@@ -173,9 +173,6 @@ public final class DAOClients {
                                         Toast.LENGTH_LONG).show();
                                 // Gravem les dades del client
                                 Globals.g_Client = p_client;
-                                // Tanquem a qui ens ha cridat
-                                Activity l_activity = (Activity) p_Context;
-                                l_activity.finish();
                             }
                             if (l_Resposta.equals(Globals.k_PHPOK) || l_Resposta.equals(Globals.k_PHPErrorMail)) {
                                 // Recuperem el codi de client calcular al servidor
@@ -190,12 +187,9 @@ public final class DAOClients {
                                     p_client.Codi = l_Codi;
                                     Globals.g_Client = p_client;
                                 }
-                                else{
-                                    // Error en el servidor
-                                    Toast.makeText(Globals.g_Native,
-                                            Globals.g_Native.getString(R.string.errorservidor_BBDD),
-                                            Toast.LENGTH_LONG).show();
-                                }
+                                // Tanquem a qui ens ha cridat
+                                Activity l_activity = (Activity) p_Context;
+                                l_activity.finish();
                             }
                             else {
                                 Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
