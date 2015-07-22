@@ -18,7 +18,9 @@
         <ListView
             android:id="@+id/entitat_pralLVWAssociacions"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="7dp" />
 
         <com.melnykov.fab.FloatingActionButton
             android:id="@+id/entitat_pralFLBAfegirAssociacio"

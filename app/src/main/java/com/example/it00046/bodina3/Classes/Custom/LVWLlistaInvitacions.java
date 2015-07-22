@@ -40,15 +40,15 @@ public class LVWLlistaInvitacions extends ArrayAdapter<Invitacio> {
         l_TXT_DataResolucio = (TextView)convertView.findViewById(R.id.LiniaLVWLlistaInvitacionsTXTDataResolucio);
         l_TXT_DataResolucio.setVisibility(View.INVISIBLE);
         // Mostrem estat de la associacio amb l'entitat
-        if(l_Invitacio.entitat.Estat == Globals.k_EstatBaixa){
+        if(l_Invitacio.entitat.Estat == Globals.k_EntitatBaixa){
             l_TXT_Nom.setBackgroundResource(R.color.red);
         }
         else{
-            if (l_Invitacio.Estat == Globals.k_EstatPendent){
+            if (l_Invitacio.Estat == Globals.k_InvitacioPendent){
                 l_TXT_Nom.setTextColor(Globals.g_Native.getResources().getColor(R.color.orange));
             }
             else{
-                if (l_Invitacio.Estat == Globals.k_EstatRebutjat){
+                if (l_Invitacio.Estat == Globals.k_InvitacioRebutjat){
                     l_TXT_Nom.setTextColor(Globals.g_Native.getResources().getColor(R.color.red));
                     l_TXT_DataResolucio.setVisibility(View.VISIBLE);
                     l_TXT_DataResolucio.setText(l_Invitacio.DataResolucio);

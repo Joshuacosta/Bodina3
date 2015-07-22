@@ -24,6 +24,7 @@
     <string name="EntitatBaixa">(ENTITY CANCELLED)</string>
     <string name="AssociacioPendent">(pending)</string>
     <string name="AssociacioBaixa">(associacion cancelled)</string>
+    <string name="AssociacioPeticioBaixa">(request associacion cancelled)</string>
     <string name="AssociacioRebutjada">(request rejected)</string>
     <string name="DataAlta">Entry date</string>
     <string name="DataPeticio">Request date</string>

@@ -45,6 +45,7 @@ public final class Globals
     public static final String k_OPE_Llegir = "1"; // La generalitzo?
     public static final String k_OPE_AssociacionsModificar = "2";
     public static final String k_OPE_AssociacionsCancelarClient = "3";
+    public static final String k_OPE_AssociacionsCancelarPeticioClient = "4";
     public static final String k_OPE_InvitacionsLlegir = "0";
     public static final String k_OPE_InvitacionsAcceptar = "1";
     public static final String k_OPE_InvitacionsRebutjar = "2";
@@ -56,10 +57,19 @@ public final class Globals
     public static final String k_OPE_SelectEntitatsClient = "0";
     public static final String k_DirectoriPHP = "http://bodina.virtuol.com/php/";
     // Altres
-    public static final int k_EstatBaixa = 0;
-    public static final int k_EstatActiva = 1;
-    public static final int k_EstatPendent = 2;
-    public static final int k_EstatRebutjat = 3;
+    public static final int k_AssociacioBaixa = 0;
+    public static final int k_AssociacioActiva = 1;
+    public static final int k_AssociacioPendent = 2;
+    public static final int k_AssociacioRebutjat = 3;
+    public static final int k_AssociacioBaixaAbansConfirmar = 4;
+
+    public static final int k_InvitacioBaixa = 0;
+    public static final int k_InvitacioActiva = 1;
+    public static final int k_InvitacioPendent = 2;
+    public static final int k_InvitacioRebutjat = 3;
+
+
+    public static final int k_EntitatBaixa = 0;
     // - Treball
     public static final String k_ClientNOU = "NOU";
     public static final String k_PHPOK = "1";

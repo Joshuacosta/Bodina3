@@ -100,8 +100,7 @@ else{
                                        FROM      Associacions AS A
                                        LEFT JOIN Entitats AS E
                                        ON       (E.Codi = A.CodiEntitat)
-                                       WHERE     A.CodiClient = '".$CodiClient."'
-                                       GROUP BY  E.Codi");
+                                       WHERE     A.CodiClient = '".$CodiClient."'");
 				if (!$result){
 					$response["valids"] = "2";
 					$gestor = fopen("errors/bd.txt","a");
@@ -176,11 +175,29 @@ else{
 				$result = mysql_query("UPDATE Associacions SET 	Estat = 0,
 																DataFi='".$Ara."',
 																DataDarrerCanvi='".$Ara."'
-														   WHERE CodiClient='".$CodiClient."' AND CodiEntitat = '".$CodiEntitat."'");
+														   WHERE CodiClient='".$CodiClient."' AND CodiEntitat = '".$CodiEntitat."' AND Estat = 1");
 				if (!$result){
 					$response["valids"] = "2";
 					$gestor = fopen("errors/bd.txt","a");
 					fwrite($gestor,$Avui.">>> Associacio.PHP//Clients//Client tanca associacio//".mysql_errno()."//".mysql_error()."//Values:".$CodiClient."/".
+																																			   $CodiEntitat."\n");
+					fclose($gestor);
+				}
+				break;				
+
+			case 4: // El usuari anul.la la peticio de associacio
+				$Ara = date("Y-m-d H:i:s");
+				/* Recuperem les dades d'entrada */
+				$CodiClient         = $_POST['CodiClient'];
+				$CodiEntitat		= $_POST['CodiEntitat'];
+				$result = mysql_query("UPDATE Associacions SET 	Estat = 4,
+																DataFi='".$Ara."',
+																DataDarrerCanvi='".$Ara."'
+														   WHERE CodiClient='".$CodiClient."' AND CodiEntitat = '".$CodiEntitat."' AND Estat = 2");
+				if (!$result){
+					$response["valids"] = "2";
+					$gestor = fopen("errors/bd.txt","a");
+					fwrite($gestor,$Avui.">>> Associacio.PHP//Clients//Client tanca peticio associacio//".mysql_errno()."//".mysql_error()."//Values:".$CodiClient."/".
 																																			   $CodiEntitat."\n");
 					fclose($gestor);
 				}

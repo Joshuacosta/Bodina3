@@ -92,7 +92,7 @@ public class entitat_pral extends ActionBarActivity {
                         l_expandAni = new ExpandAnimation(g_LIN_ToolbarAnterior, 100);
                         g_LIN_ToolbarAnterior.startAnimation(l_expandAni);
                         // Animacio de botons SI CORRESPON (en funcio de l'estat de la associacio)
-                        if (g_AssociacioAnerior.Estat == Globals.k_EstatActiva || g_AssociacioAnerior.Estat == Globals.k_EstatPendent) {
+                        if (g_AssociacioAnerior.Estat == Globals.k_AssociacioActiva || g_AssociacioAnerior.Estat == Globals.k_AssociacioPendent) {
                             g_IMB_Esborrar.setVisibility(View.INVISIBLE);
                             g_IMB_Editar.setVisibility(View.INVISIBLE);
                             g_IMB_Esborrar.startAnimation(l_Animacio_Amagar);
@@ -103,7 +103,7 @@ public class entitat_pral extends ActionBarActivity {
                     l_expandAni = new ExpandAnimation(l_LIN_Toolbar, 100);
                     l_LIN_Toolbar.startAnimation(l_expandAni);
                     // Animacio de botons SI CORRESPON (en funcio de l'estat de la associacio)
-                    if (l_Associacio.Estat == Globals.k_EstatActiva || l_Associacio.Estat == Globals.k_EstatPendent) {
+                    if (l_Associacio.Estat == Globals.k_AssociacioActiva || l_Associacio.Estat == Globals.k_AssociacioPendent) {
                         l_IMB_Esborrar.setVisibility(View.VISIBLE);
                         l_IMB_Editar.setVisibility(View.VISIBLE);
                         l_IMB_Esborrar.startAnimation(l_Animacio_Mostrar);
@@ -122,7 +122,7 @@ public class entitat_pral extends ActionBarActivity {
                     l_LIN_Toolbar.startAnimation(l_expandAni);
                     // Amaguem/mostrem els botons
                     // Animacio de botons SI CORRESPON (en funcio de l'estat de la associacio)
-                    if (l_Associacio.Estat == Globals.k_EstatActiva || l_Associacio.Estat == Globals.k_EstatPendent) {
+                    if (l_Associacio.Estat == Globals.k_AssociacioActiva || l_Associacio.Estat == Globals.k_AssociacioPendent) {
                         if (g_IMB_Editar.getVisibility() == View.VISIBLE) {
                             g_IMB_Esborrar.setVisibility(View.INVISIBLE);
                             g_IMB_Editar.setVisibility(View.INVISIBLE);
@@ -245,7 +245,7 @@ public class entitat_pral extends ActionBarActivity {
         if (g_EstatEsborrar){
             // Esborrem (modifiquem el seu estat)
             l_Associacio = (Associacio)l_avi.getTag();
-            DAOAssociacions.CancelarClient(l_Associacio, Jo, g_LVW_Associacions,  R.layout.linia_lvw_llista_associacions);
+            DAOAssociacions.CancelarClient(l_Associacio, Jo, g_LVW_Associacions, R.layout.linia_lvw_llista_associacions);
             /* Aquest codi serveix per animer l'esborrat de un element de la linia, a nosaltres, en
                aquest cas, no es necessari perque no ho volem fer, es mostra vermell
 

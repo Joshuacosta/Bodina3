@@ -113,6 +113,7 @@ public final class DAOAssociacions {
                                       org.apache.http.Header[] headers,
                                       java.lang.Throwable throwable,
                                       org.json.JSONObject errorResponse) {
+
                     Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces), Globals.g_Native.getString(R.string.error_greu), p_Context);
                     Globals.TancarEspera();
                 }
@@ -284,8 +285,13 @@ public final class DAOAssociacions {
 
         l_values.put(TAG_CodiClient, Globals.g_Client.Codi);
         l_values.put(TAG_CodiEntitat, p_Associacio.entitat.Codi);
-        l_values.put("Operativa", Globals.k_OPE_AssociacionsCancelarClient);
-
+        // Estudiem si cancelem una peticio o una associacio ja activa
+        if (p_Associacio.Estat == Globals.k_AssociacioActiva) {
+            l_values.put("Operativa", Globals.k_OPE_AssociacionsCancelarClient);
+        }
+        else{
+            l_values.put("Operativa", Globals.k_OPE_AssociacionsCancelarPeticioClient);
+        }
         return l_values;
     }
     // Pasa les dades del objecte JSON a la Associacio

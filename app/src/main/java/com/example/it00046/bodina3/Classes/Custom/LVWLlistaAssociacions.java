@@ -50,31 +50,37 @@ public class LVWLlistaAssociacions extends ArrayAdapter<Associacio> {
         l_TXT_eMailEntitat = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaAssociacionsTXTeMailEntitat);
         l_TXT_eMailEntitat.setText(l_Associacio.entitat.eMail);
         // Validem si la entitat esta de baixa
-        if(l_Associacio.entitat.Estat == Globals.k_EstatBaixa){
+        if(l_Associacio.entitat.Estat == Globals.k_EntitatBaixa){
             l_TXT_NomEntitat.setText(l_TXT_NomEntitat.getText() + " " + Globals.g_Native.getString(R.string.EntitatBaixa));
             l_TXT_NomEntitat.setBackgroundResource(R.color.red);
         }
         // Mostrem estat de la associacio amb l'entitat i les dates que hem de expressar
         switch (l_Associacio.Estat) {
-            case Globals.k_EstatPendent:
+            case Globals.k_AssociacioPendent:
                 l_TXT_NomEntitat.setText(l_TXT_NomEntitat.getText() + " " + Globals.g_Native.getString(R.string.AssociacioPendent));
                 l_TXT_NomEntitat.setTextColor(Globals.g_Native.getResources().getColor(R.color.orange));
                 l_TXT_Dates.setText(Globals.g_Native.getString(R.string.DataPeticio) + ":" + l_Associacio.DataPeticio);
                 break;
-            case Globals.k_EstatActiva:
+            case Globals.k_AssociacioActiva:
                 l_TXT_Dates.setText(Globals.g_Native.getString(R.string.DataAlta) + ":" + l_Associacio.DataAlta);
                 l_TXT_Dates.setText(l_Associacio.DataAlta);
                 break;
-            case Globals.k_EstatBaixa:
+            case Globals.k_AssociacioBaixa:
                 l_TXT_NomEntitat.setText(l_TXT_NomEntitat.getText() + " " + Globals.g_Native.getString(R.string.AssociacioBaixa));
                 l_TXT_NomEntitat.setTextColor(Globals.g_Native.getResources().getColor(R.color.red));
                 l_TXT_Dates.setText(Globals.g_Native.getString(R.string.DataAlta) + ":" + l_Associacio.DataAlta + " -> " +
                                     Globals.g_Native.getString(R.string.DataBaixa) + ":" + l_Associacio.DataFi);
                 break;
-            case Globals.k_EstatRebutjat:
+            case Globals.k_AssociacioBaixaAbansConfirmar:
+                l_TXT_NomEntitat.setText(l_TXT_NomEntitat.getText() + " " + Globals.g_Native.getString(R.string.AssociacioPeticioBaixa));
+                l_TXT_NomEntitat.setTextColor(Globals.g_Native.getResources().getColor(R.color.darkblue));
+                l_TXT_Dates.setText(Globals.g_Native.getString(R.string.DataPeticio) + ":" + l_Associacio.DataPeticio + " -> " +
+                        Globals.g_Native.getString(R.string.DataBaixa) + ":" + l_Associacio.DataFi);
+                break;
+            case Globals.k_AssociacioRebutjat:
                 l_TXT_NomEntitat.setText(l_TXT_NomEntitat.getText() + " " + Globals.g_Native.getString(R.string.AssociacioRebutjada));
                 l_TXT_NomEntitat.setTextColor(Globals.g_Native.getResources().getColor(R.color.darkpurple));
-                l_TXT_Dates.setText(l_Associacio.DataPeticio);
+                l_TXT_Dates.setText(Globals.g_Native.getString(R.string.DataPeticio) + ":" + l_Associacio.DataPeticio);
                 break;
         }
 
