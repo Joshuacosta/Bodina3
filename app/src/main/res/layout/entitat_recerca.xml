@@ -8,6 +8,7 @@
 
     <SearchView
         android:id="@+id/entitat_recercaSVW"
+        android:queryHint="@string/EntitatRecerca_Recerca"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"

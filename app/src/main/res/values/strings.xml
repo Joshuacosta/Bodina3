@@ -70,7 +70,9 @@
     <string name="title_activity_ac_entitat_alta">Append entity</string>
 
     <!-- Layout Entitat recerca -->
-    <string name="title_activity_ac_entitat_recerca">Search entities</string>
+    <string name="title_activity_ac_entitat_recerca">From</string>
+    <string name="EntitatRecerca_Recerca">Search...</string>
+    <string name="EntitatRecerca_Pais">Country</string>
 
     <!-- Layout Entitat solicitar -->
     <string name="title_activity_ac_entitat_solicitar">Request entity</string>

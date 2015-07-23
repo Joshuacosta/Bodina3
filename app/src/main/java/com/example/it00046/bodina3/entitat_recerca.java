@@ -8,13 +8,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.it00046.bodina3.Classes.Custom.LVWRecercaEntitats;
@@ -23,12 +29,13 @@ import com.example.it00046.bodina3.Classes.ExpandAnimation;
 import com.example.it00046.bodina3.Classes.Globals;
 
 
-public class entitat_recerca extends Activity {
+public class entitat_recerca extends ActionBarActivity implements ActionBar.OnNavigationListener  {
 
     private ListView g_LVW_searchResults;
     private View g_LIN_ToolbarAnterior = null;
     private TextView g_TXT_NomAnterior = null;
     private ImageView g_IMB_Acceptar = null;
+    private Spinner g_SPN_Paissos;
     private int g_Posicio = -1;
     private Context Jo = this;
 
@@ -120,10 +127,13 @@ public class entitat_recerca extends Activity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                String l_Pais;
+
                 // Recerquem a partir de 3 caracters
                 if (newText.length() > 3) {
                     g_LVW_searchResults.setVisibility(View.VISIBLE);
-                    DAOEntitats.Llegir("", g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
+                    l_Pais = g_SPN_Paissos.getSelectedItem().toString();
+                    DAOEntitats.Llegir(g_SPN_Paissos.getSelectedItem().toString(), g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
                 } else {
                     g_LVW_searchResults.setVisibility(View.INVISIBLE);
                 }
@@ -174,6 +184,27 @@ public class entitat_recerca extends Activity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        ArrayAdapter<CharSequence> l_adapter_Pais;
+        int l_spinnerPosition;
+        MenuItem l_item;
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.entitat_recerca, menu);
+
+        l_item = menu.findItem(R.id.entitat_recercaSPNPaissos);
+        g_SPN_Paissos = (Spinner) MenuItemCompat.getActionView(l_item);
+        l_adapter_Pais = ArrayAdapter.createFromResource(this, R.array.Paisos, R.layout.linia_spn_defecte_white);
+        l_adapter_Pais.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        g_SPN_Paissos.setAdapter(l_adapter_Pais);
+        // Seleccionem el nostre pais en el spinner
+        l_spinnerPosition = l_adapter_Pais.getPosition(Globals.g_Client.Pais);
+        g_SPN_Paissos.setSelection(l_spinnerPosition);
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem p_item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -181,14 +212,25 @@ public class entitat_recerca extends Activity {
         int l_id = p_item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (l_id == R.id.action_settings) {
-            return true;
-        }
+        /*
+        switch (l_id) {
+            case R.id.entitat_recercaMNUPais:
 
+                break;
+        }
+        */
         return super.onOptionsItemSelected(p_item);
     }
-    /*
 
+    @Override
+    public boolean onNavigationItemSelected(int i, long l) {
+        switch (i) {
+            case 0:
+                break;
+        }
+        return false;
+    }
+    /*
     //     Codi d'exemple per recercar en els contactes....
 
     private TextView resultText;

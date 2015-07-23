@@ -37,8 +37,8 @@ else{
 				/* Recuperem les dades d'entrada */
 				$Pais = $_POST['Pais'];				
 				// DE MOMENT HO RECUPEREM TOT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				//$result = mysql_query("SELECT * FROM Entitats Where Pais='".$Pais."' AND Estat = 1"); 
-				$result = mysql_query("SELECT * FROM Entitats Where Estat = 1"); 				
+				$result = mysql_query("SELECT * FROM Entitats Where Pais='".$Pais."' AND Estat = 1"); 
+				//$result = mysql_query("SELECT * FROM Entitats Where Estat = 1"); 				
 				if (!$result){
 					$response["valids"] = "2";
 					$gestor = fopen("errors/bd.txt","a");

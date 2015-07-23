@@ -246,7 +246,7 @@ public class entitat_pral extends ActionBarActivity {
             // Esborrem (modifiquem el seu estat)
             l_Associacio = (Associacio)l_avi.getTag();
             DAOAssociacions.CancelarClient(l_Associacio, Jo, g_LVW_Associacions, R.layout.linia_lvw_llista_associacions);
-            /* Aquest codi serveix per animer l'esborrat de un element de la linia, a nosaltres, en
+            /* Aquest codi serveix per animar l'esborrat de un element de la linia, a nosaltres, en
                aquest cas, no es necessari perque no ho volem fer, es mostra vermell
 
                final ArrayAdapter<Associacio> l_Llista = (ArrayAdapter<Associacio>)g_LVW_Associacions.getAdapter();
