@@ -10,7 +10,7 @@ $response 	= array();
 $response["valids"] = "1";
 //
 // Operativa: 	0- Llegir Entitats del pais indicat
-//            	1- 
+//            	1- Recerca entitats del pais indicat
 //            	2- 
 //            
 $Operativa = $_POST['Operativa'];
@@ -36,9 +36,7 @@ else{
 			case "0": // Llista de entitats segons pais
 				/* Recuperem les dades d'entrada */
 				$Pais = $_POST['Pais'];				
-				// DE MOMENT HO RECUPEREM TOT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				$result = mysql_query("SELECT * FROM Entitats Where Pais='".$Pais."' AND Estat = 1"); 
-				//$result = mysql_query("SELECT * FROM Entitats Where Estat = 1"); 				
 				if (!$result){
 					$response["valids"] = "2";
 					$gestor = fopen("errors/bd.txt","a");
@@ -66,7 +64,36 @@ else{
 				}
 				break;
 				
-			case "1": //				
+			case "1": // Llista de entitats segons pais i nom donat
+				/* Recuperem les dades d'entrada */
+				$Pais = $_POST['Pais'];				
+				$Recerca = $_POST['Recerca'];				
+				$result = mysql_query("SELECT * FROM Entitats Where Pais='".$Pais."' AND Nom LIKE '%".$Recerca."%' AND Estat = 1"); 
+				if (!$result){
+					$response["valids"] = "2";
+					$gestor = fopen("errors/bd.txt","a");
+					fwrite($gestor,$Avui.">>> Entitats.PHP//Entitats pais//Recerca//".mysql_errno()."//".mysql_error()."//Values:".$Pais."/".$Recerca."\n");
+					fclose($gestor);
+				}
+				else{
+					$response["Entitats"] = array();
+					if (mysql_num_rows($result) > 0) {	 
+						while ($row = mysql_fetch_array($result)) {
+							// temp user array
+							$Entitat = array();
+							$Entitat["Codi"] = $row["Codi"];
+							$Entitat["Nom"] = $row["Nom"];
+							$Entitat["eMail"] = $row["eMail"];
+							$Entitat["Pais"] = $row["Pais"];
+							$Entitat["Adresa"] = $row["Adresa"];
+							$Entitat["Contacte"] = $row["Contacte"];
+							$Entitat["TipusContacte"] = $row["TipusContacte"];
+							$Entitat["Telefon"] = $row["Telefon"];
+							$Entitat["Estat"] = $row["Estat"];
+							array_push($response["Entitats"], $Entitat);
+						}							
+					}	
+				}
 				break;
 
 			case "2": //

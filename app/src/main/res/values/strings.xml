@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- Generic -->
+    <string name="NoHiHanEntitats">Doesn\'t found entities</string>
     <string name="error_CampObligatori">Required field</string>
     <string name="error_eMailIncorrecte">Invalid mail</string>
     <string name="error_Layout">There are some wrong field</string>
@@ -71,7 +71,7 @@
 
     <!-- Layout Entitat recerca -->
     <string name="title_activity_ac_entitat_recerca">From</string>
-    <string name="EntitatRecerca_Recerca">Search...</string>
+    <string name="EntitatRecerca_Recerca">Search...(least three characters)</string>
     <string name="EntitatRecerca_Pais">Country</string>
 
     <!-- Layout Entitat solicitar -->
@@ -462,5 +462,5 @@
         <item>Zambia -ZMB</item>
         <item>Zimbabwe -ZWE</item>
     </string-array>
-</resources>
 
+</resources>

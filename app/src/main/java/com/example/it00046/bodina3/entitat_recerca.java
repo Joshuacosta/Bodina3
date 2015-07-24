@@ -25,11 +25,13 @@ import android.widget.TextView;
 
 import com.example.it00046.bodina3.Classes.Custom.LVWRecercaEntitats;
 import com.example.it00046.bodina3.Classes.DAO.DAOEntitats;
+import com.example.it00046.bodina3.Classes.Entitats.Entitat;
 import com.example.it00046.bodina3.Classes.ExpandAnimation;
 import com.example.it00046.bodina3.Classes.Globals;
+import com.example.it00046.bodina3.Classes.Params.PAREntitat;
 
 
-public class entitat_recerca extends ActionBarActivity implements ActionBar.OnNavigationListener  {
+public class entitat_recerca extends ActionBarActivity{
 
     private ListView g_LVW_searchResults;
     private View g_LIN_ToolbarAnterior = null;
@@ -38,6 +40,7 @@ public class entitat_recerca extends ActionBarActivity implements ActionBar.OnNa
     private Spinner g_SPN_Paissos;
     private int g_Posicio = -1;
     private Context Jo = this;
+    private Entitat g_Entitat;
 
     @Override
     protected void onCreate(Bundle p_savedInstanceState) {
@@ -80,10 +83,12 @@ public class entitat_recerca extends ActionBarActivity implements ActionBar.OnNa
                     l_TXT_Nom = (TextView) p_view.findViewById(R.id.LiniaLVWRecercaEntitatsNom);
                     l_IMB_Acceptar = (ImageView) p_view.findViewById(R.id.LiniaLVWRecercaEntitatsIMBAcceptar);
                     // Recuperem la informació de si permet solicitar del tag que hem definit
-                    if (p_view.getTag() == Globals.k_Entitat_PermetSolicitar) {
+                    g_Entitat = (Entitat)p_view.getTag();
+                    if (g_Entitat.TipusContacte == Globals.k_Entitat_PermetSolicitar) {
                         l_IMB_Acceptar.setVisibility(View.VISIBLE);
                         l_TXT_Nom.setBackgroundResource(R.color.green);
-                    } else {
+                    }
+                    else {
                         l_TXT_Nom.setBackgroundResource(R.color.red);
                     }
                     // Apuntem en quina linia estem (per si desprès l'usuari selecciona l'entitat)
@@ -101,6 +106,7 @@ public class entitat_recerca extends ActionBarActivity implements ActionBar.OnNa
 
         });
     }
+
     // SetUp de la recerca
     private void setupSearchView() {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -114,43 +120,53 @@ public class entitat_recerca extends ActionBarActivity implements ActionBar.OnNa
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 // TODO Auto-generated method stub
-                //Toast.makeText(activity, String.valueOf(hasFocus),Toast.LENGTH_SHORT).show();
             }
         });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // TODO Auto-generated method stub
-
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                String l_Pais;
-
                 // Recerquem a partir de 3 caracters
                 if (newText.length() > 3) {
                     g_LVW_searchResults.setVisibility(View.VISIBLE);
-                    l_Pais = g_SPN_Paissos.getSelectedItem().toString();
-                    DAOEntitats.Llegir(g_SPN_Paissos.getSelectedItem().toString(), g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
-                } else {
+                    DAOEntitats.Recercar(newText, g_SPN_Paissos.getSelectedItem().toString(), g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
+                }
+                else {
                     g_LVW_searchResults.setVisibility(View.INVISIBLE);
                 }
                 return false;
             }
         });
     }
+
     // Aquesta funció es cridada pels elements de la llista quan premem el boto acceptar
     public void LiniaLVWRecercaEntitatsIMBAcceptar_Click(View view) {
         // Ens seleccionan
         Intent l_resultIntent = new Intent();
         int l_Parametre = g_Posicio + 1;
+        PAREntitat l_Entitat = new PAREntitat();
 
-        l_resultIntent.putExtra("Seleccio", l_Parametre);
+        // Carreguem les dades de la entitat que ens interesen
+        l_Entitat.Codi = g_Entitat.Codi;
+        l_Entitat.Nom = g_Entitat.Nom;
+        l_Entitat.Pais = g_Entitat.Pais;
+        l_Entitat.eMail = g_Entitat.eMail;
+        l_Entitat.Contacte = g_Entitat.Contacte;
+        l_Entitat.Estat = g_Entitat.Estat;
+        l_Entitat.Telefon = g_Entitat.Telefon;
+        l_Entitat.Adresa = g_Entitat.Adresa;
+        l_Entitat.TipusContacte = g_Entitat.TipusContacte;
+        l_resultIntent.putExtra("Entitat", l_Entitat);
+        // Tornem
         setResult(Activity.RESULT_OK, l_resultIntent);
         finish();
     }
+
     // Boto de trucada
     public void LiniaLVWRecercaEntitatsIMBTrucar_Click(View p_view) {
         Intent l_callIntent = new Intent(Intent.ACTION_DIAL);
@@ -191,7 +207,7 @@ public class entitat_recerca extends ActionBarActivity implements ActionBar.OnNa
 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.entitat_recerca, menu);
-
+        // Expressem el Spinner que tenim al menu
         l_item = menu.findItem(R.id.entitat_recercaSPNPaissos);
         g_SPN_Paissos = (Spinner) MenuItemCompat.getActionView(l_item);
         l_adapter_Pais = ArrayAdapter.createFromResource(this, R.array.Paisos, R.layout.linia_spn_defecte_white);
@@ -204,32 +220,6 @@ public class entitat_recerca extends ActionBarActivity implements ActionBar.OnNa
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem p_item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int l_id = p_item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        /*
-        switch (l_id) {
-            case R.id.entitat_recercaMNUPais:
-
-                break;
-        }
-        */
-        return super.onOptionsItemSelected(p_item);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(int i, long l) {
-        switch (i) {
-            case 0:
-                break;
-        }
-        return false;
-    }
     /*
     //     Codi d'exemple per recercar en els contactes....
 

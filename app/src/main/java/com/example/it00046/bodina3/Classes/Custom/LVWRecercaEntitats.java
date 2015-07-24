@@ -46,8 +46,8 @@ public final class LVWRecercaEntitats extends ArrayAdapter<Entitat> {
         if (g_Posicio == -1){
             g_Posicio = p_position;
         }
-        // Guardem el tipus de contacte de la linia com a tag
-        p_convertView.setTag(getItem(p_position).TipusContacte);
+        // Guardem la info de la entitat com a tag
+        p_convertView.setTag(getItem(p_position));
         // Resets the toolbar to be closed
         View toolbar = p_convertView.findViewById(R.id.LiniaLVWRecercaEntitatsLINToolbar);
         ((LinearLayout.LayoutParams) toolbar.getLayoutParams()).bottomMargin = -80;

@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -25,6 +26,7 @@ import com.example.it00046.bodina3.Classes.Entitats.Entitat;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.DAO.DAOAssociacions;
 import com.example.it00046.bodina3.Classes.Params.PARAssociacio;
+import com.example.it00046.bodina3.Classes.Params.PAREntitat;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNEntitat;
 import com.example.it00046.bodina3.Classes.Validacio;
 
@@ -175,34 +177,49 @@ public class entitat_solicitar extends ActionBarActivity {
     // Resposta de la recerca
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        int l_Posicio;
+        String l_Pais;
+        SPNEntitat l_SPNEntitat;
+        Entitat l_entitat = new Entitat(), l_entitatTriada = new Entitat();
+        PAREntitat l_dadesEntitatTriada;
+
         super.onActivityResult(requestCode, resultCode, data);
         switch(requestCode) {
             case (g_RQC_ENTITAT_RECERCA) : {
                 if (resultCode == Activity.RESULT_OK) {
-                    /*
                     // Aquest codi ja no es fa servir pero el deixem per exemple
-
-                    PAREntitat l_dadesEntitat = (PAREntitat) data.getSerializableExtra("Seleccio");
-                    Entitat l_entitat = new Entitat();
-                    // Recuperem les dades de la entitat amb la que volem associar-nos i l'afegirm
-                    // al Spinner
-                    l_entitat.Codi = l_dadesEntitat.Codi;
-                    l_entitat.Pais = l_dadesEntitat.Pais;
-                    l_entitat.Nom = l_dadesEntitat.Nom;
-                    l_entitat.eMail = l_dadesEntitat.eMail;
-                    l_entitat.Contacte = l_dadesEntitat.Contacte;
-                    l_entitat.Adresa = l_dadesEntitat.Adresa;
-                    l_entitat.Telefon = l_dadesEntitat.Telefon;
-                    SpnEntitat l_spinner = new SpnEntitat(l_entitat, l_entitat.Nom, true);
-                    ((ArrayAdapter)lSPN_EntitatsClient.getAdapter()).add(l_spinner);
-                    // Notifiquem el canvi i ens posicionem al final per seleccionar el element
-                    ((ArrayAdapter)lSPN_EntitatsClient.getAdapter()).notifyDataSetChanged();
-                    lSPN_EntitatsClient.setSelection(lSPN_EntitatsClient.getCount());
-                    */
-
-                    int l_Posicio = data.getIntExtra("Seleccio", -1);
-                    if (l_Posicio != -1) {
+                    l_dadesEntitatTriada = (PAREntitat) data.getSerializableExtra("Entitat");
+                    // Recuperem el pais de la entitat amb la que volem associar-nos
+                    l_entitatTriada.Pais = l_dadesEntitatTriada.Pais;
+                    // Validem que el pais de la entitat privada sigui el pais del client
+                    // (llavors nomes cal recercar la entitat al Spinner)
+                    if (l_entitat.Pais == Globals.g_Client.Pais) {
+                        // Recerquem la entitat a la llista
+                        l_entitatTriada.Codi = l_dadesEntitatTriada.Codi;
+                        for (l_Posicio=0; l_Posicio < g_SPN_EntitatsClient.getCount(); l_Posicio++){
+                            l_SPNEntitat = (SPNEntitat)g_SPN_EntitatsClient.getItemAtPosition(l_Posicio);
+                            l_entitat = l_SPNEntitat.getId();
+                            if (l_entitat.Codi == l_entitatTriada.Codi){
+                                break;
+                            }
+                        }
                         g_SPN_EntitatsClient.setSelection(l_Posicio);
+                    }
+                    else{
+                        // Es de una altre pais, informem la resta de camps i la afegim al Spinner
+                        l_entitatTriada.Codi = l_dadesEntitatTriada.Codi;
+                        l_entitatTriada.Nom = l_dadesEntitatTriada.Nom;
+                        l_entitatTriada.eMail = l_dadesEntitatTriada.eMail;
+                        l_entitatTriada.Contacte = l_dadesEntitatTriada.Contacte;
+                        l_entitatTriada.Adresa = l_dadesEntitatTriada.Adresa;
+                        l_entitatTriada.Telefon = l_dadesEntitatTriada.Telefon;
+                        l_entitatTriada.Estat = l_dadesEntitatTriada.Estat;
+                        l_entitatTriada.TipusContacte = l_dadesEntitatTriada.TipusContacte;
+                        SPNEntitat l_spinner = new SPNEntitat(l_entitatTriada, l_entitatTriada.Nom);
+                        ((ArrayAdapter)g_SPN_EntitatsClient.getAdapter()).add(l_spinner);
+                        // Notifiquem el canvi i ens posicionem al final per seleccionar el element
+                        ((ArrayAdapter)g_SPN_EntitatsClient.getAdapter()).notifyDataSetChanged();
+                        g_SPN_EntitatsClient.setSelection(g_SPN_EntitatsClient.getCount());
                     }
                 }
                 break;

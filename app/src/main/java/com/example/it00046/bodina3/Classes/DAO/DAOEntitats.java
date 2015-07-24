@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.Custom.LVWRecercaEntitats;
 import com.example.it00046.bodina3.Classes.Globals;
@@ -48,12 +49,17 @@ public final class DAOEntitats {
     // Funcio per retornar les entitats de un pais en ListView
     public static void Llegir(String p_Pais, final ListView p_LVW_Entitat, Context p_Context, int p_Layout){
         Globals.MostrarEspera(p_Context);
-        SRV_LlistaEntitats(p_Pais, p_LVW_Entitat, p_Context, p_Layout);
+        SRV_LlistaEntitats(p_Pais, null, p_LVW_Entitat, p_Context, p_Layout);
     }
     // en Spinner
     public static void Llegir(String p_Pais, final Spinner p_SPN_EntitatsClient, Context p_Context){
         Globals.MostrarEspera(p_Context);
         SRV_LlistaEntitats(p_Pais, p_SPN_EntitatsClient, p_Context);
+    }
+    // Funcio per recercar les entitats de un pais i tornar el resultat en ListView
+    public static void Recercar(String p_Recerca, String p_Pais, final ListView p_LVW_Entitat, Context p_Context, int p_Layout){
+        Globals.MostrarEspera(p_Context);
+        SRV_LlistaEntitats(p_Pais, p_Recerca, p_LVW_Entitat, p_Context, p_Layout);
     }
     // De Json a Entitat
     public static Entitat JSon(JSONObject p_Entitat){
@@ -63,14 +69,20 @@ public final class DAOEntitats {
     // Funcions privades
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Funció per llegir del SERVIDOR les entitats de un pais, retornem la info per un ListView
-    private static void SRV_LlistaEntitats (String p_Pais, final ListView p_LVW_Entitats, final Context p_Context, int p_Layout){
+    private static void SRV_LlistaEntitats (String p_Pais, String p_Recerca, final ListView p_LVW_Entitats, final Context p_Context, int p_Layout){
         final ArrayAdapter<Entitat> l_listAdapter = new LVWRecercaEntitats(p_Context, p_Layout);
 
         if (Globals.isNetworkAvailable()){
             // Montem el php
             g_parametresPHP = new RequestParams();
             g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Pais), p_Pais);
-            g_parametresPHP.put(Globals.TAG_OPERATIVA, Globals.k_OPE_LlegirEntitatsPais);
+            if (p_Recerca != null){
+                g_parametresPHP.put(Globals.TAG_RECERCA, p_Recerca);
+                g_parametresPHP.put(Globals.TAG_OPERATIVA, Globals.k_OPE_RecercaEntitatsPais);
+            }
+            else{
+                g_parametresPHP.put(Globals.TAG_OPERATIVA, Globals.k_OPE_LlegirEntitatsPais);
+            }
             PhpJson.post("Entitats.php", g_parametresPHP, new JsonHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode,
@@ -91,15 +103,22 @@ public final class DAOEntitats {
                             // Llegim les entitats
                             JSONArray l_ArrayEntitats = null;
                             l_ArrayEntitats = p_entitats.getJSONArray(Globals.g_Native.getString(R.string.TEntitats));
-                            for (int i = 0; i < l_ArrayEntitats.length(); i++) {
-                                JSONObject l_entitatServidor = l_ArrayEntitats.getJSONObject(i);
-                                // Pasa les dades del objecte JSON a la Entitat
-                                Entitat l_entitat = JSONToEntitat(l_entitatServidor);
-                                // Carreguem validant si l'entitat permet associar-nos
-                                if (l_entitat.TipusContacte == Globals.k_Entitat_NomesInvitacio){
-                                    l_entitat.Nom += " (" + Globals.g_Native.getString(R.string.nomes_invitacio) + ")";
+                            if (l_ArrayEntitats.length() > 0) {
+                                for (int i = 0; i < l_ArrayEntitats.length(); i++) {
+                                    JSONObject l_entitatServidor = l_ArrayEntitats.getJSONObject(i);
+                                    // Pasa les dades del objecte JSON a la Entitat
+                                    Entitat l_entitat = JSONToEntitat(l_entitatServidor);
+                                    // Carreguem validant si l'entitat permet associar-nos
+                                    if (l_entitat.TipusContacte == Globals.k_Entitat_NomesInvitacio) {
+                                        l_entitat.Nom += " (" + Globals.g_Native.getString(R.string.nomes_invitacio) + ")";
+                                    }
+                                    l_listAdapter.add(l_entitat);
                                 }
-                                l_listAdapter.add(l_entitat);
+                            }
+                            else{
+                                Toast.makeText(Globals.g_Native,
+                                        Globals.g_Native.getString(R.string.NoHiHanEntitats),
+                                        Toast.LENGTH_LONG).show();
                             }
                             // Associem
                             p_LVW_Entitats.setAdapter(l_listAdapter);
@@ -156,17 +175,24 @@ public final class DAOEntitats {
                             // Llegim les entitats
                             JSONArray l_ArrayEntitats = null;
                             l_ArrayEntitats = p_entitats.getJSONArray(Globals.g_Native.getString(R.string.TEntitats));
-                            for (int i = 0; i < l_ArrayEntitats.length(); i++) {
-                                JSONObject l_entitatServidor = l_ArrayEntitats.getJSONObject(i);
-                                // Pasa les dades del objecte JSON a la Entitat
-                                Entitat l_entitat = JSONToEntitat(l_entitatServidor);
-                                l_NomEntitatSpinner = l_entitat.Nom;
-                                // Carreguem validant si l'entitat permet associar-nos
-                                if (l_entitat.TipusContacte == Globals.k_Entitat_NomesInvitacio){
-                                    l_NomEntitatSpinner += " (" + Globals.g_Native.getString(R.string.nomes_invitacio) + ")";
+                            if (l_ArrayEntitats.length() > 0) {
+                                for (int i = 0; i < l_ArrayEntitats.length(); i++) {
+                                    JSONObject l_entitatServidor = l_ArrayEntitats.getJSONObject(i);
+                                    // Pasa les dades del objecte JSON a la Entitat
+                                    Entitat l_entitat = JSONToEntitat(l_entitatServidor);
+                                    l_NomEntitatSpinner = l_entitat.Nom;
+                                    // Carreguem validant si l'entitat permet associar-nos
+                                    if (l_entitat.TipusContacte == Globals.k_Entitat_NomesInvitacio) {
+                                        l_NomEntitatSpinner += " (" + Globals.g_Native.getString(R.string.nomes_invitacio) + ")";
+                                    }
+                                    SPNEntitat l_spinner = new SPNEntitat(l_entitat, l_NomEntitatSpinner);
+                                    l_Entitats.add(l_spinner);
                                 }
-                                SPNEntitat l_spinner = new SPNEntitat(l_entitat, l_NomEntitatSpinner);
-                                l_Entitats.add(l_spinner);
+                            }
+                            else{
+                                Toast.makeText(Globals.g_Native,
+                                        Globals.g_Native.getString(R.string.NoHiHanEntitats),
+                                        Toast.LENGTH_LONG).show();
                             }
                             // Associem
                             l_dataAdapter = new ArrayAdapter<SPNEntitat>(Globals.g_Native, R.layout.linia_spn_defecte, l_Entitats);

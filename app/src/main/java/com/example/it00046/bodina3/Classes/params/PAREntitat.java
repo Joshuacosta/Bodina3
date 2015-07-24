@@ -14,15 +14,8 @@ public class PAREntitat implements Serializable {
     public String Pais;
     public String eMail;
     public int Estat;
+    public int TipusContacte;
 
     public void PAREntitat(){
-        this.Codi = new String();
-        this.Nom = new String();
-        this.Adresa = new String();
-        this.Contacte = new String();
-        this.Telefon = new String();
-        this.Pais = new String();
-        this.eMail = new String();
-        this.Estat = 0;
     }
 }

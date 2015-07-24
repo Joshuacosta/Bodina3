@@ -93,7 +93,7 @@ else{
 			case 1: // Llegim les associacions del client, amb la informació de la entitat
 				/* Recuperem les dades d'entrada */
 				$CodiClient = $_POST['CodiClient'];
-								// Fem la select amb les entitats del client
+				// Fem la select amb les entitats del client
 				$result = mysql_query("SELECT    E.Codi, E.Nom, E.eMail, E.Pais, E.Adresa, E.Contacte, E.TipusContacte, E.Telefon, E.Estat, 
 												 A.Contacte As ContacteAssociacio, A.eMail As eMailAssociacio, A.Estat As EstatAssociacio,
 												 A.DataAlta, A.DataFi, A.Descripcio, A.DataPeticio

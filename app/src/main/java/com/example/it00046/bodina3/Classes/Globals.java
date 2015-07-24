@@ -53,6 +53,7 @@ public final class Globals
     public static final String k_OPE_Select = "2";
     public static final String k_OPE_SelectCodiClientIntern = "21";
     public static final String k_OPE_LlegirEntitatsPais = "0";
+    public static final String k_OPE_RecercaEntitatsPais = "1";
     public static final String k_OPE_LlegirEntitatsClient = "1";
     public static final String k_OPE_SelectEntitatsClient = "0";
     public static final String k_DirectoriPHP = "http://bodina.virtuol.com/php/";
@@ -77,6 +78,7 @@ public final class Globals
     public static final String k_PHPErrorMail = "3";
     public static final String TAG_OPERATIVA = "Operativa";
     public static final String TAG_VALIDS = "valids";
+    public static final String TAG_RECERCA = "Recerca";
     public static final int k_Entitat_NomesInvitacio = 0;
     public static final int k_Entitat_PermetSolicitar = 1;
 
