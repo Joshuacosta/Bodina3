@@ -1,7 +1,9 @@
 package com.example.it00046.bodina3;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
 import android.support.v7.app.ActionBar;
@@ -17,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.Custom.LVWLlistaAssociacions;
 import com.example.it00046.bodina3.Classes.DAO.DAOAssociacions;
@@ -25,6 +28,8 @@ import com.example.it00046.bodina3.Classes.ExpandAnimation;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.Params.PARAssociacio;
 import com.melnykov.fab.FloatingActionButton;
+
+import java.util.ArrayList;
 
 
 public class entitat_pral extends ActionBarActivity {
@@ -37,6 +42,10 @@ public class entitat_pral extends ActionBarActivity {
     private Context Jo = this;
     private Boolean g_EstatEsborrar = false;
     static final int g_RQC_ENTITAT_SOLICITEM = 1, g_RQC_ENTITAT_MODIFIQUEM = 2;
+    private AlertDialog.Builder g_alertDialogBuilder;
+    private final ArrayList mSelectedItems = new ArrayList();
+
+    final CharSequence myList[] = { "Tea", "Coffee", "Milk" };
 
     @Override
     protected void onCreate(Bundle l_savedInstanceState) {
@@ -47,7 +56,7 @@ public class entitat_pral extends ActionBarActivity {
         setContentView(R.layout.entitat_pral);
         // Carreguen les entitats del client
         g_LVW_Associacions = (ListView) findViewById(R.id.entitat_pralLVWAssociacions);
-        DAOAssociacions.Llegir(g_LVW_Associacions,  R.layout.linia_lvw_llista_associacions, Jo);
+        DAOAssociacions.Llegir(g_LVW_Associacions, R.layout.linia_lvw_llista_associacions, Jo);
         // El floating boto serveix per afegir associacions amb entitats (tamb� es pot fer des de el menu)
         l_FLB_Associacio = (FloatingActionButton) findViewById(R.id.entitat_pralFLBAfegirAssociacio);
         l_FLB_Associacio.attachToListView(g_LVW_Associacions);
@@ -78,15 +87,15 @@ public class entitat_pral extends ActionBarActivity {
 
                 //g_LiniaSeleccionada = p_view;
                 // Recuperem associacio
-                l_Associacio = (Associacio)p_view.getTag();
+                l_Associacio = (Associacio) p_view.getTag();
                 // Preparem animacions
                 l_Animacio_Amagar = AnimationUtils.loadAnimation(Jo, R.anim.alpha_a_0);
                 l_Animacio_Mostrar = AnimationUtils.loadAnimation(Jo, R.anim.alpha_a_1);
                 //
                 l_LIN_Toolbar = p_view.findViewById(R.id.LiniaLVWLlistaAssociacionsLINToolbar);
                 if (g_Posicio != p_position) {
-                    l_IMB_Esborrar = (ImageButton)p_view.findViewById(R.id.LiniaLVWLlistaAssociacionsIMBEsborrar);
-                    l_IMB_Editar = (ImageButton)p_view.findViewById(R.id.LiniaLVWLlistaAssociacionsIMBEditar);
+                    l_IMB_Esborrar = (ImageButton) p_view.findViewById(R.id.LiniaLVWLlistaAssociacionsIMBEsborrar);
+                    l_IMB_Editar = (ImageButton) p_view.findViewById(R.id.LiniaLVWLlistaAssociacionsIMBEditar);
                     if (g_LIN_ToolbarAnterior != null && g_LIN_ToolbarAnterior.getVisibility() == View.VISIBLE) {
                         // Desmarquem el que hi havia marcat
                         l_expandAni = new ExpandAnimation(g_LIN_ToolbarAnterior, 100);
@@ -115,8 +124,7 @@ public class entitat_pral extends ActionBarActivity {
                     g_IMB_Esborrar = l_IMB_Esborrar;
                     g_IMB_Editar = l_IMB_Editar;
                     g_AssociacioAnerior = l_Associacio;
-                }
-                else{
+                } else {
                     // Ens tornen a marcar
                     l_expandAni = new ExpandAnimation(l_LIN_Toolbar, 100);
                     l_LIN_Toolbar.startAnimation(l_expandAni);
@@ -142,6 +150,37 @@ public class entitat_pral extends ActionBarActivity {
         // Mostrem el tornar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        // Construim la finestra de ordenar
+
+        // set title
+        g_alertDialogBuilder = new AlertDialog.Builder(Jo);
+        g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.Ordenacio));
+
+        final String[] l_Ordres = Globals.g_Native.getResources().getStringArray(R.array.OrdreAssociacio);
+
+                // set dialog message
+        g_alertDialogBuilder
+                .setCancelable(false)
+
+                .setSingleChoiceItems(l_Ordres, 2, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                        Toast.makeText(getApplicationContext(),
+                                "You Choose : " + l_Ordres[arg1],
+                                Toast.LENGTH_LONG).show();
+                        arg0.cancel();
+                    }
+                })
+
+                .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface p_dialog, int p_id) {
+                        // if this button is clicked, just close
+                        // the dialog box and do nothing
+                        //p_dialog.cancel();
+                    }
+                });
     }
 
     @Override
@@ -160,6 +199,12 @@ public class entitat_pral extends ActionBarActivity {
             case R.id.entitat_solicitarMNUDemanar:
                 l_Intent = new Intent(this, entitat_solicitar.class);
                 startActivityForResult(l_Intent, g_RQC_ENTITAT_SOLICITEM);
+                return true;
+            case R.id.entitat_solicitarMNUOrdenar:
+                // create alert dialog
+                AlertDialog l_alertDialog = g_alertDialogBuilder.create();
+                // show it
+                l_alertDialog.show();
                 return true;
             case R.id.entitat_solicitarMNUActualitzar:
                 DAOAssociacions.Llegir(g_LVW_Associacions,  R.layout.linia_lvw_llista_associacions, Jo);

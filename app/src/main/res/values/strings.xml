@@ -32,6 +32,7 @@
     <string name="DataRebutjat">Rejected date</string>
     <string name="TeAssociacioActiva">Dear customer, you already have an association with this entity.</string>
     <string name="TeAssociacioPendent">Dear customer, you have a pending association with this entity.</string>
+    <string name="Ordenacio">Order sorting</string>
 
     <!-- Errors codi -->
     <string name="error_avis">Alert</string>
@@ -63,8 +64,9 @@
 
     <!-- Layout Entitat principal -->
     <string name="title_activity_ac_entitat_pral">Entities</string>
-    <string name="EntitatPral_mn_SolicitarEntitat">Request entity</string>
-    <string name="EntitatPral_mn_Actualitzar">Refresh</string>
+    <string name="EntitatPralMNUSolicitarEntitat">Request entity</string>
+    <string name="EntitatPralMNUOrdenarEntitats">Sort entities</string>
+    <string name="EntitatPralMNUActualitzar">Refresh</string>
 
     <!-- Layout Entitat alta -->
     <string name="title_activity_ac_entitat_alta">Append entity</string>
@@ -201,6 +203,12 @@
     <!-- ################################################################################### -->
     <!-- String-Arrays -->
     <!-- ################################################################################### -->
+    <string-array name="OrdreAssociacio">
+        <item>Name entity</item>
+        <item>State association</item>
+        <item>Data</item>
+    </string-array>
+
     <string-array name="Idioma">
         <item>@string/llista_Select</item>
         <item>English</item>
