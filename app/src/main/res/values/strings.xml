@@ -32,7 +32,7 @@
     <string name="DataRebutjat">Rejected date</string>
     <string name="TeAssociacioActiva">Dear customer, you already have an association with this entity.</string>
     <string name="TeAssociacioPendent">Dear customer, you have a pending association with this entity.</string>
-    <string name="Ordenacio">Order sorting</string>
+    <string name="Ordenacio">Order by:</string>
 
     <!-- Errors codi -->
     <string name="error_avis">Alert</string>
@@ -206,7 +206,8 @@
     <string-array name="OrdreAssociacio">
         <item>Name entity</item>
         <item>State association</item>
-        <item>Data</item>
+        <item>Request date</item>
+        <item>Entry date</item>
     </string-array>
 
     <string-array name="Idioma">

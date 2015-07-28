@@ -30,6 +30,8 @@ import com.example.it00046.bodina3.Classes.Params.PARAssociacio;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class entitat_pral extends ActionBarActivity {
@@ -43,9 +45,8 @@ public class entitat_pral extends ActionBarActivity {
     private Boolean g_EstatEsborrar = false;
     static final int g_RQC_ENTITAT_SOLICITEM = 1, g_RQC_ENTITAT_MODIFIQUEM = 2;
     private AlertDialog.Builder g_alertDialogBuilder;
-    private final ArrayList mSelectedItems = new ArrayList();
+    private int g_OpcioOrdenacio = -1;
 
-    final CharSequence myList[] = { "Tea", "Coffee", "Milk" };
 
     @Override
     protected void onCreate(Bundle l_savedInstanceState) {
@@ -155,30 +156,55 @@ public class entitat_pral extends ActionBarActivity {
         // set title
         g_alertDialogBuilder = new AlertDialog.Builder(Jo);
         g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.Ordenacio));
-
+        // Recuperem la llista de opcions de ordenacio
         final String[] l_Ordres = Globals.g_Native.getResources().getStringArray(R.array.OrdreAssociacio);
-
-                // set dialog message
+        // Funcions de comparacio
+        final Comparator<Associacio> ComparaEstat = new Comparator<Associacio>() {
+            public int compare(Associacio p_a1, Associacio p_a2) {
+                return ((Integer)p_a1.Estat).compareTo(p_a2.Estat);
+            }
+        };
+        final Comparator<Associacio> ComparaNom = new Comparator<Associacio>() {
+            public int compare(Associacio p_a1, Associacio p_a2) {
+                return p_a1.entitat.Nom.compareToIgnoreCase(p_a2.entitat.Nom);
+            }
+        };
+        final Comparator<Associacio> ComparaDataPeticio = new Comparator<Associacio>() {
+            public int compare(Associacio p_a1, Associacio p_a2) {
+                return Globals.StringToDate(p_a1.DataPeticio).compareTo(Globals.StringToDate(p_a2.DataPeticio));
+            }
+        };
+        final Comparator<Associacio> ComparaDataAlta = new Comparator<Associacio>() {
+            public int compare(Associacio p_a1, Associacio p_a2) {
+                return Globals.StringToDate(p_a1.DataAlta).compareTo(Globals.StringToDate(p_a2.DataAlta));
+            }
+        };
+        // set dialog message
         g_alertDialogBuilder
                 .setCancelable(false)
-
-                .setSingleChoiceItems(l_Ordres, 2, new DialogInterface.OnClickListener() {
-
+                .setSingleChoiceItems(l_Ordres, g_OpcioOrdenacio, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-
-                        Toast.makeText(getApplicationContext(),
-                                "You Choose : " + l_Ordres[arg1],
-                                Toast.LENGTH_LONG).show();
+                        switch (arg1) {
+                            case 0:// Per nom
+                                ((ArrayAdapter<Associacio>) g_LVW_Associacions.getAdapter()).sort(ComparaNom);
+                                break;
+                            case 1:// Per estat
+                                ((ArrayAdapter<Associacio>) g_LVW_Associacions.getAdapter()).sort(ComparaEstat);
+                                break;
+                            case 2:// Per data entrada
+                                ((ArrayAdapter<Associacio>) g_LVW_Associacions.getAdapter()).sort(ComparaDataPeticio);
+                                break;
+                            case 3:// Per data alta
+                                ((ArrayAdapter<Associacio>) g_LVW_Associacions.getAdapter()).sort(ComparaDataAlta);
+                                break;
+                        }
+                        // Tanquem la finestra de ordenacio
                         arg0.cancel();
                     }
                 })
-
                 .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface p_dialog, int p_id) {
-                        // if this button is clicked, just close
-                        // the dialog box and do nothing
-                        //p_dialog.cancel();
                     }
                 });
     }

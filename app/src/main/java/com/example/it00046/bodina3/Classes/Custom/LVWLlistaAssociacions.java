@@ -11,6 +11,9 @@ import com.example.it00046.bodina3.Classes.Entitats.Associacio;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.R;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 /**
  * Created by it00046 on 02/06/2015.
  */

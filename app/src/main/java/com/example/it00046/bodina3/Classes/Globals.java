@@ -34,6 +34,7 @@ public final class Globals
     public static Context g_Recerca;
     public static Boolean g_HiHaXarxa = false;
     public static ProgressDialog g_DialogEspera = null;
+    public static String g_DataNula = "0000-00-00 00:00:00";
     //public static SQLClientsDAO g_Clients_DAO;
     public static SQLiteDatabase g_DB;
     public static SQLDB g_BBDD;
@@ -124,15 +125,42 @@ public final class Globals
 
     public static String F_FormatDataServidorALocal(String P_Data) {
         SimpleDateFormat l_dfSistema = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            Date l_DataSistema = l_dfSistema.parse(P_Data);
-            DateFormat l_df;
-            l_df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
-            return l_df.format(l_DataSistema);
+
+        if (P_Data != Globals.g_DataNula){
+            try {
+                Date l_DataSistema = l_dfSistema.parse(P_Data);
+                DateFormat l_df;
+                l_df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+                return l_df.format(l_DataSistema);
+            }
+            catch (ParseException e) {
+                return "";
+            }
         }
-        catch  (ParseException e) {
+        else{
             return "";
         }
+    }
+
+    public static String DateToString(Date p_Data){
+        String l_Data = null;
+        SimpleDateFormat l_format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        l_Data = l_format.format(p_Data);
+        return l_Data;
+    }
+
+    public static Date StringToDate(String p_Data){
+        Date l_Data = null;
+        DateFormat l_format = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+
+        try {
+            l_Data = l_format.parse(p_Data);
+        }
+        catch (ParseException e) {
+            ;
+        }
+        return l_Data;
     }
 
     public static String Avui(){
