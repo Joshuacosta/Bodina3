@@ -178,9 +178,8 @@ public class entitat_solicitar extends ActionBarActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         int l_Posicio;
-        String l_Pais;
         SPNEntitat l_SPNEntitat;
-        Entitat l_entitat = new Entitat(), l_entitatTriada = new Entitat();
+        Entitat l_entitatLlista = new Entitat(), l_entitatTriada = new Entitat();
         PAREntitat l_dadesEntitatTriada;
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -193,13 +192,13 @@ public class entitat_solicitar extends ActionBarActivity {
                     l_entitatTriada.Pais = l_dadesEntitatTriada.Pais;
                     // Validem que el pais de la entitat privada sigui el pais del client
                     // (llavors nomes cal recercar la entitat al Spinner)
-                    if (l_entitat.Pais == Globals.g_Client.Pais) {
+                    if (l_entitatTriada.Pais == Globals.g_Client.Pais) {
                         // Recerquem la entitat a la llista
                         l_entitatTriada.Codi = l_dadesEntitatTriada.Codi;
                         for (l_Posicio=0; l_Posicio < g_SPN_EntitatsClient.getCount(); l_Posicio++){
                             l_SPNEntitat = (SPNEntitat)g_SPN_EntitatsClient.getItemAtPosition(l_Posicio);
-                            l_entitat = l_SPNEntitat.getId();
-                            if (l_entitat.Codi == l_entitatTriada.Codi){
+                            l_entitatLlista = l_SPNEntitat.getId();
+                            if (l_entitatLlista.Codi == l_entitatTriada.Codi){
                                 break;
                             }
                         }
@@ -215,7 +214,7 @@ public class entitat_solicitar extends ActionBarActivity {
                         l_entitatTriada.Telefon = l_dadesEntitatTriada.Telefon;
                         l_entitatTriada.Estat = l_dadesEntitatTriada.Estat;
                         l_entitatTriada.TipusContacte = l_dadesEntitatTriada.TipusContacte;
-                        SPNEntitat l_spinner = new SPNEntitat(l_entitatTriada, l_entitatTriada.Nom);
+                        SPNEntitat l_spinner = new SPNEntitat(l_entitatTriada, l_entitatTriada.Nom + " ( " + l_entitatTriada.Pais + " )");
                         ((ArrayAdapter)g_SPN_EntitatsClient.getAdapter()).add(l_spinner);
                         // Notifiquem el canvi i ens posicionem al final per seleccionar el element
                         ((ArrayAdapter)g_SPN_EntitatsClient.getAdapter()).notifyDataSetChanged();

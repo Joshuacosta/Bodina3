@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Generic -->
-    <string name="NoHiHanEntitats">Doesn\'t found entities</string>
+    <string name="NoHiHanEntitats">Doesn\'t found entities for your definition country</string>
     <string name="error_CampObligatori">Required field</string>
     <string name="error_eMailIncorrecte">Invalid mail</string>
     <string name="error_Layout">There are some wrong field</string>

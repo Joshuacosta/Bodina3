@@ -126,18 +126,13 @@ public final class Globals
     public static String F_FormatDataServidorALocal(String P_Data) {
         SimpleDateFormat l_dfSistema = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        if (P_Data != Globals.g_DataNula){
-            try {
-                Date l_DataSistema = l_dfSistema.parse(P_Data);
-                DateFormat l_df;
-                l_df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
-                return l_df.format(l_DataSistema);
-            }
-            catch (ParseException e) {
-                return "";
-            }
+        try {
+            Date l_DataSistema = l_dfSistema.parse(P_Data);
+            DateFormat l_df;
+            l_df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+            return l_df.format(l_DataSistema);
         }
-        else{
+        catch (ParseException e) {
             return "";
         }
     }
