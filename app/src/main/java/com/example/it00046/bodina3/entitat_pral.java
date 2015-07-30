@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
+import android.net.Uri;
+import android.provider.Contacts;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -39,8 +42,8 @@ public class entitat_pral extends ActionBarActivity {
     //private View g_LiniaSeleccionada;
     private int g_Posicio = -1;
     private View g_LIN_ToolbarAnterior = null;
-    private Associacio g_AssociacioAnerior;
-    private ImageButton g_IMB_Esborrar = null, g_IMB_Editar = null;
+    private Associacio g_AssociacioAnterior;
+    private ImageButton g_IMB_Esborrar = null, g_IMB_Editar = null, g_IMB_AfegirEntitat = null;
     private Context Jo = this;
     private Boolean g_EstatEsborrar = false;
     static final int g_RQC_ENTITAT_SOLICITEM = 1, g_RQC_ENTITAT_MODIFIQUEM = 2;
@@ -81,7 +84,7 @@ public class entitat_pral extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, final View p_view,
                                     int p_position, long p_id) {
                 View l_LIN_Toolbar;
-                ImageButton l_IMB_Esborrar, l_IMB_Editar;
+                ImageButton l_IMB_Esborrar, l_IMB_Editar, l_IMB_AfegirEntitat;
                 ExpandAnimation l_expandAni;
                 final Animation l_Animacio_Amagar, l_Animacio_Mostrar;
                 Associacio l_Associacio;
@@ -97,16 +100,19 @@ public class entitat_pral extends ActionBarActivity {
                 if (g_Posicio != p_position) {
                     l_IMB_Esborrar = (ImageButton) p_view.findViewById(R.id.LiniaLVWLlistaAssociacionsIMBEsborrar);
                     l_IMB_Editar = (ImageButton) p_view.findViewById(R.id.LiniaLVWLlistaAssociacionsIMBEditar);
+                    l_IMB_AfegirEntitat = (ImageButton) p_view.findViewById(R.id.LiniaLVWLlistaAssociacionsIMBAfegirEntitat);
                     if (g_LIN_ToolbarAnterior != null && g_LIN_ToolbarAnterior.getVisibility() == View.VISIBLE) {
                         // Desmarquem el que hi havia marcat
                         l_expandAni = new ExpandAnimation(g_LIN_ToolbarAnterior, 100);
                         g_LIN_ToolbarAnterior.startAnimation(l_expandAni);
                         // Animacio de botons SI CORRESPON (en funcio de l'estat de la associacio)
-                        if (g_AssociacioAnerior.Estat == Globals.k_AssociacioActiva || g_AssociacioAnerior.Estat == Globals.k_AssociacioPendent) {
+                        if (g_AssociacioAnterior.Estat == Globals.k_AssociacioActiva || g_AssociacioAnterior.Estat == Globals.k_AssociacioPendent) {
                             g_IMB_Esborrar.setVisibility(View.INVISIBLE);
                             g_IMB_Editar.setVisibility(View.INVISIBLE);
+                            g_IMB_AfegirEntitat.setVisibility(View.INVISIBLE);
                             g_IMB_Esborrar.startAnimation(l_Animacio_Amagar);
                             g_IMB_Editar.startAnimation(l_Animacio_Amagar);
+                            g_IMB_AfegirEntitat.startAnimation(l_Animacio_Amagar);
                         }
                     }
                     // Definim l'animacio de la linia
@@ -116,16 +122,20 @@ public class entitat_pral extends ActionBarActivity {
                     if (l_Associacio.Estat == Globals.k_AssociacioActiva || l_Associacio.Estat == Globals.k_AssociacioPendent) {
                         l_IMB_Esborrar.setVisibility(View.VISIBLE);
                         l_IMB_Editar.setVisibility(View.VISIBLE);
+                        l_IMB_AfegirEntitat.setVisibility(View.VISIBLE);
                         l_IMB_Esborrar.startAnimation(l_Animacio_Mostrar);
                         l_IMB_Editar.startAnimation(l_Animacio_Mostrar);
+                        l_IMB_AfegirEntitat.startAnimation(l_Animacio_Mostrar);
                     }
                     // Apuntem lo que hem tocat
                     g_Posicio = p_position;
                     g_LIN_ToolbarAnterior = l_LIN_Toolbar;
                     g_IMB_Esborrar = l_IMB_Esborrar;
                     g_IMB_Editar = l_IMB_Editar;
-                    g_AssociacioAnerior = l_Associacio;
-                } else {
+                    g_IMB_AfegirEntitat = l_IMB_AfegirEntitat;
+                    g_AssociacioAnterior = l_Associacio;
+                }
+                else {
                     // Ens tornen a marcar
                     l_expandAni = new ExpandAnimation(l_LIN_Toolbar, 100);
                     l_LIN_Toolbar.startAnimation(l_expandAni);
@@ -135,13 +145,17 @@ public class entitat_pral extends ActionBarActivity {
                         if (g_IMB_Editar.getVisibility() == View.VISIBLE) {
                             g_IMB_Esborrar.setVisibility(View.INVISIBLE);
                             g_IMB_Editar.setVisibility(View.INVISIBLE);
+                            g_IMB_AfegirEntitat.setVisibility(View.INVISIBLE);
                             g_IMB_Esborrar.startAnimation(l_Animacio_Amagar);
                             g_IMB_Editar.startAnimation(l_Animacio_Amagar);
+                            g_IMB_AfegirEntitat.startAnimation(l_Animacio_Amagar);
                         } else {
                             g_IMB_Esborrar.setVisibility(View.VISIBLE);
                             g_IMB_Editar.setVisibility(View.VISIBLE);
+                            g_IMB_AfegirEntitat.setVisibility(View.VISIBLE);
                             g_IMB_Esborrar.startAnimation(l_Animacio_Mostrar);
                             g_IMB_Editar.startAnimation(l_Animacio_Mostrar);
+                            g_IMB_AfegirEntitat.startAnimation(l_Animacio_Mostrar);
                         }
                     }
                 }
@@ -152,8 +166,7 @@ public class entitat_pral extends ActionBarActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         // Construim la finestra de ordenar
-
-        // set title
+        // Titul
         g_alertDialogBuilder = new AlertDialog.Builder(Jo);
         g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.Ordenacio));
         // Recuperem la llista de opcions de ordenacio
@@ -263,34 +276,62 @@ public class entitat_pral extends ActionBarActivity {
         }
     }
 
-    // Aquesta funció es cridada pels elements de la llista quan premem el boto esborrar
+    // Aquesta funció es cridada pels elements de la llista quan premem el boto de afegir entitat
+    public void LiniaLVWRecercaEntitatsIMBAfegirEntitat_Click(View l_view) {
+        Intent l_intent;
+        View l_parent, l_LiniaAssociacio;
+        PARAssociacio l_Parametres;
+        Associacio l_Associacio;
+
+        // Llegim la jeraquia i recuperem dades
+        l_parent = (View) l_view.getParent();
+        l_LiniaAssociacio = (View) l_parent.getParent();
+        l_Parametres = new PARAssociacio();
+        l_Associacio = (Associacio)l_LiniaAssociacio.getTag();
+        // Llancem la finestra de contactes
+        l_intent = new Intent(
+                ContactsContract.Intents.SHOW_OR_CREATE_CONTACT,
+                Uri.parse("tel:" + l_Associacio.entitat.Telefon));
+        l_intent.putExtra(ContactsContract.Intents.EXTRA_FORCE_CREATE, true);
+        l_intent.putExtra(ContactsContract.Intents.Insert.NAME, l_Associacio.entitat.Nom);
+        l_intent.putExtra(ContactsContract.Intents.Insert.PHONE, l_Associacio.entitat.Telefon);
+        l_intent.putExtra(ContactsContract.Intents.Insert.EMAIL, l_Associacio.entitat.eMail);
+        l_intent.putExtra(ContactsContract.Intents.Insert.COMPANY, l_Associacio.entitat.Contacte);
+        startActivity(l_intent);
+    }
+        // Aquesta funció es cridada pels elements de la llista quan premem el boto esborrar
     public void LiniaLVWRecercaEntitatsIMBEditar_Click(View l_view) {
-        ImageButton l_IMB_Esborrar, l_IMB_Editar;
+        ImageButton l_IMB_Esborrar, l_IMB_Editar, l_IMB_AfegirEntitat;
         TransitionDrawable l_transition;
-        View l_parent, l_LiniaAssoacio;
+        View l_parent, l_LiniaAssociacio;
+        PARAssociacio l_Parametres;
+        Associacio l_Associacio;
 
         // Recuperem "jerarquia"
         l_parent = (View) l_view.getParent();
-        l_LiniaAssoacio = (View) l_parent.getParent();
+        l_LiniaAssociacio = (View) l_parent.getParent();
         // Validem el estat
         if (g_EstatEsborrar) {
             // Cancelem
             g_EstatEsborrar = false;
+            // Boto de afegir entitat visible
+            l_IMB_AfegirEntitat = (ImageButton)l_LiniaAssociacio.findViewById(R.id.LiniaLVWLlistaAssociacionsIMBAfegirEntitat);
+            l_IMB_AfegirEntitat.setVisibility(View.VISIBLE);
             // Boto de esborrar actiu
-            l_IMB_Esborrar = (ImageButton)l_LiniaAssoacio.findViewById(R.id.LiniaLVWLlistaAssociacionsIMBEsborrar);
+            l_IMB_Esborrar = (ImageButton)l_LiniaAssociacio.findViewById(R.id.LiniaLVWLlistaAssociacionsIMBEsborrar);
             l_IMB_Esborrar.setImageResource(R.drawable.ic_delete_black_36dp);
             // Boto de edicio es cancelar
             l_IMB_Editar = (ImageButton) l_view;
             l_IMB_Editar.setImageResource(R.drawable.ic_mode_edit_black_36dp);
             // Camviem fons
-            l_transition = (TransitionDrawable)l_LiniaAssoacio.getBackground();
+            l_transition = (TransitionDrawable)l_LiniaAssociacio.getBackground();
             l_transition.reverseTransition(300);
             //
         }
         else {
             // Obrim la activitat de modificacio de associacio
-            PARAssociacio l_Parametres = new PARAssociacio();
-            Associacio l_Associacio = (Associacio)l_LiniaAssoacio.getTag();
+            l_Parametres = new PARAssociacio();
+            l_Associacio = (Associacio)l_LiniaAssociacio.getTag();
             l_Parametres.CodiEntitat = l_Associacio.entitat.Codi;
             l_Parametres.NomEntitat = l_Associacio.entitat.Nom;
             l_Parametres.Descripcio = l_Associacio.Descripcio;
@@ -304,18 +345,18 @@ public class entitat_pral extends ActionBarActivity {
     }
     // Aquesta funció es cridada pels elements de la llista quan premem el boto esborrar
     public void LiniaLVWRecercaEntitatsIMBEsborrar_Click(View l_view) {
-        ImageButton l_IMB_Esborrar, l_IMB_Editar;
+        ImageButton l_IMB_Esborrar, l_IMB_Editar, l_IMB_AfegirEntitat;
         TransitionDrawable l_transition;
-        View l_parent, l_avi;
+        View l_parent, l_LiniaAssociacio;
         Associacio l_Associacio;
 
         // Llegim la jeraquia
         l_parent = (View) l_view.getParent();
-        l_avi = (View) l_parent.getParent();
+        l_LiniaAssociacio = (View) l_parent.getParent();
         // Validem si "ja" esborrem
         if (g_EstatEsborrar){
             // Esborrem (modifiquem el seu estat)
-            l_Associacio = (Associacio)l_avi.getTag();
+            l_Associacio = (Associacio)l_LiniaAssociacio.getTag();
             DAOAssociacions.CancelarClient(l_Associacio, Jo, g_LVW_Associacions, R.layout.linia_lvw_llista_associacions);
             /* Aquest codi serveix per animar l'esborrat de un element de la linia, a nosaltres, en
                aquest cas, no es necessari perque no ho volem fer, es mostra vermell
@@ -351,14 +392,17 @@ public class entitat_pral extends ActionBarActivity {
         else {
             g_EstatEsborrar = true;
             // Adaptem la linia per fer la baixa.
+            // Boto de afegir entitat invisible
+            l_IMB_AfegirEntitat = (ImageButton)l_LiniaAssociacio.findViewById(R.id.LiniaLVWLlistaAssociacionsIMBAfegirEntitat);
+            l_IMB_AfegirEntitat.setVisibility(View.GONE);
             // Boto de esborrar actiu
             l_IMB_Esborrar = (ImageButton) l_view;
             l_IMB_Esborrar.setImageResource(R.drawable.ic_check_white_48dp);
             // Boto de edicio es cancelar
-            l_IMB_Editar = (ImageButton)l_avi.findViewById(R.id.LiniaLVWLlistaAssociacionsIMBEditar);
+            l_IMB_Editar = (ImageButton)l_LiniaAssociacio.findViewById(R.id.LiniaLVWLlistaAssociacionsIMBEditar);
             l_IMB_Editar.setImageResource(R.drawable.ic_close_white_48dp);
             // Camviem fons
-            l_transition = (TransitionDrawable) l_avi.getBackground();
+            l_transition = (TransitionDrawable)l_LiniaAssociacio.getBackground();
             l_transition.startTransition(500);
         }
     }

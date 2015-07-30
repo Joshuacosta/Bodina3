@@ -20,18 +20,16 @@
             android:layout_gravity="center_vertical" />
 
         <ImageButton
-            android:id="@+id/LiniaLVWLlistaAssociacionsIMBEsborrar"
+            android:id="@+id/LiniaLVWLlistaAssociacionsIMBAfegirEntitat"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="5dip"
+            android:layout_marginRight="125dip"
             android:visibility="gone"
-            android:background="@drawable/boto_esborrar"
-            android:onClick="LiniaLVWRecercaEntitatsIMBEsborrar_Click"/>
-
-        <!-- android:visibility="gone"-->
+            android:background="@drawable/ic_person_add_black_24dp"
+            android:onClick="LiniaLVWRecercaEntitatsIMBAfegirEntitat_Click"/>
 
         <ImageButton
             android:id="@+id/LiniaLVWLlistaAssociacionsIMBEditar"
@@ -45,6 +43,19 @@
             android:src="@drawable/ic_mode_edit_black_36dp"
             android:background="@null"
             android:onClick="LiniaLVWRecercaEntitatsIMBEditar_Click"/>
+
+        <ImageButton
+            android:id="@+id/LiniaLVWLlistaAssociacionsIMBEsborrar"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="5dip"
+            android:visibility="gone"
+            android:background="@drawable/boto_esborrar"
+            android:onClick="LiniaLVWRecercaEntitatsIMBEsborrar_Click"/>
+
     </FrameLayout>
 
     <TextView
