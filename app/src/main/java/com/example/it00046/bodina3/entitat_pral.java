@@ -288,15 +288,15 @@ public class entitat_pral extends ActionBarActivity {
         l_LiniaAssociacio = (View) l_parent.getParent();
         l_Parametres = new PARAssociacio();
         l_Associacio = (Associacio)l_LiniaAssociacio.getTag();
-        // Llancem la finestra de contactes
-        l_intent = new Intent(
-                ContactsContract.Intents.SHOW_OR_CREATE_CONTACT,
-                Uri.parse("tel:" + l_Associacio.entitat.Telefon));
+        // Llancem la finestra de contactes (si ja el tenim s'obre el contacte, recerquem pel numero)
+        l_intent = new Intent(ContactsContract.Intents.SHOW_OR_CREATE_CONTACT, Uri.parse("tel:" + l_Associacio.entitat.Telefon));
         l_intent.putExtra(ContactsContract.Intents.EXTRA_FORCE_CREATE, true);
+        //l_intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
         l_intent.putExtra(ContactsContract.Intents.Insert.NAME, l_Associacio.entitat.Nom);
         l_intent.putExtra(ContactsContract.Intents.Insert.PHONE, l_Associacio.entitat.Telefon);
         l_intent.putExtra(ContactsContract.Intents.Insert.EMAIL, l_Associacio.entitat.eMail);
         l_intent.putExtra(ContactsContract.Intents.Insert.COMPANY, l_Associacio.entitat.Contacte);
+
         startActivity(l_intent);
     }
         // Aquesta funció es cridada pels elements de la llista quan premem el boto esborrar
