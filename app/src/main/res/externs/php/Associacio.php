@@ -113,11 +113,11 @@ else{
 						while ($row = mysql_fetch_array($result)) {
 							$Associacio = array();
 							// Dades de la associacio
-							$Associacio["Contacte"] = $row["ContacteAssociacio"];							
+							$Associacio["Contacte"] = stripslashes($row["ContacteAssociacio"]);
 							$Associacio["eMail"] = $row["eMailAssociacio"];
 							$Associacio["DataAlta"] = $row["DataAlta"];
 							$Associacio["DataFi"] = $row["DataFi"];
-							$Associacio["Descripcio"] = $row["Descripcio"];
+							$Associacio["Descripcio"] = stripslashes($row["Descripcio"]);
 							$Associacio["DataPeticio"] = $row["DataPeticio"];
 							$Associacio["EstatAssociacio"] = $row["EstatAssociacio"];
 							// Dades de la entitat
@@ -126,8 +126,8 @@ else{
 							$Entitat["Nom"] = $row["Nom"];
 							$Entitat["eMail"] = $row["eMail"];
 							$Entitat["Pais"] = $row["Pais"];
-							$Entitat["Adresa"] = $row["Adresa"];
-							$Entitat["Contacte"] = $row["Contacte"];
+							$Entitat["Adresa"] = stripslashes($row["Adresa"]);
+							$Entitat["Contacte"] = stripslashes($row["Contacte"]);
 							$Entitat["TipusContacte"] = $row["TipusContacte"];
 							$Entitat["Telefon"] = $row["Telefon"];
 							$Entitat["Estat"] = $row["Estat"];

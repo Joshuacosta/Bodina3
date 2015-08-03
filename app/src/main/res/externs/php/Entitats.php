@@ -47,14 +47,13 @@ else{
 					$response["Entitats"] = array();
 					if (mysql_num_rows($result) > 0) {	 
 						while ($row = mysql_fetch_array($result)) {
-							// temp user array
 							$Entitat = array();
 							$Entitat["Codi"] = $row["Codi"];
-							$Entitat["Nom"] = $row["Nom"];
+							$Entitat["Nom"] = stripslashes($row["Nom"]);
 							$Entitat["eMail"] = $row["eMail"];
 							$Entitat["Pais"] = $row["Pais"];
-							$Entitat["Adresa"] = $row["Adresa"];
-							$Entitat["Contacte"] = $row["Contacte"];
+							$Entitat["Adresa"] = stripslashes($row["Adresa"]);
+							$Entitat["Contacte"] = stripslashes($row["Contacte"]);
 							$Entitat["TipusContacte"] = $row["TipusContacte"];
 							$Entitat["Telefon"] = $row["Telefon"];
 							$Entitat["Estat"] = $row["Estat"];
@@ -79,14 +78,13 @@ else{
 					$response["Entitats"] = array();
 					if (mysql_num_rows($result) > 0) {	 
 						while ($row = mysql_fetch_array($result)) {
-							// temp user array
 							$Entitat = array();
 							$Entitat["Codi"] = $row["Codi"];
-							$Entitat["Nom"] = $row["Nom"];
+							$Entitat["Nom"] = stripslashes($row["Nom"]);
 							$Entitat["eMail"] = $row["eMail"];
 							$Entitat["Pais"] = $row["Pais"];
-							$Entitat["Adresa"] = $row["Adresa"];
-							$Entitat["Contacte"] = $row["Contacte"];
+							$Entitat["Adresa"] = stripslashes($row["Adresa"]);
+							$Entitat["Contacte"] = stripslashes($row["Contacte"]);
 							$Entitat["TipusContacte"] = $row["TipusContacte"];
 							$Entitat["Telefon"] = $row["Telefon"];
 							$Entitat["Estat"] = $row["Estat"];

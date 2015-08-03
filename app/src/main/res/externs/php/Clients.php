@@ -159,7 +159,7 @@ else{
 						//
 						$client = array();
 						$client["Codi"] = $row[Codi];
-						$client["eMail"] = stripslashes($row[eMail]);
+						$client["eMail"] = $row[eMail];
 						$client["Nom"] = stripslashes($row[Nom]);
 						$client["Contacte"] = stripslashes($row[Contacte]);
 						$client["DataAlta"] = $row[DataAlta];
@@ -186,7 +186,7 @@ else{
 					if (mysql_num_rows($result) == 1){
 						$row = mysql_fetch_array($result);
 						$client["Codi"] = $row[Codi];
-						$client["eMail"] = stripslashes($row[eMail]);
+						$client["eMail"] = $row[eMail];
 						$client["Nom"] = stripslashes($row[Nom]);
 						$client["Contacte"] = stripslashes($row[Contacte]);
 						$client["DataAlta"] = $row[DataAlta];
