@@ -27,13 +27,16 @@ public final class DAOClients {
     private static RequestParams g_parametresPHP = new RequestParams();
     private static final String TAG_VALIDS = "valids";
     private static final String TAG_client = "client";
+    private static final String TAG_Client = Globals.g_Native.getString(R.string.TClient);
     private static final String TAG_Codi = Globals.g_Native.getString(R.string.TClient_Codi);
+    private static final String TAG_CodiIntern = Globals.g_Native.getString(R.string.TClient_CodiIntern);
     private static final String TAG_eMail = Globals.g_Native.getString(R.string.TClient_eMail);
     private static final String TAG_Nom = Globals.g_Native.getString(R.string.TClient_Nom);
     private static final String TAG_Contacte = Globals.g_Native.getString(R.string.TClient_Contacte);
     private static final String TAG_DataAlta = Globals.g_Native.getString(R.string.TClient_DataAlta);
     private static final String TAG_Pais = Globals.g_Native.getString(R.string.TClient_Pais);
     private static final String TAG_Idioma = Globals.g_Native.getString(R.string.TClient_Idioma);
+    private static final String TAG_Actualitzat = Globals.g_Native.getString(R.string.TClient_Actualitzat);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A   P U B L I C A
@@ -46,7 +49,7 @@ public final class DAOClients {
             // Aquest valor l'informem ja (CodiInternClient es la MAC)
             Globals.g_Client.CodiIntern = Globals.F_RecuperaID();
             //
-            Cursor l_cursor = Globals.g_DB.query(Globals.g_Native.getString(R.string.TClient),
+            Cursor l_cursor = Globals.g_DB.query(TAG_Client,
                     Globals.g_Native.getResources().getStringArray(R.array.TClient_Camps),
                     null, // c. selections
                     null, // d. selections args
@@ -92,9 +95,9 @@ public final class DAOClients {
         Globals.MostrarEspera(p_Context);
         // Primer modifiquem localment i despres globalment
         try {
-            Globals.g_DB.update(Globals.g_Native.getString(R.string.TClient),
+            Globals.g_DB.update(TAG_Client,
                     ClientToContentValues(p_client),
-                    Globals.g_Native.getString(R.string.TClient_Codi) + "= '" + p_client.Codi + "'",
+                    TAG_Codi + "= '" + p_client.Codi + "'",
                     null);
         }
         catch(Exception e) {
@@ -130,7 +133,7 @@ public final class DAOClients {
         // de client ho determinem quan donem d'alta en el servidor per lo que posteriorment hem de
         // actualitzat les dades locals que hem insertat previament.
         try {
-            Globals.g_DB.insert(Globals.g_Native.getString(R.string.TClient),
+            Globals.g_DB.insert(TAG_Client,
                     null,
                     ClientToContentValues(p_client));
         }
@@ -144,12 +147,12 @@ public final class DAOClients {
             if (Globals.isNetworkAvailable()) {
                 // Montem el php
                 g_parametresPHP = new RequestParams();
-                g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_CodiIntern), p_client.CodiIntern);
-                g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_eMail), p_client.eMail);
-                g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Nom), p_client.Nom);
-                g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Pais), p_client.Pais);
-                g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Contacte), p_client.Contacte);
-                g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Idioma), p_client.Idioma);
+                g_parametresPHP.put(TAG_CodiIntern, p_client.CodiIntern);
+                g_parametresPHP.put(TAG_eMail, p_client.eMail);
+                g_parametresPHP.put(TAG_Nom, p_client.Nom);
+                g_parametresPHP.put(TAG_Pais, p_client.Pais);
+                g_parametresPHP.put(TAG_Contacte, p_client.Contacte);
+                g_parametresPHP.put(TAG_Idioma, p_client.Idioma);
                 g_parametresPHP.put("Operativa", Globals.k_OPE_Alta);
                 PhpJson.post("Clients.php", g_parametresPHP, new JsonHttpResponseHandler() {
                     @Override
@@ -218,7 +221,7 @@ public final class DAOClients {
         if (Globals.isNetworkAvailable()){
             // Montem el php
             g_parametresPHP = new RequestParams();
-            g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_CodiIntern), p_CodiIntern);
+            g_parametresPHP.put(TAG_CodiIntern, p_CodiIntern);
             g_parametresPHP.put("Operativa", Globals.k_OPE_SelectCodiClientIntern);
             PhpJson.post("Clients.php", g_parametresPHP, new JsonHttpResponseHandler() {
                 @Override
@@ -288,15 +291,15 @@ public final class DAOClients {
         long l_resultat;
 
         p_client.Actualitzat = true;
-        l_values.put(Globals.g_Native.getString(R.string.TClient_Codi), p_client.Codi);
-        l_values.put(Globals.g_Native.getString(R.string.TClient_Contacte), p_client.Contacte);
-        l_values.put(Globals.g_Native.getString(R.string.TClient_DataAlta), p_client.DataAlta);
-        l_values.put(Globals.g_Native.getString(R.string.TClient_eMail), p_client.eMail);
-        l_values.put(Globals.g_Native.getString(R.string.TClient_Idioma), p_client.Idioma);
-        l_values.put(Globals.g_Native.getString(R.string.TClient_Nom), p_client.Nom);
-        l_values.put(Globals.g_Native.getString(R.string.TClient_Pais), p_client.Pais);
-        l_values.put(Globals.g_Native.getString(R.string.TClient_Actualitzat), p_client.Actualitzat);
-        l_resultat = Globals.g_DB.insert(Globals.g_Native.getString(R.string.TClient), null, l_values);
+        l_values.put(TAG_Codi, p_client.Codi);
+        l_values.put(TAG_Contacte, p_client.Contacte);
+        l_values.put(TAG_DataAlta, p_client.DataAlta);
+        l_values.put(TAG_eMail, p_client.eMail);
+        l_values.put(TAG_Idioma, p_client.Idioma);
+        l_values.put(TAG_Nom, p_client.Nom);
+        l_values.put(TAG_Pais, p_client.Pais);
+        l_values.put(TAG_Actualitzat, p_client.Actualitzat);
+        l_resultat = Globals.g_DB.insert(TAG_Client, null, l_values);
         // Informem si la operativa ha anat correctament
         return (l_resultat != -1);
     }
@@ -305,12 +308,12 @@ public final class DAOClients {
     private static void SRV_Modificar(final Client p_client, final Context p_Context){
         // Montem el php
         g_parametresPHP = new RequestParams();
-        g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Codi), p_client.Codi);
-        g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_eMail), p_client.eMail);
-        g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Nom), p_client.Nom);
-        g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Pais), p_client.Pais);
-        g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Contacte), p_client.Contacte);
-        g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Idioma), p_client.Idioma);
+        g_parametresPHP.put(TAG_Codi, p_client.Codi);
+        g_parametresPHP.put(TAG_eMail, p_client.eMail);
+        g_parametresPHP.put(TAG_Nom, p_client.Nom);
+        g_parametresPHP.put(TAG_Pais, p_client.Pais);
+        g_parametresPHP.put(TAG_Contacte, p_client.Contacte);
+        g_parametresPHP.put(TAG_Idioma, p_client.Idioma);
         g_parametresPHP.put("Operativa", Globals.k_OPE_Update);
         PhpJson.post("Clients.php", g_parametresPHP, new JsonHttpResponseHandler() {
             @Override
@@ -358,10 +361,10 @@ public final class DAOClients {
         ContentValues l_actualitzat = new ContentValues();
         Boolean l_resposta = true;
 
-        l_actualitzat.put(Globals.g_Native.getString(R.string.TClient_Codi), p_Codi);
-        l_actualitzat.put(Globals.g_Native.getString(R.string.TClient_Actualitzat), true);
+        l_actualitzat.put(TAG_Codi, p_Codi);
+        l_actualitzat.put(TAG_Actualitzat, true);
         try {
-            Globals.g_DB.update(Globals.g_Native.getString(R.string.TClient),
+            Globals.g_DB.update(TAG_Client,
                     l_actualitzat,
                     null,
                     null);
@@ -380,11 +383,11 @@ public final class DAOClients {
         ContentValues l_actualitzat = new ContentValues();
         Boolean l_resposta = true;
 
-        l_actualitzat.put(Globals.g_Native.getString(R.string.TClient_Actualitzat), true);
+        l_actualitzat.put(TAG_Actualitzat, true);
         try {
-            Globals.g_DB.update(Globals.g_Native.getString(R.string.TClient),
+            Globals.g_DB.update(TAG_Client,
                     l_actualitzat,
-                    Globals.g_Native.getString(R.string.TClient_Codi) + "='" + p_Codi + "'",
+                    TAG_Codi + "='" + p_Codi + "'",
                     null);
         }
         catch (Exception e) {
@@ -400,14 +403,14 @@ public final class DAOClients {
     private static Client CursorToClient(Cursor p_cursor){
         Client l_client = new Client();
 
-        l_client.Codi = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Codi)));
-        l_client.eMail = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_eMail)));
-        l_client.Nom = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Nom)));
-        l_client.Pais = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Pais)));
-        l_client.Contacte = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Contacte)));
-        l_client.DataAlta = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_DataAlta)));
-        l_client.Idioma = p_cursor.getString(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Idioma)));
-        l_client.Actualitzat = (p_cursor.getInt(p_cursor.getColumnIndex(Globals.g_Native.getString(R.string.TClient_Actualitzat))) != 0);
+        l_client.Codi = p_cursor.getString(p_cursor.getColumnIndex(TAG_Codi));
+        l_client.eMail = p_cursor.getString(p_cursor.getColumnIndex(TAG_eMail));
+        l_client.Nom = p_cursor.getString(p_cursor.getColumnIndex(TAG_Nom));
+        l_client.Pais = p_cursor.getString(p_cursor.getColumnIndex(TAG_Pais));
+        l_client.Contacte = p_cursor.getString(p_cursor.getColumnIndex(TAG_Contacte));
+        l_client.DataAlta = p_cursor.getString(p_cursor.getColumnIndex(TAG_DataAlta));
+        l_client.Idioma = p_cursor.getString(p_cursor.getColumnIndex(TAG_Idioma));
+        l_client.Actualitzat = (p_cursor.getInt(p_cursor.getColumnIndex(TAG_Actualitzat)) != 0);
 
         return l_client;
     }
@@ -416,16 +419,16 @@ public final class DAOClients {
     private static ContentValues ClientToContentValues(Client p_client) {
         ContentValues l_values = new ContentValues();
 
-        l_values.put(Globals.g_Native.getString(R.string.TClient_Codi), p_client.Codi);
-        l_values.put(Globals.g_Native.getString(R.string.TClient_Contacte), p_client.Contacte);
-        l_values.put(Globals.g_Native.getString(R.string.TClient_DataAlta), p_client.DataAlta);
-        l_values.put(Globals.g_Native.getString(R.string.TClient_eMail), p_client.eMail);
-        l_values.put(Globals.g_Native.getString(R.string.TClient_Idioma), p_client.Idioma);
-        l_values.put(Globals.g_Native.getString(R.string.TClient_Nom), p_client.Nom);
-        l_values.put(Globals.g_Native.getString(R.string.TClient_Pais), p_client.Pais);
+        l_values.put(TAG_Codi, p_client.Codi);
+        l_values.put(TAG_Contacte, p_client.Contacte);
+        l_values.put(TAG_DataAlta, p_client.DataAlta);
+        l_values.put(TAG_eMail, p_client.eMail);
+        l_values.put(TAG_Idioma, p_client.Idioma);
+        l_values.put(TAG_Nom, p_client.Nom);
+        l_values.put(TAG_Pais, p_client.Pais);
         // Com gravem a la BD local posem a false per sapiguer que no es actualiztat al servidor
         // (ho posarem a cert si l'actualització al servidor va be)
-        l_values.put(Globals.g_Native.getString(R.string.TClient_Actualitzat), false);
+        l_values.put(TAG_Actualitzat, false);
 
         return l_values;
     }

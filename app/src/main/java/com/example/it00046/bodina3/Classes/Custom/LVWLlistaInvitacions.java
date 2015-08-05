@@ -16,11 +16,11 @@ import com.example.it00046.bodina3.R;
  */
 public class LVWLlistaInvitacions extends ArrayAdapter<Invitacio> {
 
-    private Context l_context;
+    private Context g_context;
 
     public LVWLlistaInvitacions(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
-        l_context = context;
+        g_context = context;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class LVWLlistaInvitacions extends ArrayAdapter<Invitacio> {
         TextView l_TXT_Nom, l_TXT_DataInvitacio, l_TXT_DataResolucio;
 
         l_Invitacio = getItem(position);
-        LayoutInflater inflater = LayoutInflater.from(this.l_context);
+        LayoutInflater inflater = LayoutInflater.from(this.g_context);
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.linia_lvw_llista_invitacions, null);
         }

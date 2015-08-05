@@ -19,11 +19,11 @@ import java.util.Comparator;
  */
 public class LVWLlistaAssociacions extends ArrayAdapter<Associacio> {
 
-    private Context l_context;
+    private Context g_context;
 
     public LVWLlistaAssociacions(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
-        l_context = context;
+        g_context = context;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class LVWLlistaAssociacions extends ArrayAdapter<Associacio> {
         TextView l_TXT_Descripcio, l_TXT_Dates;
 
         l_Associacio = getItem(p_position);
-        LayoutInflater inflater = LayoutInflater.from(this.l_context);
+        LayoutInflater inflater = LayoutInflater.from(this.g_context);
         if (p_convertView == null) {
             p_convertView = inflater.inflate(R.layout.linia_lvw_llista_associacions, null);
         }

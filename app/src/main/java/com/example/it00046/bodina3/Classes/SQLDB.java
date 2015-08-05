@@ -22,7 +22,7 @@ public class SQLDB extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String l_Create;
         // Definim les taules de la BBDD local
-        // Client
+        // 1- Client
         l_Create = String.format(Globals.g_Native.getString(R.string.TClientCreate),
                 Globals.g_Native.getString(R.string.TClient),
                 Globals.g_Native.getString(R.string.TClient_Codi),
@@ -34,7 +34,7 @@ public class SQLDB extends SQLiteOpenHelper {
                 Globals.g_Native.getString(R.string.TClient_Idioma),
                 Globals.g_Native.getString(R.string.TClient_Actualitzat));
         db.execSQL(l_Create);
-        // Salons
+        // 2- Salons
         l_Create = String.format(Globals.g_Native.getString(R.string.TSalons),
                 Globals.g_Native.getString(R.string.TSalons_Codi),
                 Globals.g_Native.getString(R.string.TSalons_Nom),
@@ -43,12 +43,12 @@ public class SQLDB extends SQLiteOpenHelper {
                 Globals.g_Native.getString(R.string.TSalons_CodiPlanol),
                 Globals.g_Native.getString(R.string.TSalons_Estat));
         db.execSQL(l_Create);
-        // Tipus de celebracio
+        // 3- Tipus de celebracio
         l_Create = String.format(Globals.g_Native.getString(R.string.TTipusCelebracio),
                 Globals.g_Native.getString(R.string.TTipusCelebracio_Codi),
                 Globals.g_Native.getString(R.string.TTipusCelebracio_Descripcio));
         db.execSQL(l_Create);
-        // Planols
+        // 4- Planols
         l_Create = String.format(Globals.g_Native.getString(R.string.TPlanols),
                 Globals.g_Native.getString(R.string.TPlanols_Codi),
                 Globals.g_Native.getString(R.string.TPlanols_OrigenX),
@@ -57,7 +57,7 @@ public class SQLDB extends SQLiteOpenHelper {
                 Globals.g_Native.getString(R.string.TPlanols_DestiY),
                 Globals.g_Native.getString(R.string.TPlanols_Angle));
         db.execSQL(l_Create);
-        // Celebracions
+        // 5- Celebracions
         l_Create = String.format(Globals.g_Native.getString(R.string.TCelebracions),
                 Globals.g_Native.getString(R.string.TCelebracions_Codi),
                 Globals.g_Native.getString(R.string.TCelebracions_CodiSalo),
@@ -69,7 +69,7 @@ public class SQLDB extends SQLiteOpenHelper {
                 Globals.g_Native.getString(R.string.TCelebracions_Contacte),
                 Globals.g_Native.getString(R.string.TCelebracions_Estat));
         db.execSQL(l_Create);
-        // Distribucions
+        // 6- Distribucions
         l_Create = String.format(Globals.g_Native.getString(R.string.TDistribucions),
                 Globals.g_Native.getString(R.string.TDistribucions_CodiCelebracio),
                 Globals.g_Native.getString(R.string.TDistribucions_CodiDistribucio),
@@ -78,7 +78,7 @@ public class SQLDB extends SQLiteOpenHelper {
                 Globals.g_Native.getString(R.string.TDistribucions_DataModificacio),
                 Globals.g_Native.getString(R.string.TDistribucions_Estat));
         db.execSQL(l_Create);
-        // Distribucio Taules
+        // 7- Distribucio Taules
         l_Create = String.format(Globals.g_Native.getString(R.string.TDistribucioTaules),
                 Globals.g_Native.getString(R.string.TDistribucioTaules_CodiCelebracio),
                 Globals.g_Native.getString(R.string.TDistribucioTaules_CodiDistribucio),
@@ -88,7 +88,7 @@ public class SQLDB extends SQLiteOpenHelper {
                 Globals.g_Native.getString(R.string.TDistribucioTaules_PosicioX),
                 Globals.g_Native.getString(R.string.TDistribucioTaules_PosicioY));
         db.execSQL(l_Create);
-        // Distribucio Convidats
+        // 8- Distribucio Convidats
         l_Create = String.format(Globals.g_Native.getString(R.string.TDistribucioConvidats),
                 Globals.g_Native.getString(R.string.TDistribucioConvidats_CodiCelebracio),
                 Globals.g_Native.getString(R.string.TDistribucioConvidats_CodiDistribucio),
@@ -97,16 +97,51 @@ public class SQLDB extends SQLiteOpenHelper {
                 Globals.g_Native.getString(R.string.TDistribucioConvidats_PosicioY),
                 Globals.g_Native.getString(R.string.TDistribucioConvidats_NumTaula));
         db.execSQL(l_Create);
-        // Categories de convidats
+        // 9- Categories de convidats
         l_Create = String.format(Globals.g_Native.getString(R.string.TCategoriesConvidats),
                 Globals.g_Native.getString(R.string.TCategoriesConvidats_Codi),
                 Globals.g_Native.getString(R.string.TCategoriesConvidats_CodiCelebracio),
                 Globals.g_Native.getString(R.string.TCategoriesConvidats_Descripcio));
         db.execSQL(l_Create);
-        // Menus de convidats
+        // 10- Menus de convidats
         l_Create = String.format(Globals.g_Native.getString(R.string.TMenusConvidats),
                 Globals.g_Native.getString(R.string.TMenusConvidats_Codi),
                 Globals.g_Native.getString(R.string.TMenusConvidats_Descripcio));
+        db.execSQL(l_Create);
+        // 11- Grups de convidats
+        l_Create = String.format(Globals.g_Native.getString(R.string.TGrupsConvidats),
+                Globals.g_Native.getString(R.string.TGrupsConvidats_Codi),
+                Globals.g_Native.getString(R.string.TGrupsConvidats_CodiCelebracio),
+                Globals.g_Native.getString(R.string.TGrupsConvidats_Descripcio));
+        db.execSQL(l_Create);
+        // 12- Convidats
+        l_Create = String.format(Globals.g_Native.getString(R.string.TConvidats),
+                Globals.g_Native.getString(R.string.TConvidats_Codi),
+                Globals.g_Native.getString(R.string.TConvidats_Nom),
+                Globals.g_Native.getString(R.string.TConvidats_Tipus),
+                Globals.g_Native.getString(R.string.TConvidats_Adresa),
+                Globals.g_Native.getString(R.string.TConvidats_Contacte),
+                Globals.g_Native.getString(R.string.TConvidats_Comentari),
+                Globals.g_Native.getString(R.string.TConvidats_CodiCategoria1),
+                Globals.g_Native.getString(R.string.TConvidats_CodiCategoria2),
+                Globals.g_Native.getString(R.string.TConvidats_CodiCategoria3),
+                Globals.g_Native.getString(R.string.TConvidats_CodiGrup),
+                Globals.g_Native.getString(R.string.TConvidats_Estat));
+        db.execSQL(l_Create);
+        // 13- Llista de convidats
+        l_Create = String.format(Globals.g_Native.getString(R.string.TLlistaConvidats),
+                Globals.g_Native.getString(R.string.TLlistaConvidats_CodiCelebracio),
+                Globals.g_Native.getString(R.string.TLlistaConvidats_CodiConvidat),
+                Globals.g_Native.getString(R.string.TLlistaConvidats_CodiMenu),
+                Globals.g_Native.getString(R.string.TLlistaConvidats_CodiCategoria1),
+                Globals.g_Native.getString(R.string.TLlistaConvidats_CodiCategoria2),
+                Globals.g_Native.getString(R.string.TLlistaConvidats_CodiCategoria3),
+                Globals.g_Native.getString(R.string.TLlistaConvidats_CodiGrup),
+                Globals.g_Native.getString(R.string.TLlistaConvidats_Confirmat),
+                Globals.g_Native.getString(R.string.TLlistaConvidats_Avisat),
+                Globals.g_Native.getString(R.string.TLlistaConvidats_Transport),
+                Globals.g_Native.getString(R.string.TLlistaConvidats_Comentari),
+                Globals.g_Native.getString(R.string.TLlistaConvidats_Estat));
         db.execSQL(l_Create);
         // Si executem aixó es que hem creat la BBDD i no hi han dades, de moment:
         Globals.g_NoHiHanDades = true;

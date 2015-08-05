@@ -379,6 +379,7 @@
     <!-- Llista camps -->
     <string-array name="TCategoriesConvidats_Camps">
         <item>@string/TCategoriesConvidats_Codi</item>
+        <item>@string/TCategoriesConvidats_CodiCelebracio</item>
         <item>@string/TCategoriesConvidats_Descripcio</item>
     </string-array>
     <!-- Funcions -->
@@ -402,6 +403,24 @@
                                 %2$s INTEGER,
                                 %3$s VARCHAR(50))</string>
     <!-- .................................................................................. -->
+    <!-- GRUPS CONVIDATS (local) -->
+    <string name="TGrupsConvidats">GrupsConvidats</string>
+    <!-- Camps -->
+    <string name="TGrupsConvidats_Codi">Codi</string>
+    <string name="TGrupsConvidats_CodiCelebracio">CodiCelebracio</string>
+    <string name="TGrupsConvidats_Descripcio">Descripcio</string>
+    <!-- Llista camps -->
+    <string-array name="TGrupsConvidats_Camps">
+        <item>@string/TGrupsConvidats_Codi</item>
+        <item>@string/TGrupsConvidats_CodiCelebracio</item>
+        <item>@string/TGrupsConvidats_Descripcio</item>
+    </string-array>
+    <!-- Funcions -->
+    <string name="TGrupsConvidatsCreate">CREATE TABLE %1$s (
+                                %2$s INTEGER,
+                                %3$s INTEGER,
+                                %4$s VARCHAR(50))</string>
+    <!-- .................................................................................. -->
     <!-- CONVIDATS (local) -->
     <string name="TConvidats">Convidats</string>
     <!-- Camps -->
@@ -414,7 +433,7 @@
     <string name="TConvidats_CodiCategoria1">CodiCategoria1</string>
     <string name="TConvidats_CodiCategoria2">CodiCategoria2</string>
     <string name="TConvidats_CodiCategoria3">CodiCategoria3</string>
-    <string name="TConvidats_CodiParella">Comentari</string>
+    <string name="TConvidats_CodiGrup">CodiGrup</string>
     <string name="TConvidats_Estat">Estat</string>
     <!-- Llista camps -->
     <string-array name="TConvidats_Camps">
@@ -427,7 +446,7 @@
         <item>@string/TConvidats_CodiCategoria1</item>
         <item>@string/TConvidats_CodiCategoria2</item>
         <item>@string/TConvidats_CodiCategoria3</item>
-        <item>@string/TConvidats_CodiParella</item>
+        <item>@string/TConvidats_CodiGrup</item>
         <item>@string/TConvidats_Estat</item>
     </string-array>
     <!-- Funcions -->
@@ -444,41 +463,50 @@
                                 %11$s INTEGER,
                                 %12$s INTEGER)</string>
     <!-- .................................................................................. -->
-    <!-- CELEBRACIONS (local) -->
+    <!-- LLISTA CONVIDATS (local) -->
     <string name="TLlistaConvidats">LlistaConvidats</string>
     <!-- Camps -->
-    <string name="TLlistaConvidats_Codi">Codi</string>
-    <string name="TLlistaConvidats_CodiSalo">CodiSalo</string>
-    <string name="TLlistaConvidats_Tipus">Tipus</string>
-    <string name="TLlistaConvidats_Descripcio">Descripcio</string>
-    <string name="TLlistaConvidats_Convidats">Convidats</string>
-    <string name="TLlistaConvidats_Data">Data</string>
-    <string name="TLlistaConvidats_Lloc">Lloc</string>
-    <string name="TLlistaConvidats_Contacte">Contacte</string>
+    <string name="TLlistaConvidats_CodiCelebracio">CodiCelebracio</string>
+    <string name="TLlistaConvidats_CodiConvidat">CodiConvidat</string>
+    <string name="TLlistaConvidats_CodiMenu">CodiMenu</string>
+    <string name="TLlistaConvidats_CodiCategoria1">CodiCategoria1</string>
+    <string name="TLlistaConvidats_CodiCategoria2">CodiCategoria2</string>
+    <string name="TLlistaConvidats_CodiCategoria3">CodiCategoria3</string>
+    <string name="TLlistaConvidats_CodiGrup">CodiGrup</string>
+    <string name="TLlistaConvidats_Confirmat">Confirmat</string>
+    <string name="TLlistaConvidats_Avisat">Avisat</string>
+    <string name="TLlistaConvidats_Transport">Transport</string>
+    <string name="TLlistaConvidats_Comentari">Comentari</string>
     <string name="TLlistaConvidats_Estat">Estat</string>
     <!-- Llista camps -->
     <string-array name="TLlistaConvidats_Camps">
-        <item>@string/TCelebracions_Codi</item>
-        <item>@string/TCelebracions_CodiSalo</item>
-        <item>@string/TCelebracions_Tipus</item>
-        <item>@string/TCelebracions_Descripcio</item>
-        <item>@string/TCelebracions_Convidats</item>
-        <item>@string/TCelebracions_Data</item>
-        <item>@string/TCelebracions_Lloc</item>
-        <item>@string/TCelebracions_Contacte</item>
-        <item>@string/TCelebracions_Estat</item>
+        <item>@string/TLlistaConvidats_CodiCelebracio</item>
+        <item>@string/TLlistaConvidats_CodiConvidat</item>
+        <item>@string/TLlistaConvidats_CodiMenu</item>
+        <item>@string/TLlistaConvidats_CodiCategoria1</item>
+        <item>@string/TLlistaConvidats_CodiCategoria2</item>
+        <item>@string/TLlistaConvidats_CodiCategoria3</item>
+        <item>@string/TLlistaConvidats_CodiGrup</item>
+        <item>@string/TLlistaConvidats_Confirmat</item>
+        <item>@string/TLlistaConvidats_Avisat</item>
+        <item>@string/TLlistaConvidats_Transport</item>
+        <item>@string/TLlistaConvidats_Comentari</item>
+        <item>@string/TLlistaConvidats_Estat</item>
     </string-array>
     <!-- Funcions -->
     <string name="TLlistaConvidatsCreate">CREATE TABLE %1$s (
                                 %2$s INTEGER,
                                 %3$s INTEGER,
                                 %4$s INTEGER,
-                                %5$s VARCHAR(50),
+                                %5$s INTEGER,
                                 %6$s INTEGER,
-                                %7$s VARCHAR(20),
-                                %8$s VARCHAR(100),
-                                %9$s VARCHAR(100),
-                                %10$s INTEGER)</string>
+                                %7$s INTEGER,
+                                %8$s INTEGER,
+                                %9$s INTEGER,
+                                %10$s INTEGER,
+                                %11$s INTEGER,
+                                %12$s VARCHAR(200),
+                                %13$s INTEGER)</string>
     <!-- .................................................................................. -->
     <!-- ASSOCIACIONS (servidor) -->
     <string name="TAssociacions">Associacions</string>
