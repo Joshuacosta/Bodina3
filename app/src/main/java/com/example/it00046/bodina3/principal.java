@@ -130,6 +130,10 @@ public class principal extends ActionBarActivity {
                 l_intent = new Intent(this, configuracio.class);
                 startActivity(l_intent);
                 return true;
+            case R.id.principalMNUTipusCelebracions:
+                l_intent = new Intent(this, tipus_celebracions.class);
+                startActivity(l_intent);
+                return true;
             case R.id.principalMNUactualitzar:
                 //
                 return true;

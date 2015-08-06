@@ -10,7 +10,7 @@ public class TipusCelebracio {
     public String Descripcio;
 
     public void TipusCelebracio(){
-        Codi = 0;
+        Codi = -1;
         Descripcio = null;
     }
 }

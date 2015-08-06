@@ -24,6 +24,7 @@
             android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -91,6 +92,14 @@
             android:name=".entitat_modificar"
             android:label="@string/title_activity_entitat_modificar"
             android:parentActivityName=".entitat_pral" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".entitat_pral" />
+        </activity>
+        <!-- Finestra de tipus de celebracions -->
+        <activity
+            android:name=".tipus_celebracions"
+            android:label="@string/title_activity_tipus_celebracions" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".entitat_pral" />

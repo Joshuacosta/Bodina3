@@ -10,6 +10,9 @@
     <item android:id="@+id/principalMNUconfiguracio"
         android:title="@string/principalMNUconfiguracio"
         android:orderInCategory="102" app:showAsAction="never" />
+    <item android:id="@+id/principalMNUTipusCelebracions"
+        android:title="@string/principalMNUTipusCelebracions"
+        android:orderInCategory="102" app:showAsAction="never" />
     <item android:id="@+id/principalMNUactualitzar"
         android:title="@string/principalMNUactualitzar"
         android:orderInCategory="103" app:showAsAction="never" />

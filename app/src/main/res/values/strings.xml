@@ -50,6 +50,7 @@
     <string name="principalMNUentitats">Entities</string>
     <string name="principalMNUafegir">Add event</string>
     <string name="principalMNUconfiguracio">Settings</string>
+    <string name="principalMNUTipusCelebracions">Types of events</string>
     <string name="principalMNUactualitzar">Refresh</string>
 
     <!-- Layout Configuracio -->
@@ -105,8 +106,10 @@
     <string name="EntitatSolicitar_TipusCelebracio">Type event</string>
     <string name="EntitatSolicitar_Convidats">Guests</string>
 
-
-
+    <!-- Layout tipus de celebracions -->
+    <string name="title_activity_tipus_celebracions">Types of events</string>
+    <string name="tipus_celebracionsMNUOrdenar">Sort types</string>
+    <string name="tipus_celebracionsMNUAfegirTipus">Add type</string>
     <!-- ################################################################################### -->
     <!-- B A S E   D E   D A D E S -->
     <!-- ################################################################################### -->
@@ -839,5 +842,4 @@
         <item>Zambia -ZMB</item>
         <item>Zimbabwe -ZWE</item>
     </string-array>
-
 </resources>

@@ -6,6 +6,9 @@ package com.example.it00046.bodina3.Classes;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.example.it00046.bodina3.Classes.DAO.DAOTipusCelebracions;
+import com.example.it00046.bodina3.Classes.Entitats.TipusCelebracio;
 import com.example.it00046.bodina3.R;
 
 public class SQLDB extends SQLiteOpenHelper {
@@ -21,6 +24,7 @@ public class SQLDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String l_Create;
+        TipusCelebracio l_TipusCelebracio;
         // Definim les taules de la BBDD local
         // 1- Client
         l_Create = String.format(Globals.g_Native.getString(R.string.TClientCreate),
@@ -48,6 +52,11 @@ public class SQLDB extends SQLiteOpenHelper {
                 Globals.g_Native.getString(R.string.TTipusCelebracio_Codi),
                 Globals.g_Native.getString(R.string.TTipusCelebracio_Descripcio));
         db.execSQL(l_Create);
+        // Afegim els tipus basics de celebracio
+        l_TipusCelebracio = new TipusCelebracio();
+        l_TipusCelebracio.Codi = 0;
+        l_TipusCelebracio.Descripcio = "Wedding";
+        DAOTipusCelebracions.Afegir(l_TipusCelebracio, Globals.g_Native);
         // 4- Planols
         l_Create = String.format(Globals.g_Native.getString(R.string.TPlanols),
                 Globals.g_Native.getString(R.string.TPlanols_Codi),

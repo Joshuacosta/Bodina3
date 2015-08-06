@@ -39,7 +39,6 @@ import java.util.Comparator;
 
 public class entitat_pral extends ActionBarActivity {
     private ListView g_LVW_Associacions;
-    //private View g_LiniaSeleccionada;
     private int g_Posicio = -1;
     private View g_LIN_ToolbarAnterior = null;
     private Associacio g_AssociacioAnterior;
@@ -299,7 +298,7 @@ public class entitat_pral extends ActionBarActivity {
 
         startActivity(l_intent);
     }
-        // Aquesta funció es cridada pels elements de la llista quan premem el boto esborrar
+    // Aquesta funció es cridada pels elements de la llista quan premem el boto editar
     public void LiniaLVWRecercaEntitatsIMBEditar_Click(View l_view) {
         ImageButton l_IMB_Esborrar, l_IMB_Editar, l_IMB_AfegirEntitat;
         TransitionDrawable l_transition;
