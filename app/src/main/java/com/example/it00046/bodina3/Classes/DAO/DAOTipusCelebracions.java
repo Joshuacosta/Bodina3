@@ -38,7 +38,7 @@ public class DAOTipusCelebracions {
                     null, // f. having
                     null, // g. order by
                     null); // h. limit
-            if (l_cursor.getCount() == 1) {
+            if (l_cursor.getCount() > 0) {
                 l_cursor.moveToFirst();
                 for (int i=0; i < l_cursor.getCount(); i++) {
                     TipusCelebracio l_Tipus = CursorToTipusCelebracio(l_cursor);
@@ -56,31 +56,39 @@ public class DAOTipusCelebracions {
         }
     }
     // Afegim un tipus de celebracio
-    public static void Afegir(TipusCelebracio p_TipusCelebracio, final Context p_Context){
-        Globals.MostrarEspera(p_Context);
+    public static void Afegir(TipusCelebracio p_TipusCelebracio, final Context p_Context, boolean p_Asistit, boolean p_Tancam){
+        if (p_Asistit) {
+            Globals.MostrarEspera(p_Context);
+        }
         try {
             Globals.g_DB.insert(TAG_TipusCelebracio,
                     null,
                     TipusCelebracioToContentValues(p_TipusCelebracio));
         }
         catch(Exception e) {
-            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
-                    Globals.g_Native.getString(R.string.error_greu), p_Context);
-            Globals.TancarEspera();
+            if (p_Asistit) {
+                Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                        Globals.g_Native.getString(R.string.error_greu), p_Context);
+                Globals.TancarEspera();
+            }
         }
         finally{
-            Globals.TancarEspera();
-            // Informem de la operativa feta
-            Toast.makeText(p_Context,
-                    Globals.g_Native.getString(R.string.op_afegir_ok),
-                    Toast.LENGTH_LONG).show();
-            // Tanquem a qui ens ha cridat
-            Activity l_activity = (Activity) p_Context;
-            l_activity.finish();
+            if (p_Asistit) {
+                Globals.TancarEspera();
+                // Informem de la operativa feta
+                Toast.makeText(p_Context,
+                        Globals.g_Native.getString(R.string.op_afegir_ok),
+                        Toast.LENGTH_LONG).show();
+                // Tanquem a qui ens ha cridat
+                if (p_Tancam) {
+                    Activity l_activity = (Activity) p_Context;
+                    l_activity.finish();
+                }
+            }
         }
     }
     // Modifiquem un tipus de celebracio
-    public static void Modificar(TipusCelebracio p_TipusCelebracio, final Context p_Context){
+    public static void Modificar(TipusCelebracio p_TipusCelebracio, final Context p_Context, boolean p_Tancam){
         Globals.MostrarEspera(p_Context);
         try {
             Globals.g_DB.update(TAG_TipusCelebracio,
@@ -100,22 +108,27 @@ public class DAOTipusCelebracions {
                     Globals.g_Native.getString(R.string.op_modificacio_ok),
                     Toast.LENGTH_LONG).show();
             // Tanquem a qui ens ha cridat
-            Activity l_activity = (Activity) p_Context;
-            l_activity.finish();
+            if (p_Tancam) {
+                Activity l_activity = (Activity) p_Context;
+                l_activity.finish();
+            }
         }
     }
     // Esborrem un tipus de celebracio
-    public static void Esborrar(TipusCelebracio p_TipusCelebracio, final Context p_Context){
+    public static boolean Esborrar(int p_Codi, final Context p_Context, boolean p_Tancam){
+        boolean l_Resultat = true;
+
         Globals.MostrarEspera(p_Context);
         try {
             Globals.g_DB.delete(TAG_TipusCelebracio,
-                    TAG_Codi + "= " + p_TipusCelebracio.Codi,
+                    TAG_Codi + "= " + p_Codi,
                     null);
         }
         catch(Exception e) {
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
                     Globals.g_Native.getString(R.string.error_greu), p_Context);
             Globals.TancarEspera();
+            l_Resultat = false;
         }
         finally{
             Globals.TancarEspera();
@@ -124,9 +137,12 @@ public class DAOTipusCelebracions {
                     Globals.g_Native.getString(R.string.op_esborrar_ok),
                     Toast.LENGTH_LONG).show();
             // Tanquem a qui ens ha cridat
-            Activity l_activity = (Activity) p_Context;
-            l_activity.finish();
+            if (p_Tancam) {
+                Activity l_activity = (Activity) p_Context;
+                l_activity.finish();
+            }
         }
+        return l_Resultat;
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Funcions privades

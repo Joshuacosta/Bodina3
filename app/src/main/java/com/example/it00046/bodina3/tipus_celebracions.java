@@ -9,6 +9,7 @@ import android.graphics.drawable.TransitionDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -35,14 +37,12 @@ import java.util.Comparator;
 public class tipus_celebracions extends ActionBarActivity {
     private ListView g_LVW_TipusCelebracions;
     private int g_Posicio = -1;
-    private View g_LIN_ToolbarAnterior = null;
-    private TipusCelebracio g_TipusCelebracioAnterior;
     private ImageButton g_IMB_Esborrar = null, g_IMB_Editar = null;
     private Context Jo = this;
     private Boolean g_EstatEsborrar = false;
-    static final int g_RQC_TIPUS_SOLICITEM = 1, g_RQC_TIPUS_MODIFIQUEM = 2;
     private AlertDialog.Builder g_alertDialogBuilder;
-    private int g_OpcioOrdenacio = -1;
+    private int g_CodiModificacio;
+    static final int g_RQC_TIPUS_SOLICITEM = 1, g_RQC_TIPUS_MODIFIQUEM = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,11 +87,11 @@ public class tipus_celebracions extends ActionBarActivity {
                 if (g_Posicio != p_position) {
                     l_IMB_Esborrar = (ImageButton) p_view.findViewById(R.id.LiniaLVWLlistaTipusCelebracionsIMBEsborrar);
                     l_IMB_Editar = (ImageButton) p_view.findViewById(R.id.LiniaLVWLlistaTipusCelebracionsIMBEditar);
-                    if (g_LIN_ToolbarAnterior != null && g_LIN_ToolbarAnterior.getVisibility() == View.VISIBLE) {
-                        g_IMB_Esborrar.setVisibility(View.INVISIBLE);
-                        g_IMB_Editar.setVisibility(View.INVISIBLE);
+                    if (g_IMB_Editar != null) {
                         g_IMB_Esborrar.startAnimation(l_Animacio_Amagar);
                         g_IMB_Editar.startAnimation(l_Animacio_Amagar);
+                        g_IMB_Esborrar.setVisibility(View.INVISIBLE);
+                        g_IMB_Editar.setVisibility(View.INVISIBLE);
                     }
                     l_IMB_Esborrar.setVisibility(View.VISIBLE);
                     l_IMB_Editar.setVisibility(View.VISIBLE);
@@ -101,8 +101,7 @@ public class tipus_celebracions extends ActionBarActivity {
                     g_Posicio = p_position;
                     g_IMB_Esborrar = l_IMB_Esborrar;
                     g_IMB_Editar = l_IMB_Editar;
-                }
-                else {
+                } else {
                     // Amaguem/mostrem els botons
                     // Animacio de botons SI CORRESPON (en funcio de l'estat de la associacio)
                     if (g_IMB_Editar.getVisibility() == View.VISIBLE) {
@@ -123,6 +122,30 @@ public class tipus_celebracions extends ActionBarActivity {
         // Mostrem el tornar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        // Construim la finestra (alert) de afegir i modificar un tipus de celebracio
+        /*
+        g_alertDialogBuilder = new AlertDialog.Builder(Jo);
+        // Configurem
+        g_alertDialogBuilder.setView(g_input);
+        g_alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        TipusCelebracio l_TipusCelebracio = new TipusCelebracio();
+
+                        l_TipusCelebracio.Codi = g_CodiModificacio;
+                        l_TipusCelebracio.Descripcio = g_input.getText().toString();
+
+                        DAOTipusCelebracions.Modificar(l_TipusCelebracio, Jo, false);
+                    }
+                })
+                .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface p_dialog, int p_id) {
+                    }
+                });
+        */
     }
 
     @Override
@@ -184,6 +207,7 @@ public class tipus_celebracions extends ActionBarActivity {
         View l_parent, l_LiniaTipusCelebracio;
         PARTipusCelebracio l_Parametres;
         TipusCelebracio l_TipusCelebracio;
+        final EditText g_input = new EditText(this);
 
         // Recuperem "jerarquia"
         l_parent = (View) l_view.getParent();
@@ -205,13 +229,40 @@ public class tipus_celebracions extends ActionBarActivity {
         }
         else {
             // Obrim la activitat de modificacio del tipus
-            l_Parametres = new PARTipusCelebracio();
             l_TipusCelebracio = (TipusCelebracio)l_LiniaTipusCelebracio.getTag();
-            l_Parametres.Descripcio = l_TipusCelebracio.Descripcio;
+            //g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.tipus_celebracions_Modificar));
+            g_CodiModificacio = l_TipusCelebracio.Codi;
+            /*
+            AlertDialog l_alertDialog = g_alertDialogBuilder.create();
+            g_input.setText(l_TipusCelebracio.Descripcio);
+            g_alertDialogBuilder.setView(g_input);
+            l_alertDialog.show();
+            */
+            // Construim la finestra (alert) de afegir i modificar un tipus de celebracio
+            g_alertDialogBuilder = new AlertDialog.Builder(Jo);
+            // Configurem
+            g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.tipus_celebracions_Modificar));
+            g_alertDialogBuilder.setView(g_input);
+            g_input.setText(l_TipusCelebracio.Descripcio);
+            g_alertDialogBuilder
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-            Intent l_editem = new Intent(this, entitat_modificar.class);
-            l_editem.putExtra("TipusCelebracio", l_Parametres);
-            startActivityForResult(l_editem, g_RQC_TIPUS_MODIFIQUEM);
+                            TipusCelebracio l_TipusCelebracio = new TipusCelebracio();
+
+                            l_TipusCelebracio.Codi = g_CodiModificacio;
+                            l_TipusCelebracio.Descripcio = g_input.getText().toString();
+
+                            DAOTipusCelebracions.Modificar(l_TipusCelebracio, Jo, false);
+                        }
+                    })
+                    .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface p_dialog, int p_id) {
+                        }
+                    });
+            g_alertDialogBuilder.show();
         }
     }
     // Aquesta funció es cridada pels elements de la llista quan premem el boto esborrar
@@ -226,11 +277,15 @@ public class tipus_celebracions extends ActionBarActivity {
         l_LiniaTipusCelebracio = (View) l_parent.getParent();
         // Validem si "ja" esborrem
         if (g_EstatEsborrar){
-            // Esborrem (modifiquem el seu estat)
+            // Esborrem
             l_TipusCelebracio = (TipusCelebracio)l_LiniaTipusCelebracio.getTag();
-            //DAOTipusCelebracions.Esborrar();//l_TipusCelebracio, Jo, g_LVW_TipusCelebracions, R.layout.linia_lvw_llista_associacions);
+            if (DAOTipusCelebracions.Esborrar(l_TipusCelebracio.Codi, Jo, false)) {
+                // Refresquem la llista
+                DAOTipusCelebracions.Llegir(g_LVW_TipusCelebracions, R.layout.linia_lvw_llista_tipuscelebracions, Jo);
+            }
         }
         else {
+            // "Preparem" el esborrat
             g_EstatEsborrar = true;
             // Adaptem la linia per fer la baixa.
             // Boto de esborrar actiu

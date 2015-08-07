@@ -191,7 +191,7 @@ public class entitat_pral extends ActionBarActivity {
                 return Globals.StringToDate(p_a1.DataAlta).compareTo(Globals.StringToDate(p_a2.DataAlta));
             }
         };
-        // set dialog message
+        // Configurem
         g_alertDialogBuilder
                 .setCancelable(false)
                 .setSingleChoiceItems(l_Ordres, g_OpcioOrdenacio, new DialogInterface.OnClickListener() {
