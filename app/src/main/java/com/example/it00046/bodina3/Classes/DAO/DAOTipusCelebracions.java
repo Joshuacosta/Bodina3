@@ -61,6 +61,9 @@ public class DAOTipusCelebracions {
             Globals.MostrarEspera(p_Context);
         }
         try {
+            // Calculem el codi del tipus de celebracio
+
+            //
             Globals.g_DB.insert(TAG_TipusCelebracio,
                     null,
                     TipusCelebracioToContentValues(p_TipusCelebracio));
@@ -143,6 +146,27 @@ public class DAOTipusCelebracions {
             }
         }
         return l_Resultat;
+    }
+    // Definim els tipus inicials de celebracio
+    public static void ValorsInicials() {
+        TipusCelebracio l_TipusCelebracio;
+
+        l_TipusCelebracio = new TipusCelebracio();
+        l_TipusCelebracio.Codi = 0;
+        l_TipusCelebracio.Descripcio = Globals.g_Native.getString(R.string.TipusCelebracio0);
+        Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
+        l_TipusCelebracio.Codi = 1;
+        l_TipusCelebracio.Descripcio = Globals.g_Native.getString(R.string.TipusCelebracio1);
+        Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
+        l_TipusCelebracio.Codi = 2;
+        l_TipusCelebracio.Descripcio = Globals.g_Native.getString(R.string.TipusCelebracio2);
+        Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
+        l_TipusCelebracio.Codi = 3;
+        l_TipusCelebracio.Descripcio = Globals.g_Native.getString(R.string.TipusCelebracio3);
+        Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
+        l_TipusCelebracio.Codi = 4;
+        l_TipusCelebracio.Descripcio = Globals.g_Native.getString(R.string.TipusCelebracio4);
+        Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Funcions privades

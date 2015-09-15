@@ -27,7 +27,6 @@ public class principal extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle p_savedInstanceState) {
         Intent l_intent;
-        TipusCelebracio l_TipusCelebracio;
 
         super.onCreate(p_savedInstanceState);
         setContentView(R.layout.principal);
@@ -46,22 +45,7 @@ public class principal extends ActionBarActivity {
         if (Globals.g_NoHiHanDades == true) {
             // Inserim valors de defecte de les taules
             // Afegim els tipus basics de celebracio
-            l_TipusCelebracio = new TipusCelebracio();
-            l_TipusCelebracio.Codi = 0;
-            l_TipusCelebracio.Descripcio =Globals.g_Native.getString(R.string.TipusCelebracio0);
-            DAOTipusCelebracions.Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
-            l_TipusCelebracio.Codi = 1;
-            l_TipusCelebracio.Descripcio =Globals.g_Native.getString(R.string.TipusCelebracio1);
-            DAOTipusCelebracions.Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
-            l_TipusCelebracio.Codi = 2;
-            l_TipusCelebracio.Descripcio =Globals.g_Native.getString(R.string.TipusCelebracio2);
-            DAOTipusCelebracions.Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
-            l_TipusCelebracio.Codi = 3;
-            l_TipusCelebracio.Descripcio =Globals.g_Native.getString(R.string.TipusCelebracio3);
-            DAOTipusCelebracions.Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
-            l_TipusCelebracio.Codi = 4;
-            l_TipusCelebracio.Descripcio =Globals.g_Native.getString(R.string.TipusCelebracio4);
-            DAOTipusCelebracions.Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
+            DAOTipusCelebracions.ValorsInicials();
             //
             l_intent = new Intent(this, configuracio.class);
             startActivity(l_intent);

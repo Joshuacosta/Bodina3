@@ -168,9 +168,32 @@ public class SQLDB extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Aqui expresem el canvis (no se si podria ser necessari trespassar dades i tal
         // per evitar problema en l'usuari
-        String DROP = String.format(Globals.g_Native.getString(R.string.TDrop),
-                                    Globals.g_Native.getString(R.string.TClient));
-        db.execSQL(DROP);
+        String l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TClient));
+        db.execSQL(l_DROP);
+        l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TSalons));
+        db.execSQL(l_DROP);
+        l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TTipusCelebracio));
+        db.execSQL(l_DROP);
+        l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TPlanols));
+        db.execSQL(l_DROP);
+        l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TCelebracions));
+        db.execSQL(l_DROP);
+        l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TDistribucions));
+        db.execSQL(l_DROP);
+        l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TDistribucioTaules));
+        db.execSQL(l_DROP);
+        l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TDistribucioConvidats));
+        db.execSQL(l_DROP);
+        l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TCategoriesConvidats));
+        db.execSQL(l_DROP);
+        l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TMenusConvidats));
+        db.execSQL(l_DROP);
+        l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TGrupsConvidats));
+        db.execSQL(l_DROP);
+        l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TConvidats));
+        db.execSQL(l_DROP);
+        l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TLlistaConvidats));
+        db.execSQL(l_DROP);
         // Tornem a definir les taules
         this.onCreate(db);
     }

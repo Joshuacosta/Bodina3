@@ -48,6 +48,7 @@ public class tipus_celebracions extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         final Animation l_Animacio;
         FloatingActionButton l_FLB_TipusCelebracio;
+        final EditText g_input = new EditText(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tipus_celebracions);
@@ -61,12 +62,26 @@ public class tipus_celebracions extends ActionBarActivity {
         l_FLB_TipusCelebracio.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent l_Intent;
+                g_alertDialogBuilder = new AlertDialog.Builder(Jo);
+                // Configurem
+                g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.tipus_celebracions_Afegir));
+                g_alertDialogBuilder.setView(g_input);
+                g_alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                TipusCelebracio l_TipusCelebracio = new TipusCelebracio();
 
-                arg0.startAnimation(l_Animacio);
-                // Obrim la finestra de alta
-                l_Intent = new Intent(Jo, entitat_solicitar.class);
-                startActivityForResult(l_Intent, g_RQC_TIPUS_SOLICITEM);
+                                l_TipusCelebracio.Descripcio = g_input.getText().toString();
+                                DAOTipusCelebracions.Afegir(l_TipusCelebracio, Jo, false, false);
+                            }
+                        })
+                        .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface p_dialog, int p_id) {
+                                }
+                        });
+                g_alertDialogBuilder.show();
             }
         });
         //
@@ -200,7 +215,7 @@ public class tipus_celebracions extends ActionBarActivity {
             }
         }
     }
-    // Aquesta funció es cridada pels elements de la llista quan premem el boto editar
+    // Aquesta funciï¿½ es cridada pels elements de la llista quan premem el boto editar
     public void LiniaLVWTipusCelebracionsIMBEditar_Click(View l_view) {
         ImageButton l_IMB_Esborrar, l_IMB_Editar;
         TransitionDrawable l_transition;
@@ -249,23 +264,21 @@ public class tipus_celebracions extends ActionBarActivity {
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
                             TipusCelebracio l_TipusCelebracio = new TipusCelebracio();
 
                             l_TipusCelebracio.Codi = g_CodiModificacio;
                             l_TipusCelebracio.Descripcio = g_input.getText().toString();
-
                             DAOTipusCelebracions.Modificar(l_TipusCelebracio, Jo, false);
                         }
                     })
                     .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface p_dialog, int p_id) {
-                        }
+                            public void onClick(DialogInterface p_dialog, int p_id) {
+                            }
                     });
             g_alertDialogBuilder.show();
         }
     }
-    // Aquesta funció es cridada pels elements de la llista quan premem el boto esborrar
+    // Aquesta funciï¿½ es cridada pels elements de la llista quan premem el boto esborrar
     public void LiniaLVWTipusCelebracionsIMBEsborrar_Click(View l_view) {
         ImageButton l_IMB_Esborrar, l_IMB_Editar;
         TransitionDrawable l_transition;
