@@ -12,5 +12,6 @@
         android:title="@string/EntitatRecerca_Pais"
         android:icon="@drawable/ic_language_white_24dp"
         app:showAsAction="always"
+        android:popupBackground="@color/white"
         app:actionViewClass="android.widget.Spinner" />
 </menu>

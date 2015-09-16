@@ -212,11 +212,12 @@ public class entitat_recerca extends ActionBarActivity{
         g_SPN_Paissos = (Spinner) MenuItemCompat.getActionView(l_item);
         l_adapter_Pais = ArrayAdapter.createFromResource(this, R.array.Paisos, R.layout.linia_spn_defecte_white);
         l_adapter_Pais.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //l_adapter_Pais.setDropDownViewResource(R.layout.linia_spn_defecte_white);
         g_SPN_Paissos.setAdapter(l_adapter_Pais);
         // Seleccionem el nostre pais en el spinner
         l_spinnerPosition = l_adapter_Pais.getPosition(Globals.g_Client.Pais);
         g_SPN_Paissos.setSelection(l_spinnerPosition);
-
+        //g_SPN_Paissos.setBackgroundColor(Globals.g_Native.getResources().getColor(R.color.white));
         return true;
     }
 
