@@ -134,7 +134,8 @@ public class entitat_recerca extends ActionBarActivity{
                 // Recerquem a partir de 3 caracters
                 if (newText.length() > 3) {
                     g_LVW_searchResults.setVisibility(View.VISIBLE);
-                    DAOEntitats.Recercar(newText, g_SPN_Paissos.getSelectedItem().toString(), g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
+                    //DAOEntitats.Recercar(newText, g_SPN_Paissos.getSelectedItem().toString(), g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
+                    DAOEntitats.RecercarLlista(newText, g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
                 }
                 else {
                     g_LVW_searchResults.setVisibility(View.INVISIBLE);
@@ -204,20 +205,30 @@ public class entitat_recerca extends ActionBarActivity{
         ArrayAdapter<CharSequence> l_adapter_Pais;
         int l_spinnerPosition;
         MenuItem l_item;
+        int l_currentapiVersion;
 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.entitat_recerca, menu);
         // Expressem el Spinner que tenim al menu
         l_item = menu.findItem(R.id.entitat_recercaSPNPaissos);
         g_SPN_Paissos = (Spinner) MenuItemCompat.getActionView(l_item);
-        l_adapter_Pais = ArrayAdapter.createFromResource(this, R.array.Paisos, R.layout.linia_spn_defecte_white);
+        // En funcio de la versió de Android hem de expressar el Spinner
+        l_currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        if (l_currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP){
+            l_adapter_Pais = ArrayAdapter.createFromResource(getSupportActionBar().getThemedContext(), R.array.Paisos, R.layout.linia_spn_defecte_white);
+        } else{
+            l_adapter_Pais = ArrayAdapter.createFromResource(this, R.array.Paisos, R.layout.linia_spn_defecte_white);
+        }
+        //
         l_adapter_Pais.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //l_adapter_Pais.setDropDownViewResource(R.layout.linia_spn_defecte_white);
         g_SPN_Paissos.setAdapter(l_adapter_Pais);
         // Seleccionem el nostre pais en el spinner
         l_spinnerPosition = l_adapter_Pais.getPosition(Globals.g_Client.Pais);
         g_SPN_Paissos.setSelection(l_spinnerPosition);
-        //g_SPN_Paissos.setBackgroundColor(Globals.g_Native.getResources().getColor(R.color.white));
+        // Fem la primera carrega de entitats del pais del client (ens la podriem evitar i tal)
+        DAOEntitats.Llegir(Globals.g_Client.Pais, g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
+        //
         return true;
     }
 

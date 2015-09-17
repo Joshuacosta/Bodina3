@@ -11,6 +11,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings.Secure;
+import android.view.View;
+import android.widget.ListView;
 
 import com.example.it00046.bodina3.Classes.Entitats.Client;
 import com.example.it00046.bodina3.R;
@@ -205,6 +207,18 @@ public final class Globals
         if (g_DialogEspera != null){
             g_DialogEspera.dismiss();
             g_DialogEspera = null;
+        }
+    }
+
+    public static View GetViewByPosition(int pos, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+            return listView.getAdapter().getView(pos, null, listView);
+        } else {
+            final int childIndex = pos - firstListItemPosition;
+            return listView.getChildAt(childIndex);
         }
     }
 }

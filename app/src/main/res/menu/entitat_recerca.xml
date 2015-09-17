@@ -12,6 +12,10 @@
         android:title="@string/EntitatRecerca_Pais"
         android:icon="@drawable/ic_language_white_24dp"
         app:showAsAction="always"
-        android:popupBackground="@color/white"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="5dp"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:actionViewClass="android.widget.Spinner" />
 </menu>

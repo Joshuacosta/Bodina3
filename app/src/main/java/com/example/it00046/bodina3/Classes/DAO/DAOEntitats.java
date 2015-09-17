@@ -2,6 +2,7 @@ package com.example.it00046.bodina3.Classes.DAO;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -60,6 +61,25 @@ public final class DAOEntitats {
     public static void Recercar(String p_Recerca, String p_Pais, final ListView p_LVW_Entitat, Context p_Context, int p_Layout){
         Globals.MostrarEspera(p_Context);
         SRV_LlistaEntitats(p_Pais, p_Recerca, p_LVW_Entitat, p_Context, p_Layout);
+    }
+    // Funcio per recercar les entitats a la llista (que contè les entitats de un pais)
+    public static void RecercarLlista(String p_Recerca, final ListView p_LVW_Entitat, Context p_Context, int p_Layout){
+        //Globals.MostrarEspera(p_Context);
+        //SRV_LlistaEntitats(p_Pais, p_Recerca, p_LVW_Entitat, p_Context, p_Layout);
+        int textlength = p_Recerca.length();
+        Entitat l_Entitat;
+        ArrayAdapter<Entitat> l_Recerca = new LVWRecercaEntitats(p_Context, p_Layout);
+        ArrayAdapter<Entitat> l_listAdapter = (ArrayAdapter<Entitat>)p_LVW_Entitat.getAdapter();
+
+        for(int i = 0; i < l_listAdapter.getCount(); i++){
+            l_Entitat = l_listAdapter.getItem(i);
+            //if (textlength <= (Entitat)l_Entitat..length()) {
+                if (l_Entitat.Nom.toLowerCase().contains(p_Recerca.toString().toLowerCase())) {
+                    l_Recerca.add(l_Entitat);
+                }
+            //}
+        }
+        p_LVW_Entitat.setAdapter(l_Recerca);
     }
     // De Json a Entitat
     public static Entitat JSon(JSONObject p_Entitat){
