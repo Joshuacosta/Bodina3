@@ -12,9 +12,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings.Secure;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.it00046.bodina3.Classes.Entitats.Client;
+import com.example.it00046.bodina3.Classes.Entitats.Entitat;
 import com.example.it00046.bodina3.R;
 
 import java.text.DateFormat;

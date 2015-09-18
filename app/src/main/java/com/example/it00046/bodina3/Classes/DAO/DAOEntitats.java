@@ -43,7 +43,7 @@ public final class DAOEntitats {
     private static final String TAG_Telefon = Globals.g_Native.getString(R.string.TEntitats_Telefon);
     private static final String TAG_Estat = Globals.g_Native.getString(R.string.TEntitats_Estat);
     //
-
+    public static ArrayAdapter<Entitat> g_listAdapter;
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,10 +69,10 @@ public final class DAOEntitats {
         int textlength = p_Recerca.length();
         Entitat l_Entitat;
         ArrayAdapter<Entitat> l_Recerca = new LVWRecercaEntitats(p_Context, p_Layout);
-        ArrayAdapter<Entitat> l_listAdapter = (ArrayAdapter<Entitat>)p_LVW_Entitat.getAdapter();
+        //ArrayAdapter<Entitat> l_listAdapter = (ArrayAdapter<Entitat>)p_LVW_Entitat.getAdapter();
 
-        for(int i = 0; i < l_listAdapter.getCount(); i++){
-            l_Entitat = l_listAdapter.getItem(i);
+        for(int i = 0; i < g_listAdapter.getCount(); i++){
+            l_Entitat = g_listAdapter.getItem(i);
             //if (textlength <= (Entitat)l_Entitat..length()) {
                 if (l_Entitat.Nom.toLowerCase().contains(p_Recerca.toString().toLowerCase())) {
                     l_Recerca.add(l_Entitat);
@@ -93,6 +93,7 @@ public final class DAOEntitats {
         final ArrayAdapter<Entitat> l_listAdapter = new LVWRecercaEntitats(p_Context, p_Layout);
 
         if (Globals.isNetworkAvailable()){
+            g_listAdapter = new LVWRecercaEntitats(p_Context, p_Layout);
             // Montem el php
             g_parametresPHP = new RequestParams();
             g_parametresPHP.put(Globals.g_Native.getString(R.string.TClient_Pais), p_Pais);
@@ -116,6 +117,8 @@ public final class DAOEntitats {
 
                 @Override
                 public void onSuccess(int p_statusCode, Header[] p_headers, JSONObject p_entitats) {
+                    Entitat l_Entitat;
+
                     Globals.TancarEspera();
                     try {
                         String l_Resposta = p_entitats.getString(Globals.TAG_VALIDS);
@@ -133,6 +136,8 @@ public final class DAOEntitats {
                                         l_entitat.Nom += " (" + Globals.g_Native.getString(R.string.nomes_invitacio) + ")";
                                     }
                                     l_listAdapter.add(l_entitat);
+                                    // Copia
+                                    g_listAdapter.add(l_entitat);
                                 }
                             }
                             else{
@@ -142,6 +147,10 @@ public final class DAOEntitats {
                             }
                             // Associem
                             p_LVW_Entitats.setAdapter(l_listAdapter);
+                            // Guardem la llista recuperada
+
+
+
                         }
                         else {
                             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_BBDD),
@@ -154,7 +163,7 @@ public final class DAOEntitats {
                 }
             });
         }
-        else{
+        else {
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_noAcces),
                     Globals.g_Native.getString(R.string.error_greu), p_Context);
             Globals.TancarEspera();

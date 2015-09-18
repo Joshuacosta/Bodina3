@@ -31,7 +31,7 @@ import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.Params.PAREntitat;
 
 
-public class entitat_recerca extends ActionBarActivity{
+public class entitat_recerca extends ActionBarActivity implements AdapterView.OnItemSelectedListener {
 
     private ListView g_LVW_searchResults;
     private View g_LIN_ToolbarAnterior = null;
@@ -83,12 +83,11 @@ public class entitat_recerca extends ActionBarActivity{
                     l_TXT_Nom = (TextView) p_view.findViewById(R.id.LiniaLVWRecercaEntitatsNom);
                     l_IMB_Acceptar = (ImageView) p_view.findViewById(R.id.LiniaLVWRecercaEntitatsIMBAcceptar);
                     // Recuperem la informació de si permet solicitar del tag que hem definit
-                    g_Entitat = (Entitat)p_view.getTag();
+                    g_Entitat = (Entitat) p_view.getTag();
                     if (g_Entitat.TipusContacte == Globals.k_Entitat_PermetSolicitar) {
                         l_IMB_Acceptar.setVisibility(View.VISIBLE);
                         l_TXT_Nom.setBackgroundResource(R.color.green);
-                    }
-                    else {
+                    } else {
                         l_TXT_Nom.setBackgroundResource(R.color.red);
                     }
                     // Apuntem en quina linia estem (per si desprès l'usuari selecciona l'entitat)
@@ -105,6 +104,9 @@ public class entitat_recerca extends ActionBarActivity{
             }
 
         });
+
+        g_SPN_Paissos.setOnItemSelectedListener(this);
+
     }
 
     // SetUp de la recerca
@@ -130,15 +132,13 @@ public class entitat_recerca extends ActionBarActivity{
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                // Recerquem a partir de 3 caracters
-                if (newText.length() > 3) {
-                    g_LVW_searchResults.setVisibility(View.VISIBLE);
+            public boolean onQueryTextChange(String p_newText) {
+                if (p_newText.length() > 0) {
                     //DAOEntitats.Recercar(newText, g_SPN_Paissos.getSelectedItem().toString(), g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
-                    DAOEntitats.RecercarLlista(newText, g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
-                }
-                else {
-                    g_LVW_searchResults.setVisibility(View.INVISIBLE);
+                    DAOEntitats.RecercarLlista(p_newText, g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
+                } else {
+                    // Recuperem la llista complerta
+                    g_LVW_searchResults.setAdapter(DAOEntitats.g_listAdapter);
                 }
                 return false;
             }
@@ -226,10 +226,43 @@ public class entitat_recerca extends ActionBarActivity{
         // Seleccionem el nostre pais en el spinner
         l_spinnerPosition = l_adapter_Pais.getPosition(Globals.g_Client.Pais);
         g_SPN_Paissos.setSelection(l_spinnerPosition);
-        // Fem la primera carrega de entitats del pais del client (ens la podriem evitar i tal)
-        DAOEntitats.Llegir(Globals.g_Client.Pais, g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
+        // Fem la primera carrega de entitats del pais del client (ens la podriem evitar i tal amb la info que hem
+        // recuperat en el Spinner de entitats...)
+        //DAOEntitats.Llegir(Globals.g_Client.Pais, g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
+
+        //g_SPN_Paissos.setOnItemSelectedListener(this);
+
+        //
+        // Codi del Spinner de entitats del client (llancem la recerca de les entitats del pais triat)
+        /*
+        g_SPN_Paissos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView parent, View view, int pos, long id) {
+                Entitat l_Entitat;
+
+                l_Entitat = (Entitat) parent.getItemAtPosition(pos);
+                DAOEntitats.Llegir(l_Entitat.Pais, g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
+            }
+            @Override
+            public void onNothingSelected(AdapterView parent) {
+            }
+        });
+        */
         //
         return true;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        Entitat l_Entitat;
+        //l_Entitat = (Entitat) g_SPN_Paissos.getItemAtPosition(g_SPN_Paissos.getSelectedItemPosition());
+        l_Entitat = (Entitat)parent.getItemAtPosition(pos);
+        DAOEntitats.Llegir(l_Entitat.Pais, g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
     }
 
     /*
