@@ -44,11 +44,12 @@ public class entitat_recerca extends ActionBarActivity implements AdapterView.On
 
     @Override
     protected void onCreate(Bundle p_savedInstanceState) {
+//        ArrayAdapter<CharSequence> l_adapter_Pais;
+//        int l_spinnerPosition;
+
         super.onCreate(p_savedInstanceState);
         setContentView(R.layout.entitat_recerca);
-
         setupSearchView();
-
         g_LVW_searchResults.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             @Override
@@ -57,7 +58,6 @@ public class entitat_recerca extends ActionBarActivity implements AdapterView.On
                 return true;
             }
         });
-
         g_LVW_searchResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -104,9 +104,6 @@ public class entitat_recerca extends ActionBarActivity implements AdapterView.On
             }
 
         });
-
-        g_SPN_Paissos.setOnItemSelectedListener(this);
-
     }
 
     // SetUp de la recerca
@@ -134,7 +131,6 @@ public class entitat_recerca extends ActionBarActivity implements AdapterView.On
             @Override
             public boolean onQueryTextChange(String p_newText) {
                 if (p_newText.length() > 0) {
-                    //DAOEntitats.Recercar(newText, g_SPN_Paissos.getSelectedItem().toString(), g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
                     DAOEntitats.RecercarLlista(p_newText, g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
                 } else {
                     // Recuperem la llista complerta
@@ -200,6 +196,8 @@ public class entitat_recerca extends ActionBarActivity implements AdapterView.On
         }
     }
 
+//        Amb aquest codi podem definir el spinner contingut en la action bar
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         ArrayAdapter<CharSequence> l_adapter_Pais;
@@ -223,41 +221,21 @@ public class entitat_recerca extends ActionBarActivity implements AdapterView.On
         l_adapter_Pais.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //l_adapter_Pais.setDropDownViewResource(R.layout.linia_spn_defecte_white);
         g_SPN_Paissos.setAdapter(l_adapter_Pais);
-        // Seleccionem el nostre pais en el spinner
+        // Seleccionem el nostre pais en el spinner (provocarà la primera carrega ja que s'executara el listener
+        // que associem desprès)
         l_spinnerPosition = l_adapter_Pais.getPosition(Globals.g_Client.Pais);
         g_SPN_Paissos.setSelection(l_spinnerPosition);
-        // Fem la primera carrega de entitats del pais del client (ens la podriem evitar i tal amb la info que hem
-        // recuperat en el Spinner de entitats...)
-        //DAOEntitats.Llegir(Globals.g_Client.Pais, g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
-
-        //g_SPN_Paissos.setOnItemSelectedListener(this);
-
-        //
-        // Codi del Spinner de entitats del client (llancem la recerca de les entitats del pais triat)
-        /*
-        g_SPN_Paissos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView parent, View view, int pos, long id) {
-                Entitat l_Entitat;
-
-                l_Entitat = (Entitat) parent.getItemAtPosition(pos);
-                DAOEntitats.Llegir(l_Entitat.Pais, g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
-            }
-            @Override
-            public void onNothingSelected(AdapterView parent) {
-            }
-        });
-        */
-        //
+        // Associcem el listener
+        g_SPN_Paissos.setOnItemSelectedListener(this);
         return true;
     }
+//    */
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        Entitat l_Entitat;
-        //l_Entitat = (Entitat) g_SPN_Paissos.getItemAtPosition(g_SPN_Paissos.getSelectedItemPosition());
-        l_Entitat = (Entitat)parent.getItemAtPosition(pos);
-        DAOEntitats.Llegir(l_Entitat.Pais, g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
+        String l_Pais = g_SPN_Paissos.getSelectedItem().toString();
+
+        DAOEntitats.Llegir(l_Pais, g_LVW_searchResults, Jo, R.layout.linia_lvw_recerca_entitats);
     }
 
     @Override

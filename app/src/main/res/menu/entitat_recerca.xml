@@ -8,6 +8,11 @@
         android:actionLayout="@layout/action_sort"
         app:showAsAction="always" />
         -->
+
+    <!--
+            Aixi es com definim un spinner en la action bar
+    -->
+
     <item android:id="@+id/entitat_recercaSPNPaissos"
         android:title="@string/EntitatRecerca_Pais"
         android:icon="@drawable/ic_language_white_24dp"
