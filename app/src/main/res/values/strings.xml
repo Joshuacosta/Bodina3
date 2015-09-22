@@ -176,7 +176,7 @@
     </string-array>
     <!-- Funcions -->
     <string name="TTipusCelebracioCreate">CREATE TABLE %1$s (
-                                %2$s INTEGER,
+                                %2$s INTEGER PRIMARY KEY,
                                 %3$s VARCHAR(50))</string>
     <!-- .................................................................................. -->
     <!-- SALONS (local) -->
@@ -387,6 +387,13 @@
     <string name="TCategoriesConvidats_Codi">Codi</string>
     <string name="TCategoriesConvidats_CodiCelebracio">CodiCelebracio</string>
     <string name="TCategoriesConvidats_Descripcio">Descripcio</string>
+    <!-- Valors inicials -->
+    <string name="CategoriaConvidats0">Family</string>
+    <string name="CategoriaConvidats1">Friends 1</string>
+    <string name="CategoriaConvidats2">Friends 2</string>
+    <string name="CategoriaConvidats3">Coworkers 1</string>
+    <string name="CategoriaConvidats4">Coworkers 2</string>
+    <string name="CategoriaConvidats5">Other 2</string>
     <!-- Llista camps -->
     <string-array name="TCategoriesConvidats_Camps">
         <item>@string/TCategoriesConvidats_Codi</item>
@@ -395,7 +402,7 @@
     </string-array>
     <!-- Funcions -->
     <string name="TCategoriesConvidatsCreate">CREATE TABLE %1$s (
-                                %2$s INTEGER,
+                                %2$s INTEGER PRIMARY KEY,
                                 %3$s INTEGER,
                                 %4$s VARCHAR(50))</string>
     <!-- .................................................................................. -->

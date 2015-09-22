@@ -86,6 +86,8 @@ public final class Globals
     public static final String TAG_RECERCA = "Recerca";
     public static final int k_Entitat_NomesInvitacio = 0;
     public static final int k_Entitat_PermetSolicitar = 1;
+    // Totals de taules
+    public static long g_NUM_TipusCelebracions = 0;
 
     public static void CreateBBDD(){
         g_BBDD = new SQLDB(g_Native);

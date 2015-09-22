@@ -12,12 +12,11 @@ import com.example.it00046.bodina3.Classes.Custom.LVWLlistaTipusCelebracions;
 import com.example.it00046.bodina3.Classes.Entitats.TipusCelebracio;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.R;
-import com.loopj.android.http.RequestParams;
 
 /**
  * Created by it00046 on 05/08/2015.
  */
-public class DAOTipusCelebracions {
+public class DAOMenusConvidats {
     private static final String TAG_TipusCelebracio = Globals.g_Native.getString(R.string.TTipusCelebracio);
     private static final String TAG_Codi = Globals.g_Native.getString(R.string.TTipusCelebracio_Codi);
     private static final String TAG_Descripcio = Globals.g_Native.getString(R.string.TTipusCelebracio_Descripcio);
@@ -56,16 +55,17 @@ public class DAOTipusCelebracions {
         }
     }
     // Afegim un tipus de celebracio
-    public static boolean Afegir(TipusCelebracio p_TipusCelebracio, final Context p_Context, boolean p_Asistit, boolean p_Tancam){
-        boolean l_resultat = true;
-
+    public static void Afegir(TipusCelebracio p_TipusCelebracio, final Context p_Context, boolean p_Asistit, boolean p_Tancam){
         if (p_Asistit) {
             Globals.MostrarEspera(p_Context);
         }
         try {
-            Globals.g_NUM_TipusCelebracions = Globals.g_DB.insert(TAG_TipusCelebracio,
-                                                                    null,
-                                                                    TipusCelebracioToContentValues(p_TipusCelebracio, true));
+            // Calculem el codi del tipus de celebracio
+
+            //
+            Globals.g_DB.insert(TAG_TipusCelebracio,
+                    null,
+                    TipusCelebracioToContentValues(p_TipusCelebracio));
         }
         catch(Exception e) {
             if (p_Asistit) {
@@ -73,7 +73,6 @@ public class DAOTipusCelebracions {
                         Globals.g_Native.getString(R.string.error_greu), p_Context);
                 Globals.TancarEspera();
             }
-            l_resultat = false;
         }
         finally{
             if (p_Asistit) {
@@ -89,14 +88,13 @@ public class DAOTipusCelebracions {
                 }
             }
         }
-        return l_resultat;
     }
     // Modifiquem un tipus de celebracio
     public static void Modificar(TipusCelebracio p_TipusCelebracio, final Context p_Context, boolean p_Tancam){
         Globals.MostrarEspera(p_Context);
         try {
             Globals.g_DB.update(TAG_TipusCelebracio,
-                    TipusCelebracioToContentValues(p_TipusCelebracio, false),
+                    TipusCelebracioToContentValues(p_TipusCelebracio),
                     TAG_Codi + "= " + p_TipusCelebracio.Codi,
                     null);
         }
@@ -173,12 +171,10 @@ public class DAOTipusCelebracions {
     // Funcions privades
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Posa les dades del client a contentValue
-    private static ContentValues TipusCelebracioToContentValues(TipusCelebracio p_TipusCelebracio, boolean p_Insercio) {
+    private static ContentValues TipusCelebracioToContentValues(TipusCelebracio p_TipusCelebracio) {
         ContentValues l_values = new ContentValues();
 
-        if (p_Insercio == false) {
-            l_values.put(TAG_Codi, p_TipusCelebracio.Codi);
-        }
+        l_values.put(TAG_Codi, p_TipusCelebracio.Codi);
         l_values.put(TAG_Descripcio, p_TipusCelebracio.Descripcio);
         return l_values;
     }

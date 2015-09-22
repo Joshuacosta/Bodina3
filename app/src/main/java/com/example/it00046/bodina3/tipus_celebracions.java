@@ -2,6 +2,7 @@ package com.example.it00046.bodina3;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -40,7 +41,7 @@ public class tipus_celebracions extends ActionBarActivity {
     private ImageButton g_IMB_Esborrar = null, g_IMB_Editar = null;
     private Context Jo = this;
     private Boolean g_EstatEsborrar = false;
-    private AlertDialog.Builder g_alertDialogBuilder;
+    //private AlertDialog.Builder g_alertDialogBuilder;
     private int g_CodiModificacio;
     static final int g_RQC_TIPUS_SOLICITEM = 1, g_RQC_TIPUS_MODIFIQUEM = 2;
 
@@ -59,10 +60,11 @@ public class tipus_celebracions extends ActionBarActivity {
         l_FLB_TipusCelebracio = (FloatingActionButton) findViewById(R.id.tipus_celebracionsFLBAfegirTipus);
         l_FLB_TipusCelebracio.attachToListView(g_LVW_TipusCelebracions);
         l_Animacio = AnimationUtils.loadAnimation(this, R.anim.alpha_parpadeig);
+
         l_FLB_TipusCelebracio.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                g_alertDialogBuilder = new AlertDialog.Builder(Jo);
+                AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(Jo);
                 // Configurem
                 g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.tipus_celebracions_Afegir));
                 g_alertDialogBuilder.setView(g_input);
@@ -74,13 +76,17 @@ public class tipus_celebracions extends ActionBarActivity {
                                 TipusCelebracio l_TipusCelebracio = new TipusCelebracio();
 
                                 l_TipusCelebracio.Descripcio = g_input.getText().toString();
-                                DAOTipusCelebracions.Afegir(l_TipusCelebracio, Jo, false, false);
+                                // Fem la insercio i si va be refresquem la llista
+                                if (DAOTipusCelebracions.Afegir(l_TipusCelebracio, Jo, false, false)){
+                                    DAOTipusCelebracions.Llegir(g_LVW_TipusCelebracions,  R.layout.linia_lvw_llista_tipuscelebracions, Jo);
+                                }
                             }
                         })
                         .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface p_dialog, int p_id) {
-                                }
+                            public void onClick(DialogInterface p_dialog, int p_id) {
+                            }
                         });
+                g_alertDialogBuilder.create();
                 g_alertDialogBuilder.show();
             }
         });
@@ -194,6 +200,7 @@ public class tipus_celebracions extends ActionBarActivity {
     }
     // Resposta de les activitats que iniciem (solicitar,...)
 
+    /*
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -215,6 +222,8 @@ public class tipus_celebracions extends ActionBarActivity {
             }
         }
     }
+    */
+
     // Aquesta funci� es cridada pels elements de la llista quan premem el boto editar
     public void LiniaLVWTipusCelebracionsIMBEditar_Click(View l_view) {
         ImageButton l_IMB_Esborrar, l_IMB_Editar;
@@ -254,7 +263,7 @@ public class tipus_celebracions extends ActionBarActivity {
             l_alertDialog.show();
             */
             // Construim la finestra (alert) de afegir i modificar un tipus de celebracio
-            g_alertDialogBuilder = new AlertDialog.Builder(Jo);
+            AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(Jo);
             // Configurem
             g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.tipus_celebracions_Modificar));
             g_alertDialogBuilder.setView(g_input);
