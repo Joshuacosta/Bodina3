@@ -3,6 +3,7 @@ package com.example.it00046.bodina3.Classes;
 /**
  * Created by it00046 on 13/02/2015.
  */
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -88,6 +89,26 @@ public final class Globals
     public static final int k_Entitat_PermetSolicitar = 1;
     // Totals de taules
     public static long g_NUM_TipusCelebracions = 0;
+
+    public static void ExitAppDialog(final Activity activity)
+    {
+        AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
+        alertbox.setTitle("Warning");
+        alertbox.setMessage("Exit Application?");
+        alertbox.setPositiveButton("Yes", new
+                DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        activity.finish();
+                    }
+                });
+        alertbox.setNegativeButton("No", new
+                DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                    }
+                });
+        alertbox.show();
+    }
 
     public static void CreateBBDD(){
         g_BBDD = new SQLDB(g_Native);

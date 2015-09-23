@@ -2,7 +2,6 @@ package com.example.it00046.bodina3;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,7 +9,6 @@ import android.graphics.drawable.TransitionDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,33 +21,76 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-import com.example.it00046.bodina3.Classes.DAO.DAOAssociacions;
 import com.example.it00046.bodina3.Classes.DAO.DAOTipusCelebracions;
-import com.example.it00046.bodina3.Classes.Entitats.Associacio;
 import com.example.it00046.bodina3.Classes.Entitats.TipusCelebracio;
 import com.example.it00046.bodina3.Classes.ExpandAnimation;
 import com.example.it00046.bodina3.Classes.Globals;
-import com.example.it00046.bodina3.Classes.Params.PARAssociacio;
 import com.example.it00046.bodina3.Classes.Params.PARTipusCelebracio;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.Comparator;
 
-public class tipus_celebracions extends ActionBarActivity {
-    private ListView g_LVW_TipusCelebracions;
+public class tipus_celebracions extends ActionBarActivity{
+    static private ListView g_LVW_TipusCelebracions;
+    static EditText g_input;
     private int g_Posicio = -1;
     private ImageButton g_IMB_Esborrar = null, g_IMB_Editar = null;
     private Context Jo = this;
     private Boolean g_EstatEsborrar = false;
-    //private AlertDialog.Builder g_alertDialogBuilder;
-    private int g_CodiModificacio;
+    static private int g_CodiModificacio;
+    static private String g_Descripcio;
     static final int g_RQC_TIPUS_SOLICITEM = 1, g_RQC_TIPUS_MODIFIQUEM = 2;
+
+    public static void MostraAlta(final Activity p_activity, final boolean p_Alta)
+    {
+        g_input = new EditText(p_activity);
+
+        AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(p_activity);
+        if (p_Alta) {
+            g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.tipus_celebracions_Afegir));
+        }
+        else{
+            g_input.setText(g_Descripcio);
+            g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.tipus_celebracions_Modificar));
+        }
+        g_alertDialogBuilder.setView(g_input);
+        g_alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface p_dialog, int which) {
+                        TipusCelebracio l_TipusCelebracio = new TipusCelebracio();
+
+                        l_TipusCelebracio.Descripcio = g_input.getText().toString();
+                        if (p_Alta) {
+                            // Fem la insercio i si va be refresquem la llista
+                            if (DAOTipusCelebracions.Afegir(l_TipusCelebracio, p_activity, false, false)) {
+                                DAOTipusCelebracions.Llegir(g_LVW_TipusCelebracions, R.layout.linia_lvw_llista_tipuscelebracions, p_activity);
+                            }
+                        }
+                        else{
+                            l_TipusCelebracio.Codi = g_CodiModificacio;
+                            if (DAOTipusCelebracions.Modificar(l_TipusCelebracio, p_activity, false)){
+                                DAOTipusCelebracions.Llegir(g_LVW_TipusCelebracions, R.layout.linia_lvw_llista_tipuscelebracions, p_activity);
+                            }
+                        }
+                    }
+                })
+                .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface p_dialog, int p_id) {
+                    }
+                });
+        g_alertDialogBuilder.show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         final Animation l_Animacio;
         FloatingActionButton l_FLB_TipusCelebracio;
         final EditText g_input = new EditText(this);
+        final AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(Jo);
+        final AlertDialog l_Alert;
+        final boolean l_ModusAlertAlta = true;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tipus_celebracions);
@@ -60,34 +101,10 @@ public class tipus_celebracions extends ActionBarActivity {
         l_FLB_TipusCelebracio = (FloatingActionButton) findViewById(R.id.tipus_celebracionsFLBAfegirTipus);
         l_FLB_TipusCelebracio.attachToListView(g_LVW_TipusCelebracions);
         l_Animacio = AnimationUtils.loadAnimation(this, R.anim.alpha_parpadeig);
-
         l_FLB_TipusCelebracio.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(Jo);
-                // Configurem
-                g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.tipus_celebracions_Afegir));
-                g_alertDialogBuilder.setView(g_input);
-                g_alertDialogBuilder
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                TipusCelebracio l_TipusCelebracio = new TipusCelebracio();
-
-                                l_TipusCelebracio.Descripcio = g_input.getText().toString();
-                                // Fem la insercio i si va be refresquem la llista
-                                if (DAOTipusCelebracions.Afegir(l_TipusCelebracio, Jo, false, false)){
-                                    DAOTipusCelebracions.Llegir(g_LVW_TipusCelebracions,  R.layout.linia_lvw_llista_tipuscelebracions, Jo);
-                                }
-                            }
-                        })
-                        .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface p_dialog, int p_id) {
-                            }
-                        });
-                g_alertDialogBuilder.create();
-                g_alertDialogBuilder.show();
+                MostraAlta(tipus_celebracions.this, true);
             }
         });
         //
@@ -143,30 +160,6 @@ public class tipus_celebracions extends ActionBarActivity {
         // Mostrem el tornar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        // Construim la finestra (alert) de afegir i modificar un tipus de celebracio
-        /*
-        g_alertDialogBuilder = new AlertDialog.Builder(Jo);
-        // Configurem
-        g_alertDialogBuilder.setView(g_input);
-        g_alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        TipusCelebracio l_TipusCelebracio = new TipusCelebracio();
-
-                        l_TipusCelebracio.Codi = g_CodiModificacio;
-                        l_TipusCelebracio.Descripcio = g_input.getText().toString();
-
-                        DAOTipusCelebracions.Modificar(l_TipusCelebracio, Jo, false);
-                    }
-                })
-                .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface p_dialog, int p_id) {
-                    }
-                });
-        */
     }
 
     @Override
@@ -232,6 +225,7 @@ public class tipus_celebracions extends ActionBarActivity {
         PARTipusCelebracio l_Parametres;
         TipusCelebracio l_TipusCelebracio;
         final EditText g_input = new EditText(this);
+        final AlertDialog l_Alert;
 
         // Recuperem "jerarquia"
         l_parent = (View) l_view.getParent();
@@ -254,37 +248,9 @@ public class tipus_celebracions extends ActionBarActivity {
         else {
             // Obrim la activitat de modificacio del tipus
             l_TipusCelebracio = (TipusCelebracio)l_LiniaTipusCelebracio.getTag();
-            //g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.tipus_celebracions_Modificar));
             g_CodiModificacio = l_TipusCelebracio.Codi;
-            /*
-            AlertDialog l_alertDialog = g_alertDialogBuilder.create();
-            g_input.setText(l_TipusCelebracio.Descripcio);
-            g_alertDialogBuilder.setView(g_input);
-            l_alertDialog.show();
-            */
-            // Construim la finestra (alert) de afegir i modificar un tipus de celebracio
-            AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(Jo);
-            // Configurem
-            g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.tipus_celebracions_Modificar));
-            g_alertDialogBuilder.setView(g_input);
-            g_input.setText(l_TipusCelebracio.Descripcio);
-            g_alertDialogBuilder
-                    .setCancelable(false)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            TipusCelebracio l_TipusCelebracio = new TipusCelebracio();
-
-                            l_TipusCelebracio.Codi = g_CodiModificacio;
-                            l_TipusCelebracio.Descripcio = g_input.getText().toString();
-                            DAOTipusCelebracions.Modificar(l_TipusCelebracio, Jo, false);
-                        }
-                    })
-                    .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface p_dialog, int p_id) {
-                            }
-                    });
-            g_alertDialogBuilder.show();
+            g_Descripcio = l_TipusCelebracio.Descripcio;
+            MostraAlta(tipus_celebracions.this, false);
         }
     }
     // Aquesta funci� es cridada pels elements de la llista quan premem el boto esborrar

@@ -92,7 +92,9 @@ public class DAOTipusCelebracions {
         return l_resultat;
     }
     // Modifiquem un tipus de celebracio
-    public static void Modificar(TipusCelebracio p_TipusCelebracio, final Context p_Context, boolean p_Tancam){
+    public static boolean Modificar(TipusCelebracio p_TipusCelebracio, final Context p_Context, boolean p_Tancam){
+        boolean l_resultat = true;
+
         Globals.MostrarEspera(p_Context);
         try {
             Globals.g_DB.update(TAG_TipusCelebracio,
@@ -104,6 +106,7 @@ public class DAOTipusCelebracions {
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
                     Globals.g_Native.getString(R.string.error_greu), p_Context);
             Globals.TancarEspera();
+            l_resultat = false;
         }
         finally{
             Globals.TancarEspera();
@@ -117,6 +120,7 @@ public class DAOTipusCelebracions {
                 l_activity.finish();
             }
         }
+        return l_resultat;
     }
     // Esborrem un tipus de celebracio
     public static boolean Esborrar(int p_Codi, final Context p_Context, boolean p_Tancam){
