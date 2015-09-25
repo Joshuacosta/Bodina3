@@ -25,14 +25,14 @@ public class DAOCategoriesConvidats {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    // Llegim les categories de convidats del client
-    public static void Llegir(final ListView p_LVW_CategoriesConvidats, int p_Layout, final Context p_Context) {
+    // Llegim les categories de convidats del client per una celebracio
+    public static void Llegir(int p_CodiCelebracio, final ListView p_LVW_CategoriesConvidats, int p_Layout, final Context p_Context) {
         final ArrayAdapter<CategoriaConvidats> l_Llista = new LVWLlistaCategoriesConvidats(p_Context, p_Layout);
         Globals.MostrarEspera(p_Context);
         try {
             Cursor l_cursor = Globals.g_DB.query(TAG_CategoriesConvidats,
                     Globals.g_Native.getResources().getStringArray(R.array.TCategoriesConvidats_Camps),
-                    null, // c. selections
+                    TAG_CodiCelebracio + "= " + p_CodiCelebracio, // c. selections
                     null, // d. selections args
                     null, // e. group by
                     null, // f. having
@@ -56,7 +56,9 @@ public class DAOCategoriesConvidats {
         }
     }
     // Afegim categoria
-    public static void Afegir(CategoriaConvidats p_CategoriaConvidats, final Context p_Context, boolean p_Asistit, boolean p_Tancam){
+    public static boolean Afegir(CategoriaConvidats p_CategoriaConvidats, final Context p_Context, boolean p_Asistit, boolean p_Tancam){
+        boolean l_resultat = true;
+
         if (p_Asistit) {
             Globals.MostrarEspera(p_Context);
         }
@@ -70,6 +72,7 @@ public class DAOCategoriesConvidats {
                 Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
                         Globals.g_Native.getString(R.string.error_greu), p_Context);
                 Globals.TancarEspera();
+                l_resultat = false;
             }
         }
         finally{
@@ -86,9 +89,12 @@ public class DAOCategoriesConvidats {
                 }
             }
         }
+        return l_resultat;
     }
     // Modifiquem la categoria
-    public static void Modificar(CategoriaConvidats p_CategoriaConvidats, final Context p_Context, boolean p_Tancam){
+    public static boolean Modificar(CategoriaConvidats p_CategoriaConvidats, final Context p_Context, boolean p_Tancam){
+        boolean l_resultat = true;
+
         Globals.MostrarEspera(p_Context);
         try {
             Globals.g_DB.update(TAG_CategoriesConvidats,
@@ -101,6 +107,7 @@ public class DAOCategoriesConvidats {
             Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
                     Globals.g_Native.getString(R.string.error_greu), p_Context);
             Globals.TancarEspera();
+            l_resultat = false;
         }
         finally{
             Globals.TancarEspera();
@@ -114,6 +121,7 @@ public class DAOCategoriesConvidats {
                 l_activity.finish();
             }
         }
+        return l_resultat;
     }
     // Esborrem la categoria
     public static boolean Esborrar(int p_Codi, int p_CodiCelebracio, final Context p_Context, boolean p_Tancam){
@@ -146,7 +154,7 @@ public class DAOCategoriesConvidats {
         }
         return l_Resultat;
     }
-    // Definim les categories inicials
+    // Definim les categories inicials per una celebracio donada
     public static void ValorsInicialsCelebracio(int p_CodiCelebracio) {
         CategoriaConvidats l_CategoriaConvidats;
 

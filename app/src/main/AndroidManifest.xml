@@ -104,6 +104,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".entitat_pral" />
         </activity>
+        <!-- Finestra de celebracions -->
+        <activity
+            android:name=".celebracions"
+            android:label="@string/title_activity_celebracions" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".celebracions" />
+        </activity>
+        <!-- Finestra de categories de convidats -->
+        <activity
+            android:name=".categories_convidats"
+            android:label="@string/title_activity_categories_convidats" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".celebracions" />
+        </activity>
     </application>
 
 </manifest>

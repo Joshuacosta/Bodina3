@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".tipus_celebracions">
+    <item android:id="@+id/categories_convidatsMNUAfegir"
+        android:title="@string/tipus_celebracionsMNUAfegirTipus"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/categories_convidatsMNUOrdenar"
+        android:title="@string/tipus_celebracionsMNUOrdenar"
+        android:icon="@drawable/ic_sort_white_24dp"
+        android:orderInCategory="100" app:showAsAction="always" />
+</menu>

@@ -100,11 +100,21 @@
     <string name="EntitatModificar_Contacte">Contact</string>
     <string name="EntitatModificar_eMail">e-Mail</string>
 
+    <!-- Layout celebracions -->
+    <string name="title_activity_celebracions">Events</string>
+
     <!-- Layout celebracio alta -->
     <string name="title_activity_ac_celebracio_alta">Append event</string>
     <string name="EntitatSolicitar_DataHora">Date/time</string>
     <string name="EntitatSolicitar_TipusCelebracio">Type event</string>
     <string name="EntitatSolicitar_Convidats">Guests</string>
+
+    <!-- Layout categories coonvidats -->
+    <string name="title_activity_categories_convidats">Guests categories</string>
+    <string name="categories_convidatsMNUOrdenar">Sort categories</string>
+    <string name="categories_convidatsMNUAfegirTipus">Add category</string>
+    <string name="categories_convidats_Afegir">Add category</string>
+    <string name="categories_convidats_Modificar">Modifiy category</string>
 
     <!-- Layout tipus de celebracions -->
     <string name="title_activity_tipus_celebracions">Types of events</string>
@@ -393,7 +403,7 @@
     <string name="CategoriaConvidats2">Friends 2</string>
     <string name="CategoriaConvidats3">Coworkers 1</string>
     <string name="CategoriaConvidats4">Coworkers 2</string>
-    <string name="CategoriaConvidats5">Other 2</string>
+    <string name="CategoriaConvidats5">Other</string>
     <!-- Llista camps -->
     <string-array name="TCategoriesConvidats_Camps">
         <item>@string/TCategoriesConvidats_Codi</item>
