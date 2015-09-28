@@ -69,6 +69,8 @@ public final class Globals
     public static final int k_AssociacioPendent = 2;
     public static final int k_AssociacioRebutjat = 3;
     public static final int k_AssociacioBaixaAbansConfirmar = 4;
+    public static final int k_CelebracioClientBaixa = 0;
+    public static final int k_CelebracioClientActiva = 1;
 
     public static final int k_InvitacioBaixa = 0;
     public static final int k_InvitacioActiva = 1;
@@ -87,8 +89,6 @@ public final class Globals
     public static final String TAG_RECERCA = "Recerca";
     public static final int k_Entitat_NomesInvitacio = 0;
     public static final int k_Entitat_PermetSolicitar = 1;
-    // Totals de taules
-    public static long g_NUM_TipusCelebracions = 0;
 
     public static void ExitAppDialog(final Activity activity)
     {

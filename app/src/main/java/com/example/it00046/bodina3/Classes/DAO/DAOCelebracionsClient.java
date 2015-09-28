@@ -8,30 +8,36 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.it00046.bodina3.Classes.Custom.LVWLlistaTipusCelebracions;
+import com.example.it00046.bodina3.Classes.Custom.LVWLlistaCelebracionsClient;
+import com.example.it00046.bodina3.Classes.Entitats.CelebracioClient;
 import com.example.it00046.bodina3.Classes.Entitats.TipusCelebracio;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.R;
-import com.loopj.android.http.RequestParams;
 
 /**
- * Created by it00046 on 05/08/2015.
+ * Created by it00046 on 02/06/2015.
  */
-public class DAOTipusCelebracions {
-    private static final String TAG_TipusCelebracio = Globals.g_Native.getString(R.string.TTipusCelebracio);
-    private static final String TAG_Codi = Globals.g_Native.getString(R.string.TTipusCelebracio_Codi);
-    private static final String TAG_Descripcio = Globals.g_Native.getString(R.string.TTipusCelebracio_Descripcio);
-
+public final class DAOCelebracionsClient {
+    private static final String TAG_CelebracionsClient = Globals.g_Native.getString(R.string.TCelebracionsClient);
+    private static final String TAG_Codi = Globals.g_Native.getString(R.string.TCelebracionsClient_Codi);
+    private static final String TAG_CodiSalo = Globals.g_Native.getString(R.string.TCelebracionsClient_CodiSalo);
+    private static final String TAG_Tipus = Globals.g_Native.getString(R.string.TCelebracionsClient_Tipus);
+    private static final String TAG_Descripcio = Globals.g_Native.getString(R.string.TCelebracionsClient_Descripcio);
+    private static final String TAG_Convidats  = Globals.g_Native.getString(R.string.TCelebracionsClient_Convidats);
+    private static final String TAG_Data = Globals.g_Native.getString(R.string.TCelebracionsClient_Data);
+    private static final String TAG_Lloc = Globals.g_Native.getString(R.string.TCelebracionsClient_Lloc);
+    private static final String TAG_Contacte = Globals.g_Native.getString(R.string.TCelebracionsClient_Contacte);
+    private static final String TAG_Estat = Globals.g_Native.getString(R.string.TCelebracionsClient_Estat);
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    // Llegim els tipus de celebracio del client
-    public static void Llegir(final ListView p_LVW_TipusCelebracions, int p_Layout, final Context p_Context) {
-        final ArrayAdapter<TipusCelebracio> l_Llista = new LVWLlistaTipusCelebracions(p_Context, p_Layout);
+    // Llegim les celebracions propies del client
+    public static void Llegir(final ListView p_LVW_CelebracionsClient, int p_Layout, final Context p_Context) {
+        final ArrayAdapter<CelebracioClient> l_Llista = new LVWLlistaCelebracionsClient(p_Context, p_Layout);
         Globals.MostrarEspera(p_Context);
         try {
-            Cursor l_cursor = Globals.g_DB.query(TAG_TipusCelebracio,
-                    Globals.g_Native.getResources().getStringArray(R.array.TTipusCelebracio_Camps),
+            Cursor l_cursor = Globals.g_DB.query(TAG_CelebracionsClient,
+                    Globals.g_Native.getResources().getStringArray(R.array.TCelebracionsClient_Camps),
                     null, // c. selections
                     null, // d. selections args
                     null, // e. group by
@@ -41,11 +47,11 @@ public class DAOTipusCelebracions {
             if (l_cursor.getCount() > 0) {
                 l_cursor.moveToFirst();
                 for (int i=0; i < l_cursor.getCount(); i++) {
-                    TipusCelebracio l_Tipus = CursorToTipusCelebracio(l_cursor);
+                    CelebracioClient l_Tipus = CursorToCelebracioClient(l_cursor);
                     l_Llista.add(l_Tipus);
                     l_cursor.moveToNext();
                 }
-                p_LVW_TipusCelebracions.setAdapter(l_Llista);
+                p_LVW_CelebracionsClient.setAdapter(l_Llista);
             }
             Globals.TancarEspera();
         }
@@ -55,17 +61,16 @@ public class DAOTipusCelebracions {
             Globals.TancarEspera();
         }
     }
-    // Afegim un tipus de celebracio
-    public static boolean Afegir(TipusCelebracio p_TipusCelebracio, final Context p_Context, boolean p_Asistit, boolean p_Tancam){
+    public static boolean Afegir(CelebracioClient p_CelebracioClient, final Context p_Context, boolean p_Asistit, boolean p_Tancam){
         boolean l_resultat = true;
 
         if (p_Asistit) {
             Globals.MostrarEspera(p_Context);
         }
         try {
-            Globals.g_DB.insert(TAG_TipusCelebracio,
+            Globals.g_DB.insert(TAG_CelebracionsClient,
                                 null,
-                                TipusCelebracioToContentValues(p_TipusCelebracio, true));
+                                CelebracioClientToContentValues(p_CelebracioClient, true));
         }
         catch(Exception e) {
             if (p_Asistit) {
@@ -91,15 +96,14 @@ public class DAOTipusCelebracions {
         }
         return l_resultat;
     }
-    // Modifiquem un tipus de celebracio
-    public static boolean Modificar(TipusCelebracio p_TipusCelebracio, final Context p_Context, boolean p_Tancam){
+    public static boolean Modificar(CelebracioClient p_CelebracioClient, final Context p_Context, boolean p_Tancam){
         boolean l_resultat = true;
 
         Globals.MostrarEspera(p_Context);
         try {
-            Globals.g_DB.update(TAG_TipusCelebracio,
-                    TipusCelebracioToContentValues(p_TipusCelebracio, false),
-                    TAG_Codi + "= " + p_TipusCelebracio.Codi,
+            Globals.g_DB.update(TAG_CelebracionsClient,
+                    CelebracioClientToContentValues(p_CelebracioClient, false),
+                    TAG_Codi + "= " + p_CelebracioClient.Codi,
                     null);
         }
         catch(Exception e) {
@@ -122,13 +126,12 @@ public class DAOTipusCelebracions {
         }
         return l_resultat;
     }
-    // Esborrem un tipus de celebracio
     public static boolean Esborrar(int p_Codi, final Context p_Context, boolean p_Tancam){
         boolean l_Resultat = true;
 
         Globals.MostrarEspera(p_Context);
         try {
-            Globals.g_DB.delete(TAG_TipusCelebracio,
+            Globals.g_DB.delete(TAG_CelebracionsClient,
                     TAG_Codi + "= " + p_Codi,
                     null);
         }
@@ -152,46 +155,40 @@ public class DAOTipusCelebracions {
         }
         return l_Resultat;
     }
-    // Definim els tipus inicials de celebracio
-    public static void ValorsInicials() {
-        TipusCelebracio l_TipusCelebracio;
-
-        l_TipusCelebracio = new TipusCelebracio();
-        l_TipusCelebracio.Codi = 0;
-        l_TipusCelebracio.Descripcio = Globals.g_Native.getString(R.string.TipusCelebracio0);
-        Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
-        l_TipusCelebracio.Codi = 1;
-        l_TipusCelebracio.Descripcio = Globals.g_Native.getString(R.string.TipusCelebracio1);
-        Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
-        l_TipusCelebracio.Codi = 2;
-        l_TipusCelebracio.Descripcio = Globals.g_Native.getString(R.string.TipusCelebracio2);
-        Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
-        l_TipusCelebracio.Codi = 3;
-        l_TipusCelebracio.Descripcio = Globals.g_Native.getString(R.string.TipusCelebracio3);
-        Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
-        l_TipusCelebracio.Codi = 4;
-        l_TipusCelebracio.Descripcio = Globals.g_Native.getString(R.string.TipusCelebracio4);
-        Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
-    }
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Funcions privades
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Posa les dades del client a contentValue
-    private static ContentValues TipusCelebracioToContentValues(TipusCelebracio p_TipusCelebracio, boolean p_Insercio) {
+    private static ContentValues CelebracioClientToContentValues(CelebracioClient p_CelebracioClient, boolean p_Insercio) {
         ContentValues l_values = new ContentValues();
 
         if (p_Insercio == false) {
-            l_values.put(TAG_Codi, p_TipusCelebracio.Codi);
+            l_values.put(TAG_Codi, p_CelebracioClient.Codi);
         }
-        l_values.put(TAG_Descripcio, p_TipusCelebracio.Descripcio);
+        l_values.put(TAG_CodiSalo, p_CelebracioClient.CodiSalo);
+        l_values.put(TAG_Tipus, p_CelebracioClient.Tipus);
+        l_values.put(TAG_Descripcio, p_CelebracioClient.Descripcio);
+        l_values.put(TAG_Convidats, p_CelebracioClient.Convidats);
+        l_values.put(TAG_Data, p_CelebracioClient.Data);
+        l_values.put(TAG_Lloc, p_CelebracioClient.Lloc);
+        l_values.put(TAG_Contacte, p_CelebracioClient.Contacte);
+        l_values.put(TAG_Estat, p_CelebracioClient.Estat);
+
         return l_values;
     }
     // Pasa les dades del cursor a TipusCelebracio
-    private static TipusCelebracio CursorToTipusCelebracio(Cursor p_cursor){
-        TipusCelebracio l_TipusCelebracio = new TipusCelebracio();
+    private static CelebracioClient CursorToCelebracioClient(Cursor p_cursor){
+        CelebracioClient l_CelebracioClient = new CelebracioClient();
 
-        l_TipusCelebracio.Codi = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Codi));
-        l_TipusCelebracio.Descripcio = p_cursor.getString(p_cursor.getColumnIndex(TAG_Descripcio));
-        return l_TipusCelebracio;
+        l_CelebracioClient.Codi = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Codi));
+        l_CelebracioClient.CodiSalo = p_cursor.getInt(p_cursor.getColumnIndex(TAG_CodiSalo));
+        l_CelebracioClient.Tipus = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Tipus));
+        l_CelebracioClient.Descripcio = p_cursor.getString(p_cursor.getColumnIndex(TAG_Descripcio));
+        l_CelebracioClient.Convidats = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Convidats));
+        l_CelebracioClient.Data = p_cursor.getString(p_cursor.getColumnIndex(TAG_Data));
+        l_CelebracioClient.Lloc = p_cursor.getString(p_cursor.getColumnIndex(TAG_Lloc));
+        l_CelebracioClient.Contacte = p_cursor.getString(p_cursor.getColumnIndex(TAG_Contacte));
+        l_CelebracioClient.Estat = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Estat));
+        return l_CelebracioClient;
     }
 }

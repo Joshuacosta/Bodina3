@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -20,12 +19,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-
 import com.example.it00046.bodina3.Classes.DAO.DAOCategoriesConvidats;
 import com.example.it00046.bodina3.Classes.DAO.DAOTipusCelebracions;
 import com.example.it00046.bodina3.Classes.Entitats.CategoriaConvidats;
-import com.example.it00046.bodina3.Classes.Entitats.TipusCelebracio;
-import com.example.it00046.bodina3.Classes.ExpandAnimation;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.melnykov.fab.FloatingActionButton;
 import java.util.Comparator;
@@ -92,7 +88,9 @@ public class categories_convidats extends ActionBarActivity{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.categories_convidats);
-        // Carreguen les entitats del client
+        // Recuperem el codi de celebracio
+        g_CodiCelebracio = getIntent().getIntExtra("CodiCelebracio", 0);
+        // Carreguen les categories de la celebracio del client
         g_LVW_CategoriesConvidats = (ListView) findViewById(R.id.categories_convidatsLVWCategories);
         DAOCategoriesConvidats.Llegir(g_CodiCelebracio, g_LVW_CategoriesConvidats, R.layout.linia_lvw_llista_categoriesconvidats, Jo);
         // El floating boto serveix per afegir associacions amb entitats (tamb? es pot fer des de el menu)

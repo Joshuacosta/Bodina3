@@ -12,7 +12,6 @@ import android.widget.ExpandableListView;
 import com.example.it00046.bodina3.Classes.Custom.LVWEntitatsClientCelebracions;
 import com.example.it00046.bodina3.Classes.DAO.DAOClients;
 import com.example.it00046.bodina3.Classes.DAO.DAOTipusCelebracions;
-import com.example.it00046.bodina3.Classes.Entitats.TipusCelebracio;
 import com.example.it00046.bodina3.Classes.Globals;
 
 import java.util.ArrayList;
@@ -129,7 +128,7 @@ public class principal extends ActionBarActivity {
                 startActivity(l_intent);
                 break;
             case R.id.principalMNUafegir:
-                l_intent = new Intent(this, celebracio_alta.class);
+                l_intent = new Intent(this, celebracions_client_alta.class);
                 startActivity(l_intent);
                 return true;
             case R.id.principalMNUconfiguracio:

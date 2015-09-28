@@ -276,7 +276,7 @@ public class entitat_pral extends ActionBarActivity {
     }
 
     // Aquesta funció es cridada pels elements de la llista quan premem el boto de afegir entitat
-    public void LiniaLVWRecercaEntitatsIMBAfegirEntitat_Click(View l_view) {
+    public void LiniaLVWAssociacionsIMBAfegirEntitat_Click(View l_view) {
         Intent l_intent;
         View l_parent, l_LiniaAssociacio;
         PARAssociacio l_Parametres;
@@ -299,7 +299,7 @@ public class entitat_pral extends ActionBarActivity {
         startActivity(l_intent);
     }
     // Aquesta funció es cridada pels elements de la llista quan premem el boto editar
-    public void LiniaLVWRecercaEntitatsIMBEditar_Click(View l_view) {
+    public void LiniaLVWAssociacionsIMBEditar_Click(View l_view) {
         ImageButton l_IMB_Esborrar, l_IMB_Editar, l_IMB_AfegirEntitat;
         TransitionDrawable l_transition;
         View l_parent, l_LiniaAssociacio;
@@ -343,7 +343,7 @@ public class entitat_pral extends ActionBarActivity {
         }
     }
     // Aquesta funció es cridada pels elements de la llista quan premem el boto esborrar
-    public void LiniaLVWRecercaEntitatsIMBEsborrar_Click(View l_view) {
+    public void LiniaLVWAssociacionsIMBEsborrar_Click(View l_view) {
         ImageButton l_IMB_Esborrar, l_IMB_Editar, l_IMB_AfegirEntitat;
         TransitionDrawable l_transition;
         View l_parent, l_LiniaAssociacio;

@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".celebracions_client_pral">
+    <item android:id="@+id/celebracions_client_pralMNUAltaCelebracio"
+        android:title="@string/CelebracionsClientPralMNUAfegir"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/celebracions_client_pralMNUOrdenar"
+        android:title="@string/CelebracionsClientPralMNUOrdenar"
+        android:icon="@drawable/ic_sort_white_24dp"
+        android:orderInCategory="100" app:showAsAction="always" />
+    <item android:id="@+id/celebracions_client_pralMNUActualitzar"
+        android:title="@string/CelebracionsClientPralMNUActualitzar"
+        android:orderInCategory="103" app:showAsAction="never" />
+</menu>

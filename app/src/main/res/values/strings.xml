@@ -33,6 +33,7 @@
     <string name="TeAssociacioActiva">Dear customer, you already have an association with this entity.</string>
     <string name="TeAssociacioPendent">Dear customer, you have a pending association with this entity.</string>
     <string name="Ordenacio">Order by:</string>
+    <string name="CelebracioBaixa">(EVENT CANCELLED)</string>
 
     <!-- Errors codi -->
     <string name="error_avis">Alert</string>
@@ -100,8 +101,11 @@
     <string name="EntitatModificar_Contacte">Contact</string>
     <string name="EntitatModificar_eMail">e-Mail</string>
 
-    <!-- Layout celebracions -->
-    <string name="title_activity_celebracions">Events</string>
+    <!-- Layout celebracions client -->
+    <string name="title_activity_celebracions_client">Events</string>
+    <string name="CelebracionsClientPralMNUAfegir">Add event</string>
+    <string name="CelebracionsClientPralMNUOrdenar">Sort events</string>
+    <string name="CelebracionsClientPralMNUActualitzar">Refresh</string>
 
     <!-- Layout celebracio alta -->
     <string name="title_activity_ac_celebracio_alta">Append event</string>
@@ -271,31 +275,31 @@
                                 %7$s INTEGER)</string>
     <!-- .................................................................................. -->
     <!-- CELEBRACIONS (local) -->
-    <string name="TCelebracions">Celebracions</string>
+    <string name="TCelebracionsClient">CelebracionsClient</string>
     <!-- Camps -->
-    <string name="TCelebracions_Codi">Codi</string>
-    <string name="TCelebracions_CodiSalo">CodiSalo</string>
-    <string name="TCelebracions_Tipus">Tipus</string>
-    <string name="TCelebracions_Descripcio">Descripcio</string>
-    <string name="TCelebracions_Convidats">Convidats</string>
-    <string name="TCelebracions_Data">Data</string>
-    <string name="TCelebracions_Lloc">Lloc</string>
-    <string name="TCelebracions_Contacte">Contacte</string>
-    <string name="TCelebracions_Estat">Estat</string>
+    <string name="TCelebracionsClient_Codi">Codi</string>
+    <string name="TCelebracionsClient_CodiSalo">CodiSalo</string>
+    <string name="TCelebracionsClient_Tipus">Tipus</string>
+    <string name="TCelebracionsClient_Descripcio">Descripcio</string>
+    <string name="TCelebracionsClient_Convidats">Convidats</string>
+    <string name="TCelebracionsClient_Data">Data</string>
+    <string name="TCelebracionsClient_Lloc">Lloc</string>
+    <string name="TCelebracionsClient_Contacte">Contacte</string>
+    <string name="TCelebracionsClient_Estat">Estat</string>
     <!-- Llista camps -->
-    <string-array name="TCelebracions_Camps">
-        <item>@string/TCelebracions_Codi</item>
-        <item>@string/TCelebracions_CodiSalo</item>
-        <item>@string/TCelebracions_Tipus</item>
-        <item>@string/TCelebracions_Descripcio</item>
-        <item>@string/TCelebracions_Convidats</item>
-        <item>@string/TCelebracions_Data</item>
-        <item>@string/TCelebracions_Lloc</item>
-        <item>@string/TCelebracions_Contacte</item>
-        <item>@string/TCelebracions_Estat</item>
+    <string-array name="TCelebracionsClient_Camps">
+        <item>@string/TCelebracionsClient_Codi</item>
+        <item>@string/TCelebracionsClient_CodiSalo</item>
+        <item>@string/TCelebracionsClient_Tipus</item>
+        <item>@string/TCelebracionsClient_Descripcio</item>
+        <item>@string/TCelebracionsClient_Convidats</item>
+        <item>@string/TCelebracionsClient_Data</item>
+        <item>@string/TCelebracionsClient_Lloc</item>
+        <item>@string/TCelebracionsClient_Contacte</item>
+        <item>@string/TCelebracionsClient_Estat</item>
     </string-array>
     <!-- Funcions -->
-    <string name="TCelebracionsCreate">CREATE TABLE %1$s (
+    <string name="TCelebracionsClientCreate">CREATE TABLE %1$s (
                                 %2$s INTEGER,
                                 %3$s INTEGER,
                                 %4$s INTEGER,
@@ -603,6 +607,13 @@
         <item>State association</item>
         <item>Request date</item>
         <item>Entry date</item>
+    </string-array>
+
+    <string-array name="OrdreCelebracionsClient">
+        <item>Event description</item>
+        <item>Date</item>
+        <item>Number of guest</item>
+        <item>State</item>
     </string-array>
 
     <string-array name="Idioma">

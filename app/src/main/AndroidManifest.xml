@@ -39,7 +39,7 @@
         </activity>
         <!-- Fill 2: Alta celebracio -->
         <activity
-            android:name=".celebracio_alta"
+            android:name=".celebracions_client_alta"
             android:label="@string/title_activity_ac_celebracio_alta" >
         </activity>
         <!-- Fill 3: Entitats: SINGLE -->
@@ -49,6 +49,14 @@
             android:label="@string/title_activity_ac_entitat_pral"
             android:launchMode="singleTask"
             android:parentActivityName=".principal" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".principal" />
+        </activity>
+        <!-- Fill 4: Celebracions del client -->
+        <activity
+            android:name=".celebracions_client_pral"
+            android:label="@string/title_activity_celebracions_client" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".principal" />
@@ -80,6 +88,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".entitat_solicitar" />
         </activity>
+
         <activity
             android:name=".entitat_detall"
             android:label="@string/title_activity_ac_entitat_detall"
@@ -96,6 +105,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".entitat_pral" />
         </activity>
+        <!-- Finestra de categories de convidats -->
+        <activity
+            android:name=".categories_convidats"
+            android:label="@string/title_activity_categories_convidats" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".celebracions_client_pral" />
+        </activity>
         <!-- Finestra de tipus de celebracions -->
         <activity
             android:name=".tipus_celebracions"
@@ -103,22 +120,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".entitat_pral" />
-        </activity>
-        <!-- Finestra de celebracions -->
-        <activity
-            android:name=".celebracions"
-            android:label="@string/title_activity_celebracions" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".celebracions" />
-        </activity>
-        <!-- Finestra de categories de convidats -->
-        <activity
-            android:name=".categories_convidats"
-            android:label="@string/title_activity_categories_convidats" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".celebracions" />
         </activity>
     </application>
 

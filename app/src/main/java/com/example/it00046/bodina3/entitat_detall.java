@@ -19,15 +19,8 @@ public class entitat_detall extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.entitat_detall);
 
-        // Metode tradicional
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            String value = extras.getString("new_variable_name");
-        }
-
-        // Amb classes
+        // Recuperem les dades
         PAREntitat dadesEntitat = (PAREntitat) getIntent().getSerializableExtra("Info");
-
         // Ara mostrem la info, primer recuperem els camps
         lTextNomEntitat = (TextView) findViewById(R.id.txtNomEntitat);
         lTextNomEntitat.setText(dadesEntitat.Nom);

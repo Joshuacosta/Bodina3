@@ -6,12 +6,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class celebracio_alta extends ActionBarActivity {
+public class celebracions_client_alta extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.celebracio_alta);
+        setContentView(R.layout.celebracions_client_alta);
     }
 
 
