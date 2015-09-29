@@ -227,6 +227,10 @@ public class celebracions_client_pral extends ActionBarActivity {
                 // show it
                 l_alertDialog.show();
                 return true;
+            case R.id.celebracions_client_pralMNUSalons:
+                l_Intent = new Intent(this, salons_client_pral.class);
+                startActivity(l_Intent);
+                return true;
             case R.id.celebracions_client_pralMNUActualitzar:
                 DAOCelebracionsClient.Llegir(g_LVW_CelebracionsClient, R.layout.linia_lvw_llista_celebracions_client, Jo);
                 //

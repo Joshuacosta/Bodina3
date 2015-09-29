@@ -1,12 +1,14 @@
 package com.example.it00046.bodina3;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
-public class celebracions_client_alta extends ActionBarActivity {
+/**
+ * Created by it00046 on 29/09/2015.
+ */
+public class salons_client_modificar extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

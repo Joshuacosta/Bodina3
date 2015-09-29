@@ -54,7 +54,7 @@ public class entitat_detall extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.mn_entitat_detall, menu);
+        getMenuInflater().inflate(R.menu.entitat_detall, menu);
         return true;
     }
 

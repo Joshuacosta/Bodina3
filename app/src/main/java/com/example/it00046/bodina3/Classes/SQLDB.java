@@ -38,15 +38,15 @@ public class SQLDB extends SQLiteOpenHelper {
                 Globals.g_Native.getString(R.string.TClient_Idioma),
                 Globals.g_Native.getString(R.string.TClient_Actualitzat));
         db.execSQL(l_Create);
-        // 2- Salons
-        l_Create = String.format(Globals.g_Native.getString(R.string.TSalonsCreate),
-                Globals.g_Native.getString(R.string.TSalons),
-                Globals.g_Native.getString(R.string.TSalons_Codi),
-                Globals.g_Native.getString(R.string.TSalons_Nom),
-                Globals.g_Native.getString(R.string.TSalons_Amplada),
-                Globals.g_Native.getString(R.string.TSalons_Alsada),
-                Globals.g_Native.getString(R.string.TSalons_CodiPlanol),
-                Globals.g_Native.getString(R.string.TSalons_Estat));
+        // 2- SalonsClient
+        l_Create = String.format(Globals.g_Native.getString(R.string.TSalonsClientCreate),
+                Globals.g_Native.getString(R.string.TSalonsClient),
+                Globals.g_Native.getString(R.string.TSalonsClient_Codi),
+                Globals.g_Native.getString(R.string.TSalonsClient_Nom),
+                Globals.g_Native.getString(R.string.TSalonsClient_Amplada),
+                Globals.g_Native.getString(R.string.TSalonsClient_Alsada),
+                Globals.g_Native.getString(R.string.TSalonsClient_CodiPlanol),
+                Globals.g_Native.getString(R.string.TSalonsClient_Estat));
         db.execSQL(l_Create);
         // 3- Tipus de celebracio
         l_Create = String.format(Globals.g_Native.getString(R.string.TTipusCelebracioCreate),
@@ -64,18 +64,18 @@ public class SQLDB extends SQLiteOpenHelper {
                 Globals.g_Native.getString(R.string.TPlanols_DestiY),
                 Globals.g_Native.getString(R.string.TPlanols_Angle));
         db.execSQL(l_Create);
-        // 5- Celebracions
-        l_Create = String.format(Globals.g_Native.getString(R.string.TCelebracionsCreate),
-                Globals.g_Native.getString(R.string.TCelebracions),
-                Globals.g_Native.getString(R.string.TCelebracions_Codi),
-                Globals.g_Native.getString(R.string.TCelebracions_CodiSalo),
-                Globals.g_Native.getString(R.string.TCelebracions_Tipus),
-                Globals.g_Native.getString(R.string.TCelebracions_Descripcio),
-                Globals.g_Native.getString(R.string.TCelebracions_Convidats),
-                Globals.g_Native.getString(R.string.TCelebracions_Data),
-                Globals.g_Native.getString(R.string.TCelebracions_Lloc),
-                Globals.g_Native.getString(R.string.TCelebracions_Contacte),
-                Globals.g_Native.getString(R.string.TCelebracions_Estat));
+        // 5- Celebracions Client
+        l_Create = String.format(Globals.g_Native.getString(R.string.TCelebracionsClientCreate),
+                Globals.g_Native.getString(R.string.TCelebracionsClient),
+                Globals.g_Native.getString(R.string.TCelebracionsClient_Codi),
+                Globals.g_Native.getString(R.string.TCelebracionsClient_CodiSalo),
+                Globals.g_Native.getString(R.string.TCelebracionsClient_Tipus),
+                Globals.g_Native.getString(R.string.TCelebracionsClient_Descripcio),
+                Globals.g_Native.getString(R.string.TCelebracionsClient_Convidats),
+                Globals.g_Native.getString(R.string.TCelebracionsClient_Data),
+                Globals.g_Native.getString(R.string.TCelebracionsClient_Lloc),
+                Globals.g_Native.getString(R.string.TCelebracionsClient_Contacte),
+                Globals.g_Native.getString(R.string.TCelebracionsClient_Estat));
         db.execSQL(l_Create);
         // 6- Distribucions
         l_Create = String.format(Globals.g_Native.getString(R.string.TDistribucionsCreate),
@@ -170,13 +170,13 @@ public class SQLDB extends SQLiteOpenHelper {
         // per evitar problema en l'usuari
         String l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TClient));
         db.execSQL(l_DROP);
-        l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TSalons));
+        l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TSalonsClient));
         db.execSQL(l_DROP);
         l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TTipusCelebracio));
         db.execSQL(l_DROP);
         l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TPlanols));
         db.execSQL(l_DROP);
-        l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TCelebracions));
+        l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TCelebracionsClient));
         db.execSQL(l_DROP);
         l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TDistribucions));
         db.execSQL(l_DROP);

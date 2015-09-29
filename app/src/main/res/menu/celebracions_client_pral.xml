@@ -7,7 +7,10 @@
     <item android:id="@+id/celebracions_client_pralMNUOrdenar"
         android:title="@string/CelebracionsClientPralMNUOrdenar"
         android:icon="@drawable/ic_sort_white_24dp"
-        android:orderInCategory="100" app:showAsAction="always" />
+        android:orderInCategory="101" app:showAsAction="always" />
+    <item android:id="@+id/celebracions_client_pralMNUSalons"
+        android:title="@string/CelebracionsClientPralMNUSalons"
+        android:orderInCategory="102" app:showAsAction="never" />
     <item android:id="@+id/celebracions_client_pralMNUActualitzar"
         android:title="@string/CelebracionsClientPralMNUActualitzar"
         android:orderInCategory="103" app:showAsAction="never" />

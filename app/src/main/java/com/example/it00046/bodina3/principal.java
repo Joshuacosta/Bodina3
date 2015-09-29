@@ -131,6 +131,10 @@ public class principal extends ActionBarActivity {
                 l_intent = new Intent(this, celebracions_client_alta.class);
                 startActivity(l_intent);
                 return true;
+            case R.id.principalMNUCelebracionsClient:
+                l_intent = new Intent(this, celebracions_client_pral.class);
+                startActivity(l_intent);
+                return true;
             case R.id.principalMNUconfiguracio:
                 l_intent = new Intent(this, configuracio.class);
                 startActivity(l_intent);

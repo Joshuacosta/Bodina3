@@ -50,6 +50,7 @@
     <string name="app_name">Bodina</string>
     <string name="principalMNUentitats">Entities</string>
     <string name="principalMNUafegir">Add event</string>
+    <string name="principalMNUCelebracionsClient">Client events</string>
     <string name="principalMNUconfiguracio">Settings</string>
     <string name="principalMNUTipusCelebracions">Types of events</string>
     <string name="principalMNUactualitzar">Refresh</string>
@@ -102,10 +103,21 @@
     <string name="EntitatModificar_eMail">e-Mail</string>
 
     <!-- Layout celebracions client -->
-    <string name="title_activity_celebracions_client">Events</string>
+    <string name="title_activity_celebracions_client">Clients events</string>
     <string name="CelebracionsClientPralMNUAfegir">Add event</string>
     <string name="CelebracionsClientPralMNUOrdenar">Sort events</string>
+    <string name="CelebracionsClientPralMNUSalons">Salons client</string>
     <string name="CelebracionsClientPralMNUActualitzar">Refresh</string>
+
+    <!-- Layout salons client -->
+    <string name="title_activity_salons_client">Salons client</string>
+    <string name="SalonsClientPralMNUAfegir">Add salon</string>
+    <string name="SalonsClientPralMNUOrdenar">Sort salon</string>
+    <string name="SalonsClientPralMNUActualitzar">Refresh</string>
+    <!-- Layout salo client alta -->
+    <string name="title_activity_salonsclient_alta">Append salon</string>
+    <!-- Layout celebracio alta -->
+    <string name="title_activity_salonsclient_modificacio">Modify salon</string>
 
     <!-- Layout celebracio alta -->
     <string name="title_activity_ac_celebracio_alta">Append event</string>
@@ -194,26 +206,26 @@
                                 %3$s VARCHAR(50))</string>
     <!-- .................................................................................. -->
     <!-- SALONS (local) -->
-    <string name="TSalons">Salons</string>
+    <string name="TSalonsClient">SalonsClient</string>
     <!-- Camps -->
-    <string name="TSalons_Codi">Codi</string>
-    <string name="TSalons_Nom">Nom</string>
-    <string name="TSalons_Amplada">Amplada</string>
-    <string name="TSalons_Alsada">Alsada</string>
-    <string name="TSalons_CodiPlanol">CodiPlanol</string>
-    <string name="TSalons_Estat">Estat</string>
+    <string name="TSalonsClient_Codi">Codi</string>
+    <string name="TSalonsClient_Nom">Nom</string>
+    <string name="TSalonsClient_Amplada">Amplada</string>
+    <string name="TSalonsClient_Alsada">Alsada</string>
+    <string name="TSalonsClient_CodiPlanol">CodiPlanol</string>
+    <string name="TSalonsClient_Estat">Estat</string>
     <!-- Llista camps -->
-    <string-array name="TSalons_Camps">
-        <item>@string/TSalons_Codi</item>
-        <item>@string/TSalons_Nom</item>
-        <item>@string/TSalons_Amplada</item>
-        <item>@string/TSalons_Alsada</item>
-        <item>@string/TSalons_CodiPlanol</item>
-        <item>@string/TSalons_Estat</item>
+    <string-array name="TSalonsClient_Camps">
+        <item>@string/TSalonsClient_Codi</item>
+        <item>@string/TSalonsClient_Nom</item>
+        <item>@string/TSalonsClient_Amplada</item>
+        <item>@string/TSalonsClient_Alsada</item>
+        <item>@string/TSalonsClient_CodiPlanol</item>
+        <item>@string/TSalonsClient_Estat</item>
     </string-array>
     <!-- Funcions -->
-    <string name="TSalonsCreate">CREATE TABLE %1$s (
-                                %2$s INTEGER,
+    <string name="TSalonsClientCreate">CREATE TABLE %1$s (
+                                %2$s INTEGER PRIMARY KEY,
                                 %3$s VARCHAR(50),
                                 %4$s INTEGER,
                                 %5$s INTEGER,
@@ -300,7 +312,7 @@
     </string-array>
     <!-- Funcions -->
     <string name="TCelebracionsClientCreate">CREATE TABLE %1$s (
-                                %2$s INTEGER,
+                                %2$s INTEGER PRIMARY KEY,
                                 %3$s INTEGER,
                                 %4$s INTEGER,
                                 %5$s VARCHAR(50),
@@ -878,4 +890,8 @@
         <item>Zambia -ZMB</item>
         <item>Zimbabwe -ZWE</item>
     </string-array>
+    <string name="title_activity_main_esborrar">MainEsborrarActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>

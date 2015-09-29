@@ -24,7 +24,6 @@
             android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -53,6 +52,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".principal" />
         </activity>
+
         <!-- Fill 4: Celebracions del client -->
         <activity
             android:name=".celebracions_client_pral"
@@ -61,6 +61,25 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".principal" />
         </activity>
+        <!-- Fill 1 de Celebracions del client: Salons del client -->
+        <activity
+            android:name=".salons_client_pral"
+            android:label="@string/title_activity_salons_client" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".celebracions_client_pral" />
+        </activity>
+        <!-- Fill 1 de Salons del client: Alta salo -->
+        <activity
+            android:name=".salons_client_alta"
+            android:label="@string/title_activity_salonsclient_alta" >
+        </activity>
+        <!-- Fill 2 de Salons del client: Modifica salo -->
+        <activity
+            android:name=".salons_client_modificar"
+            android:label="@string/title_activity_salonsclient_modificacio" >
+        </activity>
+
         <!-- Fill 1 de Entitats: Solicitar -->
         <activity
             android:name=".entitat_solicitar"
@@ -88,7 +107,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".entitat_solicitar" />
         </activity>
-
         <activity
             android:name=".entitat_detall"
             android:label="@string/title_activity_ac_entitat_detall"
