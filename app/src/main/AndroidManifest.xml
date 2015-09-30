@@ -73,11 +73,17 @@
         <activity
             android:name=".salons_client_alta"
             android:label="@string/title_activity_salonsclient_alta" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".salons_client_pral" />
         </activity>
         <!-- Fill 2 de Salons del client: Modifica salo -->
         <activity
             android:name=".salons_client_modificar"
             android:label="@string/title_activity_salonsclient_modificacio" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".salons_client_pral" />
         </activity>
 
         <!-- Fill 1 de Entitats: Solicitar -->

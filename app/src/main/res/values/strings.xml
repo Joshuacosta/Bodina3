@@ -34,6 +34,7 @@
     <string name="TeAssociacioPendent">Dear customer, you have a pending association with this entity.</string>
     <string name="Ordenacio">Order by:</string>
     <string name="CelebracioBaixa">(EVENT CANCELLED)</string>
+    <string name="meters">meters</string>
 
     <!-- Errors codi -->
     <string name="error_avis">Alert</string>
@@ -116,6 +117,9 @@
     <string name="SalonsClientPralMNUActualitzar">Refresh</string>
     <!-- Layout salo client alta -->
     <string name="title_activity_salonsclient_alta">Append salon</string>
+    <string name="SalonsClientAltaTXTNom">Name</string>
+    <string name="SalonsClientAltaLITAmplada">-with-</string>
+    <string name="SalonsClientAltaLITAlsada">-height-</string>
     <!-- Layout celebracio alta -->
     <string name="title_activity_salonsclient_modificacio">Modify salon</string>
 
