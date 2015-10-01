@@ -49,6 +49,10 @@ public class salons_client_alta extends ActionBarActivity {
                 if (g_Alsada != 0){
                     g_Canvas.Dibuixa(g_Amplada * 5, g_Alsada * 5);
                 }
+                else{
+                    // Pintem una linia
+                    g_Canvas.Dibuixa(g_Amplada * 5, 5);
+                }
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -70,6 +74,10 @@ public class salons_client_alta extends ActionBarActivity {
                 l_TXT_Alsada.setText(l_AlsadaTriada + " " + Globals.g_Native.getString(R.string.meters));
                 if (g_Amplada != 0) {
                     g_Canvas.Dibuixa(g_Amplada * 5, g_Alsada * 5);
+                }
+                else{
+                    // Pintem una linia
+                    g_Canvas.Dibuixa(5, g_Alsada * 5);
                 }
             }
 

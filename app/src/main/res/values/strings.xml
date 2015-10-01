@@ -120,6 +120,7 @@
     <string name="SalonsClientAltaTXTNom">Name</string>
     <string name="SalonsClientAltaLITAmplada">-with-</string>
     <string name="SalonsClientAltaLITAlsada">-height-</string>
+    <string name="SalonsClientAltaBUTPlanol"></string>
     <!-- Layout celebracio alta -->
     <string name="title_activity_salonsclient_modificacio">Modify salon</string>
 

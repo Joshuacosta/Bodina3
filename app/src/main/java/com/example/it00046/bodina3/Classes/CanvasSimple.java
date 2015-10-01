@@ -1,6 +1,7 @@
 package com.example.it00046.bodina3.Classes;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.View;
@@ -21,6 +22,7 @@ public class CanvasSimple extends View {
     private Canvas drawCanvas;
     //canvas bitmap
     private Bitmap canvasBitmap;
+    private Paint g_Paint = new Paint();
     //
     private int g_CenterX;
     private int g_CenterY;
@@ -35,7 +37,7 @@ public class CanvasSimple extends View {
         drawPaint = new Paint();
         drawPaint.setColor(paintColor);
         drawPaint.setAntiAlias(true);
-        drawPaint.setStrokeWidth(20);
+        drawPaint.setStrokeWidth(5);
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -44,9 +46,20 @@ public class CanvasSimple extends View {
 
     public void Dibuixa(int p_Amplada, int p_Alsada){
         startNew();
+        /*
         drawCanvas.drawRect(g_CenterX - (p_Amplada / 2),
                 g_CenterY - (p_Alsada / 2),
                 g_CenterX + (p_Amplada / 2), g_CenterY + (p_Alsada / 2), canvasPaint);
+        */
+        g_Paint.setColor(paintColor);
+        g_Paint.setStyle(Paint.Style.STROKE);
+        g_Paint.setStrokeWidth(5);
+        g_Paint.setAntiAlias(true);
+        g_Paint.setStrokeJoin(Paint.Join.ROUND);
+        g_Paint.setStrokeCap(Paint.Cap.ROUND);
+        drawCanvas.drawRect(g_CenterX - (p_Amplada / 2),
+                g_CenterY - (p_Alsada / 2),
+                g_CenterX + (p_Amplada / 2), g_CenterY + (p_Alsada / 2), g_Paint);
         invalidate();
     }
 
@@ -57,12 +70,14 @@ public class CanvasSimple extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         //view given size
-        super.onSizeChanged(w, h, oldw, oldh);
-        canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        drawCanvas = new Canvas(canvasBitmap);
-        //
-        g_CenterX = w/2;
-        g_CenterY = h/2;
+        //if (w != 0 && h!= 0) {
+            super.onSizeChanged(w, h, oldw, oldh);
+            canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            drawCanvas = new Canvas(canvasBitmap);
+            //
+            g_CenterX = w / 2;
+            g_CenterY = h / 2;
+        //}
     }
 
     @Override
