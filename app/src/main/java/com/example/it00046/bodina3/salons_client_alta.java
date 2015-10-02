@@ -6,23 +6,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.it00046.bodina3.Classes.CanvasSimple;
-import com.example.it00046.bodina3.Classes.DAO.DAOSalonsClient;
-import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
+import com.example.it00046.bodina3.Classes.CanvasAuto;
 import com.example.it00046.bodina3.Classes.Globals;
-
-import java.util.Comparator;
 
 /**
  * Created by it00046 on 29/09/2015.
  */
 public class salons_client_alta extends ActionBarActivity {
-    private CanvasSimple g_Canvas;
+    private CanvasAuto g_Canvas;
     private int g_Amplada = 0, g_Alsada = 0;
 
     @Override
@@ -37,7 +31,7 @@ public class salons_client_alta extends ActionBarActivity {
         l_SEK_Alsada = (SeekBar) findViewById(R.id.SalonsClientAltaSEKAlsada);
         l_TXT_Amplada = (TextView) findViewById(R.id.SalonsClientAltaLITAmplada);
         l_TXT_Alsada = (TextView) findViewById(R.id.SalonsClientAltaLITAlsada);
-        g_Canvas = (CanvasSimple) findViewById(R.id.SalonsClientAltaVIWDrawing);
+        g_Canvas = (CanvasAuto) findViewById(R.id.SalonsClientAltaVIWDrawing);
         // Codi de les seekbars
         l_SEK_Amplada.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int l_AmpladaTriada = 0;

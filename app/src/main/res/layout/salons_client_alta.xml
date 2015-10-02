@@ -59,7 +59,7 @@
                 android:id="@+id/SalonsClientAltaLITAlsada"
                 android:layout_gravity="center_horizontal" />
 
-            <com.example.it00046.bodina3.Classes.CanvasSimple
+            <com.example.it00046.bodina3.Classes.CanvasAuto
                 android:id="@+id/SalonsClientAltaVIWDrawing"
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"

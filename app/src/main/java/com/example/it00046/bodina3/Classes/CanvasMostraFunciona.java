@@ -1,33 +1,31 @@
 package com.example.it00046.bodina3.Classes;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.util.AttributeSet;
-import android.view.View;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.view.MotionEvent;
+import android.graphics.PorterDuff;
+import android.util.AttributeSet;
+import android.view.View;
 
-public class CanvasSimple extends View {
+public class CanvasMostraFunciona extends View {
     //drawing path
     private Path drawPath;
     //drawing and canvas paint
-    private Paint drawPaint, canvasPaint;
+    private Paint drawPaint, g_CanvasPaint;
+    private Bitmap g_CanvasBitmap;
     //initial color
     private int paintColor = 0xFF660000;
     //canvas
     private Canvas drawCanvas;
     //canvas bitmap
-    private Bitmap canvasBitmap;
     private Paint g_Paint = new Paint();
     //
     private int g_CenterX;
     private int g_CenterY;
 
-    public CanvasSimple(Context context, AttributeSet attrs){
+    public CanvasMostraFunciona(Context context, AttributeSet attrs){
         super(context, attrs);
         setupDrawing();
     }
@@ -41,7 +39,7 @@ public class CanvasSimple extends View {
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
-        canvasPaint = new Paint(Paint.DITHER_FLAG);
+        g_CanvasPaint = new Paint(Paint.DITHER_FLAG);
     }
 
     public void Dibuixa(int p_Amplada, int p_Alsada){
@@ -72,8 +70,8 @@ public class CanvasSimple extends View {
         //view given size
         //if (w != 0 && h!= 0) {
             super.onSizeChanged(w, h, oldw, oldh);
-            canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-            drawCanvas = new Canvas(canvasBitmap);
+            g_CanvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            drawCanvas = new Canvas(g_CanvasBitmap);
             //
             g_CenterX = w / 2;
             g_CenterY = h / 2;
@@ -81,9 +79,10 @@ public class CanvasSimple extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        //draw view
-        canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
-        canvas.drawPath(drawPath, drawPaint);
+    protected void onDraw(Canvas p_Canvas) {
+        //Definim el canvas on dibuixem
+        p_Canvas.drawBitmap(g_CanvasBitmap, 0, 0, g_CanvasPaint);
+        //
+        p_Canvas.drawPath(drawPath, drawPaint);
     }
 }
