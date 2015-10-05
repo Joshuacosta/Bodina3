@@ -16,9 +16,9 @@
         android:fillViewport="true" >
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/SalonsClientAltaLITNom"
@@ -27,37 +27,63 @@
                 android:layout_marginTop="5dp"
                 android:hint="@string/SalonsClientAltaTXTNom" />
 
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/SalonsClientAltaSEKAmplada"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:max="50"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/SalonsClientAltaLITAmplada"
-                android:id="@+id/SalonsClientAltaLITAmplada"
-                android:layout_gravity="center_horizontal" />
+                <Button
+                    android:id="@+id/SalonsClientAltaBUTEditarManual"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="@string/SalonsClientAltaBUTFetAma"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:drawableBottom="@drawable/ic_gesture_black_36dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
+                    android:onClick="btnAPlanolOnClick"/>
 
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/SalonsClientAltaSEKAlsada"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:max="50"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/SalonsClientAltaLITAlsada"
-                android:id="@+id/SalonsClientAltaLITAlsada"
-                android:layout_gravity="center_horizontal" />
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:background="@color/green"
+                    android:orientation="vertical"
+                    android:layout_margin="20dp">
+
+                    <SeekBar
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/SalonsClientAltaSEKAmplada"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:max="50"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/SalonsClientAltaLITAmplada"
+                        android:id="@+id/SalonsClientAltaLITAmplada"
+                        android:layout_gravity="center_horizontal" />
+
+                    <SeekBar
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/SalonsClientAltaSEKAlsada"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:max="50"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/SalonsClientAltaLITAlsada"
+                        android:id="@+id/SalonsClientAltaLITAlsada"
+                        android:layout_gravity="center_horizontal" />
+            </LinearLayout>
+        </LinearLayout>
 
             <com.example.it00046.bodina3.Classes.CanvasAuto
                 android:id="@+id/SalonsClientAltaVIWDrawing"
@@ -88,6 +114,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:background="@drawable/ic_delete_black_36dp" />
+
+                <ImageButton
+                    android:id="@+id/SalonsClientAltaBUTRotar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/ic_replay_black_36dp" />
             </LinearLayout>
 
         </LinearLayout>

@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.view.MotionEvent;
 
 public class CanvasAuto extends View {
     private Bitmap g_Bitmap;
@@ -36,10 +35,16 @@ public class CanvasAuto extends View {
     }
 
     public void Dibuixa(int p_Amplada, int p_Alsada){
+        /*
         startNew();
         g_Canvas.drawRect(g_CenterX - (p_Amplada / 2),
                 g_CenterY - (p_Alsada / 2),
                 g_CenterX + (p_Amplada / 2), g_CenterY + (p_Alsada / 2), g_Paint);
+        */
+        g_Path.reset();
+        g_Path.addRect(g_CenterX - (p_Amplada / 2),
+                g_CenterY - (p_Alsada / 2),
+                g_CenterX + (p_Amplada / 2), g_CenterY + (p_Alsada / 2), Path.Direction.CW);
         invalidate();
     }
 
@@ -52,8 +57,8 @@ public class CanvasAuto extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         // Construim el canvas i aprofitem per determinar el punt mig
-        g_Bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        g_Canvas = new Canvas(g_Bitmap);
+        //g_Bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        //g_Canvas = new Canvas(g_Bitmap);
         g_CenterX = w / 2;
         g_CenterY = h / 2;
     }
@@ -62,8 +67,8 @@ public class CanvasAuto extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         // Pintem
-        canvas.drawBitmap(g_Bitmap, 0, 0, g_Paint);
+        //canvas.drawBitmap(g_Bitmap, 0, 0, g_Paint);
         // Aixó no es necessari en el simple
-        //canvas.drawPath(g_Path, g_Paint);
+        canvas.drawPath(g_Path, g_Paint);
     }
 }

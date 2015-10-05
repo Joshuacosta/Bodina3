@@ -107,22 +107,28 @@
     <string name="title_activity_celebracions_client">Clients events</string>
     <string name="CelebracionsClientPralMNUAfegir">Add event</string>
     <string name="CelebracionsClientPralMNUOrdenar">Sort events</string>
-    <string name="CelebracionsClientPralMNUSalons">Salons client</string>
+    <string name="CelebracionsClientPralMNUSalons">Saloons client</string>
     <string name="CelebracionsClientPralMNUActualitzar">Refresh</string>
 
     <!-- Layout salons client -->
-    <string name="title_activity_salons_client">Salons client</string>
-    <string name="SalonsClientPralMNUAfegir">Add salon</string>
-    <string name="SalonsClientPralMNUOrdenar">Sort salon</string>
+    <string name="title_activity_salons_client">Saloons client</string>
+    <string name="SalonsClientPralMNUAfegir">Add saloon</string>
+    <string name="SalonsClientPralMNUOrdenar">Sort saloon</string>
     <string name="SalonsClientPralMNUActualitzar">Refresh</string>
+
     <!-- Layout salo client alta -->
-    <string name="title_activity_salonsclient_alta">Append salon</string>
+    <string name="title_activity_salonsclient_alta">Append saloon</string>
     <string name="SalonsClientAltaTXTNom">Name</string>
     <string name="SalonsClientAltaLITAmplada">-with-</string>
     <string name="SalonsClientAltaLITAlsada">-height-</string>
+    <string name="SalonsClientAltaBUTFetAma">Hand made</string>
     <string name="SalonsClientAltaBUTPlanol"></string>
-    <!-- Layout celebracio alta -->
-    <string name="title_activity_salonsclient_modificacio">Modify salon</string>
+
+    <!-- Layout salo client modificacion -->
+    <string name="title_activity_salonsclient_modificacio">Modify saloon</string>
+
+    <!-- Layout salo client planol -->
+    <string name="title_activity_salonsclient_planol">Draw saloon</string>
 
     <!-- Layout celebracio alta -->
     <string name="title_activity_ac_celebracio_alta">Append event</string>
@@ -143,6 +149,7 @@
     <string name="tipus_celebracionsMNUAfegirTipus">Add type</string>
     <string name="tipus_celebracions_Afegir">Add type</string>
     <string name="tipus_celebracions_Modificar">Modifiy type</string>
+
     <!-- ################################################################################### -->
     <!-- B A S E   D E   D A D E S -->
     <!-- ################################################################################### -->

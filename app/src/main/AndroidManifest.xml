@@ -69,9 +69,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".celebracions_client_pral" />
         </activity>
-        <!-- Fill 1 de Salons del client: Alta salo -->
+        <!-- Fill 1 de Salons del client: Alta salo (portrait) -->
         <activity
             android:name=".salons_client_alta"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_salonsclient_alta" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -85,7 +86,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".salons_client_pral" />
         </activity>
-
+        <!-- Fill 3 de Salons del client: Alta salo (portrait) -->
+        <activity
+            android:name=".salons_client_planol"
+            android:screenOrientation="landscape"
+            android:label="@string/title_activity_salonsclient_planol" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".salons_client_alta" />
+        </activity>
         <!-- Fill 1 de Entitats: Solicitar -->
         <activity
             android:name=".entitat_solicitar"

@@ -1,11 +1,13 @@
 package com.example.it00046.bodina3;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -18,6 +20,8 @@ import com.example.it00046.bodina3.Classes.Globals;
 public class salons_client_alta extends ActionBarActivity {
     private CanvasAuto g_Canvas;
     private int g_Amplada = 0, g_Alsada = 0;
+    private Context Jo = this;
+    static final int g_RQC_SALONS_CLIENT_PLANOL = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +72,7 @@ public class salons_client_alta extends ActionBarActivity {
                 l_TXT_Alsada.setText(l_AlsadaTriada + " " + Globals.g_Native.getString(R.string.meters));
                 if (g_Amplada != 0) {
                     g_Canvas.Dibuixa(g_Amplada * 5, g_Alsada * 5);
-                }
-                else{
+                } else {
                     // Pintem una linia
                     g_Canvas.Dibuixa(5, g_Alsada * 5);
                 }
@@ -84,10 +87,18 @@ public class salons_client_alta extends ActionBarActivity {
                 g_Alsada = l_AlsadaTriada;
             }
         });
-        // Mostrem el tornar
+        // Control de enrera/cancel·lacio
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_close_white_48dp);
     }
+
+    // Funcio per obrir la finestra de recerca de entitats
+    public void btnAPlanolOnClick(View view){
+        Intent intent = new Intent(Jo, salons_client_planol.class);
+        startActivityForResult(intent, g_RQC_SALONS_CLIENT_PLANOL);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
