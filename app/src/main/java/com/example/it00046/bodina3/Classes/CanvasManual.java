@@ -8,26 +8,41 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.example.it00046.bodina3.R;
 
 import java.util.ArrayList;
 
 public class CanvasManual extends View {
-    private Bitmap g_Bitmap;
-    private Canvas g_Canvas;
-    private Path g_Path = new Path();
+    static private Bitmap g_Bitmap;
+    static private Canvas g_Canvas;
+    static private Path g_Path = new Path();
     Context context;
-    private Paint g_Paint;
+    static private Paint g_Paint;
+    static private Rect g_DetectorIni = new Rect();
+    static private Rect g_DetectorFi = new Rect();
+    static private Rect g_DetectorPrimer = new Rect();
+    static private PointF g_PrimerPunt;
+    static private boolean g_PuntInicial = true;
+    static private boolean g_PlanolTancat = false;
     //
-    private int g_CenterX, g_CenterY;
-    private Paint g_CanvasPaint;
+    static private int g_CenterX, g_CenterY;
+    static private Paint g_CanvasPaint;
     //
-    private PointF startPoint, endPoint;
-    public boolean isDrawing;
+    static private PointF startPoint, endPoint;
+    static public boolean isDrawing = false;
+    static public boolean g_HiHaDibuix = false;
+    //
+    static private TextView g_Metres;
 
-    private ArrayList<Linia> Linies = new ArrayList<Linia>();
+    static private ArrayList<Linia> Linies = new ArrayList<Linia>();
     class Linia{
         public PointF Inici, Final;
         public void Linia(){
@@ -46,6 +61,15 @@ public class CanvasManual extends View {
         g_Paint.setStrokeWidth(4f);
         // Definim el Canvas
         g_CanvasPaint = new Paint(Paint.DITHER_FLAG);
+        // Afegim els metres
+        LinearLayout l_LayoutPlanol = (LinearLayout)findViewById(R.id.Planol);
+        TextView valueTV = new TextView(p_Context);
+        valueTV.setText("hallo hallo");
+        valueTV.setId(Globals.generateViewId());
+        valueTV.setLayoutParams(new LayoutParams(
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT));
+        l_LayoutPlanol.addView(valueTV);
     }
 
     public void Dibuixa(int p_Amplada, int p_Alsada){
@@ -84,9 +108,24 @@ public class CanvasManual extends View {
         //canvas.drawBitmap(g_Bitmap, 0, 0, g_Paint);
         // Aixó no es necessari en el simple
         //canvas.drawPath(g_Path, g_Paint);
+        //if(isDrawing || g_HiHaDibuix){
         if(isDrawing){
+            if (g_PlanolTancat){
+                isDrawing = false;
+            }
+            if (g_PuntInicial){
+                g_PuntInicial = false;
+                g_DetectorPrimer = new Rect(Math.round(startPoint.x) - 30, Math.round(startPoint.y) - 30, Math.round(startPoint.x) + 30, Math.round(startPoint.y) + 30);
+                g_PrimerPunt = startPoint;
+            }
+            // Cal pintar-ho?
+            //canvas.drawRect(g_DetectorPrimer, g_Paint);
+            // Pintem linia que estem dibuixant
             canvas.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y, g_Paint);
-            canvas.drawCircle(endPoint.x, endPoint.y, 25, g_Paint);
+            //canvas.drawCircle(endPoint.x, endPoint.y, 25, g_Paint);
+            // int left, int top, int right, int bottom)
+            g_DetectorFi = new Rect(Math.round(endPoint.x) - 30, Math.round(endPoint.y) - 30, Math.round(endPoint.x) + 30, Math.round(endPoint.y) + 30);
+            canvas.drawRect(g_DetectorFi, g_Paint);
             // Pinto la resta de linies
             for (int i=0; i<Linies.size(); i++){
                 Linia Aux = Linies.get(i);
@@ -97,14 +136,19 @@ public class CanvasManual extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        Rect l_DetectorFinal = new Rect();
         //detect user touch
         float l_touchX = event.getX();
         float l_touchY = event.getY();
-        boolean l_fin = false;
 
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 startPoint = new PointF(event.getX(), event.getY());
+                // Definim el rectangle inicial de conexio
+                g_DetectorIni = new Rect(Math.round(startPoint.x) - 30, Math.round(startPoint.y) - 30, Math.round(startPoint.x) + 30, Math.round(startPoint.y) + 30);
+                if (g_DetectorIni.intersect(g_DetectorFi)){
+                    startPoint = endPoint;
+                }
                 endPoint = new PointF();
                 isDrawing = true;
                 break;
@@ -117,14 +161,25 @@ public class CanvasManual extends View {
                 break;
             case MotionEvent.ACTION_UP:
                 if(isDrawing){
-                    endPoint.x = event.getX();
-                    endPoint.y = event.getY();
-                    isDrawing = false;
+                    // Definim el rectangle final de conexio
+                    l_DetectorFinal = new Rect(Math.round(event.getX()) - 30, Math.round(event.getY()) - 30, Math.round(event.getX()) + 30, Math.round(event.getY()) + 30);
+                    if (l_DetectorFinal.intersect(g_DetectorPrimer)){
+                        endPoint = g_PrimerPunt;
+                        g_PlanolTancat = true;
+                    }
+                    else{
+                        endPoint.x = event.getX();
+                        endPoint.y = event.getY();
+                    }
                     // Nova linia
                     Linia Lin = new Linia();
                     Lin.Inici = startPoint;
                     Lin.Final = endPoint;
                     Linies.add(Lin);
+                    if (g_PlanolTancat){
+                        invalidate();
+                    }
+                    g_HiHaDibuix = true;
                 }
                 break;
             default:

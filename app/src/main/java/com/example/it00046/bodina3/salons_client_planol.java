@@ -6,11 +6,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 /**
  * Created by it00046 on 05/10/2015.
  */
 public class salons_client_planol  extends ActionBarActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
