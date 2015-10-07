@@ -9,12 +9,12 @@ import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
 
 import com.example.it00046.bodina3.R;
 
@@ -36,7 +36,7 @@ public class CanvasManual extends View {
     static private int g_CenterX, g_CenterY;
     static private Paint g_CanvasPaint;
     //
-    static private PointF startPoint, endPoint;
+    static private PointF startPoint = null , endPoint = null;
     static public boolean isDrawing = false;
     static public boolean g_HiHaDibuix = false;
     //
@@ -61,15 +61,14 @@ public class CanvasManual extends View {
         g_Paint.setStrokeWidth(4f);
         // Definim el Canvas
         g_CanvasPaint = new Paint(Paint.DITHER_FLAG);
-        // Afegim els metres
-        LinearLayout l_LayoutPlanol = (LinearLayout)findViewById(R.id.Planol);
-        TextView valueTV = new TextView(p_Context);
-        valueTV.setText("hallo hallo");
-        valueTV.setId(Globals.generateViewId());
-        valueTV.setLayoutParams(new LayoutParams(
-                LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT));
-        l_LayoutPlanol.addView(valueTV);
+        //
+        Linies = new ArrayList<Linia>();
+        g_HiHaDibuix = false;
+        isDrawing = false;
+    }
+
+    static public void DefinimMetres(TextView p_Metres){
+        g_Metres = p_Metres;
     }
 
     public void Dibuixa(int p_Amplada, int p_Alsada){
@@ -124,7 +123,7 @@ public class CanvasManual extends View {
             canvas.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y, g_Paint);
             //canvas.drawCircle(endPoint.x, endPoint.y, 25, g_Paint);
             // int left, int top, int right, int bottom)
-            g_DetectorFi = new Rect(Math.round(endPoint.x) - 30, Math.round(endPoint.y) - 30, Math.round(endPoint.x) + 30, Math.round(endPoint.y) + 30);
+            g_DetectorFi = new Rect(Math.round(endPoint.x) - 50, Math.round(endPoint.y) - 50, Math.round(endPoint.x) + 50, Math.round(endPoint.y) + 50);
             canvas.drawRect(g_DetectorFi, g_Paint);
             // Pinto la resta de linies
             for (int i=0; i<Linies.size(); i++){
@@ -132,6 +131,21 @@ public class CanvasManual extends View {
                 canvas.drawLine(Aux.Inici.x, Aux.Inici.y, Aux.Final.x, Aux.Final.y, g_Paint);
             }
         }
+        else{
+            if (g_HiHaDibuix == false){
+                //canvas.drawColor(Color.WHITE, PorterDuff.Mode.CLEAR);
+                g_Bitmap.eraseColor(Color.TRANSPARENT);
+                canvas.drawBitmap(g_Bitmap, 0, 0, g_Paint);
+            }
+        }
+    }
+
+    private Path drawCurve(Canvas canvas, Paint paint, PointF mPointa, PointF mPointb) {
+
+        Path myPath = new Path();
+        myPath.moveTo(63*g_CenterX/64, g_CenterY/10);
+        myPath.quadTo(mPointa.x, mPointa.y, mPointb.x, mPointb.y);
+        return myPath;
     }
 
     @Override
@@ -157,6 +171,8 @@ public class CanvasManual extends View {
                     endPoint.x = event.getX();
                     endPoint.y = event.getY();
                     invalidate();
+                    double dist = Math.sqrt(Math.pow(startPoint.x - endPoint.x, 2) + Math.pow(startPoint.y - endPoint.y, 2));
+                    g_Metres.setText(String.valueOf(Math.round(dist)) + " " + Globals.g_Native.getString(R.string.meters));
                 }
                 break;
             case MotionEvent.ACTION_UP:

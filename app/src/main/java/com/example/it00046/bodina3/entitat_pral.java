@@ -7,7 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
-import android.provider.Contacts;
+//import android.provider.Contacts;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -22,18 +22,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import com.example.it00046.bodina3.Classes.Custom.LVWLlistaAssociacions;
 import com.example.it00046.bodina3.Classes.DAO.DAOAssociacions;
 import com.example.it00046.bodina3.Classes.Entitats.Associacio;
 import com.example.it00046.bodina3.Classes.ExpandAnimation;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.Params.PARAssociacio;
 import com.melnykov.fab.FloatingActionButton;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 

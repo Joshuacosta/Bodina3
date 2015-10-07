@@ -186,7 +186,7 @@ public class salons_client_pral extends ActionBarActivity {
             }
         }
     }
-    // Aquesta funció es cridada pels elements de la llista quan premem el boto editar
+    // Aquesta funcio es cridada pels elements de la llista quan premem el boto editar
     public void LiniaLVWSalonsClientIMBEditar_Click(View l_view) {
         ImageButton l_IMB_Esborrar, l_IMB_Editar;
         TransitionDrawable l_transition;
@@ -227,7 +227,7 @@ public class salons_client_pral extends ActionBarActivity {
             startActivityForResult(l_editem, g_RQC_SALO_CLIENT_MODIFIQUEM);
         }
     }
-    // Aquesta funció es cridada pels elements de la llista quan premem el boto esborrar
+    // Aquesta funcio es cridada pels elements de la llista quan premem el boto esborrar
     public void LiniaLVWSalonsClientIMBEsborrar_Click(View l_view) {
         ImageButton l_IMB_Esborrar, l_IMB_Editar;
         TransitionDrawable l_transition;

@@ -10,7 +10,7 @@
     android:orientation="vertical"
     tools:context=".salons_client_alta">
 
-    <com.example.it00046.bodina3.Classes.CanvasManual
+    <com.example.it00046.bodina3.Classes.CubicDrawView
             android:id="@+id/SalonsClientPlanolVIWDrawing"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
@@ -20,6 +20,14 @@
             android:layout_marginTop="3dp"
             android:layout_weight="1"
             android:background="#FFFFFFFF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/SalonsClientPlanolTXTDistancia"
+        android:hint="@string/Distancia"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>
 

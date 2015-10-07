@@ -8,17 +8,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.it00046.bodina3.Classes.CanvasManual;
+
 /**
  * Created by it00046 on 05/10/2015.
  */
 public class salons_client_planol  extends ActionBarActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        TextView l_TXT_Distancia;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.salons_client_planol);
-        // Control de enrera/cancel·lacio
+        //
+        l_TXT_Distancia = (TextView) findViewById(R.id.SalonsClientPlanolTXTDistancia);
+        CanvasManual.DefinimMetres(l_TXT_Distancia);
+        // Control de enrera/cancelacio
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_close_white_48dp);

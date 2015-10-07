@@ -35,6 +35,7 @@
     <string name="Ordenacio">Order by:</string>
     <string name="CelebracioBaixa">(EVENT CANCELLED)</string>
     <string name="meters">meters</string>
+    <string name="Distancia">Distance</string>
 
     <!-- Errors codi -->
     <string name="error_avis">Alert</string>

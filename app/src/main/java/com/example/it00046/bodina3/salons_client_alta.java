@@ -26,11 +26,12 @@ public class salons_client_alta extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SeekBar l_SEK_Amplada, l_SEK_Alsada;
-        final TextView l_TXT_Amplada, l_TXT_Alsada;
+        final TextView l_TXT_Amplada, l_TXT_Alsada, l_TXT_Nom;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.salons_client_alta);
         // Recuperem els controls
+        l_TXT_Nom = (TextView) findViewById(R.id.SalonsClientAltaTXTNom);
         l_SEK_Amplada = (SeekBar) findViewById(R.id.SalonsClientAltaSEKAmplada);
         l_SEK_Alsada = (SeekBar) findViewById(R.id.SalonsClientAltaSEKAlsada);
         l_TXT_Amplada = (TextView) findViewById(R.id.SalonsClientAltaLITAmplada);

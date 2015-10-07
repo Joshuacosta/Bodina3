@@ -261,7 +261,7 @@ public class celebracions_client_pral extends ActionBarActivity {
             }
         }
     }
-    // Aquesta funció es cridada pels elements de la llista quan premem el boto editar
+    // Aquesta funcio es cridada pels elements de la llista quan premem el boto editar
     public void LiniaLVWCelebracionsClientIMBEditar_Click(View l_view) {
         ImageButton l_IMB_Esborrar, l_IMB_Editar;
         TransitionDrawable l_transition;
@@ -305,7 +305,7 @@ public class celebracions_client_pral extends ActionBarActivity {
             startActivityForResult(l_editem, g_RQC_CELEBRACIO_CLIENT_MODIFIQUEM);
         }
     }
-    // Aquesta funció es cridada pels elements de la llista quan premem el boto esborrar
+    // Aquesta funcio es cridada pels elements de la llista quan premem el boto esborrar
     public void LiniaLVWCelebracionsClientIMBEsborrar_Click(View l_view) {
         ImageButton l_IMB_Esborrar, l_IMB_Editar;
         TransitionDrawable l_transition;
