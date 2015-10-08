@@ -136,7 +136,7 @@ public class SimpleDrawView extends RelativeLayout {
     private Bitmap canvasBitmap;
 
     // Experiment
-    private PointF startPoint, endPoint;
+    private PointF startPoint = null, endPoint = null;
     public boolean isDrawing;
 
     private ArrayList<Linia> Linies = new ArrayList<Linia>();
@@ -186,7 +186,12 @@ public class SimpleDrawView extends RelativeLayout {
     protected void onDraw(Canvas canvas) {
         //draw view
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
-        canvas.drawPath(drawPath, drawPaint);
+        if (endPoint != null) {
+            //drawPath.moveTo(startPoint.x, startPoint.y);
+            //drawPath.lineTo(endPoint.x, endPoint.y);
+            canvas.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y, drawPaint);
+        }
+        //canvas.drawPath(drawPath, drawPaint);
     }
 
     @Override
@@ -196,10 +201,14 @@ public class SimpleDrawView extends RelativeLayout {
         float touchY = event.getY();
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                drawPath.moveTo(touchX, touchY);
+                //
+                startPoint = new PointF(event.getX(), event.getY());
+                //drawPath.moveTo(touchX, touchY);
                 break;
             case MotionEvent.ACTION_MOVE:
-                drawPath.lineTo(touchX, touchY);
+                endPoint = new PointF(event.getX(), event.getY());
+                //drawPath.lineTo(touchX, touchY);
+                //
                 break;
             case MotionEvent.ACTION_UP:
                 drawCanvas.drawPath(drawPath, drawPaint);

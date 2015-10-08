@@ -10,7 +10,7 @@
     android:orientation="vertical"
     tools:context=".salons_client_alta">
 
-    <com.example.it00046.bodina3.Classes.CubicDrawView
+    <com.example.it00046.bodina3.Classes.SimpleDrawView
             android:id="@+id/SalonsClientPlanolVIWDrawing"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
