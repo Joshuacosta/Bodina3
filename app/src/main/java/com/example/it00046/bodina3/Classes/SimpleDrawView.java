@@ -100,6 +100,7 @@ public class SimpleDrawView extends View implements OnTouchListener {
 
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.util.Log;
 import android.view.View;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -137,6 +138,8 @@ public class SimpleDrawView extends RelativeLayout {
 
     // Experiment
     private PointF startPoint = null, endPoint = null;
+    private ArrayList<PointF> Punts = new ArrayList<PointF>();
+    private PointF g_AnteriorPunt = new PointF();
     public boolean isDrawing;
 
     private ArrayList<Linia> Linies = new ArrayList<Linia>();
@@ -186,12 +189,17 @@ public class SimpleDrawView extends RelativeLayout {
     protected void onDraw(Canvas canvas) {
         //draw view
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
-        if (endPoint != null) {
-            //drawPath.moveTo(startPoint.x, startPoint.y);
-            //drawPath.lineTo(endPoint.x, endPoint.y);
-            canvas.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y, drawPaint);
+        if (startPoint != null) {
+            //1//drawPath.moveTo(startPoint.x, startPoint.y);
+            //1//drawPath.lineTo(endPoint.x, endPoint.y);
+            //2//canvas.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y, drawPaint);
+            drawPath.moveTo(startPoint.x, startPoint.y);
+            for (int i=0; i < Punts.size(); i++){
+                drawPath.lineTo(Punts.get(i).x, Punts.get(i).y);
+            }
         }
-        //canvas.drawPath(drawPath, drawPaint);
+        //1//canvas.drawPath(drawPath, drawPaint);
+        canvas.drawPath(drawPath, drawPaint);
     }
 
     @Override
@@ -199,16 +207,28 @@ public class SimpleDrawView extends RelativeLayout {
         //detect user touch
         float touchX = event.getX();
         float touchY = event.getY();
+        PointF l_ActualPoint = new PointF(event.getX(), event.getY());
+
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                //
+                //2//startPoint = new PointF(event.getX(), event.getY());
+                //1//drawPath.moveTo(touchX, touchY);
                 startPoint = new PointF(event.getX(), event.getY());
-                //drawPath.moveTo(touchX, touchY);
+                g_AnteriorPunt = startPoint;
                 break;
             case MotionEvent.ACTION_MOVE:
-                endPoint = new PointF(event.getX(), event.getY());
-                //drawPath.lineTo(touchX, touchY);
-                //
+                //2//endPoint = new PointF(event.getX(), event.getY());
+                //1//drawPath.lineTo(touchX, touchY);
+                //3// Afegiem els punts que ens "interessan"
+                //var d = Math.sqrt( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
+                double part1 = new Float(l_ActualPoint.x-g_AnteriorPunt.x);
+                double part2 = new Float(l_ActualPoint.y-g_AnteriorPunt.y);
+                double dist = Math.sqrt( Math.pow(part1, 2) + Math.pow(part2, 2));
+                Log.i("Bodina", String.valueOf(dist));
+                if (dist > 50){
+                    Punts.add(l_ActualPoint);
+                    g_AnteriorPunt = l_ActualPoint;//new PointF(event.getX(), event.getY());
+                }
                 break;
             case MotionEvent.ACTION_UP:
                 drawCanvas.drawPath(drawPath, drawPaint);
