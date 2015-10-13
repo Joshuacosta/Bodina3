@@ -38,7 +38,6 @@
                     android:layout_height="fill_parent"
                     android:text="@string/SalonsClientAltaBUTFetAma"
                     android:gravity="center_vertical|center_horizontal"
-                    android:drawableBottom="@drawable/ic_gesture_black_36dp"
                     android:layout_marginBottom="20dp"
                     android:layout_marginTop="20dp"
                     android:onClick="btnAPlanolOnClick"/>
@@ -119,8 +118,7 @@
                     android:id="@+id/SalonsClientAltaBUTRotar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:background="@drawable/ic_replay_black_36dp" />
+                    android:layout_marginLeft="30dp"/>
             </LinearLayout>
 
         </LinearLayout>

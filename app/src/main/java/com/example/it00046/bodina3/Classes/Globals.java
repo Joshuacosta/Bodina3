@@ -9,6 +9,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Point;
+import android.graphics.PointF;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings.Secure;
@@ -268,5 +270,15 @@ public final class Globals
                 return result;
             }
         }
+    }
+
+    public static double CalculaAngle(PointF p1, PointF p2) {
+        // NOTE: Remember that most math has the Y axis as positive above the X.
+        // However, for screens we have Y as positive below. For this reason,
+        // the Y values are inverted to get the expected results.
+        final double deltaY = (p1.y - p2.y);
+        final double deltaX = (p2.x - p1.x);
+        final double result = Math.toDegrees(Math.atan2(deltaY, deltaX));
+        return (result < 0) ? (360d + result) : result;
     }
 }

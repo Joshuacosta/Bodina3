@@ -142,10 +142,12 @@ public class SimpleDrawView extends RelativeLayout {
     private PointF g_AnteriorPunt = new PointF();
     public boolean isDrawing;
 
-    private ArrayList<Linia> Linies = new ArrayList<Linia>();
-    class Linia{
-        public PointF Inici, Final;
-        public void Linia(){
+    private ArrayList<punt> PuntsPlanol = new ArrayList<punt>();
+    class punt{
+        public PointF Punt;
+        public Double Angle;
+        public Boolean Descartat = false;
+        public void punt(){
         }
     }
 
@@ -194,8 +196,10 @@ public class SimpleDrawView extends RelativeLayout {
             //1//drawPath.lineTo(endPoint.x, endPoint.y);
             //2//canvas.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y, drawPaint);
             drawPath.moveTo(startPoint.x, startPoint.y);
-            for (int i=0; i < Punts.size(); i++){
-                drawPath.lineTo(Punts.get(i).x, Punts.get(i).y);
+            for (int i=0; i < PuntsPlanol.size(); i++){
+                if (PuntsPlanol.get(i).Descartat == false) {
+                    drawPath.lineTo(PuntsPlanol.get(i).Punt.x, PuntsPlanol.get(i).Punt.y);
+                }
             }
         }
         //1//canvas.drawPath(drawPath, drawPaint);
@@ -224,9 +228,34 @@ public class SimpleDrawView extends RelativeLayout {
                 double part1 = new Float(l_ActualPoint.x-g_AnteriorPunt.x);
                 double part2 = new Float(l_ActualPoint.y-g_AnteriorPunt.y);
                 double dist = Math.sqrt( Math.pow(part1, 2) + Math.pow(part2, 2));
-                Log.i("Bodina", String.valueOf(dist));
                 if (dist > 50){
-                    Punts.add(l_ActualPoint);
+                    punt l_punt = new punt();
+                    l_punt.Punt = l_ActualPoint;
+                    l_punt.Descartat = false;
+                    if (g_AnteriorPunt == startPoint){
+                        l_punt.Angle = -999.0;
+                    }
+                    else {
+                        l_punt.Angle = Globals.CalculaAngle(l_ActualPoint, g_AnteriorPunt);
+                    }
+                    Log.d("Afegim ", String.valueOf(l_punt.Angle));
+                    PuntsPlanol.add(l_punt);
+                    // Validem que el punt anterior no quedi descartat per l'angle
+                    Log.d("Validem", String.valueOf(PuntsPlanol.size()));
+                    if (PuntsPlanol.size() > 3){
+                        punt l_aux = PuntsPlanol.get(PuntsPlanol.size() - 2);
+                        Log.d("Recuperem de ", (PuntsPlanol.size() - 2) + " " + l_aux.Angle);
+                        if (l_aux.Angle != -999.0){
+                            Double l_DiferenciaAngles = Math.abs(l_aux.Angle - l_punt.Angle);
+                            Log.d("Diferencia ", String.valueOf(l_DiferenciaAngles));
+                            if (l_DiferenciaAngles < 10) {
+                                punt l_Aux2 = PuntsPlanol.get(PuntsPlanol.size() - 1);
+                                l_Aux2.Descartat = true;
+                                PuntsPlanol.set(PuntsPlanol.size() - 1, l_Aux2);
+                                Log.d("Descartem ", String.valueOf(PuntsPlanol.size() -1));
+                            }
+                        }
+                    }
                     g_AnteriorPunt = l_ActualPoint;//new PointF(event.getX(), event.getY());
                 }
                 break;
