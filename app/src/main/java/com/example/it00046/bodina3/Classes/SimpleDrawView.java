@@ -129,7 +129,7 @@ public class SimpleDrawView extends RelativeLayout {
     //drawing path
     private Path drawPath;
     //drawing and canvas paint
-    private Paint drawPaint, drawPaintFinal, canvasPaint;
+    private Paint drawPaint, drawPaintFinal, canvasPaint, drawPaintText;
     //initial color
     private int paintColor = 0xFF660000;
     //canvas
@@ -146,8 +146,9 @@ public class SimpleDrawView extends RelativeLayout {
     private PointF g_AnteriorPunt_2 = new PointF();
     private Double g_Angle = null;
 
-    private Rect g_DetectorFi = new Rect(), g_DetectorIni = new Rect();
+    private Rect g_DetectorFi = new Rect(), g_DetectorIni = null;
     public boolean isDrawing, g_Finalitzat = false;
+    static private int g_CenterX, g_CenterY;
 
     private ArrayList<punt> g_PuntsPlanol = new ArrayList<punt>();
     class punt{
@@ -186,8 +187,12 @@ public class SimpleDrawView extends RelativeLayout {
         drawPaint.setStrokeWidth(brushSize);
         //
         drawPaintFinal = new Paint();
-        drawPaintFinal.setColor(android.graphics.Color.RED);
+        drawPaintFinal.setColor(Color.LTGRAY);
         drawPaintFinal.setStyle(Paint.Style.FILL);
+        drawPaintFinal.setAntiAlias(true);
+        //
+        drawPaintText = new Paint();
+        drawPaintText.setTextSize(35);
         /*
         drawPaintFinal.setColor(Color.GREEN);
         drawPaintFinal.setAntiAlias(true);
@@ -195,11 +200,6 @@ public class SimpleDrawView extends RelativeLayout {
         drawPaintFinal.setStyle(Paint.Style.STROKE);
         drawPaintFinal.setStrokeJoin(Paint.Join.ROUND);
         drawPaintFinal.setStrokeCap(Paint.Cap.ROUND);
-        */
-        /*
-        drawPaintFinal.setColor(Color.LTGRAY);
-        drawPaintFinal.setStyle(Paint.Style.FILL);
-        drawPaintFinal.setAntiAlias(true);
         */
         /*
         drawPaintFinal.setStrokeWidth(40);
@@ -215,6 +215,8 @@ public class SimpleDrawView extends RelativeLayout {
         super.onSizeChanged(w, h, oldw, oldh);
         canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         drawCanvas = new Canvas(canvasBitmap);
+        g_CenterX = w / 2;
+        g_CenterY = h / 2;
     }
 
     // La definida inicialment
@@ -226,8 +228,9 @@ public class SimpleDrawView extends RelativeLayout {
 
         //draw view
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
-        Log.d("BODINA-OnDraw-Reset", "------------------------------------------------------------------------------------------------");
+        //Log.d("BODINA-OnDraw-Reset", "------------------------------------------------------------------------------------------------");
         drawPath.reset();
+        /*
         //if (startPoint != null) {
             //1//drawPath.moveTo(startPoint.x, startPoint.y);
             //1//drawPath.lineTo(endPoint.x, endPoint.y);
@@ -274,9 +277,17 @@ public class SimpleDrawView extends RelativeLayout {
         //1//canvas.drawPath(drawPath, drawPaint);
         if (g_Finalitzat) {
             canvas.drawPath(drawPath, drawPaintFinal);
+            canvas.drawText("FINAL", g_CenterX, g_CenterY, drawPaintText);
         }
         else{
             canvas.drawPath(drawPath, drawPaint);
+        }
+        */
+        if (g_AnteriorPunt_1 != null) {
+            //g_DetectorFi = new Rect(Math.round(g_AnteriorPunt_1.x) - 50, Math.round(g_AnteriorPunt_1.y) - 50,
+            //        Math.round(g_AnteriorPunt_1.x) + 50, Math.round(g_AnteriorPunt_1.y) + 50);
+            canvas.drawRect(g_DetectorFi, drawPaint);
+            canvas.drawText("FINAL", g_AnteriorPunt_1.x, g_AnteriorPunt_1.y, drawPaintText);
         }
     }
 
@@ -294,10 +305,11 @@ public class SimpleDrawView extends RelativeLayout {
                 //2//startPoint = new PointF(event.getX(), event.getY());
                 //1//drawPath.moveTo(touchX, touchY);
                 // Primer punt del dibuix
+                /*
                 if (g_PrimerPuntDibuix == null){
                     g_PrimerPuntDibuix = l_ActualPoint;
                     g_DetectorIni = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
-                            Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+                                             Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
                 }
                 //if (startPoint == null) {
                     startPoint = l_ActualPoint;
@@ -332,12 +344,29 @@ public class SimpleDrawView extends RelativeLayout {
                     //g_AnteriorPunt_1 = startPoint;
                     //g_AnteriorPunt_2 = startPoint;
                 }
+                */
+                g_AnteriorPunt_1 = l_ActualPoint;
+                if (g_DetectorIni == null) {
+                    g_DetectorIni = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
+                            Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+                }
+                l_DetectorIni = new Rect(Math.round(l_ActualPoint.x) - 50, Math.round(l_ActualPoint.y) - 50,
+                        Math.round(l_ActualPoint.x) + 50, Math.round(l_ActualPoint.y) + 50);
+                if (g_DetectorIni.contains(Math.round(l_ActualPoint.x), Math.round(l_ActualPoint.y))) {
+                    Log.d("BODINA-Touch", "Intersecta");
+                    isDrawing = true;
+                }
+                else{
+                    Log.d("BODINA-Touch", "NO Intersecta");
+                    isDrawing = false;
+                }
                 break;
             case MotionEvent.ACTION_MOVE:
                 //2//endPoint = new PointF(event.getX(), event.getY());
                 //1//drawPath.lineTo(touchX, touchY);
                 //3// Afegiem els punts que ens "interessan"
                 //var d = Math.sqrt( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
+                /*
                 double part1 = new Float(l_ActualPoint.x-g_AnteriorPunt.x);
                 double part2 = new Float(l_ActualPoint.y-g_AnteriorPunt.y);
                 double dist = Math.sqrt( Math.pow(part1, 2) + Math.pow(part2, 2));
@@ -385,8 +414,13 @@ public class SimpleDrawView extends RelativeLayout {
                         }
                     }
                 }
+                */
+                if (isDrawing) {
+                    g_AnteriorPunt_1 = l_ActualPoint;
+                }
                 break;
             case MotionEvent.ACTION_UP:
+                /*
                 l_DetectorFinal = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
                                            Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
                 if (l_DetectorFinal.intersect(g_DetectorIni)){
@@ -420,6 +454,9 @@ public class SimpleDrawView extends RelativeLayout {
                 startPoint = null;
                 //drawCanvas.drawPath(drawPath, drawPaint);
                 //drawPath.reset();
+                */
+                isDrawing = false;
+                //g_AnteriorPunt_1 = null;
                 break;
             default:
                 return false;
