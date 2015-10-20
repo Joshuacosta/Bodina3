@@ -284,8 +284,8 @@ public class SimpleDrawView extends RelativeLayout {
         }
         */
         if (g_AnteriorPunt_1 != null) {
-            //g_DetectorFi = new Rect(Math.round(g_AnteriorPunt_1.x) - 50, Math.round(g_AnteriorPunt_1.y) - 50,
-            //        Math.round(g_AnteriorPunt_1.x) + 50, Math.round(g_AnteriorPunt_1.y) + 50);
+            g_DetectorFi = new Rect(Math.round(g_AnteriorPunt_1.x) - 50, Math.round(g_AnteriorPunt_1.y) - 50,
+                                    Math.round(g_AnteriorPunt_1.x) + 50, Math.round(g_AnteriorPunt_1.y) + 50);
             canvas.drawRect(g_DetectorFi, drawPaint);
             canvas.drawText("FINAL", g_AnteriorPunt_1.x, g_AnteriorPunt_1.y, drawPaintText);
         }
@@ -352,7 +352,7 @@ public class SimpleDrawView extends RelativeLayout {
                 }
                 l_DetectorIni = new Rect(Math.round(l_ActualPoint.x) - 50, Math.round(l_ActualPoint.y) - 50,
                         Math.round(l_ActualPoint.x) + 50, Math.round(l_ActualPoint.y) + 50);
-                if (g_DetectorIni.contains(Math.round(l_ActualPoint.x), Math.round(l_ActualPoint.y))) {
+                if (g_DetectorFi.contains(Math.round(l_ActualPoint.x), Math.round(l_ActualPoint.y))) {
                     Log.d("BODINA-Touch", "Intersecta");
                     isDrawing = true;
                 }
