@@ -1,84 +1,71 @@
-
-<!-- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/Planol"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
-    tools:context=".salons_client_alta">
-    -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.example.it00046.bodina3.Classes.SimpleDrawView
-            android:id="@+id/SalonsClientPlanolVIWDrawing"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginBottom="3dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="3dp"
-            android:layout_weight="1"
-            android:background="#FFFFFFFF" />
+        android:id="@+id/SalonsClientPlanolVIWDrawing"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_weight="1"
+        android:background="@color/white" />
 
     <com.github.clans.fab.FloatingActionMenu
-     android:id="@+id/entitat_pralFLBAfegirAssociacio"
-     android:layout_width="match_parent"
-     android:layout_height="match_parent"
-     android:layout_alignParentBottom="false"
-     android:paddingRight="10dp"
-     android:paddingBottom="10dp"
-     android:paddingLeft="10dp"
-     fab:menu_labels_ellipsize="end"
-     fab:menu_labels_singleLine="true"
-     fab:menu_backgroundColor="#ccffffff"
-     fab:menu_labels_position="left">
+        android:id="@+id/salonsClientPlanolFLMEines"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="false"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        fab:menu_colorNormal="@color/green"
+        fab:menu_labels_ellipsize="end"
+        fab:menu_labels_singleLine="true"
+        fab:menu_backgroundColor="@color/white"
+        fab:menu_labels_position="left">
 
-     <com.github.clans.fab.FloatingActionButton
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:src="@drawable/ic_add_black_36dp"
-         fab:fab_size="mini"
-         fab:fab_label="Menu item 1" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/salonsClientPlanolFLBRecta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_border_color_white_24dp"
+            fab:fab_size="mini"
+            fab:fab_label="@string/SalonsClientPlanolLABRecta"/>
 
-     <com.github.clans.fab.FloatingActionButton
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:src="@drawable/ic_add_black_36dp"
-         fab:fab_size="mini"
-         fab:fab_label="Menu item 2" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/salonsClientPlanolFLBCurva"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_brush_white_24dp"
+            fab:fab_size="mini"
+            fab:fab_label="@string/SalonsClientPlanolLABCurva"/>
 
-     <com.github.clans.fab.FloatingActionButton
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:src="@drawable/ic_add_black_36dp"
-         fab:fab_size="mini"
-         fab:fab_label="@string/Acceptar" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/salonsClientPlanolFLBTexte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_format_color_text_white_24dp"
+            fab:fab_size="mini"
+            fab:fab_label="@string/SalonsClientPlanolLABTexte" />
 
     </com.github.clans.fab.FloatingActionMenu>
 
-    <!--
     <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/FLA"
+        android:id="@+id/salonsClientPlanolFLAAjuda"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|left"
         android:layout_marginBottom="8dp"
         android:layout_marginRight="8dp"
-        android:src="@drawable/ic_add_black_36dp"
-        fab:fab_colorNormal="@color/red"
-        fab:fab_colorPressed="@color/blue"
+        android:src="@drawable/ic_help_outline_white_24dp"
+        fab:fab_size="mini"
+        fab:fab_colorNormal="@color/blue"
+        fab:fab_colorPressed="@color/black"
         fab:fab_colorRipple="@color/white"/>
-    -->
 
     <TextView
         android:layout_width="wrap_content"
@@ -89,4 +76,3 @@
         android:layout_gravity="center_horizontal|bottom" />
 
 </FrameLayout>
-

@@ -130,6 +130,9 @@
 
     <!-- Layout salo client planol -->
     <string name="title_activity_salonsclient_planol">Draw saloon</string>
+    <string name="SalonsClientPlanolLABRecta">Line</string>
+    <string name="SalonsClientPlanolLABCurva">Curve</string>
+    <string name="SalonsClientPlanolLABTexte">Text</string>
 
     <!-- Layout celebracio alta -->
     <string name="title_activity_ac_celebracio_alta">Append event</string>
