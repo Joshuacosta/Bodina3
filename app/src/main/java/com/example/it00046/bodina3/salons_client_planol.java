@@ -46,6 +46,8 @@ public class salons_client_planol  extends ActionBarActivity {
         l_Draw = (SimpleDrawView) findViewById(R.id.SalonsClientPlanolVIWDrawing);
         l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.texte;
         l_Draw.DefinimMetres(l_TXT_Distancia);
+        //
+        l_Draw.pare = Jo;
         //SimpleDrawView.DefinimMetres(l_TXT_Distancia); Quin metode es millor?
         // Crec que son lo mateix JA QUE DefinimMetres es static!
         // Accions dels FLB
@@ -116,4 +118,7 @@ public class salons_client_planol  extends ActionBarActivity {
         return super.onOptionsItemSelected(p_Item);
     }
 
+    public void ModificarTexte(String P_Texte){
+        Log.d("BODINA-Draw", "-----> Escribim " + P_Texte);
+    }
 }

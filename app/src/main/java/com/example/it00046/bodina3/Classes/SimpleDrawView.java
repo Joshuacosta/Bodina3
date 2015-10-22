@@ -1,5 +1,7 @@
 package com.example.it00046.bodina3.Classes;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -17,8 +19,12 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.util.TypedValue;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.example.it00046.bodina3.R;
+import com.example.it00046.bodina3.salons_client_planol;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -29,6 +35,7 @@ import java.util.Objects;
  */
 //public class DrawingView extends View {
 public class SimpleDrawView extends RelativeLayout {
+    public Context pare;
     // Path
     private Path g_drawPath;
     // Paint's
@@ -218,6 +225,28 @@ public class SimpleDrawView extends RelativeLayout {
             if (l_Texte != null){
                 Log.d("BODINA-Down", "--------> Tocat " + l_Texte.Texte);
                 g_TexteSeleccionat = l_Texte;
+
+                final EditText l_input = new EditText(pare);
+
+                // Mostrem una finestra per demanar el texte a introduir
+                AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(pare);
+                g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolTITAddTexte));
+                g_alertDialogBuilder.setView(l_input);
+                l_input.setText(l_Texte.Texte);
+                g_alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface p_dialog, int which) {
+
+                            }
+                        })
+                        .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface p_dialog, int p_id) {
+
+                            }
+                        });
+                g_alertDialogBuilder.show();
             }
             else {
                 Log.d("BODINA-Down", "--------> Nou " + g_NouTexte + ".");
