@@ -16,16 +16,13 @@
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/salonsClientPlanolFLMEines"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="false"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom|right"
         fab:menu_colorNormal="@color/green"
+        fab:menu_backgroundColor="@color/white"
         fab:menu_labels_ellipsize="end"
         fab:menu_labels_singleLine="true"
-        fab:menu_backgroundColor="@color/white"
         fab:menu_labels_position="left">
 
         <com.github.clans.fab.FloatingActionButton

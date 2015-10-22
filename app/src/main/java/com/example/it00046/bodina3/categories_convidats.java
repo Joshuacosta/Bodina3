@@ -51,7 +51,7 @@ public class categories_convidats extends ActionBarActivity{
         g_alertDialogBuilder.setView(l_input);
         g_alertDialogBuilder
                 .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface p_dialog, int which) {
                         CategoriaConvidats l_CategoriaConvidats = new CategoriaConvidats();

@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.View;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -17,6 +18,8 @@ import android.graphics.PorterDuffXfermode;
 import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -36,26 +39,29 @@ public class SimpleDrawView extends RelativeLayout {
     private Canvas drawCanvas;
     // Canvas bitmap
     private Bitmap canvasBitmap;
-    // Punts de treball
+    // Punts i texte de treball
     private PointF startPoint = null, endPoint = null, g_PrimerPuntDibuix = null;
     private ArrayList<PointF> Punts = new ArrayList<PointF>();
     private PointF g_AnteriorPunt = new PointF();
-    // Modes de dibuix
-    private enum g_Modus {recta,curva,texte};
-    private g_Modus g_ModusDibuix = g_Modus.recta;
-
+    private texte g_TexteSeleccionat = null;
+    // Modes i variables de treball de dibuix
+    public enum g_Modus {recta,curva,texte};
+    public g_Modus g_ModusDibuix = g_Modus.recta;
+    static public String g_NouTexte;
+    // Distancia
+    static private TextView g_Metres;
 
     private PointF g_AnteriorPunt_1 = new PointF();
     private PointF g_AnteriorPunt_2 = new PointF();
     private Double g_Angle = null;
 
     private Rect g_DetectorFi = new Rect(), g_DetectorIni = null;
-    public boolean isDrawing, g_Finalitzat = false;
+    public boolean g_Finalitzat = false;
     static private int g_CenterX, g_CenterY;
 
     // Array per guardar els punts amb el que fem les linies
     private ArrayList<punt> g_PuntsPlanol = new ArrayList<punt>();
-    class punt{
+    class punt {
         public PointF Punt;
         public Double Angle;
         public Boolean Descartat = false;
@@ -70,17 +76,18 @@ public class SimpleDrawView extends RelativeLayout {
     class texte{
         public PointF Punt;
         public String Texte;
+        public int Id;
+        public Rect Detector;
         public void texte(){
         }
     }
-
-    private float brushSize, lastBrushSize;
-
-    private boolean erase=false;
+    GestureDetector gestureDetector;
 
     public SimpleDrawView(Context context, AttributeSet attrs){
         super(context, attrs);
         setupDrawing();
+        // creating new gesture detector
+        gestureDetector = new GestureDetector(context, new GestureListener());
     }
 
     private void setupDrawing(){
@@ -96,9 +103,6 @@ public class SimpleDrawView extends RelativeLayout {
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
         canvasPaint = new Paint(Paint.DITHER_FLAG);
 
-        brushSize = 2;
-        lastBrushSize = brushSize;
-        drawPaint.setStrokeWidth(brushSize);
         // Definim paint de planol (li diem final)
         drawPaintFinal = new Paint();
         drawPaintFinal.setColor(Color.LTGRAY);
@@ -125,70 +129,109 @@ public class SimpleDrawView extends RelativeLayout {
     protected void onDraw(Canvas canvas) {
         PointF l_EndPoint;
         ArrayList<punt> l_Linia = new ArrayList<>();
+        texte l_Texte = new texte();
 
         //draw view
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
         //Log.d("BODINA-OnDraw-Reset", "------------------------------------------------------------------------------------------------");
         g_drawPath.reset();
-        switch (g_ModusDibuix){
-            case recta:
-            case curva:
-                Log.d("BODINA-OnDraw-Inici", "Numero de linies " + g_LiniesPlanol.size());
-                for (int j=0; j < g_LiniesPlanol.size(); j++) {
-                    //drawPath.moveTo(startPoint.x, startPoint.y);
-                    l_Linia = g_LiniesPlanol.get(j);
-                    if (j==0) {
-                        g_drawPath.moveTo(l_Linia.get(0).Punt.x, l_Linia.get(0).Punt.y);
-                    }
-                    Log.d("BODINA-OnDraw-Inici", l_Linia.get(0).Punt.x + "," + l_Linia.get(0).Punt.y);
-                    for (int i = 1; i < l_Linia.size(); i++) {
-                        punt ara = l_Linia.get(i);
-                        if (l_Linia.get(i).Descartat == false) {
-                            Log.d("BODINA-OnDraw-Pintem", String.valueOf(i) + " (" + l_Linia.get(i).Punt.x + "," + l_Linia.get(i).Punt.y + ")");
-                            //drawPath.lineTo(l_Linia.get(i).Punt.x, l_Linia.get(i).Punt.y);
-                            //
-                            if (i < l_Linia.size() - 1) {
-                                punt next = l_Linia.get(i + 1);
-                                Log.d("BODINA-OnDraw-QUAD", String.valueOf(i));
-                                g_drawPath.quadTo(ara.Punt.x, ara.Punt.y, next.Punt.x, next.Punt.y);
-                            } else {
-                                Log.d("BODINA-OnDraw-LINE", String.valueOf(i));
-                                g_drawPath.lineTo(ara.Punt.x, ara.Punt.y);
-                            }
-                            //
-                        } else {
-                            Log.d("BODINA-OnDraw-NO Pintem", String.valueOf(i));
-                        }
-                    }
-                }
-                // Pintem el "detector" final a la darrera linia si el dibuix no esta finalitzat
-                if (g_Finalitzat == false){
-                    if (l_Linia.size() > 1) {
-                        l_EndPoint = l_Linia.get(l_Linia.size() - 1).Punt;
-                        g_DetectorFi = new Rect(Math.round(l_EndPoint.x) - 50, Math.round(l_EndPoint.y) - 50,
-                                Math.round(l_EndPoint.x) + 50, Math.round(l_EndPoint.y) + 50);
-                        canvas.drawRect(g_DetectorFi, drawPaint);
-                    }
-                }
-                break;
 
-            case texte:
-                if (g_AnteriorPunt_1 != null) {
-                    g_DetectorFi = new Rect(Math.round(g_AnteriorPunt_1.x) - 50, Math.round(g_AnteriorPunt_1.y) - 50,
-                            Math.round(g_AnteriorPunt_1.x) + 50, Math.round(g_AnteriorPunt_1.y) + 50);
-                    canvas.drawRect(g_DetectorFi, drawPaint);
-                    canvas.drawText("FINAL", g_AnteriorPunt_1.x, g_AnteriorPunt_1.y, drawPaintText);
+        /*
+        // Pintem rectes i curves
+        Log.d("BODINA-OnDraw-Inici", "Numero de linies " + g_LiniesPlanol.size());
+        for (int j=0; j < g_LiniesPlanol.size(); j++) {
+            //drawPath.moveTo(startPoint.x, startPoint.y);
+            l_Linia = g_LiniesPlanol.get(j);
+            if (j==0) {
+                g_drawPath.moveTo(l_Linia.get(0).Punt.x, l_Linia.get(0).Punt.y);
+            }
+            Log.d("BODINA-OnDraw-Inici", l_Linia.get(0).Punt.x + "," + l_Linia.get(0).Punt.y);
+            for (int i = 1; i < l_Linia.size(); i++) {
+                punt ara = l_Linia.get(i);
+                if (l_Linia.get(i).Descartat == false) {
+                    Log.d("BODINA-OnDraw-Pintem", String.valueOf(i) + " (" + l_Linia.get(i).Punt.x + "," + l_Linia.get(i).Punt.y + ")");
+                    //drawPath.lineTo(l_Linia.get(i).Punt.x, l_Linia.get(i).Punt.y);
+                    //
+                    if (i < l_Linia.size() - 1) {
+                        punt next = l_Linia.get(i + 1);
+                        Log.d("BODINA-OnDraw-QUAD", String.valueOf(i));
+                        g_drawPath.quadTo(ara.Punt.x, ara.Punt.y, next.Punt.x, next.Punt.y);
+                    }
+                    else {
+                        Log.d("BODINA-OnDraw-LINE", String.valueOf(i));
+                        g_drawPath.lineTo(ara.Punt.x, ara.Punt.y);
+                    }
+                    //
                 }
-                break;
+                else {
+                    Log.d("BODINA-OnDraw-NO Pintem", String.valueOf(i));
+                }
+            }
+        }
+        // Pintem el "detector" final a la darrera linia si el dibuix no esta finalitzat
+        if (g_Finalitzat == false){
+            if (l_Linia.size() > 1) {
+                l_EndPoint = l_Linia.get(l_Linia.size() - 1).Punt;
+                g_DetectorFi = new Rect(Math.round(l_EndPoint.x) - 50, Math.round(l_EndPoint.y) - 50,
+                Math.round(l_EndPoint.x) + 50, Math.round(l_EndPoint.y) + 50);
+                canvas.drawRect(g_DetectorFi, drawPaint);
+            }
+        }
+
+        // Pintem texte
+        if (g_AnteriorPunt_1 != null) {
+            g_DetectorFi = new Rect(Math.round(g_AnteriorPunt_1.x) - 50, Math.round(g_AnteriorPunt_1.y) - 50,
+                                        Math.round(g_AnteriorPunt_1.x) + 50, Math.round(g_AnteriorPunt_1.y) + 50);
+            canvas.drawRect(g_DetectorFi, drawPaint);
+            canvas.drawText("FINAL", g_AnteriorPunt_1.x, g_AnteriorPunt_1.y, drawPaintText);
+        }
+        */
+
+        Log.d("BODINA-Draw", "-----> Textes " + g_TextesPlanol.size());
+        for (int k=0; k < g_TextesPlanol.size(); k++) {
+            l_Texte = g_TextesPlanol.get(k);
+            Log.d("BODINA-Draw", "-----> Escribim " + l_Texte.Texte);
+            canvas.drawText(l_Texte.Texte, l_Texte.Punt.x, l_Texte.Punt.y, drawPaintText);
         }
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent e) {
+        return gestureDetector.onTouchEvent(e);
+    }
+
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return true;
+        }
+        // event when double tap occurs
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            Rect l_DetectorIni;
+            texte l_Texte;
+
+            l_DetectorIni = new Rect(Math.round(e.getX()) - 50, Math.round(e.getY()) - 50,
+                    Math.round(e.getX()) + 50, Math.round(e.getY()) + 50);
+            l_Texte = MarquemTexte(l_DetectorIni);
+            if (l_Texte != null){
+                Log.d("BODINA-Down", "--------> Tocat " + l_Texte.Texte);
+                g_TexteSeleccionat = l_Texte;
+            }
+            else {
+                Log.d("BODINA-Down", "--------> Nou " + g_NouTexte + ".");
+            }
+            return true;
+        }
+    }
+
+    public boolean onTouchEvent3(MotionEvent event) {
         //detect user touch
         float l_X = event.getX();
         float l_Y = event.getY();
         Double l_Angle;
+        texte l_Texte;
         PointF l_ActualPoint = new PointF(l_X, l_Y);
         Rect l_DetectorFinal, l_DetectorIni;
 
@@ -238,6 +281,7 @@ public class SimpleDrawView extends RelativeLayout {
                         break;
 
                     case texte:
+                        /*
                         g_AnteriorPunt_1 = l_ActualPoint;
                         if (g_DetectorIni == null) {
                             g_DetectorIni = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
@@ -247,11 +291,28 @@ public class SimpleDrawView extends RelativeLayout {
                                 Math.round(l_ActualPoint.x) + 50, Math.round(l_ActualPoint.y) + 50);
                         if (g_DetectorFi.contains(Math.round(l_ActualPoint.x), Math.round(l_ActualPoint.y))) {
                             Log.d("BODINA-Touch", "Intersecta");
-                            isDrawing = true;
                         }
                         else{
                             Log.d("BODINA-Touch", "NO Intersecta");
-                            isDrawing = false;
+                        }
+                        */
+                        l_DetectorIni = new Rect(Math.round(l_ActualPoint.x) - 50, Math.round(l_ActualPoint.y) - 50,
+                                Math.round(l_ActualPoint.x) + 50, Math.round(l_ActualPoint.y) + 50);
+                        l_Texte = MarquemTexte(l_DetectorIni);
+                        if (l_Texte != null){
+                            Log.d("BODINA-Down", "--------> Tocat " + l_Texte.Texte);
+                            g_TexteSeleccionat = l_Texte;
+                        }
+                        else {
+                            Log.d("BODINA-Down", "--------> Nou " + g_NouTexte + ".");
+                            l_Texte = new texte();
+                            l_Texte.Id = g_TextesPlanol.size();
+                            l_Texte.Detector = l_DetectorIni;
+                            l_Texte.Texte = g_NouTexte;
+                            l_Texte.Punt = l_ActualPoint;
+                            g_TextesPlanol.add(l_Texte);
+                            //
+                            g_TexteSeleccionat = null;
                         }
                         break;
                 }
@@ -315,8 +376,9 @@ public class SimpleDrawView extends RelativeLayout {
                         break;
 
                     case texte:
-                        if (isDrawing) {
-                            g_AnteriorPunt_1 = l_ActualPoint;
+                        if (g_TexteSeleccionat != null){
+                            // Modifiquem el punt
+                            g_TextesPlanol.get(g_TexteSeleccionat.Id).Punt = l_ActualPoint;
                         }
                         break;
                 }
@@ -367,7 +429,6 @@ public class SimpleDrawView extends RelativeLayout {
                         break;
 
                     case texte:
-                        isDrawing = false;
                         break;
                 }
                 /*
@@ -381,4 +442,35 @@ public class SimpleDrawView extends RelativeLayout {
         return true;
     }
 
+    static public void DefinimMetres(TextView p_Metres){
+        g_Metres = p_Metres;
+    }
+
+    private texte MarquemTexte(Rect P_Posicio){
+        texte l_Marcat = null;
+
+        for (int i=0; i < g_TextesPlanol.size(); i++){
+            if (P_Posicio.intersect(g_TextesPlanol.get(i).Detector)){
+                l_Marcat = g_TextesPlanol.get(i);
+                break;
+            }
+        }
+        return l_Marcat;
+    }
+
+    public void EscriuTexte(String P_TexteDonat){
+        // Afegim el texte que ha introduit l'usuari, el posem al mig, el usuari el podra moure
+        texte l_Texte = new texte();
+        Rect l_Detector;
+
+        l_Detector = new Rect(Math.round(g_CenterX) - 50, Math.round(g_CenterY) - 50,
+                              Math.round(g_CenterX) + 50, Math.round(g_CenterY) + 50);
+        l_Texte.Id = g_TextesPlanol.size();
+        l_Texte.Detector = l_Detector;
+        l_Texte.Texte = P_TexteDonat;
+        l_Texte.Punt = new PointF(g_CenterX, g_CenterY);
+        g_TextesPlanol.add(l_Texte);
+        // Pintem
+        invalidate();
+    }
 }

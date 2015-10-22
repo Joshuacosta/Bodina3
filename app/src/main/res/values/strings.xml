@@ -36,6 +36,7 @@
     <string name="CelebracioBaixa">(EVENT CANCELLED)</string>
     <string name="meters">meters</string>
     <string name="Distancia">Distance</string>
+    <string name="OK">OK</string>
 
     <!-- Errors codi -->
     <string name="error_avis">Alert</string>
@@ -133,6 +134,7 @@
     <string name="SalonsClientPlanolLABRecta">Line</string>
     <string name="SalonsClientPlanolLABCurva">Curve</string>
     <string name="SalonsClientPlanolLABTexte">Text</string>
+    <string name="SalonsClientPlanolTITAddTexte">Add text</string>
 
     <!-- Layout celebracio alta -->
     <string name="title_activity_ac_celebracio_alta">Append event</string>
