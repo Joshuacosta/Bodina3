@@ -47,7 +47,7 @@ public class SimpleDrawView extends RelativeLayout {
     // Canvas bitmap
     private Bitmap canvasBitmap;
     // Punts i texte de treball
-    private PointF startPoint = null, endPoint = null, g_PrimerPuntDibuix = null;
+    private PointF g_PuntInicial = null, g_PuntFinalAnterior = null, g_PrimerPuntDibuix = null;
     private ArrayList<PointF> Punts = new ArrayList<PointF>();
     private PointF g_AnteriorPunt = new PointF();
     private texte g_TexteSeleccionat = null;
@@ -211,6 +211,93 @@ public class SimpleDrawView extends RelativeLayout {
 
         @Override
         public boolean onDown(MotionEvent e) {
+            float l_X = e.getX();
+            float l_Y = e.getY();
+            texte l_Texte;
+            PointF l_ActualPoint = new PointF(l_X, l_Y);
+            Rect l_Detector;
+
+            switch (g_ModusDibuix) {
+                case recta:
+                case curva:
+                    // Si es el primer punt lo que fem es definir el detector inicial per poder
+                    // determinar quan tanquem el dibuix
+                    if (g_PrimerPuntDibuix == null){
+                        g_PrimerPuntDibuix = l_ActualPoint;
+                        g_DetectorIni = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
+                                Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+                    }
+                    g_PuntInicial = l_ActualPoint;
+                    // Afegim la linia que anem definint (si no es la primera)
+                    if (g_PuntsPlanol.size() > 0) {
+                        g_LiniesPlanol.add(g_PuntsPlanol);
+                    }
+                    // Definim el rectangle inicial de conexio per validar que continuem
+                    l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
+                            Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+                    if (l_Detector.intersect(g_DetectorFi)) {
+                        Log.d("BODINA-TouchDOWN", "Reinici -------------");
+                        // Inici nova linia
+                        // Definim el punt inicial que es el darrer anteior (es guardat a g_PuntFinalAnterior)
+                        punt l_punt = new punt();
+                        l_punt.Punt = g_PuntFinalAnterior;
+                        l_punt.Descartat = false;
+                        l_punt.Angle = -999.0;
+                        g_PuntsPlanol.add(l_punt);
+                        // Apuntem punt anterior de la linia que fem ara
+                        g_AnteriorPunt = g_PuntFinalAnterior;
+                    }
+                    else {
+                        Log.d("BODINA-TouchDOWN", "Inici ---------------");
+                        // Definim el punt inicial
+                        punt l_punt = new punt();
+                        l_punt.Punt = g_PuntInicial;
+                        l_punt.Descartat = false;
+                        l_punt.Angle = -999.0;
+                        g_PuntsPlanol.add(l_punt);
+                        // El anterior punt es el primer punt
+                        g_AnteriorPunt = g_PuntInicial;
+                        //g_AnteriorPunt_1 = startPoint;
+                        //g_AnteriorPunt_2 = startPoint;
+                    }
+                    break;
+
+                case texte:
+                        /*
+                        g_AnteriorPunt_1 = l_ActualPoint;
+                        if (g_DetectorIni == null) {
+                            g_DetectorIni = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
+                                    Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+                        }
+                        l_DetectorIni = new Rect(Math.round(l_ActualPoint.x) - 50, Math.round(l_ActualPoint.y) - 50,
+                                Math.round(l_ActualPoint.x) + 50, Math.round(l_ActualPoint.y) + 50);
+                        if (g_DetectorFi.contains(Math.round(l_ActualPoint.x), Math.round(l_ActualPoint.y))) {
+                            Log.d("BODINA-Touch", "Intersecta");
+                        }
+                        else{
+                            Log.d("BODINA-Touch", "NO Intersecta");
+                        }
+                        */
+                    l_Detector = new Rect(Math.round(l_ActualPoint.x) - 50, Math.round(l_ActualPoint.y) - 50,
+                            Math.round(l_ActualPoint.x) + 50, Math.round(l_ActualPoint.y) + 50);
+                    l_Texte = MarquemTexte(l_Detector);
+                    if (l_Texte != null){
+                        Log.d("BODINA-Down", "--------> Tocat " + l_Texte.Texte);
+                        g_TexteSeleccionat = l_Texte;
+                    }
+                    else {
+                        Log.d("BODINA-Down", "--------> Nou " + g_NouTexte + ".");
+                        l_Texte = new texte();
+                        l_Texte.Id = g_TextesPlanol.size();
+                        l_Texte.Detector = l_Detector;
+                        l_Texte.Texte = g_NouTexte;
+                        l_Texte.Punt = l_ActualPoint;
+                        g_TextesPlanol.add(l_Texte);
+                        //
+                        g_TexteSeleccionat = null;
+                    }
+                    break;
+            }
             return true;
         }
         // event when double tap occurs
@@ -275,7 +362,7 @@ public class SimpleDrawView extends RelativeLayout {
                                     Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
                         }
                         //if (startPoint == null) {
-                        startPoint = l_ActualPoint;
+                        g_PuntInicial = l_ActualPoint;
                         // Afegim la linia que anem definint
                         g_LiniesPlanol.add(g_PuntsPlanol);
                         //}
@@ -288,22 +375,22 @@ public class SimpleDrawView extends RelativeLayout {
                             // Inici nova linia
                             // Definim el punt inicial que es el darrer anteior
                             punt l_punt = new punt();
-                            l_punt.Punt = endPoint;
+                            l_punt.Punt = g_PuntFinalAnterior;
                             l_punt.Descartat = false;
                             l_punt.Angle = -999.0;
                             g_PuntsPlanol.add(l_punt);
-                            g_AnteriorPunt = endPoint;
+                            g_AnteriorPunt = g_PuntFinalAnterior;
                         }
                         else {
                             Log.d("BODINA-TouchDOWN", "Inici ---------------");
                             // Definim el punt inicial
                             punt l_punt = new punt();
-                            l_punt.Punt = startPoint;
+                            l_punt.Punt = g_PuntInicial;
                             l_punt.Descartat = false;
                             l_punt.Angle = -999.0;
                             g_PuntsPlanol.add(l_punt);
                             //LiniesPlanol.add(PuntsPlanol);
-                            g_AnteriorPunt = startPoint;
+                            g_AnteriorPunt = g_PuntInicial;
                             //g_AnteriorPunt_1 = startPoint;
                             //g_AnteriorPunt_2 = startPoint;
                         }
@@ -430,7 +517,7 @@ public class SimpleDrawView extends RelativeLayout {
                             punt l_Aux3 = g_PuntsPlanol.get(g_PuntsPlanol.size()-1);
                             l_Aux3.Punt = g_PrimerPuntDibuix;//startPoint;
                             g_PuntsPlanol.set(g_PuntsPlanol.size() - 1, l_Aux3);
-                            endPoint = g_PrimerPuntDibuix;//startPoint;
+                            g_PuntFinalAnterior = g_PrimerPuntDibuix;//startPoint;
                             // Afegim la darrera linia
                             //LiniesPlanol.add(PuntsPlanol);
                             // Indiquem que ja esta esta finalitzat (perque sigui detectat en el invalidate)
@@ -438,10 +525,10 @@ public class SimpleDrawView extends RelativeLayout {
                             g_LiniesPlanol.add(g_PuntsPlanol);
                         }
                         else{
-                            endPoint = l_ActualPoint;
+                            g_PuntFinalAnterior = l_ActualPoint;
                             // Afegim el darrer punt (i que no es descarti)
                             punt l_Aux2 = new punt();
-                            l_Aux2.Punt = endPoint;
+                            l_Aux2.Punt = g_PuntFinalAnterior;
                             l_Aux2.Descartat = false;
                             l_Aux2.Angle = -999.0;
                             g_PuntsPlanol.add(l_Aux2);
@@ -452,7 +539,7 @@ public class SimpleDrawView extends RelativeLayout {
                         }
                         // Netegem linia
                         g_PuntsPlanol = new ArrayList<punt>();
-                        startPoint = null;
+                        g_PuntInicial = null;
                         //drawCanvas.drawPath(drawPath, drawPaint);
                         //drawPath.reset();
                         break;
