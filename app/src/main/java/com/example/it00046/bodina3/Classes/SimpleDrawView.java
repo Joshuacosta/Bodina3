@@ -1,10 +1,16 @@
 package com.example.it00046.bodina3.Classes;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.View;
@@ -40,6 +46,8 @@ public class SimpleDrawView extends RelativeLayout {
     private Path g_drawPath;
     // Paint's
     private Paint drawPaint, drawPaintFinal, canvasPaint, drawPaintText;
+    // Controlador de events
+    GestureDetector gestureDetector;
     // Colors
     private int paintColor = 0xFF660000;
     // Canvas
@@ -63,6 +71,7 @@ public class SimpleDrawView extends RelativeLayout {
     private Double g_Angle = null;
 
     private Rect g_DetectorFi = new Rect(), g_DetectorIni = null;
+    private AnimatableRectF g_Detector;
     public boolean g_Finalitzat = false;
     static private int g_CenterX, g_CenterY;
 
@@ -88,7 +97,6 @@ public class SimpleDrawView extends RelativeLayout {
         public void texte(){
         }
     }
-    GestureDetector gestureDetector;
 
     public SimpleDrawView(Context context, AttributeSet attrs){
         super(context, attrs);
@@ -143,8 +151,8 @@ public class SimpleDrawView extends RelativeLayout {
         //Log.d("BODINA-OnDraw-Reset", "------------------------------------------------------------------------------------------------");
         g_drawPath.reset();
 
-        /*
         // Pintem rectes i curves
+        /*
         Log.d("BODINA-OnDraw-Inici", "Numero de linies " + g_LiniesPlanol.size());
         for (int j=0; j < g_LiniesPlanol.size(); j++) {
             //drawPath.moveTo(startPoint.x, startPoint.y);
@@ -175,31 +183,62 @@ public class SimpleDrawView extends RelativeLayout {
                 }
             }
         }
+        */
         // Pintem el "detector" final a la darrera linia si el dibuix no esta finalitzat
         if (g_Finalitzat == false){
-            if (l_Linia.size() > 1) {
-                l_EndPoint = l_Linia.get(l_Linia.size() - 1).Punt;
+            //if (l_Linia.size() > 1) {
+                //l_EndPoint = l_Linia.get(l_Linia.size() - 1).Punt;
+                l_EndPoint = new PointF(100,100);
                 g_DetectorFi = new Rect(Math.round(l_EndPoint.x) - 50, Math.round(l_EndPoint.y) - 50,
-                Math.round(l_EndPoint.x) + 50, Math.round(l_EndPoint.y) + 50);
-                canvas.drawRect(g_DetectorFi, drawPaint);
-            }
-        }
+                                        Math.round(l_EndPoint.x) + 50, Math.round(l_EndPoint.y) + 50);
+                //canvas.drawRect(g_DetectorFi, drawPaint);
+                //
+                if (g_Detector != null) {
+                    canvas.drawRect(g_Detector, drawPaint);
+                }
+                //
+                /*
+                g_Detector = new AnimatableRectF(Math.round(l_EndPoint.x) - 50, Math.round(l_EndPoint.y) - 50,
+                        Math.round(l_EndPoint.x) + 50, Math.round(l_EndPoint.y) + 50);
+                float translateX = 50.0f;
+                float translateY = 50.0f;
+                ObjectAnimator animateLeft = ObjectAnimator.ofFloat(g_Detector, "left", g_Detector.left, g_Detector.left+translateX);
+                ObjectAnimator animateRight = ObjectAnimator.ofFloat(g_Detector, "right", g_Detector.right, g_Detector.right+translateX);
+                ObjectAnimator animateTop = ObjectAnimator.ofFloat(g_Detector, "top", g_Detector.top, g_Detector.top+translateY);
+                ObjectAnimator animateBottom = ObjectAnimator.ofFloat(g_Detector, "bottom", g_Detector.bottom, g_Detector.bottom + translateY);
+                animateBottom.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    Log.d("BODINA-Draw", "-----> PostInvalidate");
+                    postInvalidate();
+                    }
+                });
+                final AnimatorSet rectAnimation = new AnimatorSet();
+                rectAnimation.playTogether(animateLeft, animateRight, animateTop, animateBottom);
+                rectAnimation.setDuration(10000).start();
+                */
+                /*
+                rectAnimation.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        Log.d("BODINA-Draw", "-----> Creix?");
+                        rectAnimation.start();
+                    }
 
-        // Pintem texte
-        if (g_AnteriorPunt_1 != null) {
-            g_DetectorFi = new Rect(Math.round(g_AnteriorPunt_1.x) - 50, Math.round(g_AnteriorPunt_1.y) - 50,
-                                        Math.round(g_AnteriorPunt_1.x) + 50, Math.round(g_AnteriorPunt_1.y) + 50);
-            canvas.drawRect(g_DetectorFi, drawPaint);
-            canvas.drawText("FINAL", g_AnteriorPunt_1.x, g_AnteriorPunt_1.y, drawPaintText);
+                });
+                */
+            //}
         }
-        */
-
+        // Pintem textes
+        /*
         Log.d("BODINA-Draw", "-----> Textes " + g_TextesPlanol.size());
         for (int k=0; k < g_TextesPlanol.size(); k++) {
             l_Texte = g_TextesPlanol.get(k);
             Log.d("BODINA-Draw", "-----> Escribim " + l_Texte.Texte);
             canvas.drawText(l_Texte.Texte, l_Texte.Punt.x, l_Texte.Punt.y, drawPaintText);
         }
+        */
     }
 
     @Override
@@ -223,9 +262,28 @@ public class SimpleDrawView extends RelativeLayout {
                     // Si es el primer punt lo que fem es definir el detector inicial per poder
                     // determinar quan tanquem el dibuix
                     if (g_PrimerPuntDibuix == null){
+                        Log.d("BODINA-Draw", "-----> Definim detector");
                         g_PrimerPuntDibuix = l_ActualPoint;
                         g_DetectorIni = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
                                 Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+                        g_Detector = new AnimatableRectF(Math.round(l_ActualPoint.x) - 50, Math.round(l_ActualPoint.y) - 50,
+                                                         Math.round(l_ActualPoint.x) + 50, Math.round(l_ActualPoint.y) + 50);
+                        float translateX = 50.0f;
+                        float translateY = 50.0f;
+                        ObjectAnimator animateLeft = ObjectAnimator.ofFloat(g_Detector, "left", g_Detector.left, g_Detector.left+translateX);
+                        ObjectAnimator animateRight = ObjectAnimator.ofFloat(g_Detector, "right", g_Detector.right, g_Detector.right+translateX);
+                        ObjectAnimator animateTop = ObjectAnimator.ofFloat(g_Detector, "top", g_Detector.top, g_Detector.top+translateY);
+                        ObjectAnimator animateBottom = ObjectAnimator.ofFloat(g_Detector, "bottom", g_Detector.bottom, g_Detector.bottom + translateY);
+                        animateBottom.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            @Override
+                            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                Log.d("BODINA-Draw", "-----> PostInvalidate");
+                                postInvalidate();
+                            }
+                        });
+                        final AnimatorSet rectAnimation = new AnimatorSet();
+                        rectAnimation.playTogether(animateLeft, animateRight, animateTop, animateBottom);
+                        rectAnimation.setDuration(10000).start();
                     }
                     g_PuntInicial = l_ActualPoint;
                     // Afegim la linia que anem definint (si no es la primera)
@@ -588,5 +646,38 @@ public class SimpleDrawView extends RelativeLayout {
         g_TextesPlanol.add(l_Texte);
         // Pintem
         invalidate();
+    }
+
+    // Experiment per fer un rectangle que es modifiqui amb animation
+    private class AnimatableRectF extends RectF {
+        public AnimatableRectF() {
+            super();
+        }
+
+        public AnimatableRectF(float left, float top, float right, float bottom) {
+            super(left, top, right, bottom);
+        }
+
+        public AnimatableRectF(RectF r) {
+            super(r);
+        }
+
+        public AnimatableRectF(Rect r) {
+            super(r);
+        }
+
+        public void setTop(float top){
+            this.top = top;
+        }
+        public void setBottom(float bottom){
+            this.bottom = bottom;
+        }
+        public void setRight(float right){
+            this.right = right;
+        }
+        public void setLeft(float left){
+            this.left = left;
+        }
+
     }
 }
