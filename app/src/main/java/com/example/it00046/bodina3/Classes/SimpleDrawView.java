@@ -270,6 +270,7 @@ public class SimpleDrawView extends RelativeLayout {
                                                          Math.round(l_ActualPoint.x) + 50, Math.round(l_ActualPoint.y) + 50);
                         float translateX = 50.0f;
                         float translateY = 50.0f;
+                        /*
                         ObjectAnimator animateLeft = ObjectAnimator.ofFloat(g_Detector, "left", g_Detector.left, g_Detector.left+translateX);
                         ObjectAnimator animateRight = ObjectAnimator.ofFloat(g_Detector, "right", g_Detector.right, g_Detector.right+translateX);
                         ObjectAnimator animateTop = ObjectAnimator.ofFloat(g_Detector, "top", g_Detector.top, g_Detector.top+translateY);
@@ -284,6 +285,27 @@ public class SimpleDrawView extends RelativeLayout {
                         final AnimatorSet rectAnimation = new AnimatorSet();
                         rectAnimation.playTogether(animateLeft, animateRight, animateTop, animateBottom);
                         rectAnimation.setDuration(10000).start();
+                        rectAnimation.addListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                Log.d("BODINA-Draw", "-----> Creix?");
+                                rectAnimation.start();
+                            }
+
+                        });
+                        */
+                        ObjectAnimator imageViewObjectAnimator = ObjectAnimator.ofFloat(g_Detector ,
+                                "rotation", 0f, 360f);
+                        imageViewObjectAnimator.setDuration(10000); // miliseconds
+                        imageViewObjectAnimator.start();
+                        imageViewObjectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            @Override
+                            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                Log.d("BODINA-Draw", "-----> PostInvalidate");
+                                postInvalidate();
+                            }
+                        });
                     }
                     g_PuntInicial = l_ActualPoint;
                     // Afegim la linia que anem definint (si no es la primera)
@@ -677,6 +699,9 @@ public class SimpleDrawView extends RelativeLayout {
         }
         public void setLeft(float left){
             this.left = left;
+        }
+        public void setRotation(float inici, float p_final ){
+            Log.d("BODINA-TouchUP", "------------------------ Rotar");
         }
 
     }
