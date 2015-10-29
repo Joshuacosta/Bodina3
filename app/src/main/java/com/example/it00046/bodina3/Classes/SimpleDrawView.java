@@ -25,6 +25,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.util.TypedValue;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -295,10 +296,12 @@ public class SimpleDrawView extends RelativeLayout {
 
                         });
                         */
+                        /* No me ha funcionat
                         ObjectAnimator imageViewObjectAnimator = ObjectAnimator.ofFloat(g_Detector ,
                                 "rotation", 0f, 360f);
-                        imageViewObjectAnimator.setDuration(10000); // miliseconds
+                        imageViewObjectAnimator.setDuration(1000); // miliseconds
                         imageViewObjectAnimator.start();
+                        imageViewObjectAnimator.setRepeatCount(ObjectAnimator.INFINITE);
                         imageViewObjectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                             @Override
                             public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -306,6 +309,37 @@ public class SimpleDrawView extends RelativeLayout {
                                 postInvalidate();
                             }
                         });
+                        */
+                        ObjectAnimator mAlphaAnimation = ObjectAnimator.ofFloat(g_Detector, "alpha", 0.0f,1.0f);
+                        mAlphaAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            @Override
+                            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                postInvalidate();
+                            }
+
+                        });
+
+                        /*
+                        final AnimatorSet rectAnimation = new AnimatorSet();
+                        rectAnimation.play(mAlphaAnimation);
+                        rectAnimation.setDuration(1000).start();
+                        rectAnimation.addListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                Log.d("BODINA-Draw", "-----> Parpadeja?");
+                                if (drawPaint.getStyle() == Paint.Style.FILL) {
+                                    drawPaint.setStyle(Paint.Style.STROKE);
+                                }
+                                else{
+                                    drawPaint.setStyle(Paint.Style.FILL);
+                                }
+                                //rectAnimation.setDuration(1000).start();
+                                rectAnimation.start();
+                            }
+
+                        });
+                        */
                     }
                     g_PuntInicial = l_ActualPoint;
                     // Afegim la linia que anem definint (si no es la primera)
@@ -378,6 +412,7 @@ public class SimpleDrawView extends RelativeLayout {
                     }
                     break;
             }
+            invalidate();
             return true;
         }
         // event when double tap occurs
@@ -698,10 +733,15 @@ public class SimpleDrawView extends RelativeLayout {
             this.right = right;
         }
         public void setLeft(float left){
-            this.left = left;
+            Log.d("BODINA-TouchUP", "------------------------ Aplha2");
+            //drawPaint.setStyle(Paint.Style.FILL);
         }
         public void setRotation(float inici, float p_final ){
             Log.d("BODINA-TouchUP", "------------------------ Rotar");
+        }
+        public void setAlpha(float inici, float p_final ){
+            Log.d("BODINA-TouchUP", "------------------------ Aplha");
+            //drawPaint.setStyle(Paint.Style.FILL);
         }
 
     }
