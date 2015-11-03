@@ -47,7 +47,7 @@ public class salons_client_planol  extends ActionBarActivity {
         l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.texte;
         l_Draw.DefinimMetres(l_TXT_Distancia);
         //
-        l_Draw.pare = Jo;
+        l_Draw.g_Pare = Jo;
         //SimpleDrawView.DefinimMetres(l_TXT_Distancia); Quin metode es millor?
         // Crec que son lo mateix JA QUE DefinimMetres es static!
         // Accions dels FLB
@@ -72,6 +72,9 @@ public class salons_client_planol  extends ActionBarActivity {
                                 l_Draw.g_NouTexte = l_input.getText().toString();
                                 //SimpleDrawView.g_NouTexte = l_input.getText().toString(); No se quina opcio es millor
                                 l_Draw.EscriuTexte(l_Draw.g_NouTexte);
+                                // Cambien el icon de eines
+                                //l_FLM_Eines.setBackgroundResource(Globals.g_Native.getResources().getDrawable(R.drawable.ic_format_color_text_white_24dp));
+                                l_FLM_Eines.setBackgroundResource(R.drawable.ic_format_color_text_white_24dp);
                                 l_FLM_Eines.close(true);
                             }
                         })
@@ -88,6 +91,9 @@ public class salons_client_planol  extends ActionBarActivity {
             @Override
             public void onClick(View arg0) {
                 l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.recta;
+                // Cambien el icon de eines
+                l_FLM_Eines.setBackgroundResource(R.drawable.ic_border_color_white_24dp);
+                l_FLM_Eines.close(true);
             }
         });
         l_FLB_Curva = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBCurva);
@@ -95,6 +101,9 @@ public class salons_client_planol  extends ActionBarActivity {
             @Override
             public void onClick(View arg0) {
                 l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.curva;
+                // Cambien el icon de eines
+                l_FLM_Eines.setBackgroundResource(R.drawable.ic_brush_white_24dp);
+                l_FLM_Eines.close(true);
             }
         });
         // Control de enrera/cancelacio
