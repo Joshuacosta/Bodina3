@@ -37,6 +37,7 @@
     <string name="meters">meters</string>
     <string name="Distancia">Distance</string>
     <string name="OK">OK</string>
+    <string name="Text">text...</string>
 
     <!-- Errors codi -->
     <string name="error_avis">Alert</string>

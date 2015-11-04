@@ -44,7 +44,7 @@ public class salons_client_planol  extends ActionBarActivity {
         l_TXT_Distancia = (TextView) findViewById(R.id.SalonsClientPlanolTXTDistancia);
         //
         l_Draw = (SimpleDrawView) findViewById(R.id.SalonsClientPlanolVIWDrawing);
-        l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.texte;
+        l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.recta;
         l_Draw.DefinimMetres(l_TXT_Distancia);
         //
         l_Draw.g_Pare = Jo;
@@ -57,33 +57,10 @@ public class salons_client_planol  extends ActionBarActivity {
         l_FLB_Texte.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                final EditText l_input = new EditText(Jo);
-
-                // Mostrem una finestra per demanar el texte a introduir
-                AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(Jo);
-                g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolTITAddTexte));
-                g_alertDialogBuilder.setView(l_input);
-                g_alertDialogBuilder
-                        .setCancelable(false)
-                        .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface p_dialog, int which) {
-                                l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.texte;
-                                l_Draw.g_NouTexte = l_input.getText().toString();
-                                //SimpleDrawView.g_NouTexte = l_input.getText().toString(); No se quina opcio es millor
-                                l_Draw.EscriuTexte(l_Draw.g_NouTexte);
-                                // Cambien el icon de eines
-                                //l_FLM_Eines.setBackgroundResource(Globals.g_Native.getResources().getDrawable(R.drawable.ic_format_color_text_white_24dp));
-                                l_FLM_Eines.setBackgroundResource(R.drawable.ic_format_color_text_white_24dp);
-                                l_FLM_Eines.close(true);
-                            }
-                        })
-                        .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface p_dialog, int p_id) {
-                                l_FLM_Eines.close(true);
-                            }
-                        });
-                g_alertDialogBuilder.show();
+                l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.texte;
+                // Cambien el icon de eines
+                l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_format_color_text_white_24dp));
+                l_FLM_Eines.close(true);
             }
         });
         l_FLB_Recta = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBRecta);
@@ -92,7 +69,7 @@ public class salons_client_planol  extends ActionBarActivity {
             public void onClick(View arg0) {
                 l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.recta;
                 // Cambien el icon de eines
-                l_FLM_Eines.setBackgroundResource(R.drawable.ic_border_color_white_24dp);
+                l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_border_color_white_24dp));
                 l_FLM_Eines.close(true);
             }
         });
@@ -102,7 +79,7 @@ public class salons_client_planol  extends ActionBarActivity {
             public void onClick(View arg0) {
                 l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.curva;
                 // Cambien el icon de eines
-                l_FLM_Eines.setBackgroundResource(R.drawable.ic_brush_white_24dp);
+                l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_brush_white_24dp));
                 l_FLM_Eines.close(true);
             }
         });

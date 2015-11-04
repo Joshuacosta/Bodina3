@@ -41,11 +41,11 @@ public class SimpleDrawView extends RelativeLayout {
     public enum g_Modus {recta,curva,texte};
     public g_Modus g_ModusDibuix = g_Modus.recta;
     static public String g_NouTexte = null;
-    static public int g_RatioDistancia = 100; // Es la finura de la curva
+    static public int g_RatioDistancia = 20; // Es la finura de la curva
     static public int g_RatioAngle =15; // Idem, podrien ser parametritzables?
     static private TextView g_Metres;
     //
-    private Rect g_Punter = new Rect(), g_DetectorIni = null;
+    private Rect g_Punter = null, g_DetectorIni = null;
     public boolean g_Finalitzat = false;
     static private int g_CenterX, g_CenterY;
 
@@ -191,18 +191,21 @@ public class SimpleDrawView extends RelativeLayout {
     public boolean onTouchEvent(MotionEvent p_Event) {
         float l_X = p_Event.getX();
         float l_Y = p_Event.getY();
-        texte l_Texte;
+        texte l_Texte, l_TexteDit;
         PointF l_ActualPoint = new PointF(l_X, l_Y);
         Rect l_Detector;
         punt l_Punt = new punt(), l_Aux = new punt(), l_Aux2 = new punt();
         double l_Part1, l_Part2, l_Dist;
 
-
+        // Validem primer si hi han "gestos"
+        g_GestureDetector.onTouchEvent(p_Event);
+        // Continuem
         switch (p_Event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 switch (g_ModusDibuix) {
                     case recta:
                     case curva:
+                        Log.d("BODINA-Draw", "-----> Inici recta/curva");
                         // Si es el primer punt lo que fem es definir el detector inicial per poder determinar
                         // quan tanquem el dibuix
                         if (g_PrimerPuntDibuix == null){
@@ -217,43 +220,44 @@ public class SimpleDrawView extends RelativeLayout {
                         // ??????????????????????????
                         //
                         // Afegim la linia que anem definint si no es la primera, que tingui algo.
+                        Log.d("BODINA-Draw", "-----> g_LiniaPunts.size(): " + g_LiniaPunts.size());
                         //if (g_LiniaPunts.size() > 0) {
                             g_LiniesPlanol.add(g_LiniaPunts);
                         //}
-                        // Definim el rectangle inicial de conexio per validar que continuem, sino, no fem res
-                        l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
-                                Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
-                        if (l_Detector.intersect(g_Punter)) {
-                            Log.d("BODINA-TouchDOWN", "Reinici -------------");
-                            // Inici nova linia: Definim el punt inicial que es el darrer anteior
-                            // (es guardat a g_PuntFinalAnterior)
-                            l_Punt = new punt();
-                            l_Punt.Punt = g_PuntFinalAnterior;
-                            l_Punt.Descartat = false;
-                            l_Punt.Angle = -999.0;
-                            g_LiniaPunts.add(l_Punt);
-                            // Apuntem punt anterior de la linia que fem ara
-                            g_AnteriorPuntLinia = g_PuntFinalAnterior;
-                        }
-                        else {
-                            // Validem que es el primer, sino, no hem de fer res, hem de dibuixar desde la
-                            // darrera linia
-                            if (g_Punter == null) {
-                                Log.d("BODINA-TouchDOWN", "Inici ---------------");
-                                // Definim el punt inicial de la linia
+                        if (g_Punter != null) {
+                            // Definim el rectangle inicial de conexio per validar que continuem, sino, no fem res
+                            l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
+                                                  Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+                            if (l_Detector.intersect(g_Punter)) {
+                                Log.d("BODINA-TouchDOWN", "Reinici -------------");
+                                // Inici nova linia: Definim el punt inicial que es el darrer anteior
+                                // (es guardat a g_PuntFinalAnterior)
                                 l_Punt = new punt();
-                                l_Punt.Punt = g_PuntInicialLinia;
+                                l_Punt.Punt = g_PuntFinalAnterior;
                                 l_Punt.Descartat = false;
                                 l_Punt.Angle = -999.0;
                                 g_LiniaPunts.add(l_Punt);
-                                // El anterior punt es el primer punt
-                                g_AnteriorPuntLinia = g_PuntInicialLinia;
+                                // Apuntem punt anterior de la linia que fem ara
+                                g_AnteriorPuntLinia = g_PuntFinalAnterior;
                             }
                         }
-                        invalidate();
+                        else {
+                            Log.d("BODINA-TouchDOWN", "Inici ---------------");
+                            // Definim el punt inicial de la linia
+                            l_Punt = new punt();
+                            l_Punt.Punt = g_PuntInicialLinia;
+                            l_Punt.Descartat = false;
+                            l_Punt.Angle = -999.0;
+                            g_LiniaPunts.add(l_Punt);
+                            // El anterior punt es el primer punt
+                            g_AnteriorPuntLinia = g_PuntInicialLinia;
+                        }
+                        // ??????? Es necesari
+                        //invalidate();
                         break;
 
                     case texte:
+                        Log.d("BODINA-Draw", "-----> Inici texte");
                         // Validem si hem tocat un texte
                         l_Detector = new Rect(Math.round(l_ActualPoint.x) - 50, Math.round(l_ActualPoint.y) - 50,
                                 Math.round(l_ActualPoint.x) + 50, Math.round(l_ActualPoint.y) + 50);
@@ -263,7 +267,13 @@ public class SimpleDrawView extends RelativeLayout {
                             g_TexteSeleccionat = l_Texte;
                         }
                         else {
+                            // Afegim un texte al planol i mostrem la finestra de modificació de texte
                             g_TexteSeleccionat = null;
+                            l_TexteDit = EscriuTexte(Globals.g_Native.getResources().getString(R.string.Text), l_ActualPoint);
+                            // Obrim la finestra de edicio del texte introduit
+                            FinestraTexte(l_TexteDit);
+                            // Pintem
+                            invalidate();
                         }
                         break;
                 }
@@ -371,6 +381,12 @@ public class SimpleDrawView extends RelativeLayout {
                         break;
 
                     case texte:
+                        if (g_TexteSeleccionat != null) {
+                            // Recalculem el detector del texte que hem mogut
+                            l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
+                                                  Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+                            g_TexteSeleccionat.Detector = l_Detector;
+                        }
                         break;
                 }
                 invalidate();
@@ -397,10 +413,8 @@ public class SimpleDrawView extends RelativeLayout {
             if (l_Texte != null){
                 Log.d("BODINA-Down", "--------> Tocat " + l_Texte.Texte);
                 g_TexteSeleccionat = l_Texte;
-
                 l_Input = new EditText(g_Pare);
-
-                // Mostrem una finestra per demanar el texte a introduir
+                // Mostrem una finestra per modificar el texte
                 AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(g_Pare);
                 g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolTITAddTexte));
                 g_alertDialogBuilder.setView(l_Input);
@@ -410,12 +424,12 @@ public class SimpleDrawView extends RelativeLayout {
                         .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface p_dialog, int which) {
-
+                                g_TexteSeleccionat.Texte = l_Input.getText().toString();
+                                invalidate();
                             }
                         })
                         .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface p_dialog, int p_id) {
-
                             }
                         });
                 g_alertDialogBuilder.show();
@@ -443,20 +457,46 @@ public class SimpleDrawView extends RelativeLayout {
         return l_Marcat;
     }
 
-    public void EscriuTexte(String P_TexteDonat){
-        // Afegim el texte que ha introduit l'usuari, el posem al mig, el usuari el podra moure
+    private void FinestraTexte(final texte p_Texte){
+        final EditText l_Input;
+
+        l_Input = new EditText(g_Pare);
+        // Mostrem una finestra per modificar el texte
+        AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(g_Pare);
+        g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolTITAddTexte));
+        g_alertDialogBuilder.setView(l_Input);
+        l_Input.setText(p_Texte.Texte);
+        g_alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface p_dialog, int which) {
+                        p_Texte.Texte = l_Input.getText().toString();
+                        invalidate();
+                    }
+                })
+                .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface p_dialog, int p_id) {
+                    }
+                });
+        g_alertDialogBuilder.show();
+    }
+
+    public texte EscriuTexte(String P_TexteDonat, PointF p_PuntDonat){
+        // Afegim el texte que ha introduit l'usuari, el posem al mig sino s'indica un altre,
+        // el usuari el podra moure
         texte l_Texte = new texte();
         Rect l_Detector;
 
-        l_Detector = new Rect(Math.round(g_CenterX) - 50, Math.round(g_CenterY) - 50,
-                              Math.round(g_CenterX) + 50, Math.round(g_CenterY) + 50);
+        l_Detector = new Rect(Math.round(p_PuntDonat.x) - 30, Math.round(p_PuntDonat.y) - 30,
+                              Math.round(p_PuntDonat.x) + 30, Math.round(p_PuntDonat.y) + 30);
         l_Texte.Id = g_TextesPlanol.size();
         l_Texte.Detector = l_Detector;
         l_Texte.Texte = P_TexteDonat;
-        l_Texte.Punt = new PointF(g_CenterX, g_CenterY);
+        l_Texte.Punt = p_PuntDonat;
         g_TextesPlanol.add(l_Texte);
-        // Pintem
-        invalidate();
+
+        return l_Texte;
     }
 
 }
