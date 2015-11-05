@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.it00046.bodina3.Classes.CanvasManual;
@@ -34,6 +35,7 @@ public class salons_client_planol  extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         TextView l_TXT_Distancia;
         FloatingActionButton l_FLB_Texte, l_FLB_Curva,l_FLB_Recta;
+        ImageButton l_IMB_Esborrar;
         final FloatingActionMenu l_FLM_Eines;
         final SimpleDrawView l_Draw;
 
@@ -48,6 +50,8 @@ public class salons_client_planol  extends ActionBarActivity {
         l_Draw.DefinimMetres(l_TXT_Distancia);
         //
         l_Draw.g_Pare = Jo;
+        l_IMB_Esborrar = (ImageButton) findViewById(R.id.salonsClientPlanolIMBEsborrar);
+        l_Draw.g_IMB_Esborrar = l_IMB_Esborrar;
         //SimpleDrawView.DefinimMetres(l_TXT_Distancia); Quin metode es millor?
         // Crec que son lo mateix JA QUE DefinimMetres es static!
         // Accions dels FLB
@@ -81,6 +85,14 @@ public class salons_client_planol  extends ActionBarActivity {
                 // Cambien el icon de eines
                 l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_brush_white_24dp));
                 l_FLM_Eines.close(true);
+            }
+        });
+        // Boto de esborrar
+        l_IMB_Esborrar.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                // Hauriem de preguntar si ho fem o no
+                l_Draw.EsborrarPlanol();
             }
         });
         // Control de enrera/cancelacio

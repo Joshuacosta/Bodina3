@@ -14,6 +14,15 @@
         android:layout_weight="1"
         android:background="@color/white" />
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/salonsClientPlanolIMBEsborrar"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="left|top"
+        android:background="@drawable/ic_delete_black_36dp" />
+
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/salonsClientPlanolFLMEines"
         android:layout_width="wrap_content"
