@@ -1,8 +1,6 @@
 package com.example.it00046.bodina3;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -11,15 +9,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-import com.example.it00046.bodina3.Classes.CanvasManual;
-import com.example.it00046.bodina3.Classes.DAO.DAOTipusCelebracions;
-import com.example.it00046.bodina3.Classes.Entitats.TipusCelebracio;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.SimpleDrawView;
 import com.github.clans.fab.FloatingActionButton;
@@ -42,12 +34,8 @@ public class salons_client_planol  extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.salons_client_planol);
         // Recuperem controls
-        // Pasem el control de distancia al Draw
-        l_TXT_Distancia = (TextView) findViewById(R.id.SalonsClientPlanolTXTDistancia);
-        //
         l_Draw = (SimpleDrawView) findViewById(R.id.SalonsClientPlanolVIWDrawing);
         l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.recta;
-        l_Draw.DefinimMetres(l_TXT_Distancia);
         //
         l_Draw.g_Pare = Jo;
         l_IMB_Esborrar = (ImageButton) findViewById(R.id.salonsClientPlanolIMBEsborrar);
@@ -56,7 +44,7 @@ public class salons_client_planol  extends ActionBarActivity {
         // Crec que son lo mateix JA QUE DefinimMetres es static!
         // Accions dels FLB
         l_FLM_Eines = (FloatingActionMenu) findViewById(R.id.salonsClientPlanolFLMEines);
-        //
+        // Sub-menus
         l_FLB_Texte = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBTexte);
         l_FLB_Texte.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -116,7 +104,4 @@ public class salons_client_planol  extends ActionBarActivity {
         return super.onOptionsItemSelected(p_Item);
     }
 
-    public void ModificarTexte(String P_Texte){
-        Log.d("BODINA-Draw", "-----> Escribim " + P_Texte);
-    }
 }
