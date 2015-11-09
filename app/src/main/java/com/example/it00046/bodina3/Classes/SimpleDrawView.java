@@ -37,7 +37,7 @@ public class SimpleDrawView extends RelativeLayout {
     private Bitmap g_CanvasBitmap;
     // Punts i texte de treball
     private PointF g_PuntInicialLinia = null, g_PuntFinalAnterior = null, g_PrimerPuntDibuix = null;
-    private PointF g_AnteriorPuntLinia = null;
+    private PointF g_AnteriorPuntLinia = null, g_PuntActual = null;
     private texte g_TexteSeleccionat = null;
     // Modes i variables de treball de dibuix
     public enum g_Modus {recta,curva,texte};
@@ -50,7 +50,7 @@ public class SimpleDrawView extends RelativeLayout {
     public ImageButton g_IMB_Esborrar;
     //
     private Rect g_Punter = null, g_DetectorIni = null;
-    public boolean g_Finalitzat = false;
+    public boolean g_Finalitzat = false, g_Dibuixant = false;
     static private int g_CenterX, g_CenterY;
 
     // Array per guardar els punts amb el que fem les linies i/o curves
@@ -168,6 +168,10 @@ public class SimpleDrawView extends RelativeLayout {
                 }
             }
         }
+        // Si estem dibuixant mostrem els metres que fem
+        if (g_Dibuixant){
+            canvas.drawText("56", g_PuntActual.x, g_PuntActual.y - 40, g_PaintText);
+        }
         // Pintem el path definit i pintem el punter si el dibuix encara no esta finalitzat
         // l_Linia contindra la darrera linia del dibuix (si hi ha, claar)
         if (g_Finalitzat == false){
@@ -215,6 +219,7 @@ public class SimpleDrawView extends RelativeLayout {
         // Validem primer si hi han "gestos"
         g_GestureDetector.onTouchEvent(p_Event);
         // Continuem
+        g_PuntActual = l_ActualPoint;
         switch (p_Event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 switch (g_ModusDibuix) {
@@ -327,6 +332,7 @@ public class SimpleDrawView extends RelativeLayout {
                             g_AnteriorPuntLinia = l_ActualPoint;
                             Log.d("BODINA-Touch-Fi", "------------");
                         }
+                        g_Dibuixant = true;
                         invalidate();
                         break;
 
@@ -345,6 +351,7 @@ public class SimpleDrawView extends RelativeLayout {
                             l_Aux.Punt = l_ActualPoint;
                             g_LiniaPunts.set(1, l_Aux);
                         }
+                        g_Dibuixant = true;
                         invalidate();
                         break;
 
@@ -370,6 +377,7 @@ public class SimpleDrawView extends RelativeLayout {
                 break;
 
             case MotionEvent.ACTION_UP:
+                g_Dibuixant = false;
                 switch (g_ModusDibuix) {
                     case recta:
                     case curva:
