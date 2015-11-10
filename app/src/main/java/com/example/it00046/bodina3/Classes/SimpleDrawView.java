@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.content.Context;
@@ -28,6 +29,7 @@ public class SimpleDrawView extends RelativeLayout {
     public Context g_Pare;
     private Path g_drawPath;
     private Paint g_PaintNormal, g_PaintFinal, g_PaintCanvas, g_PaintText, g_PaintTextEsborrantse;
+    private Paint g_PaintQuadricula;
     // Controlador de events
     private GestureDetector g_GestureDetector;
     // Colors
@@ -49,7 +51,7 @@ public class SimpleDrawView extends RelativeLayout {
     public ImageButton g_IMB_Esborrar;
     //
     private Rect g_Punter = null, g_DetectorIni = null;
-    public boolean g_Finalitzat = false, g_Dibuixant = false;
+    public boolean g_Finalitzat = false, g_Dibuixant = false, g_Quadricula = false;
     static private int g_CenterX, g_CenterY;
 
     // Array per guardar els punts amb el que fem les linies i/o curves
@@ -97,10 +99,16 @@ public class SimpleDrawView extends RelativeLayout {
         g_PaintNormal.setStyle(Paint.Style.STROKE);
         g_PaintNormal.setStrokeJoin(Paint.Join.ROUND);
         g_PaintNormal.setStrokeCap(Paint.Cap.ROUND);
+        // Definim paint de quadricula
+        g_PaintQuadricula = new Paint();
+        g_PaintQuadricula.setColor(Color.BLACK);
+        g_PaintQuadricula.setAlpha(100);
+        g_PaintQuadricula.setStrokeWidth(1);
+        g_PaintQuadricula.setStyle(Paint.Style.STROKE);
         // Definim paint de planol "terminat"
         g_PaintFinal = new Paint();
         g_PaintFinal.setColor(Color.LTGRAY);
-        g_PaintFinal.setAlpha(33);
+        g_PaintFinal.setAlpha(120);
         g_PaintFinal.setStyle(Paint.Style.FILL);
         g_PaintFinal.setAntiAlias(true);
         // Definim el paint de texte
@@ -108,7 +116,7 @@ public class SimpleDrawView extends RelativeLayout {
         g_PaintText.setTextSize(35);
         // Definim el paint de texte esborrante
         g_PaintTextEsborrantse = new Paint();
-        g_PaintTextEsborrantse.setColor(Globals.g_Native.getResources().getColor(R.color.red));
+        g_PaintTextEsborrantse.setColor(Color.RED);
         g_PaintTextEsborrantse.setTextSize(35);
     }
 
@@ -128,12 +136,35 @@ public class SimpleDrawView extends RelativeLayout {
         ArrayList<punt> l_Linia = new ArrayList<>();
         texte l_Texte = new texte();
         punt l_Actual, l_Seguent;
+        Path l_Quadricula = new Path();
 
         //draw view
         canvas.drawBitmap(g_CanvasBitmap, 0, 0, g_PaintCanvas);
         //Log.d("BODINA-OnDraw-Reset", "------------------------------------------------------------------------------------------------");
-        g_drawPath.reset();
+        // Pintem quadricula si es activa
+        g_Quadricula = true;
+        if (g_Quadricula){
+            // Ja volarem l'escala...
+            DisplayMetrics displayMetrics = g_Pare.getResources().getDisplayMetrics();
 
+            float l_dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+            float l_dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+            int l_NumLiniesVerticals = Math.round(l_dpWidth)/20;
+            //int l_NumLiniesHoritzontals = Math.round(l_dpHeight)/30;
+            int l_NumLiniesHoritzontals = Math.round(displayMetrics.widthPixels)/30;
+
+            for (int v=1; v <  l_NumLiniesVerticals; v++){
+                l_Quadricula.moveTo(0, l_NumLiniesVerticals*v);
+                l_Quadricula.lineTo(displayMetrics.widthPixels, l_NumLiniesVerticals*v);
+            }
+            for (int v=1; v <  l_NumLiniesHoritzontals; v++){
+                l_Quadricula.moveTo(l_NumLiniesHoritzontals*v, 0);
+                l_Quadricula.lineTo(l_NumLiniesHoritzontals*v, displayMetrics.heightPixels);
+            }
+        }
+        canvas.drawPath(l_Quadricula, g_PaintQuadricula);
+        //
+        g_drawPath.reset();
         // Pintem rectes i curves
         Log.d("BODINA-OnDraw-Inici", "Numero de linies " + g_LiniesPlanol.size());
         for (int j=0; j < g_LiniesPlanol.size(); j++) {
