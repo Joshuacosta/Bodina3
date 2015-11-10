@@ -3,11 +3,13 @@ package com.example.it00046.bodina3.Classes;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.GestureDetector;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -16,6 +18,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.view.MotionEvent;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -147,20 +150,31 @@ public class SimpleDrawView extends RelativeLayout {
             // Ja volarem l'escala...
             DisplayMetrics displayMetrics = g_Pare.getResources().getDisplayMetrics();
 
-            float l_dpHeight = displayMetrics.heightPixels / displayMetrics.density;
-            float l_dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-            int l_NumLiniesVerticals = Math.round(l_dpWidth)/20;
-            //int l_NumLiniesHoritzontals = Math.round(l_dpHeight)/30;
-            int l_NumLiniesHoritzontals = Math.round(displayMetrics.widthPixels)/30;
+            //float l_dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+            //float l_dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+            //int l_NumLiniesVerticals = Math.round(l_dpWidth)/20;
+            ////int l_NumLiniesHoritzontals = Math.round(l_dpHeight)/30;
+            //int l_NumLiniesHoritzontals = Math.round(displayMetrics.widthPixels)/30;
 
-            for (int v=1; v <  l_NumLiniesVerticals; v++){
+            WindowManager wm = (WindowManager) g_Pare.getSystemService(Context.WINDOW_SERVICE);
+            Display display = wm.getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int l_dpWidth = size.x;
+            int l_dpHeight = size.y;
+            int l_NumLiniesVerticals = Math.round(l_dpHeight)/20;
+            int l_NumLiniesHoritzontals = Math.round(l_dpWidth)/25;
+
+            for (int v=1; v <  l_NumLiniesVerticals; v++) {
                 l_Quadricula.moveTo(0, l_NumLiniesVerticals*v);
-                l_Quadricula.lineTo(displayMetrics.widthPixels, l_NumLiniesVerticals*v);
+                l_Quadricula.lineTo(l_dpWidth, l_NumLiniesVerticals*v);
             }
-            for (int v=1; v <  l_NumLiniesHoritzontals; v++){
+
+            for (int v=1; v <  l_NumLiniesHoritzontals; v++) {
                 l_Quadricula.moveTo(l_NumLiniesHoritzontals*v, 0);
-                l_Quadricula.lineTo(l_NumLiniesHoritzontals*v, displayMetrics.heightPixels);
+                l_Quadricula.lineTo(l_NumLiniesHoritzontals*v, l_dpHeight);
             }
+
         }
         canvas.drawPath(l_Quadricula, g_PaintQuadricula);
         //
