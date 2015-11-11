@@ -135,6 +135,9 @@
     <string name="SalonsClientPlanolLABRecta">Line</string>
     <string name="SalonsClientPlanolLABCurva">Curve</string>
     <string name="SalonsClientPlanolLABTexte">Text</string>
+    <string name="SalonsClientPlanolLABQuadricula">Quarter</string>
+    <string name="SalonsClientPlanolLABEscala">Scale</string>
+    <string name="SalonsClientPlanolLABUnitats">Units</string>
     <string name="SalonsClientPlanolTITAddTexte">Add text</string>
 
     <!-- Layout celebracio alta -->

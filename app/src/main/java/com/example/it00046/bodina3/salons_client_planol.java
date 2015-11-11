@@ -25,11 +25,11 @@ public class salons_client_planol  extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        TextView l_TXT_Distancia;
         FloatingActionButton l_FLB_Texte, l_FLB_Curva,l_FLB_Recta;
-        ImageButton l_IMB_Esborrar;
-        final FloatingActionMenu l_FLM_Eines;
+        FloatingActionButton l_FLB_Quadricula, l_FLB_Escala,l_FLB_Unitats;
+        final FloatingActionMenu l_FLM_Eines, l_FLM_Eines2;
         final SimpleDrawView l_Draw;
+        ImageButton l_IMB_Esborrar;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.salons_client_planol);
@@ -40,10 +40,23 @@ public class salons_client_planol  extends ActionBarActivity {
         l_Draw.g_Pare = Jo;
         l_IMB_Esborrar = (ImageButton) findViewById(R.id.salonsClientPlanolIMBEsborrar);
         l_Draw.g_IMB_Esborrar = l_IMB_Esborrar;
-        //SimpleDrawView.DefinimMetres(l_TXT_Distancia); Quin metode es millor?
-        // Crec que son lo mateix JA QUE DefinimMetres es static!
         // Accions dels FLB
         l_FLM_Eines = (FloatingActionMenu) findViewById(R.id.salonsClientPlanolFLMEines);
+        l_FLM_Eines2 = (FloatingActionMenu) findViewById(R.id.salonsClientPlanolFLMEines2);
+        l_FLM_Eines.setOnMenuButtonClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                l_FLM_Eines2.close(true);
+                l_FLM_Eines.toggle(true);
+            }
+        });
+        l_FLM_Eines2.setOnMenuButtonClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                l_FLM_Eines.close(true);
+                l_FLM_Eines2.toggle(true);
+            }
+        });
         // Sub-menus
         l_FLB_Texte = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBTexte);
         l_FLB_Texte.setOnClickListener(new Button.OnClickListener() {
@@ -71,11 +84,34 @@ public class salons_client_planol  extends ActionBarActivity {
             public void onClick(View arg0) {
                 l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.curva;
                 // Cambien el icon de eines
-                l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_brush_white_24dp));
+                l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_gesture_white_24dp));
                 l_FLM_Eines.close(true);
             }
         });
-        // Boto de esborrar
+        // Sub-menus 2
+        l_FLB_Quadricula = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBQuadricula);
+        l_FLB_Quadricula.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                l_Draw.Quadricula();
+                l_FLM_Eines2.close(true);
+            }
+        });
+        l_FLB_Escala = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBEscala);
+        l_FLB_Escala.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                l_FLM_Eines2.close(true);
+            }
+        });
+        l_FLB_Unitats = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBUnitats);
+        l_FLB_Unitats.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                l_FLM_Eines2.close(true);
+            }
+        });
+        // Boto/Imatge de esborrar
         l_IMB_Esborrar.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
