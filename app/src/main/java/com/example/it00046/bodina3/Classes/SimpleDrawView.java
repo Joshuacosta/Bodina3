@@ -3,6 +3,7 @@ package com.example.it00046.bodina3.Classes;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
@@ -15,6 +16,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -23,7 +25,14 @@ import com.example.it00046.bodina3.R;
 
 import java.util.ArrayList;
 
-public class SimpleDrawView extends RelativeLayout {
+public class SimpleDrawView extends RelativeLayout implements ScaleGestureDetector.OnScaleGestureListener {
+
+
+    private ScaleGestureDetector gestureScale;
+    private float scaleFactor = 1;
+    private Matrix matrix = new Matrix();
+
+    private Context Jo = this.getContext();
     public Context g_Pare;
     private Path g_drawPath;
     private Paint g_PaintNormal, g_PaintFinal, g_PaintCanvas, g_PaintText, g_PaintTextEsborrantse;
@@ -82,6 +91,20 @@ public class SimpleDrawView extends RelativeLayout {
         setupDrawing();
         // creating new gesture detector
         g_GestureDetector = new GestureDetector(p_Context, new GestureListener());
+        gestureScale = new ScaleGestureDetector(p_Context, new ScaleListener());
+    }
+
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            scaleFactor *= detector.getScaleFactor();
+
+            // Don't let the object get too small or too large.
+            scaleFactor = Math.max(0.1f, Math.min(scaleFactor, 10.0f));
+
+            invalidate();
+            return true;
+        }
     }
 
     private void setupDrawing(){
@@ -228,13 +251,16 @@ public class SimpleDrawView extends RelativeLayout {
                 }
             }
         }
+        Log.d("BODINA-Draw", "-----> Escalem " + scaleFactor);
+        canvas.scale(4, 4);
+        canvas.restore();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent p_Event) {
         float l_X = p_Event.getX();
         float l_Y = p_Event.getY();
-        texte l_Texte, l_TexteDit;
+        texte l_Texte;
         PointF l_ActualPoint = new PointF(l_X, l_Y);
         Rect l_Detector, l_Esborrar;
         punt l_Punt = new punt(), l_Aux = new punt(), l_Aux2 = new punt();
@@ -243,6 +269,7 @@ public class SimpleDrawView extends RelativeLayout {
 
         // Validem primer si hi han "gestos"
         g_GestureDetector.onTouchEvent(p_Event);
+        gestureScale.onTouchEvent(p_Event);
         // Continuem
         g_PuntActual = l_ActualPoint;
         switch (p_Event.getAction()){
@@ -314,11 +341,7 @@ public class SimpleDrawView extends RelativeLayout {
                         else {
                             // Afegim un texte al planol i mostrem la finestra de modificació de texte
                             g_TexteSeleccionat = null;
-                            l_TexteDit = EscriuTexte(Globals.g_Native.getResources().getString(R.string.Text), l_ActualPoint);
-                            // Obrim la finestra de edicio del texte introduit
-                            FinestraTexte(l_TexteDit);
-                            // Pintem
-                            invalidate();
+                            FinestraTexte(Globals.g_Native.getResources().getString(R.string.Text));
                         }
                         break;
                 }
@@ -545,7 +568,7 @@ public class SimpleDrawView extends RelativeLayout {
         return l_Marcat;
     }
 
-    private void FinestraTexte(final texte p_Texte){
+    private void FinestraTexte(final String p_Texte){
         final EditText l_Input;
 
         l_Input = new EditText(g_Pare);
@@ -553,13 +576,14 @@ public class SimpleDrawView extends RelativeLayout {
         AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(g_Pare);
         g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolTITAddTexte));
         g_alertDialogBuilder.setView(l_Input);
-        l_Input.setText(p_Texte.Texte);
+        l_Input.setText(p_Texte);
         g_alertDialogBuilder
                 .setCancelable(false)
                 .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface p_dialog, int which) {
-                        p_Texte.Texte = l_Input.getText().toString();
+                        EscriuTexte(l_Input.getText().toString(), g_PuntActual);
+                        // Pintem
                         invalidate();
                     }
                 })
@@ -593,6 +617,31 @@ public class SimpleDrawView extends RelativeLayout {
         g_Quadricula = !g_Quadricula;
         invalidate();
     }
+
+
+    @Override
+    public boolean onScale(ScaleGestureDetector detector) {
+        scaleFactor *= detector.getScaleFactor();
+        scaleFactor = (scaleFactor < 1 ? 1 : scaleFactor); // prevent our view from becoming too small //
+        scaleFactor = ((float)((int)(scaleFactor * 100))) / 100; // Change precision to help with jitter when user just rests their fingers //
+        this.setScaleX(scaleFactor);
+        this.setScaleY(scaleFactor);
+        return true;
+    }
+
+    @Override
+    public boolean onScaleBegin(ScaleGestureDetector detector) {
+        Log.d("BODINA-onScaleBegin", "");
+        //inScale = true;
+        return true;
+    }
+
+    @Override
+    public void onScaleEnd(ScaleGestureDetector detector) {
+        Log.d("BODINA-onScaleEnd", "");
+        //inScale = false;
+    }
+
 }
 
                         /* ANIMACIO

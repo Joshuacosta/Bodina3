@@ -46,6 +46,7 @@ public class salons_client_planol  extends ActionBarActivity {
         l_FLM_Eines.setOnMenuButtonClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                // Tanquem el altre menu i ens obrim
                 l_FLM_Eines2.close(true);
                 l_FLM_Eines.toggle(true);
             }
@@ -53,6 +54,7 @@ public class salons_client_planol  extends ActionBarActivity {
         l_FLM_Eines2.setOnMenuButtonClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                // Tanquem el altre menu i ens obrim
                 l_FLM_Eines.close(true);
                 l_FLM_Eines2.toggle(true);
             }
