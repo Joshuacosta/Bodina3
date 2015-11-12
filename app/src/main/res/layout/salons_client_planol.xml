@@ -102,7 +102,7 @@
         android:id="@+id/salonsClientPlanolIMBAjuda"
         android:layout_marginBottom="10dp"
         android:layout_gravity="bottom|center"
-        android:backgroundTint="@color/darkblue"
+        android:backgroundTint="@color/material_blue_500"
         android:background="@drawable/ic_help_black_24dp" />
 
 

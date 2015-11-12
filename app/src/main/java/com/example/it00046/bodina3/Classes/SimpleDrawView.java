@@ -25,12 +25,13 @@ import com.example.it00046.bodina3.R;
 
 import java.util.ArrayList;
 
-public class SimpleDrawView extends RelativeLayout implements ScaleGestureDetector.OnScaleGestureListener {
+public class SimpleDrawView extends RelativeLayout {
 
 
     private ScaleGestureDetector gestureScale;
     private float scaleFactor = 1;
-    private Matrix matrix = new Matrix();
+    private float scaleFactorAnterior = 1;
+    private Boolean g_HemEscalat = false;
 
     private Context Jo = this.getContext();
     public Context g_Pare;
@@ -98,11 +99,19 @@ public class SimpleDrawView extends RelativeLayout implements ScaleGestureDetect
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
             scaleFactor *= detector.getScaleFactor();
+            if (scaleFactor != scaleFactorAnterior) {
+                Log.d("BODINA-Scale", "Escala canvia " + scaleFactor);
+                // Don't let the object get too small or too large.
+                scaleFactor = Math.max(0.1f, Math.min(scaleFactor, 10.0f));
 
-            // Don't let the object get too small or too large.
-            scaleFactor = Math.max(0.1f, Math.min(scaleFactor, 10.0f));
-
-            invalidate();
+                scaleFactorAnterior = scaleFactor;
+                g_HemEscalat = true;
+                invalidate();
+            }
+            else{
+                Log.d("BODINA-Scale", "Escala igual");
+                g_HemEscalat = false;
+            }
             return true;
         }
     }
@@ -158,6 +167,10 @@ public class SimpleDrawView extends RelativeLayout implements ScaleGestureDetect
         texte l_Texte = new texte();
         punt l_Actual, l_Seguent;
         Path l_Quadricula = new Path();
+
+        canvas.save();
+        Log.d("BODINA-Draw", "-----> Escalem " + scaleFactor);
+        canvas.scale(scaleFactor, scaleFactor);
 
         //draw view
         canvas.drawBitmap(g_CanvasBitmap, 0, 0, g_PaintCanvas);
@@ -251,9 +264,11 @@ public class SimpleDrawView extends RelativeLayout implements ScaleGestureDetect
                 }
             }
         }
-        Log.d("BODINA-Draw", "-----> Escalem " + scaleFactor);
-        canvas.scale(4, 4);
+        if (g_HemEscalat) {
+            g_HemEscalat = false;
+        }
         canvas.restore();
+
     }
 
     @Override
@@ -267,225 +282,232 @@ public class SimpleDrawView extends RelativeLayout implements ScaleGestureDetect
         double l_Distancia;
         //double l_Part1, l_Part2;
 
-        // Validem primer si hi han "gestos"
+        // Validem primer si hi han "gestos": doble tap
         g_GestureDetector.onTouchEvent(p_Event);
+        //
         gestureScale.onTouchEvent(p_Event);
-        // Continuem
-        g_PuntActual = l_ActualPoint;
-        switch (p_Event.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                switch (g_ModusDibuix) {
-                    case recta:
-                    case curva:
-                        Log.d("BODINA-Draw", "-----> Inici recta/curva");
-                        // Si es el primer punt lo que fem es definir el detector inicial per poder determinar
-                        // quan tanquem el dibuix
-                        if (g_PrimerPuntDibuix == null){
-                            Log.d("BODINA-Draw", "-----> Definim detector");
-                            g_PrimerPuntDibuix = l_ActualPoint;
-                            g_DetectorIni = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
-                                    Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+        if (!g_HemEscalat) {
+            Log.d("BODINA-Touch", "-----> Continuem");
+            // Continuem
+            g_PuntActual = l_ActualPoint;
+            switch (p_Event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    switch (g_ModusDibuix) {
+                        case recta:
+                        case curva:
+                            Log.d("BODINA-Draw", "-----> Inici recta/curva");
+                            // Si es el primer punt lo que fem es definir el detector inicial per poder determinar
+                            // quan tanquem el dibuix
+                            if (g_PrimerPuntDibuix == null) {
+                                Log.d("BODINA-Draw", "-----> Definim detector");
+                                g_PrimerPuntDibuix = l_ActualPoint;
+                                g_DetectorIni = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
+                                        Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
 
-                        }
-                        g_PuntInicialLinia = l_ActualPoint;
-                        //
-                        // ??????????????????????????
-                        //
-                        // Afegim la linia que anem definint si no es la primera, que tingui algo.
-                        Log.d("BODINA-Draw", "-----> g_LiniaPunts.size(): " + g_LiniaPunts.size());
-                        //if (g_LiniaPunts.size() > 0) {
-                            g_LiniesPlanol.add(g_LiniaPunts);
-                        //}
-                        if (g_Punter != null) {
-                            // Definim el rectangle inicial de conexio per validar que continuem, sino, no fem res
-                            l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
-                                                  Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
-                            if (l_Detector.intersect(g_Punter)) {
-                                Log.d("BODINA-TouchDOWN", "Reinici -------------");
-                                // Inici nova linia: Definim el punt inicial que es el darrer anteior
-                                // (es guardat a g_PuntFinalAnterior)
+                            }
+                            g_PuntInicialLinia = l_ActualPoint;
+                            //
+                            // ??????????????????????????
+                            //
+                            // Afegim la linia que anem definint si no es la primera, que tingui algo.
+                            Log.d("BODINA-Draw", "-----> g_LiniaPunts.size(): " + g_LiniaPunts.size());
+                            // Validem si tenim punter per seguir el planol
+                            if (g_Punter != null) {
+                                // Definim el rectangle inicial de conexio per validar que continuem, sino, no fem res
+                                l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
+                                        Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+                                if (l_Detector.intersect(g_Punter)) {
+                                    // Tenim linia
+                                    g_LiniesPlanol.add(g_LiniaPunts);
+                                    Log.d("BODINA-TouchDOWN", "Reinici -------------");
+                                    // Inici nova linia: Definim el punt inicial que es el darrer anteior
+                                    // (es guardat a g_PuntFinalAnterior)
+                                    l_Punt = new punt();
+                                    l_Punt.Punt = g_PuntFinalAnterior;
+                                    l_Punt.Descartat = false;
+                                    l_Punt.Angle = -999.0;
+                                    g_LiniaPunts.add(l_Punt);
+                                    // Apuntem punt anterior de la linia que fem ara
+                                    g_AnteriorPuntLinia = g_PuntFinalAnterior;
+                                }
+                                else{
+                                    // No seguim amb el punter
+                                    Log.d("BODINA-TouchDOWN", "No continuem ---------------");
+                                }
+                            }
+                            else {
+                                g_LiniesPlanol.add(g_LiniaPunts);
+                                Log.d("BODINA-TouchDOWN", "Inici ---------------");
+                                // Definim el punt inicial de la linia
                                 l_Punt = new punt();
-                                l_Punt.Punt = g_PuntFinalAnterior;
+                                l_Punt.Punt = g_PuntInicialLinia;
                                 l_Punt.Descartat = false;
                                 l_Punt.Angle = -999.0;
                                 g_LiniaPunts.add(l_Punt);
-                                // Apuntem punt anterior de la linia que fem ara
-                                g_AnteriorPuntLinia = g_PuntFinalAnterior;
+                                // El anterior punt es el primer punt
+                                g_AnteriorPuntLinia = g_PuntInicialLinia;
                             }
-                        }
-                        else {
-                            Log.d("BODINA-TouchDOWN", "Inici ---------------");
-                            // Definim el punt inicial de la linia
-                            l_Punt = new punt();
-                            l_Punt.Punt = g_PuntInicialLinia;
-                            l_Punt.Descartat = false;
-                            l_Punt.Angle = -999.0;
-                            g_LiniaPunts.add(l_Punt);
-                            // El anterior punt es el primer punt
-                            g_AnteriorPuntLinia = g_PuntInicialLinia;
-                        }
-                        // ??????? Es necesari
-                        //invalidate();
-                        break;
+                            // ??????? Es necesari
+                            //invalidate();
+                            break;
 
-                    case texte:
-                        Log.d("BODINA-Draw", "-----> Inici texte");
-                        // Validem si hem tocat un texte
-                        l_Detector = new Rect(Math.round(l_ActualPoint.x) - 50, Math.round(l_ActualPoint.y) - 50,
-                                Math.round(l_ActualPoint.x) + 50, Math.round(l_ActualPoint.y) + 50);
-                        l_Texte = MarquemTexte(l_Detector);
-                        if (l_Texte != null){
-                            Log.d("BODINA-Down", "--------> Tocat " + l_Texte.Texte);
-                            g_TexteSeleccionat = l_Texte;
-                        }
-                        else {
-                            // Afegim un texte al planol i mostrem la finestra de modificació de texte
-                            g_TexteSeleccionat = null;
-                            FinestraTexte(Globals.g_Native.getResources().getString(R.string.Text));
-                        }
-                        break;
-                }
-                break;
+                        case texte:
+                            Log.d("BODINA-Draw", "-----> Inici texte");
+                            // Validem si hem tocat un texte
+                            l_Detector = new Rect(Math.round(l_ActualPoint.x) - 50, Math.round(l_ActualPoint.y) - 50,
+                                    Math.round(l_ActualPoint.x) + 50, Math.round(l_ActualPoint.y) + 50);
+                            l_Texte = MarquemTexte(l_Detector);
+                            if (l_Texte != null) {
+                                Log.d("BODINA-Down", "--------> Tocat " + l_Texte.Texte);
+                                g_TexteSeleccionat = l_Texte;
+                            } else {
+                                // Afegim un texte al planol i mostrem la finestra de modificació de texte
+                                g_TexteSeleccionat = null;
+                                FinestraTexte(Globals.g_Native.getResources().getString(R.string.Text));
+                            }
+                            break;
+                    }
+                    break;
 
-            case MotionEvent.ACTION_MOVE:
-                switch (g_ModusDibuix) {
-                    case curva:
-                        // Calculem distancia
-                        //l_Part1 = new Float(l_ActualPoint.x-g_AnteriorPuntLinia.x);
-                        //l_Part2 = new Float(l_ActualPoint.y-g_AnteriorPuntLinia.y);
-                        //l_Dist = Math.sqrt( Math.pow(l_Part1, 2) + Math.pow(l_Part2, 2));
-                        l_Distancia = CalculaDistancia(l_ActualPoint, g_AnteriorPuntLinia);
-                        // Validem si portem massa distancia i hem de forzar un punt
-                        if (l_Distancia > g_RatioDistancia){
-                            // Estem dibuixant curves (en rectes no superem el ratio)
-                            l_Punt = new punt();
-                            l_Punt.Punt = l_ActualPoint;
-                            l_Punt.Descartat = false;
-                            l_Punt.Angle = Globals.CalculaAngle(l_ActualPoint, g_AnteriorPuntLinia);
-                            Log.d("BODINA-Touch-Afegim", String.valueOf(l_Punt.Punt.x) + ", " + String.valueOf(l_Punt.Punt.y));
-                            g_LiniaPunts.add(l_Punt);
-                            Log.d("BODINA-Touch-Angle", String.valueOf(g_LiniaPunts.size()) + " " + String.valueOf(l_Punt.Angle));
-                            // Validem que el punt anterior no quedi descartat per l'angle
-                            if (g_LiniaPunts.size() >= 3){
-                                l_Aux = g_LiniaPunts.get(g_LiniaPunts.size() - 2);
-                                Log.d("BODINA-Touch-Recuperem", (g_LiniaPunts.size() - 2) + " " + l_Aux.Angle);
-                                Double l_DiferenciaAngles = Math.abs(l_Aux.Angle - l_Punt.Angle);
-                                Log.d("BODINA-Touch-Diferencia", String.valueOf(l_DiferenciaAngles));
-                                if (l_DiferenciaAngles < g_RatioAngle) {
-                                    l_Aux2 = g_LiniaPunts.get(g_LiniaPunts.size() - 2);
-                                    l_Aux2.Descartat = true;
-                                    g_LiniaPunts.set(g_LiniaPunts.size() - 2, l_Aux2);
-                                    Log.d("BODINA-Touch-Descartem", String.valueOf(g_LiniaPunts.size() -2));
+                case MotionEvent.ACTION_MOVE:
+                    switch (g_ModusDibuix) {
+                        case curva:
+                            // Calculem distancia
+                            //l_Part1 = new Float(l_ActualPoint.x-g_AnteriorPuntLinia.x);
+                            //l_Part2 = new Float(l_ActualPoint.y-g_AnteriorPuntLinia.y);
+                            //l_Dist = Math.sqrt( Math.pow(l_Part1, 2) + Math.pow(l_Part2, 2));
+                            l_Distancia = CalculaDistancia(l_ActualPoint, g_AnteriorPuntLinia);
+                            // Validem si portem massa distancia i hem de forzar un punt
+                            if (l_Distancia > g_RatioDistancia) {
+                                // Estem dibuixant curves (en rectes no superem el ratio)
+                                l_Punt = new punt();
+                                l_Punt.Punt = l_ActualPoint;
+                                l_Punt.Descartat = false;
+                                l_Punt.Angle = Globals.CalculaAngle(l_ActualPoint, g_AnteriorPuntLinia);
+                                Log.d("BODINA-Touch-Afegim", String.valueOf(l_Punt.Punt.x) + ", " + String.valueOf(l_Punt.Punt.y));
+                                g_LiniaPunts.add(l_Punt);
+                                Log.d("BODINA-Touch-Angle", String.valueOf(g_LiniaPunts.size()) + " " + String.valueOf(l_Punt.Angle));
+                                // Validem que el punt anterior no quedi descartat per l'angle
+                                if (g_LiniaPunts.size() >= 3) {
+                                    l_Aux = g_LiniaPunts.get(g_LiniaPunts.size() - 2);
+                                    Log.d("BODINA-Touch-Recuperem", (g_LiniaPunts.size() - 2) + " " + l_Aux.Angle);
+                                    Double l_DiferenciaAngles = Math.abs(l_Aux.Angle - l_Punt.Angle);
+                                    Log.d("BODINA-Touch-Diferencia", String.valueOf(l_DiferenciaAngles));
+                                    if (l_DiferenciaAngles < g_RatioAngle) {
+                                        l_Aux2 = g_LiniaPunts.get(g_LiniaPunts.size() - 2);
+                                        l_Aux2.Descartat = true;
+                                        g_LiniaPunts.set(g_LiniaPunts.size() - 2, l_Aux2);
+                                        Log.d("BODINA-Touch-Descartem", String.valueOf(g_LiniaPunts.size() - 2));
+                                    }
                                 }
+                                g_AnteriorPuntLinia = l_ActualPoint;
+                                Log.d("BODINA-Touch-Fi", "------------");
                             }
-                            g_AnteriorPuntLinia = l_ActualPoint;
-                            Log.d("BODINA-Touch-Fi", "------------");
-                        }
-                        g_Dibuixant = true;
-                        invalidate();
-                        break;
+                            g_Dibuixant = true;
+                            invalidate();
+                            break;
 
-                    case recta:
-                        if (g_LiniaPunts.size() == 1){
-                            // Afegim punt (el altre punt es el inicial)
-                            l_Punt = new punt();
-                            l_Punt.Punt = l_ActualPoint;
-                            l_Punt.Descartat = false;
-                            l_Punt.Angle = 0.0;
-                            g_LiniaPunts.add(l_Punt);
-                        }
-                        else{
-                            // Modifiquem el punt final
-                            l_Aux = g_LiniaPunts.get(1);
-                            l_Aux.Punt = l_ActualPoint;
-                            g_LiniaPunts.set(1, l_Aux);
-                        }
-                        g_Dibuixant = true;
-                        invalidate();
-                        break;
+                        case recta:
+                            if (g_LiniaPunts.size() == 1) {
+                                // Afegim punt (el altre punt es el inicial)
+                                l_Punt = new punt();
+                                l_Punt.Punt = l_ActualPoint;
+                                l_Punt.Descartat = false;
+                                l_Punt.Angle = 0.0;
+                                g_LiniaPunts.add(l_Punt);
+                            } else {
+                                // Modifiquem el punt final
+                                l_Aux = g_LiniaPunts.get(1);
+                                l_Aux.Punt = l_ActualPoint;
+                                g_LiniaPunts.set(1, l_Aux);
+                            }
+                            g_Dibuixant = true;
+                            invalidate();
+                            break;
 
-                    case texte:
-                        if (g_TexteSeleccionat != null){
-                            // Movem el punt
-                            g_TextesPlanol.get(g_TexteSeleccionat.Id).Punt = l_ActualPoint;
-                            // Calculem el detector del texte i validem si ens volen esborrar
+                        case texte:
+                            if (g_TexteSeleccionat != null) {
+                                // Movem el punt
+                                g_TextesPlanol.get(g_TexteSeleccionat.Id).Punt = l_ActualPoint;
+                                // Calculem el detector del texte i validem si ens volen esborrar
+                                l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
+                                        Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+                                l_Esborrar = new Rect();
+                                g_IMB_Esborrar.getHitRect(l_Esborrar);
+                                if (l_Detector.intersect(l_Esborrar)) {
+                                    g_TexteSeleccionat.Esborrantse = true;
+                                } else {
+                                    g_TexteSeleccionat.Esborrantse = false;
+                                }
+                                invalidate();
+                            }
+                            break;
+                    }
+                    break;
+
+                case MotionEvent.ACTION_UP:
+                    g_Dibuixant = false;
+                    switch (g_ModusDibuix) {
+                        case recta:
+                        case curva:
                             l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
                                     Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
-                            l_Esborrar = new Rect();
-                            g_IMB_Esborrar.getHitRect(l_Esborrar);
-                            if (l_Detector.intersect(l_Esborrar)){
-                                g_TexteSeleccionat.Esborrantse = true;
+                            if (l_Detector.intersect(g_DetectorIni)) {
+                                Log.d("BODINA-TouchUP", "------------------------ Enganxat");
+                                // Modifiquem el darrer punt perque apunti exacatament al inici
+                                l_Aux = g_LiniaPunts.get(g_LiniaPunts.size() - 1);
+                                l_Aux.Punt = g_PrimerPuntDibuix;//startPoint;
+                                g_LiniaPunts.set(g_LiniaPunts.size() - 1, l_Aux);
+                                g_PuntFinalAnterior = g_PrimerPuntDibuix;//startPoint;
+                                // Indiquem que ja esta esta finalitzat (perque sigui detectat en el invalidate)
+                                g_Finalitzat = true;
+                                g_LiniesPlanol.add(g_LiniaPunts);
+                            } else {
+                                g_PuntFinalAnterior = l_ActualPoint;
+                                // Afegim el darrer punt (i que no es descarti)
+                                l_Aux = new punt();
+                                l_Aux.Punt = g_PuntFinalAnterior;
+                                l_Aux.Descartat = false;
+                                l_Aux.Angle = -999.0;
+                                g_LiniaPunts.add(l_Aux);
+                                // Afegim la linia
+                                //LiniesPlanol.add(PuntsPlanol);
+                                //PuntsPlanol = new ArrayList<punt>();
+                                Log.d("BODINA-TouchUP", "------------------------ NO enganxat");
                             }
-                            else {
-                                g_TexteSeleccionat.Esborrantse = false;
-                            }
-                            invalidate();
-                        }
-                        break;
-                }
-                break;
+                            // Netegem linia
+                            g_LiniaPunts = new ArrayList<punt>();
+                            g_PuntInicialLinia = null;
+                            //drawCanvas.drawPath(drawPath, drawPaint);
+                            //drawPath.reset();
+                            break;
 
-            case MotionEvent.ACTION_UP:
-                g_Dibuixant = false;
-                switch (g_ModusDibuix) {
-                    case recta:
-                    case curva:
-                        l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
-                                Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
-                        if (l_Detector.intersect(g_DetectorIni)) {
-                            Log.d("BODINA-TouchUP", "------------------------ Enganxat");
-                            // Modifiquem el darrer punt perque apunti exacatament al inici
-                            l_Aux = g_LiniaPunts.get(g_LiniaPunts.size()-1);
-                            l_Aux.Punt = g_PrimerPuntDibuix;//startPoint;
-                            g_LiniaPunts.set(g_LiniaPunts.size() - 1, l_Aux);
-                            g_PuntFinalAnterior = g_PrimerPuntDibuix;//startPoint;
-                            // Indiquem que ja esta esta finalitzat (perque sigui detectat en el invalidate)
-                            g_Finalitzat = true;
-                            g_LiniesPlanol.add(g_LiniaPunts);
-                        }
-                        else {
-                            g_PuntFinalAnterior = l_ActualPoint;
-                            // Afegim el darrer punt (i que no es descarti)
-                            l_Aux = new punt();
-                            l_Aux.Punt = g_PuntFinalAnterior;
-                            l_Aux.Descartat = false;
-                            l_Aux.Angle = -999.0;
-                            g_LiniaPunts.add(l_Aux);
-                            // Afegim la linia
-                            //LiniesPlanol.add(PuntsPlanol);
-                            //PuntsPlanol = new ArrayList<punt>();
-                            Log.d("BODINA-TouchUP", "------------------------ NO enganxat");
-                        }
-                        // Netegem linia
-                        g_LiniaPunts = new ArrayList<punt>();
-                        g_PuntInicialLinia = null;
-                        //drawCanvas.drawPath(drawPath, drawPaint);
-                        //drawPath.reset();
-                        break;
-
-                    case texte:
-                        if (g_TexteSeleccionat != null) {
-                            // Recalculem el detector del texte que hem mogut
-                            l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
-                                                  Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
-                            // Validem si l'usuari ens vol esborrar
-                            l_Esborrar = new Rect();
-                            g_IMB_Esborrar.getHitRect(l_Esborrar);
-                            if (l_Detector.intersect(l_Esborrar)){
-                                g_TexteSeleccionat.Esborrat = true;
+                        case texte:
+                            if (g_TexteSeleccionat != null) {
+                                // Recalculem el detector del texte que hem mogut
+                                l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
+                                        Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+                                // Validem si l'usuari ens vol esborrar
+                                l_Esborrar = new Rect();
+                                g_IMB_Esborrar.getHitRect(l_Esborrar);
+                                if (l_Detector.intersect(l_Esborrar)) {
+                                    g_TexteSeleccionat.Esborrat = true;
+                                } else {
+                                    g_TexteSeleccionat.Detector = l_Detector;
+                                }
                             }
-                            else {
-                                g_TexteSeleccionat.Detector = l_Detector;
-                            }
-                        }
-                        break;
-                }
-                invalidate();
-                break;
+                            break;
+                    }
+                    invalidate();
+                    break;
 
-            default:
-                // Validem la resta de events amb el Gesture
-                return g_GestureDetector.onTouchEvent(p_Event);
+                default:
+                    // Validem la resta de events amb el Gesture
+                    return g_GestureDetector.onTouchEvent(p_Event);
+            }
+        }
+        else{
+            Log.d("BODINA-Touch", "Hem escalat");
         }
         return true;
     }
@@ -616,30 +638,6 @@ public class SimpleDrawView extends RelativeLayout implements ScaleGestureDetect
     public void Quadricula(){
         g_Quadricula = !g_Quadricula;
         invalidate();
-    }
-
-
-    @Override
-    public boolean onScale(ScaleGestureDetector detector) {
-        scaleFactor *= detector.getScaleFactor();
-        scaleFactor = (scaleFactor < 1 ? 1 : scaleFactor); // prevent our view from becoming too small //
-        scaleFactor = ((float)((int)(scaleFactor * 100))) / 100; // Change precision to help with jitter when user just rests their fingers //
-        this.setScaleX(scaleFactor);
-        this.setScaleY(scaleFactor);
-        return true;
-    }
-
-    @Override
-    public boolean onScaleBegin(ScaleGestureDetector detector) {
-        Log.d("BODINA-onScaleBegin", "");
-        //inScale = true;
-        return true;
-    }
-
-    @Override
-    public void onScaleEnd(ScaleGestureDetector detector) {
-        Log.d("BODINA-onScaleEnd", "");
-        //inScale = false;
     }
 
 }
