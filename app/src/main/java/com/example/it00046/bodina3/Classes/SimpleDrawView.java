@@ -57,8 +57,9 @@ public class SimpleDrawView extends RelativeLayout {
     private PointF g_AnteriorPuntLinia = null, g_PuntActual = null;
     private texte g_TexteSeleccionat = null;
     // Modes i variables de treball de dibuix
-    public enum g_Modus {recta,curva,texte};
+    public enum g_Modus {recta,curva,texte,ma};
     public g_Modus g_ModusDibuix = g_Modus.recta;
+    public g_Modus g_ModusDibuixAnterior = null;
     static public String g_NouTexte = null;
     static public int g_RatioDistancia = 20; // Es la finura de la curva
     static public int g_RatioAngle =15; // Idem, podrien ser parametritzables?
@@ -276,11 +277,10 @@ public class SimpleDrawView extends RelativeLayout {
         Rect l_Detector, l_Esborrar;
         punt l_Punt = new punt(), l_Aux = new punt(), l_Aux2 = new punt();
         double l_Distancia;
-        //double l_Part1, l_Part2;
 
         // Validem primer si hi han "gestos": doble tap
-        //g_GestureDetector.onTouchEvent(p_Event);
-        //
+        g_GestureDetector.onTouchEvent(p_Event);
+        // Validem escalat si
         gestureScale.onTouchEvent(p_Event);
         if (!gestureScale.isInProgress()){
             Log.d("BODINA-Touch", "-----> Continuem");

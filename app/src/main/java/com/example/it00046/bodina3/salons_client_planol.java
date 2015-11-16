@@ -35,14 +35,16 @@ public class salons_client_planol  extends ActionBarActivity {
         setContentView(R.layout.salons_client_planol);
         // Recuperem controls
         l_Draw = (SimpleDrawView) findViewById(R.id.SalonsClientPlanolVIWDrawing);
-        l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.recta;
-        //
         l_Draw.g_Pare = Jo;
         l_IMB_Esborrar = (ImageButton) findViewById(R.id.salonsClientPlanolIMBEsborrar);
         l_Draw.g_IMB_Esborrar = l_IMB_Esborrar;
         // Accions dels FLB
         l_FLM_Eines = (FloatingActionMenu) findViewById(R.id.salonsClientPlanolFLMEines);
         l_FLM_Eines2 = (FloatingActionMenu) findViewById(R.id.salonsClientPlanolFLMEines2);
+        // Inicialment dibuixem rectes
+        l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_dibuixar_rectes_mes24dp));
+        l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.recta;
+        //
         l_FLM_Eines.setOnMenuButtonClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {

@@ -65,19 +65,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom|right"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        fab:menu_showShadow="false"
+        fab:menu_buttonSpacing="2dp"
         fab:menu_colorNormal="@color/green"
         fab:menu_backgroundColor="@color/white"
-        fab:menu_labels_ellipsize="end"
         fab:menu_labels_singleLine="true"
         fab:menu_labels_position="left">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/salonsClientPlanolFLBRecta"
+            android:id="@+id/salonsClientPlanolFLBMa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_border_color_white_24dp"
+            android:src="@drawable/ic_ma_blanc_24"
             fab:fab_size="mini"
-            fab:fab_label="@string/SalonsClientPlanolLABRecta"/>
+            fab:fab_showShadow="false"
+            fab:fab_label="@string/SalonsClientPlanolLABMa" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/salonsClientPlanolFLBCurva"
@@ -85,6 +89,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_gesture_white_24dp"
             fab:fab_size="mini"
+            fab:fab_showShadow="false"
             fab:fab_label="@string/SalonsClientPlanolLABCurva"/>
 
         <com.github.clans.fab.FloatingActionButton
@@ -93,7 +98,18 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_format_color_text_white_24dp"
             fab:fab_size="mini"
+            fab:fab_showShadow="false"
             fab:fab_label="@string/SalonsClientPlanolLABTexte" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/salonsClientPlanolFLBRecta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_border_color_white_24dp"
+            fab:fab_size="mini"
+            fab:fab_showShadow="false"
+            fab:fab_label="@string/SalonsClientPlanolLABRecta"/>
+
     </com.github.clans.fab.FloatingActionMenu>
 
     <ImageButton
@@ -103,6 +119,5 @@
         android:layout_marginBottom="10dp"
         android:layout_gravity="bottom|center"
         android:background="@drawable/ic_help_black_24dp" />
-
 
 </FrameLayout>
