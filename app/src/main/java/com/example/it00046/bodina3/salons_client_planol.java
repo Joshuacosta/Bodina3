@@ -25,7 +25,7 @@ public class salons_client_planol  extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FloatingActionButton l_FLB_Texte, l_FLB_Curva,l_FLB_Recta;
+        FloatingActionButton l_FLB_Texte, l_FLB_Curva,l_FLB_Recta,l_FLB_Ma;
         FloatingActionButton l_FLB_Quadricula, l_FLB_Escala,l_FLB_Unitats;
         final FloatingActionMenu l_FLM_Eines, l_FLM_Eines2;
         final SimpleDrawView l_Draw;
@@ -89,6 +89,16 @@ public class salons_client_planol  extends ActionBarActivity {
                 l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.curva;
                 // Cambien el icon de eines
                 l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_gesture_white_24dp));
+                l_FLM_Eines.close(true);
+            }
+        });
+        l_FLB_Ma = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBMa);
+        l_FLB_Ma.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.ma;
+                // Cambien el icon de eines
+                l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_ma_blanc_24));
                 l_FLM_Eines.close(true);
             }
         });

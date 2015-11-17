@@ -31,8 +31,8 @@ public class SimpleDrawView extends RelativeLayout {
     ///////////////////////////////////////////////////
     private static final int INVALID_POINTER_ID = -1;
     private int mActivePointerId = INVALID_POINTER_ID;
-    private ScaleGestureDetector gestureScale;
-    private float scaleFactor = 1;
+    private ScaleGestureDetector g_GestureScale;
+    private float g_ScaleFactor = 1;
     private float scaleFactorAnterior = 1;
     private float mPosX;
     private float mPosY;
@@ -98,21 +98,10 @@ public class SimpleDrawView extends RelativeLayout {
     public SimpleDrawView(Context p_Context, AttributeSet p_Attrs){
         super(p_Context, p_Attrs);
         setupDrawing();
-        // creating new gesture detector
+        // Definim el gesture detector
         g_GestureDetector = new GestureDetector(p_Context, new GestureListener());
-        gestureScale = new ScaleGestureDetector(p_Context, new ScaleListener());
-    }
-
-    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
-        @Override
-        public boolean onScale(ScaleGestureDetector detector) {
-            scaleFactor *= detector.getScaleFactor();
-            Log.d("BODINA-Scale", "Escala canvia " + scaleFactor);
-            // Don't let the object get too small or too large.
-            scaleFactor = Math.max(0.1f, Math.min(scaleFactor, 5.0f));
-            invalidate();
-            return true;
-        }
+        // Definim el gesture detector de scala
+        g_GestureScale = new ScaleGestureDetector(p_Context, new ScaleListener());
     }
 
     private void setupDrawing(){
@@ -168,10 +157,9 @@ public class SimpleDrawView extends RelativeLayout {
         Path l_Quadricula = new Path();
 
         canvas.save();
-        Log.d("BODINA-Draw", "-----> Escalem " + scaleFactor);
+        Log.d("BODINA-Draw", "-----> Escalem " + g_ScaleFactor);
         canvas.translate(mPosX, mPosY);
-        canvas.scale(scaleFactor, scaleFactor);
-
+        canvas.scale(g_ScaleFactor, g_ScaleFactor);
         //draw view
         canvas.drawBitmap(g_CanvasBitmap, 0, 0, g_PaintCanvas);
         //Log.d("BODINA-OnDraw-Reset", "------------------------------------------------------------------------------------------------");
@@ -270,8 +258,10 @@ public class SimpleDrawView extends RelativeLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent p_Event) {
-        float l_X = p_Event.getX();
-        float l_Y = p_Event.getY();
+        //float l_X = p_Event.getX();
+        //float l_Y = p_Event.getY();
+        float l_X = p_Event.getX() * g_ScaleFactor;
+        float l_Y = p_Event.getY() * g_ScaleFactor;
         texte l_Texte;
         PointF l_ActualPoint = new PointF(l_X, l_Y);
         Rect l_Detector, l_Esborrar;
@@ -280,16 +270,16 @@ public class SimpleDrawView extends RelativeLayout {
 
         // Validem primer si hi han "gestos": doble tap
         g_GestureDetector.onTouchEvent(p_Event);
-        // Validem escalat si
-        gestureScale.onTouchEvent(p_Event);
-        if (!gestureScale.isInProgress()){
-            Log.d("BODINA-Touch", "-----> Continuem");
+        // Validem escalat nomès amb la ma? Per evitar lios, o ens la juguem?
+        if (g_ModusDibuix == g_Modus.ma) {
+            g_GestureScale.onTouchEvent(p_Event);
+        }
+        if (!g_GestureScale.isInProgress()){
+        // Validem si l'eina es la "ma"
+        //if (g_ModusDibuix != g_Modus.ma ){
             // Continuem
-            Log.d("BODINA-Touch", "-----> Continuem1");
             g_PuntActual = l_ActualPoint;
-            Log.d("BODINA-Touch", "-----> Continuem2");
             final int action = p_Event.getAction();
-            Log.d("BODINA-Touch", "-----> Continuem3");
             switch (action & MotionEvent.ACTION_MASK) {
                 case MotionEvent.ACTION_DOWN:
                     switch (g_ModusDibuix) {
@@ -302,18 +292,19 @@ public class SimpleDrawView extends RelativeLayout {
                                 Log.d("BODINA-Draw", "-----> Definim detector");
                                 g_PrimerPuntDibuix = l_ActualPoint;
                                 g_DetectorIni = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
-                                        Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
-
+                                                         Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
                             }
                             g_PuntInicialLinia = l_ActualPoint;
-                            //
-                            // ??????????????????????????
                             //
                             // Afegim la linia que anem definint si no es la primera, que tingui algo.
                             Log.d("BODINA-Draw", "-----> g_LiniaPunts.size(): " + g_LiniaPunts.size());
                             // Validem si tenim punter per seguir el planol
                             if (g_Punter != null) {
-                                // Definim el rectangle inicial de conexio per validar que continuem, sino, no fem res
+                                if (g_ScaleFactor != 1){
+                                    // Hem de recalcular
+                                    l_Detector = new Rect(Math.round(l_ActualPoint.x/g_ScaleFactor) - 30, Math.round(l_ActualPoint.y/g_ScaleFactor) - 30,
+                                            Math.round(l_ActualPoint.x/g_ScaleFactor) + 30, Math.round(l_ActualPoint.y/g_ScaleFactor) + 30);
+                                }
                                 l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
                                         Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
                                 if (l_Detector.intersect(g_Punter)) {
@@ -353,16 +344,16 @@ public class SimpleDrawView extends RelativeLayout {
                                 // Podem dibuixar
                                 g_IniciDibuix = true;
                             }
-                            // ??????? Es necesari
-                            //invalidate();
 
+                            // EXperiment escala
                             mActivePointerId = p_Event.getPointerId(0);
 
                             break;
 
                         case texte:
                             Log.d("BODINA-Draw", "-----> Inici texte");
-                            // Validem si hem tocat un texte
+                            // Validem si hem tocat un texte que volem arrosegar
+                            // (recorda que per editar un texte cal fer un doble tap)
                             l_Detector = new Rect(Math.round(l_ActualPoint.x) - 50, Math.round(l_ActualPoint.y) - 50,
                                                   Math.round(l_ActualPoint.x) + 50, Math.round(l_ActualPoint.y) + 50);
                             l_Texte = MarquemTexte(l_Detector);
@@ -374,6 +365,9 @@ public class SimpleDrawView extends RelativeLayout {
                                 g_TexteSeleccionat = null;
                                 FinestraTexte(Globals.g_Native.getResources().getString(R.string.Text));
                             }
+                            break;
+
+                        case ma:
                             break;
                     }
                     // Per si fem pitch
@@ -433,7 +427,6 @@ public class SimpleDrawView extends RelativeLayout {
                             break;
 
                         case recta:
-                            Log.d("BODINA-Touch", "-----> Continuem5");
                             if (g_IniciDibuix) {
                                 if (g_LiniaPunts.size() == 1) {
                                     // Afegim punt (el altre punt es el inicial)
@@ -474,7 +467,6 @@ public class SimpleDrawView extends RelativeLayout {
                     break;
 
                 case MotionEvent.ACTION_UP:
-                    Log.d("BODINA-Touch", "-----> Continuem6");
                     switch (g_ModusDibuix) {
                         case recta:
                         case curva:
@@ -539,7 +531,7 @@ public class SimpleDrawView extends RelativeLayout {
             }
         }
         else{
-            Log.d("BODINA-Touch", "Hem escalat");
+            Log.d("BODINA-Touch", "Estem fent un escalat");
         }
         return true;
     }
@@ -551,37 +543,61 @@ public class SimpleDrawView extends RelativeLayout {
             Rect l_DetectorIni;
             texte l_Texte;
             final EditText l_Input;
+            float l_X = p_Event.getX() * g_ScaleFactor;
+            float l_Y = p_Event.getY() * g_ScaleFactor;
 
-            l_DetectorIni = new Rect(Math.round(p_Event.getX()) - 50, Math.round(p_Event.getY()) - 50,
-                                     Math.round(p_Event.getX()) + 50, Math.round(p_Event.getY()) + 50);
-            l_Texte = MarquemTexte(l_DetectorIni);
-            if (l_Texte != null){
-                Log.d("BODINA-Down", "--------> Tocat " + l_Texte.Texte);
-                g_TexteSeleccionat = l_Texte;
-                l_Input = new EditText(g_Pare);
-                // Mostrem una finestra per modificar el texte
-                AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(g_Pare);
-                g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolTITAddTexte));
-                g_alertDialogBuilder.setView(l_Input);
-                l_Input.setText(l_Texte.Texte);
-                g_alertDialogBuilder
-                        .setCancelable(false)
-                        .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface p_dialog, int which) {
-                                g_TexteSeleccionat.Texte = l_Input.getText().toString();
-                                invalidate();
-                            }
-                        })
-                        .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface p_dialog, int p_id) {
-                            }
-                        });
-                g_alertDialogBuilder.show();
+            switch (g_ModusDibuix) {
+
+                case ma:
+                    // Recuperem escala i posicio (ho podriem animar!)
+                    g_ScaleFactor = 1;
+                    mPosX = 0;
+                    mPosY = 0;
+                    break;
+
+                default:
+                    l_DetectorIni = new Rect(Math.round(l_X) - 50, Math.round(l_Y) - 50,
+                                             Math.round(l_X) + 50, Math.round(l_Y) + 50);
+                    l_Texte = MarquemTexte(l_DetectorIni);
+                    if (l_Texte != null) {
+                        Log.d("BODINA-Down", "--------> Tocat " + l_Texte.Texte);
+                        g_TexteSeleccionat = l_Texte;
+                        l_Input = new EditText(g_Pare);
+                        // Mostrem una finestra per modificar el texte
+                        AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(g_Pare);
+                        g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolTITAddTexte));
+                        g_alertDialogBuilder.setView(l_Input);
+                        l_Input.setText(l_Texte.Texte);
+                        g_alertDialogBuilder
+                                .setCancelable(false)
+                                .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface p_dialog, int which) {
+                                        g_TexteSeleccionat.Texte = l_Input.getText().toString();
+                                        invalidate();
+                                    }
+                                })
+                                .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface p_dialog, int p_id) {
+                                    }
+                                });
+                        g_alertDialogBuilder.show();
+                    } else {
+                        Log.d("BODINA-Down", "--------> Nou " + g_NouTexte + ".");
+                    }
             }
-            else {
-                Log.d("BODINA-Down", "--------> Nou " + g_NouTexte + ".");
-            }
+            return true;
+        }
+    }
+
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector p_Detector) {
+            g_ScaleFactor *= p_Detector.getScaleFactor();
+            Log.d("BODINA-Scale", "Escala canvia " + g_ScaleFactor);
+            // Don't let the object get too small or too large.
+            g_ScaleFactor = Math.max(0.1f, Math.min(g_ScaleFactor, 5.0f));
+            invalidate();
             return true;
         }
     }
