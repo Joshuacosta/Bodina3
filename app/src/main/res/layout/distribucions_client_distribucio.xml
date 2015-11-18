@@ -1,0 +1,124 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.example.it00046.bodina3.Classes.DistribucioView
+        android:id="@+id/DistribucionsClientDistribucioVIWDrawing"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_weight="1"
+        android:background="@color/white" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/DistribucionsClientDistribucioIMBEsborrar"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="12dp"
+        android:layout_gravity="left|top"
+        android:background="@drawable/ic_delete_black_36dp" />
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/DistribucionsClientDistribucioFLMEines2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom|left"
+        fab:menu_icon="@drawable/ic_info_outline_black_24dp"
+        fab:menu_colorNormal="@color/blue"
+        fab:menu_backgroundColor="@color/white"
+        fab:menu_labels_ellipsize="end"
+        fab:menu_labels_singleLine="true"
+        fab:menu_labels_position="right">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/DistribucionsClientDistribucioFLBQuadricula"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_border_all_white_24dp"
+            fab:fab_size="mini"
+            fab:fab_label="@string/SalonsClientPlanolLABQuadricula"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/DistribucionsClientDistribucioFLBEscala"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_settings_overscan_white_24dp"
+            fab:fab_size="mini"
+            fab:fab_label="@string/SalonsClientPlanolLABEscala"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/DistribucionsClientDistribucioFLBUnitats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_format_size_white_24dp"
+            fab:fab_size="mini"
+            fab:fab_label="@string/SalonsClientPlanolLABUnitats" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/DistribucionsClientDistribucioFLMEines"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom|right"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        fab:menu_showShadow="false"
+        fab:menu_buttonSpacing="2dp"
+        fab:menu_colorNormal="@color/green"
+        fab:menu_backgroundColor="@color/white"
+        fab:menu_labels_singleLine="true"
+        fab:menu_labels_position="left">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/DistribucionsClientDistribucioFLBMa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_ma_blanc_24"
+            fab:fab_size="mini"
+            fab:fab_showShadow="false"
+            fab:fab_label="@string/SalonsClientPlanolLABMa" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/DistribucionsClientDistribucioFLBCurva"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_gesture_white_24dp"
+            fab:fab_size="mini"
+            fab:fab_showShadow="false"
+            fab:fab_label="@string/SalonsClientPlanolLABCurva"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/DistribucionsClientDistribucioFLBTexte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_format_color_text_white_24dp"
+            fab:fab_size="mini"
+            fab:fab_showShadow="false"
+            fab:fab_label="@string/SalonsClientPlanolLABTexte" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/DistribucionsClientDistribucioFLBRecta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_border_color_white_24dp"
+            fab:fab_size="mini"
+            fab:fab_showShadow="false"
+            fab:fab_label="@string/SalonsClientPlanolLABRecta"/>
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/DistribucionsClientDistribucioIMBAjuda"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="bottom|center"
+        android:background="@drawable/ic_help_black_24dp" />
+
+</FrameLayout>

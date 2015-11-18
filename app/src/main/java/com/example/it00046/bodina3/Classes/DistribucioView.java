@@ -1,20 +1,19 @@
 package com.example.it00046.bodina3.Classes;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.content.Context;
-import android.util.AttributeSet;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Path;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.widget.EditText;
@@ -25,7 +24,7 @@ import com.example.it00046.bodina3.R;
 
 import java.util.ArrayList;
 
-public class SimpleDrawView extends RelativeLayout {
+public class DistribucioView extends RelativeLayout {
 
 
     ///////////////////////////////////////////////////
@@ -97,7 +96,7 @@ public class SimpleDrawView extends RelativeLayout {
         }
     }
 
-    public SimpleDrawView(Context p_Context, AttributeSet p_Attrs){
+    public DistribucioView(Context p_Context, AttributeSet p_Attrs){
         super(p_Context, p_Attrs);
         setupDrawing();
         // Definim el gesture detector
