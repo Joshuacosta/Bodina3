@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -258,9 +259,10 @@ public class SimpleDrawView extends RelativeLayout {
             if (l_Texte.Esborrat == false) {
                 if (l_Texte.Esborrantse == false) {
                     // Escalem el detector (per si hem escalat tot)
-                    l_Texte.Detector = scale(l_Texte.Detector);
+                    //l_Texte.Detector = scale(l_Texte.Detector);
                     // Pintem el texte
                     canvas.drawText(l_Texte.Texte, l_Texte.Punt.x, l_Texte.Punt.y, g_PaintText);
+                    canvas.drawRect(l_Texte.Detector, g_PaintFinal);
                 }
                 else{
                     canvas.drawText(l_Texte.Texte, l_Texte.Punt.x, l_Texte.Punt.y, g_PaintTextEsborrantse);
@@ -368,7 +370,13 @@ public class SimpleDrawView extends RelativeLayout {
                             // (recorda que per editar un texte cal fer un doble tap)
                             l_Detector = new Rect(Math.round(l_ActualPoint.x) - 50, Math.round(l_ActualPoint.y) - 50,
                                                   Math.round(l_ActualPoint.x) + 50, Math.round(l_ActualPoint.y) + 50);
-                            l_Texte = MarquemTexte(l_Detector);
+                            //l_Texte = MarquemTexte(l_Detector);
+                            Log.d("BODINA-Down", "--------> Actual point " + Math.round(l_ActualPoint.x) + "," + Math.round(l_ActualPoint.y));
+                            Log.d("BODINA-Down", "--------> Escalat" + g_ScaleFactor);
+                            Log.d("BODINA-Down", "--------> Actual point escalat" + Math.round(l_ActualPoint.x * g_ScaleFactor) + "," + Math.round(l_ActualPoint.y * g_ScaleFactor));
+                            //l_Texte = MarquemTexte2(Math.round(l_ActualPoint.x * g_ScaleFactor), Math.round(l_ActualPoint.y * g_ScaleFactor));
+                            //l_Texte = MarquemTexte2(Math.round(l_ActualPoint.x), Math.round(l_ActualPoint.y));
+                            l_Texte = MarquemTexte2(Math.round(l_ActualPoint.x/g_ScaleFactor), Math.round(l_ActualPoint.y/g_ScaleFactor));
                             if (l_Texte != null) {
                                 Log.d("BODINA-Down", "--------> Tocat " + l_Texte.Texte);
                                 g_TexteSeleccionat = l_Texte;
@@ -467,7 +475,7 @@ public class SimpleDrawView extends RelativeLayout {
 
                         case texte:
                             if (g_TexteSeleccionat != null) {
-                                // Movem el punt
+                                // Movem el punt que posiciona el texte
                                 g_TextesPlanol.get(g_TexteSeleccionat.Id).Punt = l_ActualPoint;
                                 // Calculem el detector del texte i validem si ens volen esborrar
                                 l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
@@ -526,15 +534,15 @@ public class SimpleDrawView extends RelativeLayout {
                         case texte:
                             if (g_TexteSeleccionat != null) {
                                 // Recalculem el detector del texte que hem mogut
-                                l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
-                                        Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+                                //l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
+                                //        Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
                                 // Validem si l'usuari ens vol esborrar
                                 l_Esborrar = new Rect();
                                 g_IMB_Esborrar.getHitRect(l_Esborrar);
-                                if (l_Detector.intersect(l_Esborrar)) {
+                                // Movem el detector
+                                g_TexteSeleccionat.Detector.offsetTo(Math.round(l_ActualPoint.x), Math.round(l_ActualPoint.y));
+                                if (g_TexteSeleccionat.Detector.intersect(l_Esborrar)) {
                                     g_TexteSeleccionat.Esborrat = true;
-                                } else {
-                                    g_TexteSeleccionat.Detector = l_Detector;
                                 }
                             }
                             break;
@@ -657,6 +665,21 @@ public class SimpleDrawView extends RelativeLayout {
         return l_Marcat;
     }
 
+    private texte MarquemTexte2(int P_X, int P_Y){
+        texte l_Marcat = null;
+
+        Log.d("BODINA-MarquemTexte2", "g_TextesPlanol.size()");
+        for (int i=0; i < g_TextesPlanol.size(); i++){
+            Log.d("BODINA-MarquemTexte2", "Rect trobat " + g_TextesPlanol.get(i).Detector.top + ", " + g_TextesPlanol.get(i).Detector.left + " / " + g_TextesPlanol.get(i).Detector.bottom + ", " + g_TextesPlanol.get(i).Detector.right);
+            if (g_TextesPlanol.get(i).Detector.contains(P_X, P_Y)){
+                l_Marcat = g_TextesPlanol.get(i);
+                break;
+            }
+        }
+        return l_Marcat;
+    }
+
+
     private void FinestraTexte(final String p_Texte){
         final EditText l_Input;
 
@@ -671,7 +694,7 @@ public class SimpleDrawView extends RelativeLayout {
                 .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface p_dialog, int which) {
-                        EscriuTexte(l_Input.getText().toString(), g_PuntActual);
+                        EscriuTexte(l_Input, g_PuntActual);
                         // Pintem
                         invalidate();
                     }
@@ -683,17 +706,22 @@ public class SimpleDrawView extends RelativeLayout {
         g_alertDialogBuilder.show();
     }
 
-    public texte EscriuTexte(String P_TexteDonat, PointF p_PuntDonat){
+    public texte EscriuTexte(EditText P_TexteDonat, PointF p_PuntDonat){
         // Afegim el texte que ha introduit l'usuari, el posem al mig sino s'indica un altre,
         // el usuari el podra moure
         texte l_Texte = new texte();
-        Rect l_Detector;
+        Rect l_Detector = new Rect();
+        TextPaint l_TextPaint = P_TexteDonat.getPaint();
 
-        l_Detector = new Rect(Math.round(p_PuntDonat.x) - 30, Math.round(p_PuntDonat.y) - 30,
-                              Math.round(p_PuntDonat.x) + 30, Math.round(p_PuntDonat.y) + 30);
+        // Definim el detector del texte
+        //l_Detector = new Rect(Math.round(p_PuntDonat.x), Math.round(p_PuntDonat.y),
+        //                      Math.round(p_PuntDonat.x) + 20, Math.round(p_PuntDonat.y) + 20);
+        l_TextPaint.getTextBounds(P_TexteDonat.getText().toString(), 0, P_TexteDonat.getText().length(), l_Detector);
+        l_Detector.offsetTo(Math.round(p_PuntDonat.x), Math.round(p_PuntDonat.y));
+        // Definim el texte
         l_Texte.Id = g_TextesPlanol.size();
         l_Texte.Detector = l_Detector;
-        l_Texte.Texte = P_TexteDonat;
+        l_Texte.Texte = P_TexteDonat.getText().toString();
         l_Texte.Punt = p_PuntDonat;
         l_Texte.Esborrat = false;
         l_Texte.Esborrantse = false;
