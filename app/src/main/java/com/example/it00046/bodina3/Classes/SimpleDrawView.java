@@ -67,7 +67,7 @@ public class SimpleDrawView extends RelativeLayout {
     //
     public ImageButton g_IMB_Esborrar;
     //
-    private Rect g_Punter = null, g_DetectorIni = null;
+    private Rect g_Punter = null, g_DetectorIni = null, g_CanvasRect = null;
     // prova
     private Rect g_Detector;
     public boolean g_Finalitzat = false, g_Dibuixant = false, g_Quadricula = false, g_IniciDibuix = false;
@@ -163,6 +163,7 @@ public class SimpleDrawView extends RelativeLayout {
         Log.d("BODINA-Draw", "-----> Escalem " + g_ScaleFactor);
         canvas.translate(mPosX, mPosY);
         canvas.scale(g_ScaleFactor, g_ScaleFactor);
+        g_CanvasRect = canvas.getClipBounds();
         //draw view
         canvas.drawBitmap(g_CanvasBitmap, 0, 0, g_PaintCanvas);
         //Log.d("BODINA-OnDraw-Reset", "------------------------------------------------------------------------------------------------");
@@ -229,15 +230,13 @@ public class SimpleDrawView extends RelativeLayout {
         // l_Linia contindra la darrera linia del dibuix (si hi ha, claar)
         if (g_Finalitzat == false){
             if (l_Linia.size() > 1) {
-                g_Punter = new Rect(Math.round(l_EndPoint.x) - 50, Math.round(l_EndPoint.y) - 50,
-                                    Math.round(l_EndPoint.x) + 50, Math.round(l_EndPoint.y) + 50);
+                g_Punter = new Rect(Math.round(l_EndPoint.x) - 30, Math.round(l_EndPoint.y) - 30,
+                                    Math.round(l_EndPoint.x) + 30, Math.round(l_EndPoint.y) + 30);
                 // Escalem punter (per si hem escalat tot)
-                g_Punter = scale(g_Punter);
+                //g_Punter = scale(g_Punter);
                 // Pintem un cercle on es el detector (crec que queda mes elegant...)
                 canvas.drawCircle(Math.round(l_EndPoint.x), Math.round(l_EndPoint.y), 25, g_PaintNormal);
                 canvas.drawRect(g_Punter, g_PaintFinal);
-                // Per veure
-                canvas.drawRect(g_DetectorIni, g_PaintFinal);
             }
 
             // Prova
@@ -261,6 +260,7 @@ public class SimpleDrawView extends RelativeLayout {
                     // Escalem el detector (per si hem escalat tot)
                     //l_Texte.Detector = scale(l_Texte.Detector);
                     // Pintem el texte
+                    //canvas.drawText(l_Texte.Texte, (l_Texte.Punt.x/g_ScaleFactor + mPosX), (l_Texte.Punt.y/g_ScaleFactor + mPosY), g_PaintText);
                     canvas.drawText(l_Texte.Texte, l_Texte.Punt.x, l_Texte.Punt.y, g_PaintText);
                     canvas.drawRect(l_Texte.Detector, g_PaintFinal);
                 }
@@ -306,20 +306,17 @@ public class SimpleDrawView extends RelativeLayout {
                             if (g_PrimerPuntDibuix == null) {
                                 Log.d("BODINA-Draw", "-----> Definim detector");
                                 g_PrimerPuntDibuix = l_ActualPoint;
-                                g_DetectorIni = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
-                                                         Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+                                g_DetectorIni = new Rect(Math.round(l_ActualPoint.x/g_ScaleFactor) - 30, Math.round(l_ActualPoint.y/g_ScaleFactor) - 30,
+                                                         Math.round(l_ActualPoint.x/g_ScaleFactor) + 30, Math.round(l_ActualPoint.y/g_ScaleFactor) + 30);
                             }
-                            g_DetectorIni = scale(g_DetectorIni);
+                            //g_DetectorIni = scale(g_DetectorIni);
                             g_PuntInicialLinia = l_ActualPoint;
-                            //
-                            // Afegim la linia que anem definint si no es la primera, que tingui algo.
-                            Log.d("BODINA-Draw", "-----> g_LiniaPunts.size(): " + g_LiniaPunts.size());
                             // Validem si tenim punter per seguir el planol
                             if (g_Punter != null) {
                                 //l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
                                 //        Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
-                                g_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
-                                        Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+                                g_Detector = new Rect(Math.round(l_ActualPoint.x/g_ScaleFactor) - 30, Math.round(l_ActualPoint.y/g_ScaleFactor) - 30,
+                                                      Math.round(l_ActualPoint.x/g_ScaleFactor) + 30, Math.round(l_ActualPoint.y/g_ScaleFactor) + 30);
                                 //if (l_Detector.intersect(g_Punter)) {
                                 if (g_Detector.intersect(g_Punter)) {
                                     // Tenim linia
@@ -368,15 +365,10 @@ public class SimpleDrawView extends RelativeLayout {
                             Log.d("BODINA-Draw", "-----> Inici texte");
                             // Validem si hem tocat un texte que volem arrosegar
                             // (recorda que per editar un texte cal fer un doble tap)
-                            l_Detector = new Rect(Math.round(l_ActualPoint.x) - 50, Math.round(l_ActualPoint.y) - 50,
-                                                  Math.round(l_ActualPoint.x) + 50, Math.round(l_ActualPoint.y) + 50);
-                            //l_Texte = MarquemTexte(l_Detector);
-                            Log.d("BODINA-Down", "--------> Actual point " + Math.round(l_ActualPoint.x) + "," + Math.round(l_ActualPoint.y));
-                            Log.d("BODINA-Down", "--------> Escalat" + g_ScaleFactor);
-                            Log.d("BODINA-Down", "--------> Actual point escalat" + Math.round(l_ActualPoint.x * g_ScaleFactor) + "," + Math.round(l_ActualPoint.y * g_ScaleFactor));
-                            //l_Texte = MarquemTexte2(Math.round(l_ActualPoint.x * g_ScaleFactor), Math.round(l_ActualPoint.y * g_ScaleFactor));
-                            //l_Texte = MarquemTexte2(Math.round(l_ActualPoint.x), Math.round(l_ActualPoint.y));
-                            l_Texte = MarquemTexte2(Math.round(l_ActualPoint.x/g_ScaleFactor), Math.round(l_ActualPoint.y/g_ScaleFactor));
+                            l_Detector = new Rect(Math.round(l_ActualPoint.x/g_ScaleFactor) - 30, Math.round(l_ActualPoint.y/g_ScaleFactor) - 30,
+                                                  Math.round(l_ActualPoint.x/g_ScaleFactor) + 30, Math.round(l_ActualPoint.y/g_ScaleFactor) + 30);
+                            //l_Texte = MarquemTexte2(Math.round(l_ActualPoint.x/g_ScaleFactor), Math.round(l_ActualPoint.y/g_ScaleFactor));
+                            l_Texte = MarquemTexte(l_Detector);
                             if (l_Texte != null) {
                                 Log.d("BODINA-Down", "--------> Tocat " + l_Texte.Texte);
                                 g_TexteSeleccionat = l_Texte;
@@ -451,24 +443,19 @@ public class SimpleDrawView extends RelativeLayout {
                                 if (g_LiniaPunts.size() == 1) {
                                     // Afegim punt (el altre punt es el inicial)
                                     l_Punt = new punt();
-                                    l_Punt.Punt = l_ActualPoint;
+                                    //l_Punt.Punt = l_ActualPoint;
+                                    l_Punt.Punt = new PointF(l_ActualPoint.x/g_ScaleFactor + mPosX, l_ActualPoint.y/g_ScaleFactor + mPosY);
                                     l_Punt.Descartat = false;
                                     l_Punt.Angle = 0.0;
                                     g_LiniaPunts.add(l_Punt);
                                 } else {
                                     // Modifiquem el punt final
                                     l_Aux = g_LiniaPunts.get(1);
-                                    l_Aux.Punt = l_ActualPoint;
+                                    //l_Aux.Punt = l_ActualPoint;
+                                    l_Aux.Punt = new PointF(l_ActualPoint.x/g_ScaleFactor, l_ActualPoint.y/g_ScaleFactor);
                                     g_LiniaPunts.set(1, l_Aux);
                                 }
                                 g_Dibuixant = true;
-
-                                // Prova
-                                g_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
-                                                      Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
-
-                                g_Detector = scale(g_Detector);
-
                                 invalidate();
                             }
                             break;
@@ -476,10 +463,10 @@ public class SimpleDrawView extends RelativeLayout {
                         case texte:
                             if (g_TexteSeleccionat != null) {
                                 // Movem el punt que posiciona el texte
-                                g_TextesPlanol.get(g_TexteSeleccionat.Id).Punt = l_ActualPoint;
+                                g_TextesPlanol.get(g_TexteSeleccionat.Id).Punt = new PointF(l_ActualPoint.x/g_ScaleFactor + mPosX, l_ActualPoint.y/g_ScaleFactor + mPosY);
                                 // Calculem el detector del texte i validem si ens volen esborrar
-                                l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
-                                                      Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+                                l_Detector = new Rect(Math.round(l_ActualPoint.x/g_ScaleFactor) - 30, Math.round(l_ActualPoint.y/g_ScaleFactor) - 30,
+                                                      Math.round(l_ActualPoint.x/g_ScaleFactor) + 30, Math.round(l_ActualPoint.y/g_ScaleFactor) + 30);
                                 l_Esborrar = new Rect();
                                 g_IMB_Esborrar.getHitRect(l_Esborrar);
                                 if (l_Detector.intersect(l_Esborrar)) {
@@ -498,8 +485,11 @@ public class SimpleDrawView extends RelativeLayout {
                         case recta:
                         case curva:
                             if (g_Dibuixant) {
-                                l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
-                                        Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+                                //l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
+                                //        Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+                                l_Detector = new Rect(Math.round(l_ActualPoint.x/g_ScaleFactor + mPosX) - 30, Math.round(l_ActualPoint.y/g_ScaleFactor + mPosY) - 30,
+                                                      Math.round(l_ActualPoint.x/g_ScaleFactor+ mPosX) + 30, Math.round(l_ActualPoint.y/g_ScaleFactor + mPosY) + 30);
+                                //.offsetTo(Math.round(l_ActualPoint.x/g_ScaleFactor + mPosX), Math.round(l_ActualPoint.y/g_ScaleFactor + mPosY));
                                 if (l_Detector.intersect(g_DetectorIni)) {
                                     Log.d("BODINA-TouchUP", "------------------------ Enganxat");
                                     // Modifiquem el darrer punt perque apunti exacatament al inici
@@ -540,7 +530,7 @@ public class SimpleDrawView extends RelativeLayout {
                                 l_Esborrar = new Rect();
                                 g_IMB_Esborrar.getHitRect(l_Esborrar);
                                 // Movem el detector
-                                g_TexteSeleccionat.Detector.offsetTo(Math.round(l_ActualPoint.x), Math.round(l_ActualPoint.y));
+                                g_TexteSeleccionat.Detector.offsetTo(Math.round(l_ActualPoint.x/g_ScaleFactor + mPosX), Math.round(l_ActualPoint.y/g_ScaleFactor + mPosY));
                                 if (g_TexteSeleccionat.Detector.intersect(l_Esborrar)) {
                                     g_TexteSeleccionat.Esborrat = true;
                                 }
@@ -665,7 +655,7 @@ public class SimpleDrawView extends RelativeLayout {
         return l_Marcat;
     }
 
-    private texte MarquemTexte2(int P_X, int P_Y){
+    private texte MarquemTextePunt(int P_X, int P_Y){
         texte l_Marcat = null;
 
         Log.d("BODINA-MarquemTexte2", "g_TextesPlanol.size()");
