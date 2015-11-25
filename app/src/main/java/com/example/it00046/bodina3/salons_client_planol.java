@@ -92,16 +92,6 @@ public class salons_client_planol  extends ActionBarActivity {
                 l_FLM_Eines.close(true);
             }
         });
-        l_FLB_Ma = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBMa);
-        l_FLB_Ma.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.ma;
-                // Cambien el icon de eines
-                l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_ma_blanc_24));
-                l_FLM_Eines.close(true);
-            }
-        });
         // Sub-menus 2
         l_FLB_Quadricula = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBQuadricula);
         l_FLB_Quadricula.setOnClickListener(new Button.OnClickListener() {
