@@ -350,10 +350,6 @@ public class SimpleDrawView extends RelativeLayout {
                                     g_DetectorIni = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
                                             Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
                                 }
-                                else{
-                                    // Movem el dectecto
-                                    g_DetectorIni.offset(Math.round(g_AcumulatX), Math.round(g_AcumulatY));
-                                }
                                 g_PuntInicialLinia = l_ActualPoint;
                                 // Validem si tenim punter per seguir el planol
                                 if (g_Punter != null) {
@@ -476,9 +472,14 @@ public class SimpleDrawView extends RelativeLayout {
                                 // Move the object
                                 mPosX = dx;
                                 mPosY = dy;
+                                g_AcumulatX += dx;
+                                g_AcumulatY += dy;
                                 // Remember this touch position for the next move event
                                 mLastTouchX = l_X;
                                 mLastTouchY = l_Y;
+                                // Movem el detectors si estem desplazant amb el dit
+                                g_DetectorIni.offset(Math.round(mPosX), Math.round(mPosY));
+                                g_PuntInicialLinia.offset(Math.round(mPosX), Math.round(mPosY));
                                 //
                                 invalidate();
                             }
@@ -518,6 +519,9 @@ public class SimpleDrawView extends RelativeLayout {
                                 // Guardem la darrera posicio
                                 mLastTouchX = l_X;
                                 mLastTouchY = l_Y;
+                                // Movem els detectors si estem desplazant amb el dit
+                                g_DetectorIni.offset(Math.round(mPosX), Math.round(mPosY));
+                                g_PuntInicialLinia.offset(Math.round(mPosX), Math.round(mPosY));
                                 //
                                 invalidate();
                             }
@@ -551,6 +555,7 @@ public class SimpleDrawView extends RelativeLayout {
                             if (g_Dibuixant) {
                                 l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
                                             Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+                                l_Detector.offset(Math.round(mPosX), Math.round(mPosY));
                                 // Validem que hagui fet una linia o curva llarga (o fem validant que no intersecti amb el punt inicial)
                                 if (l_Detector.contains(Math.round(g_PuntInicialLinia.x), Math.round(g_PuntInicialLinia.y))) {
                                     // Hem apretat i res mes (no ens hem desplaçat). Esborrem la linia
@@ -572,19 +577,6 @@ public class SimpleDrawView extends RelativeLayout {
                                         // Indiquem que ja esta esta finalitzat (perque sigui detectat en el invalidate)
                                         g_Finalitzat = true;
                                         g_LiniesPlanol.add(g_LiniaPunts);
-                                    }
-                                    else {
-                                        g_PuntFinalAnterior = l_ActualPoint;
-                                        // Afegim el darrer punt (i que no es
-                                        // descarti)l_Aux = new punt();
-                                        l_Aux.Punt = g_PuntFinalAnterior;
-                                        l_Aux.Descartat = false;
-                                        l_Aux.Angle = -999.0;
-                                        //g_LiniaPunts.add(l_Aux);
-                                        // Afegim la linia
-                                        //LiniesPlanol.add(PuntsPlanol);
-                                        //PuntsPlanol = new ArrayList<punt>();
-                                        // Log.d("BODINA-TouchUP", "------------------------ NO enganxat");
                                     }
                                 }
                                 // Netegem linia
