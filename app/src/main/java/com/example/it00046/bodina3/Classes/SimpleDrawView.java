@@ -31,8 +31,8 @@ public class SimpleDrawView extends RelativeLayout {
     private ScaleGestureDetector g_GestureScale;
     private float g_ScaleFactor = 1;
     private float scaleFactorAnterior = 1;
-    static private float mPosX = 0;
-    static private float mPosY = 0;
+    static private float g_mPosX = 0;
+    static private float g_mPosY = 0;
     static private float g_AcumulatX = 0;
     static private float g_AcumulatY = 0;
     private float mLastTouchX;
@@ -59,17 +59,13 @@ public class SimpleDrawView extends RelativeLayout {
     // Modes i variables de treball de dibuix
     public enum g_Modus {recta,curva,texte};
     public g_Modus g_ModusDibuix = g_Modus.recta;
-    public g_Modus g_ModusDibuixAnterior = null;
     static public int g_RatioDistancia = 20; // Es la finura de la curva
     static public int g_RatioAngle =15; // Idem, podrien ser parametritzables?
     // Constants
     private static final int k_CorrecioBaseDistancia = 8;
-    //
     public ImageButton g_IMB_Esborrar;
     //
     private Rect g_Punter = null, g_DetectorIni = null, g_CanvasRect = null;
-    // prova
-    private Rect g_Detector;
     public boolean g_Finalitzat = false, g_Dibuixant = false, g_Quadricula = false, g_IniciDibuix = false;
     static private int g_CenterX = 0, g_CenterY = 0;
     private int g_Escala = 20;
@@ -79,6 +75,7 @@ public class SimpleDrawView extends RelativeLayout {
         public PointF Punt;
         public Double Angle;
         public Boolean Descartat = false;
+        public Boolean Curva = false;
         public void punt(){
         }
     }
@@ -150,8 +147,8 @@ public class SimpleDrawView extends RelativeLayout {
         g_PaintTextEsborrantse.setColor(Color.RED);
         g_PaintTextEsborrantse.setTextSize(35);
         // Inicialitzem variables estatiques (oju!)
-        mPosX = 0;
-        mPosY = 0;
+        g_mPosX = 0;
+        g_mPosY = 0;
         g_AcumulatX = 0;
         g_AcumulatY = 0;
     }
@@ -169,6 +166,8 @@ public class SimpleDrawView extends RelativeLayout {
     @Override
     protected void onDraw(Canvas canvas) {
         PointF l_EndPoint = null, l_StartPoint, l_MigPoint, l_TextePoint;
+        PointF l_StartPointCurva = null, l_EndPointCurva = null;
+        Boolean l_Curva = false, l_CalcularDistanciaCurva = false, l_HemProcessat = false;
         ArrayList<punt> l_Linia = new ArrayList<>();
         punt l_PuntActual, l_Seguent;
         Path l_Quadricula = new Path();
@@ -177,7 +176,7 @@ public class SimpleDrawView extends RelativeLayout {
 
         canvas.save();
         Log.d("BODINA-Draw", "-----> Escalem " + g_ScaleFactor);
-        //canvas.translate(mPosX, mPosY);
+        //canvas.translate(g_mPosX, g_mPosY);
         canvas.scale(g_ScaleFactor, g_ScaleFactor);
         g_CanvasRect = canvas.getClipBounds();
         //draw view
@@ -211,6 +210,7 @@ public class SimpleDrawView extends RelativeLayout {
         g_drawPath.reset();
         Log.d("BODINA-OnDraw-Punt", "Numero de linies " + g_LiniesPlanol.size());
         for (int j=0; j < g_LiniesPlanol.size(); j++) {
+            l_HemProcessat = false;
             // Agafem linia
             Log.d("BODINA-OnDraw-Punt", " ");
             Log.d("BODINA-OnDraw-Punt", " ");
@@ -218,8 +218,16 @@ public class SimpleDrawView extends RelativeLayout {
             l_Linia = g_LiniesPlanol.get(j);
             // Recuperem primer punt de la linia
             l_StartPoint = l_Linia.get(0).Punt;
-            Log.d("BODINA-OnDraw-Punt", "StartPoint            " + l_StartPoint.x + ", " + l_StartPoint.y + "//" + mPosX + " / " + mPosY);
-            l_StartPoint.offset(mPosX, mPosY);
+            // Validem si la linia es una curva (perque els punt ho son) ens quedem amb el primer
+            if (l_Linia.get(0).Curva){
+                l_Curva = true;
+                l_StartPointCurva = l_StartPoint;
+            }
+            else{
+                l_Curva = false;
+            }
+            Log.d("BODINA-OnDraw-Punt", "StartPoint            " + l_StartPoint.x + ", " + l_StartPoint.y + "//" + g_mPosX + " / " + g_mPosY);
+            l_StartPoint.offset(g_mPosX, g_mPosY);
             Log.d("BODINA-OnDraw-Punt", "StartPoint amb offset " + l_StartPoint.x + ", " + l_StartPoint.y);
             // Si estem a la primera linia ens posicionem "al principi" amb un move
             if (j==0) {
@@ -233,40 +241,77 @@ public class SimpleDrawView extends RelativeLayout {
                     // Anem pintant els punts on en funcio de l'eine tindrem "mes o menys" i aixó fara que fem l'efecte
                     // de la curva
                     l_EndPoint = l_PuntActual.Punt;
+                    if (l_Curva){
+                        l_EndPointCurva = l_EndPoint;
+                    }
                     Log.d("BODINA-OnDraw-Punt", " ");
-                    Log.d("BODINA-OnDraw-Punt", "EndPoint            " + l_EndPoint.x + ", " + l_EndPoint.y + "//" + mPosX + " / " + mPosY);
-                    l_EndPoint.offset(mPosX, mPosY);
+                    Log.d("BODINA-OnDraw-Punt", "EndPoint            " + l_EndPoint.x + ", " + l_EndPoint.y + "//" + g_mPosX + " / " + g_mPosY);
+                    // Validem que a la darrera linia el darrer punt -que es el primer si es tancat- no li tornem
+                    // a fer un offset si el dibuix es terminat
+                    if (!l_Curva) {
+                        if (j != g_LiniesPlanol.size() - 1) {
+                            l_EndPoint.offset(g_mPosX, g_mPosY);
+                        }
+                        else {
+                            // Si estem a la ultima pero no hem tancat el primer punt i el darrer
+                            // "encara" no son el mateix
+                            if (!g_Finalitzat) {
+                                l_EndPoint.offset(g_mPosX, g_mPosY);
+                            }
+                        }
+                    }
+                    else{
+                        l_EndPoint.offset(g_mPosX, g_mPosY);
+                    }
+
                     Log.d("BODINA-OnDraw-Punt", "EndPoint amb offset " + l_EndPoint.x + ", " + l_EndPoint.y);
                     if (i < l_Linia.size() - 1) {
                         l_Seguent = l_Linia.get(i + 1);
                         l_MigPoint = l_Seguent.Punt;
-                        l_MigPoint.offset(mPosX, mPosY);
-                        //g_drawPath.quadTo(l_Actual.Punt.x, l_Actual.Punt.y, l_Seguent.Punt.x, l_Seguent.Punt.y);
+                        l_MigPoint.offset(g_mPosX, g_mPosY);
                         g_drawPath.quadTo(l_EndPoint.x, l_EndPoint.y, l_MigPoint.x, l_MigPoint.y);
                     }
                     else {
-                        Log.d("BODINA-OnDraw-LINE", String.valueOf(i));
                         g_drawPath.lineTo(l_EndPoint.x, l_EndPoint.y);
                     }
                 }
                 else {
                     Log.d("BODINA-OnDraw-NO Pintem", String.valueOf(i));
                 }
-                // Pintem la longitut en el punt mig (agafem primer punt i darrer de la linia)
-                Log.d("BODINA-OnDraw-Punt", " ");
-                Log.d("BODINA-OnDraw-Punt", "Distancia calculada " + CalculaDistancia(l_StartPoint, l_EndPoint));
-                l_Distancia = EscalaDistancia(CalculaDistancia(l_StartPoint, l_EndPoint));
-                // Pintem cercle
-                g_PaintFinal.getTextBounds(l_Distancia, 0, l_Distancia.length(), l_RectDistancia);
-                canvas.drawCircle(((l_EndPoint.x + l_StartPoint.x) / 2) + l_RectDistancia.centerX(),
-                        ((l_EndPoint.y + l_StartPoint.y) / 2) + l_RectDistancia.centerY(),
-                        l_RectDistancia.width() + k_CorrecioBaseDistancia,
-                        g_PaintTextDistanciaBase);
-                // Pintem distancia
-                canvas.drawText(l_Distancia,
-                        (l_EndPoint.x + l_StartPoint.x) / 2,
-                        (l_EndPoint.y + l_StartPoint.y) / 2,
-                        g_PaintTextDistancia);
+                l_HemProcessat = true;
+            }
+            if (l_HemProcessat) {
+                if (l_Curva) {
+                    Log.d("BODINA-OnDraw-Punt", "Distancia calculada per una curva " + CalculaDistancia(l_StartPointCurva, l_EndPointCurva));
+                    l_Distancia = EscalaDistancia(CalculaDistancia(l_StartPointCurva, l_EndPointCurva));
+                    // Pintem cercle
+                    g_PaintFinal.getTextBounds(l_Distancia, 0, l_Distancia.length(), l_RectDistancia);
+                    canvas.drawCircle(((l_EndPointCurva.x + l_StartPointCurva.x) / 2) + l_RectDistancia.centerX(),
+                            ((l_EndPointCurva.y + l_StartPointCurva.y) / 2) + l_RectDistancia.centerY(),
+                            l_RectDistancia.width() + k_CorrecioBaseDistancia,
+                            g_PaintTextDistanciaBase);
+                    // Pintem distancia
+                    canvas.drawText(l_Distancia,
+                            (l_EndPointCurva.x + l_StartPointCurva.x) / 2,
+                            (l_EndPointCurva.y + l_StartPointCurva.y) / 2,
+                            g_PaintTextDistancia);
+                    l_StartPointCurva = null;
+                    l_EndPointCurva = null;
+                } else {
+                    Log.d("BODINA-OnDraw-Punt", "Distancia calculada " + CalculaDistancia(l_StartPoint, l_EndPoint));
+                    l_Distancia = EscalaDistancia(CalculaDistancia(l_StartPoint, l_EndPoint));
+                    // Pintem cercle
+                    g_PaintFinal.getTextBounds(l_Distancia, 0, l_Distancia.length(), l_RectDistancia);
+                    canvas.drawCircle(((l_EndPoint.x + l_StartPoint.x) / 2) + l_RectDistancia.centerX(),
+                            ((l_EndPoint.y + l_StartPoint.y) / 2) + l_RectDistancia.centerY(),
+                            l_RectDistancia.width() + k_CorrecioBaseDistancia,
+                            g_PaintTextDistanciaBase);
+                    // Pintem distancia
+                    canvas.drawText(l_Distancia,
+                            (l_EndPoint.x + l_StartPoint.x) / 2,
+                            (l_EndPoint.y + l_StartPoint.y) / 2,
+                            g_PaintTextDistancia);
+                }
             }
         }
         // l_Linia contindra la darrera linia del dibuix (si hi ha, clar)
@@ -286,13 +331,13 @@ public class SimpleDrawView extends RelativeLayout {
         }
         // ///////////////////////////////////////////////////////////////////////////////////////
         // Pintem textes
-        Log.d("BODINA-Draw", "-----> Textes " + g_TextesPlanol.size() + "/ Desplaçament " + mPosX + ", " + mPosY);
+        Log.d("BODINA-Draw", "-----> Textes " + g_TextesPlanol.size() + "/ Desplaçament " + g_mPosX + ", " + g_mPosY);
         for (int k=0; k < g_TextesPlanol.size(); k++) {
             // Validem si el texte l'han esborrat
             if (g_TextesPlanol.get(k).Esborrat == false) {
                 // Movem el punt
                 l_TextePoint = g_TextesPlanol.get(k).Punt;
-                l_TextePoint.offset(mPosX, mPosY);
+                l_TextePoint.offset(g_mPosX, g_mPosY);
                 // Validant si volen esborrar el texte
                 if (g_TextesPlanol.get(k).Esborrantse == false) {
                     canvas.drawText(g_TextesPlanol.get(k).Texte,
@@ -307,7 +352,7 @@ public class SimpleDrawView extends RelativeLayout {
                                     g_PaintTextEsborrantse);
                 }
                 // Movem el Detector per si s'ha desplaçat el canvas
-                g_TextesPlanol.get(k).Detector.offset(Math.round(mPosX), Math.round(mPosY));
+                g_TextesPlanol.get(k).Detector.offset(Math.round(g_mPosX), Math.round(g_mPosY));
             }
         }
         // ///////////////////////////////////////////////////////////////////////////////////////
@@ -336,8 +381,8 @@ public class SimpleDrawView extends RelativeLayout {
             final int action = p_Event.getAction();
             switch (action & MotionEvent.ACTION_MASK) {
                 case MotionEvent.ACTION_DOWN:
-                    mPosX = 0;
-                    mPosY = 0;
+                    g_mPosX = 0;
+                    g_mPosY = 0;
                     switch (g_ModusDibuix) {
                         case recta:
                         case curva:
@@ -353,10 +398,10 @@ public class SimpleDrawView extends RelativeLayout {
                                 g_PuntInicialLinia = l_ActualPoint;
                                 // Validem si tenim punter per seguir el planol
                                 if (g_Punter != null) {
-                                    g_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
+                                    l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
                                                           Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
-                                    g_Punter.offset(Math.round(mPosX), Math.round(mPosY));
-                                    if (g_Detector.intersect(g_Punter)) {
+                                    g_Punter.offset(Math.round(g_mPosX), Math.round(g_mPosY));
+                                    if (l_Detector.intersect(g_Punter)) {
                                         // Tenim linia
                                         g_LiniesPlanol.add(g_LiniaPunts);
                                         Log.d("BODINA-TouchDOWN", "Reinici -------------");
@@ -368,6 +413,7 @@ public class SimpleDrawView extends RelativeLayout {
                                         l_Punt.Punt = g_PuntFinalAnterior;
                                         l_Punt.Descartat = false;
                                         l_Punt.Angle = -999.0;
+                                        l_Punt.Curva = (g_ModusDibuix == g_Modus.curva);
                                         g_LiniaPunts.add(l_Punt);
                                         // Apuntem punt anterior de la linia que fem ara
                                         g_AnteriorPuntLinia = g_PuntFinalAnterior;
@@ -394,6 +440,7 @@ public class SimpleDrawView extends RelativeLayout {
                                     // no ha pogut moure res
                                     l_Punt.Descartat = false;
                                     l_Punt.Angle = -999.0;
+                                    l_Punt.Curva = (g_ModusDibuix == g_Modus.curva);
                                     g_LiniaPunts.add(l_Punt);
                                     // El anterior punt es el primer punt
                                     g_AnteriorPuntLinia = g_PuntInicialLinia;
@@ -443,6 +490,7 @@ public class SimpleDrawView extends RelativeLayout {
                                     l_Punt.Punt = l_ActualPoint;
                                     l_Punt.Descartat = false;
                                     l_Punt.Angle = Globals.CalculaAngle(l_ActualPoint, g_AnteriorPuntLinia);
+                                    l_Punt.Curva = true;
                                     Log.d("BODINA-Touch-Afegim", String.valueOf(l_Punt.Punt.x) + ", " + String.valueOf(l_Punt.Punt.y));
                                     g_LiniaPunts.add(l_Punt);
                                     Log.d("BODINA-Touch-Angle", String.valueOf(g_LiniaPunts.size()) + " " + String.valueOf(l_Punt.Angle));
@@ -470,16 +518,21 @@ public class SimpleDrawView extends RelativeLayout {
                                 final float dx = l_X - mLastTouchX;
                                 final float dy = l_Y - mLastTouchY;
                                 // Move the object
-                                mPosX = dx;
-                                mPosY = dy;
+                                g_mPosX = dx;
+                                g_mPosY = dy;
                                 g_AcumulatX += dx;
                                 g_AcumulatY += dy;
                                 // Remember this touch position for the next move event
                                 mLastTouchX = l_X;
                                 mLastTouchY = l_Y;
                                 // Movem el detectors si estem desplazant amb el dit
-                                g_DetectorIni.offset(Math.round(mPosX), Math.round(mPosY));
-                                g_PuntInicialLinia.offset(Math.round(mPosX), Math.round(mPosY));
+                                // Movem els detectors si estem desplazant amb el dit i enacara estem dibuixant
+                                if (g_DetectorIni != null) {
+                                    g_DetectorIni.offset(Math.round(g_mPosX), Math.round(g_mPosY));
+                                }
+                                if (g_PuntInicialLinia != null){
+                                    g_PuntInicialLinia.offset(Math.round(g_mPosX), Math.round(g_mPosY));
+                                }
                                 //
                                 invalidate();
                             }
@@ -512,16 +565,20 @@ public class SimpleDrawView extends RelativeLayout {
                                 final float dx = l_X - mLastTouchX;
                                 final float dy = l_Y - mLastTouchY;
                                 // Move the object
-                                mPosX = dx;
-                                mPosY = dy;
+                                g_mPosX = dx;
+                                g_mPosY = dy;
                                 g_AcumulatX += dx;
                                 g_AcumulatY += dy;
                                 // Guardem la darrera posicio
                                 mLastTouchX = l_X;
                                 mLastTouchY = l_Y;
-                                // Movem els detectors si estem desplazant amb el dit
-                                g_DetectorIni.offset(Math.round(mPosX), Math.round(mPosY));
-                                g_PuntInicialLinia.offset(Math.round(mPosX), Math.round(mPosY));
+                                // Movem els detectors si estem desplazant amb el dit i enacara estem dibuixant
+                                if (g_DetectorIni != null) {
+                                    g_DetectorIni.offset(Math.round(g_mPosX), Math.round(g_mPosY));
+                                }
+                                if (g_PuntInicialLinia != null){
+                                    g_PuntInicialLinia.offset(Math.round(g_mPosX), Math.round(g_mPosY));
+                                }
                                 //
                                 invalidate();
                             }
@@ -555,11 +612,12 @@ public class SimpleDrawView extends RelativeLayout {
                             if (g_Dibuixant) {
                                 l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
                                             Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
-                                l_Detector.offset(Math.round(mPosX), Math.round(mPosY));
+                                l_Detector.offset(Math.round(g_mPosX), Math.round(g_mPosY));
                                 // Validem que hagui fet una linia o curva llarga (o fem validant que no intersecti amb el punt inicial)
                                 if (l_Detector.contains(Math.round(g_PuntInicialLinia.x), Math.round(g_PuntInicialLinia.y))) {
                                     // Hem apretat i res mes (no ens hem desplaçat). Esborrem la linia
                                     Log.d("BODINA-TouchUP", "------------------------ Esborrem la linia " + g_LiniesPlanol.size());
+
                                     g_LiniesPlanol.remove(g_LiniesPlanol.size() - 1);
                                     if (g_LiniesPlanol.size() == 0) {
                                         g_PrimerPuntDibuix = null;
@@ -573,10 +631,14 @@ public class SimpleDrawView extends RelativeLayout {
                                         l_Aux = g_LiniaPunts.get(g_LiniaPunts.size() - 1);
                                         l_Aux.Punt = g_PrimerPuntDibuix;//startPoint;
                                         g_LiniaPunts.set(g_LiniaPunts.size() - 1, l_Aux);
-                                        g_PuntFinalAnterior = g_PrimerPuntDibuix;//startPoint;
+                                        g_PuntFinalAnterior = g_PrimerPuntDibuix;
+                                        //g_LiniesPlanol.add(g_LiniaPunts);
                                         // Indiquem que ja esta esta finalitzat (perque sigui detectat en el invalidate)
                                         g_Finalitzat = true;
-                                        g_LiniesPlanol.add(g_LiniaPunts);
+                                    }
+                                    else{
+                                        // Apuntem el punt
+                                        g_PuntFinalAnterior = l_ActualPoint;
                                     }
                                 }
                                 // Netegem linia
@@ -594,7 +656,7 @@ public class SimpleDrawView extends RelativeLayout {
                                 l_Esborrar = new Rect();
                                 g_IMB_Esborrar.getHitRect(l_Esborrar);
                                 // Movem el detector
-                                g_TexteSeleccionat.Detector.offsetTo(Math.round(l_ActualPoint.x + mPosX), Math.round(l_ActualPoint.y + mPosY));
+                                g_TexteSeleccionat.Detector.offsetTo(Math.round(l_ActualPoint.x + g_mPosX), Math.round(l_ActualPoint.y + g_mPosY));
                                 if (g_TexteSeleccionat.Detector.intersect(l_Esborrar)) {
                                     g_TexteSeleccionat.Esborrat = true;
                                 }
@@ -660,8 +722,8 @@ public class SimpleDrawView extends RelativeLayout {
                     else {
                         // Recuperem escala i posicio (ho podriem animar!)
                         g_ScaleFactor = 1;
-                        mPosX = 0;
-                        mPosY = 0;
+                        g_mPosX = 0;
+                        g_mPosY = 0;
                         g_AcumulatX = 0;
                         g_AcumulatY = 0;
                     }
@@ -688,6 +750,7 @@ public class SimpleDrawView extends RelativeLayout {
         g_LiniesPlanol = new ArrayList<ArrayList<punt>>();
         g_TextesPlanol = new ArrayList<texte>();
         g_Finalitzat = false;
+        g_DetectorIni = null;
         g_PrimerPuntDibuix = null;
         g_AnteriorPuntLinia = null;
         g_PuntInicialLinia = null;
@@ -696,8 +759,8 @@ public class SimpleDrawView extends RelativeLayout {
         g_Dibuixant = false;
         // Recuperem escala i posicio (ho podriem animar!)
         g_ScaleFactor = 1;
-        mPosX = 0;
-        mPosY = 0;
+        g_mPosX = 0;
+        g_mPosY = 0;
         g_AcumulatX = 0;
         g_AcumulatY = 0;
         //
