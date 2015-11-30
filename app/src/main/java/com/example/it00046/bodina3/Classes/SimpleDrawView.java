@@ -59,8 +59,8 @@ public class SimpleDrawView extends RelativeLayout {
     // Modes i variables de treball de dibuix
     public enum g_Modus {recta,curva,texte};
     public g_Modus g_ModusDibuix = g_Modus.recta;
-    static public int g_RatioDistancia = 20; // Es la finura de la curva
-    static public int g_RatioAngle =15; // Idem, podrien ser parametritzables?
+    static public int g_RatioDistancia = 10; // Es la finura de la curva
+    static public int g_RatioAngle = 5; // Idem, podrien ser parametritzables?
     // Constants
     private static final int k_CorrecioBaseDistancia = 8;
     public ImageButton g_IMB_Esborrar;
@@ -412,7 +412,7 @@ public class SimpleDrawView extends RelativeLayout {
                                         g_PuntFinalAnterior.offset(g_AcumulatX, g_AcumulatY);
                                         l_Punt.Punt = g_PuntFinalAnterior;
                                         l_Punt.Descartat = false;
-                                        l_Punt.Angle = -999.0;
+                                        l_Punt.Angle = 999.0;
                                         l_Punt.Curva = (g_ModusDibuix == g_Modus.curva);
                                         g_LiniaPunts.add(l_Punt);
                                         // Apuntem punt anterior de la linia que fem ara
@@ -485,7 +485,6 @@ public class SimpleDrawView extends RelativeLayout {
                                 l_Distancia = CalculaDistancia(l_ActualPoint, g_AnteriorPuntLinia);
                                 // Validem si portem massa distancia i hem de forzar un punt
                                 if (l_Distancia > g_RatioDistancia) {
-                                    // Estem dibuixant curves (en rectes no superem el ratio)
                                     l_Punt = new punt();
                                     l_Punt.Punt = l_ActualPoint;
                                     l_Punt.Descartat = false;
