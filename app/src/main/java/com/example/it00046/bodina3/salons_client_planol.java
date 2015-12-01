@@ -25,9 +25,8 @@ public class salons_client_planol  extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FloatingActionButton l_FLB_Texte, l_FLB_Curva,l_FLB_Recta,l_FLB_Ma;
-        FloatingActionButton l_FLB_Quadricula, l_FLB_Escala,l_FLB_Unitats;
-        final FloatingActionMenu l_FLM_Eines, l_FLM_Eines2;
+        FloatingActionButton l_FLB_Texte, l_FLB_Configuracio, l_FLB_Recta;
+        final FloatingActionMenu l_FLM_Eines;
         final SimpleDrawView l_Draw;
         ImageButton l_IMB_Esborrar;
 
@@ -40,7 +39,6 @@ public class salons_client_planol  extends ActionBarActivity {
         l_Draw.g_IMB_Esborrar = l_IMB_Esborrar;
         // Accions dels FLB
         l_FLM_Eines = (FloatingActionMenu) findViewById(R.id.salonsClientPlanolFLMEines);
-        l_FLM_Eines2 = (FloatingActionMenu) findViewById(R.id.salonsClientPlanolFLMEines2);
         // Inicialment dibuixem rectes
         l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_dibuixar_rectes_mes24dp));
         l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.recta;
@@ -49,16 +47,7 @@ public class salons_client_planol  extends ActionBarActivity {
             @Override
             public void onClick(View arg0) {
                 // Tanquem el altre menu i ens obrim
-                l_FLM_Eines2.close(true);
                 l_FLM_Eines.toggle(true);
-            }
-        });
-        l_FLM_Eines2.setOnMenuButtonClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                // Tanquem el altre menu i ens obrim
-                l_FLM_Eines.close(true);
-                l_FLM_Eines2.toggle(true);
             }
         });
         // Sub-menus
@@ -82,37 +71,11 @@ public class salons_client_planol  extends ActionBarActivity {
                 l_FLM_Eines.close(true);
             }
         });
-        l_FLB_Curva = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBCurva);
-        l_FLB_Curva.setOnClickListener(new Button.OnClickListener() {
+        l_FLB_Configuracio = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBConfiguracio);
+        l_FLB_Configuracio.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.curva;
-                // Cambien el icon de eines
-                l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_gesture_white_24dp));
                 l_FLM_Eines.close(true);
-            }
-        });
-        // Sub-menus 2
-        l_FLB_Quadricula = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBQuadricula);
-        l_FLB_Quadricula.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                l_Draw.Quadricula();
-                l_FLM_Eines2.close(true);
-            }
-        });
-        l_FLB_Escala = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBEscala);
-        l_FLB_Escala.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                l_FLM_Eines2.close(true);
-            }
-        });
-        l_FLB_Unitats = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBUnitats);
-        l_FLB_Unitats.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                l_FLM_Eines2.close(true);
             }
         });
         // Boto/Imatge de esborrar

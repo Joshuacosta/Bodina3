@@ -79,6 +79,7 @@ public class SimpleDrawView extends RelativeLayout {
         public void punt(){
         }
     }
+
     // Array per guardar les linies amb el que fem el planol
     private ArrayList<ArrayList<punt>> g_LiniesPlanol = new ArrayList<ArrayList<punt>>();
 

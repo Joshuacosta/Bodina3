@@ -137,6 +137,7 @@
     <string name="SalonsClientPlanolLABTexte">Text</string>
     <string name="SalonsClientPlanolLABMa">Tactile</string>
     <string name="SalonsClientPlanolLABQuadricula">Quarter</string>
+    <string name="SalonsClientPlanolLABConfiguracio">Settings</string>
     <string name="SalonsClientPlanolLABEscala">Scale</string>
     <string name="SalonsClientPlanolLABUnitats">Units</string>
     <string name="SalonsClientPlanolTITAddTexte">Add text</string>

@@ -24,43 +24,6 @@
         android:background="@drawable/ic_delete_black_36dp" />
 
     <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/salonsClientPlanolFLMEines2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom|left"
-        fab:menu_icon="@drawable/ic_settings_white_24dp"
-        fab:menu_colorNormal="@color/black"
-        fab:menu_backgroundColor="@color/white"
-        fab:menu_labels_ellipsize="end"
-        fab:menu_labels_singleLine="true"
-        fab:menu_labels_position="right">
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/salonsClientPlanolFLBQuadricula"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_border_all_white_24dp"
-            fab:fab_size="mini"
-            fab:fab_label="@string/SalonsClientPlanolLABQuadricula"/>
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/salonsClientPlanolFLBEscala"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_settings_overscan_white_24dp"
-            fab:fab_size="mini"
-            fab:fab_label="@string/SalonsClientPlanolLABEscala"/>
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/salonsClientPlanolFLBUnitats"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_format_size_white_24dp"
-            fab:fab_size="mini"
-            fab:fab_label="@string/SalonsClientPlanolLABUnitats" />
-    </com.github.clans.fab.FloatingActionMenu>
-
-    <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/salonsClientPlanolFLMEines"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -75,13 +38,13 @@
         fab:menu_labels_position="left">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/salonsClientPlanolFLBCurva"
+            android:id="@+id/salonsClientPlanolFLBConfiguracio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_gesture_white_24dp"
+            android:src="@drawable/ic_settings_white_24dp"
             fab:fab_size="mini"
             fab:fab_showShadow="false"
-            fab:fab_label="@string/SalonsClientPlanolLABCurva"/>
+            fab:fab_label="@string/SalonsClientPlanolLABConfiguracio"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/salonsClientPlanolFLBTexte"
@@ -107,9 +70,9 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:id="@+id/salonsClientPlanolIMBAjuda"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_gravity="top|right"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="bottom|left"
         android:background="@drawable/ic_help_black_24dp" />
 
 </FrameLayout>
