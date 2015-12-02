@@ -141,6 +141,7 @@
     <string name="SalonsClientPlanolLABEscala">Scale</string>
     <string name="SalonsClientPlanolLABUnitats">Units</string>
     <string name="SalonsClientPlanolTITAddTexte">Add text</string>
+    <string name="SalonsClientPlanolTITModifyTexte">Modify text</string>
 
     <!-- Layout celebracio alta -->
     <string name="title_activity_ac_celebracio_alta">Append event</string>
