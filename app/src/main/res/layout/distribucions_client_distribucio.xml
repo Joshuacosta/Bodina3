@@ -36,14 +36,6 @@
         fab:menu_labels_position="right">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/DistribucionsClientDistribucioFLBQuadricula"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_border_all_white_24dp"
-            fab:fab_size="mini"
-            fab:fab_label="@string/SalonsClientPlanolLABQuadricula"/>
-
-        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/DistribucionsClientDistribucioFLBEscala"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

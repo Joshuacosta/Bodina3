@@ -136,12 +136,14 @@
     <string name="SalonsClientPlanolLABCurva">Curve</string>
     <string name="SalonsClientPlanolLABTexte">Text</string>
     <string name="SalonsClientPlanolLABMa">Tactile</string>
-    <string name="SalonsClientPlanolLABQuadricula">Quarter</string>
     <string name="SalonsClientPlanolLABConfiguracio">Settings</string>
     <string name="SalonsClientPlanolLABEscala">Scale</string>
     <string name="SalonsClientPlanolLABUnitats">Units</string>
     <string name="SalonsClientPlanolTITAddTexte">Add text</string>
     <string name="SalonsClientPlanolTITModifyTexte">Modify text</string>
+    <string name="SalonsClientPlanolDialogConfigCBXQuadricula">Quarter</string>
+    <string name="SalonsClientPlanolDialogConfigTXTEscala">Scale</string>
+    <string name="SalonsClientPlanolDialogConfigTXTUnitats">Units</string>
 
     <!-- Layout celebracio alta -->
     <string name="title_activity_ac_celebracio_alta">Append event</string>
@@ -660,6 +662,19 @@
         <item>Catalan</item>
         <item>French</item>
         <item>German</item>
+    </string-array>
+
+    <string-array name="Escala">
+        <item>@string/llista_Select</item>
+        <item>200x100</item>
+        <item>100x50</item>
+        <item>50x25</item>
+    </string-array>
+
+    <string-array name="Unitats">
+        <item>@string/llista_Select</item>
+        <item>meter</item>
+        <item>yards</item>
     </string-array>
 
     <string-array name="Paisos">

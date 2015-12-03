@@ -72,7 +72,6 @@
         <!-- Fill 1 de Salons del client: Alta salo (portrait) -->
         <activity
             android:name=".salons_client_alta"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_salonsclient_alta" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -90,6 +89,7 @@
         <activity
             android:name=".salons_client_planol"
             android:screenOrientation="landscape"
+            android:alwaysRetainTaskState="true"
             android:label="@string/title_activity_salonsclient_planol" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
