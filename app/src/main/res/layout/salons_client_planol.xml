@@ -38,6 +38,15 @@
         fab:menu_labels_position="left">
 
         <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/salonsClientPlanolFLBAssistent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_wizard"
+            fab:fab_size="mini"
+            fab:fab_showShadow="false"
+            fab:fab_label="@string/SalonsClientPlanolLABAssistent"/>
+
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/salonsClientPlanolFLBConfiguracio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -74,5 +83,18 @@
         android:layout_marginLeft="10dp"
         android:layout_gravity="bottom|left"
         android:background="@drawable/ic_help_black_24dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal|top">
+
+        <EditText
+            android:id="@+id/SalonsClientAltaTXTNom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/SalonsClientAltaTXTNom" />
+    </LinearLayout>
 
 </FrameLayout>

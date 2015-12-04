@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.text.InputFilter;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -32,7 +33,8 @@ public class SimpleDrawView extends RelativeLayout {
     public String g_EscalaPlanol;
     public String g_UnitatsPlanol;
     ///////////////////////////////////////////////////
-    private static final int INVALID_POINTER_ID = -1;
+    private static final int g_MaxCaracters = 20;
+    //////////////////////////////////////////////////
     private ScaleGestureDetector g_GestureScale;
     private float g_ScaleFactor = 1;
     private float scaleFactorAnterior = 1;
@@ -45,8 +47,6 @@ public class SimpleDrawView extends RelativeLayout {
     private Paint g_PaintTextDistanciaBase, g_PaintTextDistancia, g_PaintTextEsborrantse;
     // Controlador de events
     private GestureDetector g_GestureDetector;
-    // Colors
-    private int g_PaintColor = Color.LTGRAY;
     // Canvas i Bitmap
     private Canvas g_DrawCanvas;
     private Bitmap g_CanvasBitmap;
@@ -58,7 +58,6 @@ public class SimpleDrawView extends RelativeLayout {
     public enum g_Modus {recta,curva,texte};
     public g_Modus g_ModusDibuix = g_Modus.recta;
     public g_Modus g_ModusDibuixAnterior = g_Modus.recta;
-    // Constants
     public ImageButton g_IMB_Esborrar;
     //
     private Rect g_Punter = null, g_DetectorIni = null, g_CanvasRect = null;
@@ -67,13 +66,21 @@ public class SimpleDrawView extends RelativeLayout {
     private int g_Escala = 20;
 
     // Array per guardar les linies que fem
-    private ArrayList<linia> g_LiniesPlanol = new ArrayList<>();
+    public ArrayList<linia> g_LiniesPlanol = new ArrayList<>();
     class linia {
-        public PointF Inici = new PointF();                     // Punt inicial de la recta
-        public PointF Fi = new PointF();                        // Punt final
-        public Boolean Curva = false;                           // Es curva?
-        public PointF PuntCurva = new PointF();                 // Punt que defineix la curva
-        public metresCurva ObjDistancia = new metresCurva();    // Element metresCurva (distancia i que a mes, si l'arroseguem         // converteix la recta en curva
+        public PointF Inici;                     // Punt inicial de la recta
+        public PointF Fi;                        // Punt final
+        public Boolean Curva;                    // Es curva?
+        public PointF PuntCurva;                 // Punt que defineix la curva
+        public metresCurva ObjDistancia;         // Element metresCurva (distancia i que a mes, si l'arroseguem         // converteix la recta en curva
+
+        public linia(){
+            Inici = new PointF();
+            Fi = new PointF();
+            Curva = false;
+            PuntCurva = new PointF();
+            ObjDistancia = new metresCurva();
+        }
     }
     // Class per definir distancies de les linies i que ens serveix per arrosegar i convertirles
     // en curves
@@ -97,7 +104,7 @@ public class SimpleDrawView extends RelativeLayout {
         }
     }
     // Array per guardar els textes del planol
-    private ArrayList<texte> g_TextesPlanol = new ArrayList<texte>();
+    public ArrayList<texte> g_TextesPlanol = new ArrayList<texte>();
     class texte{
         public PointF Punt;
         public Boolean Esborrat;
@@ -106,7 +113,7 @@ public class SimpleDrawView extends RelativeLayout {
         public int Id;
         public Rect Detector;
 
-        public void texte(){
+        public texte(){
             Punt = new PointF();
             Esborrat = false;
             Esborrantse = false;
@@ -132,7 +139,7 @@ public class SimpleDrawView extends RelativeLayout {
         g_PaintCanvas = new Paint(Paint.DITHER_FLAG);
         // Definim paint de linies
         g_PaintNormal = new Paint();
-        g_PaintNormal.setColor(g_PaintColor);
+        g_PaintNormal.setColor(Color.LTGRAY);
         g_PaintNormal.setAntiAlias(true);
         g_PaintNormal.setStrokeWidth(5);
         g_PaintNormal.setStyle(Paint.Style.STROKE);
@@ -337,7 +344,6 @@ public class SimpleDrawView extends RelativeLayout {
         texte l_Texte;
         PointF l_ActualPoint = new PointF(l_X, l_Y);
         Rect l_Detector, l_Esborrar;
-
         linia l_Linia = new linia();
 
         // Validem primer si hi han "gestos": doble tap
@@ -593,6 +599,7 @@ public class SimpleDrawView extends RelativeLayout {
                         Log.d("BODINA-Down", "--------> Tocat " + l_Texte.Texte);
                         g_TexteSeleccionat = l_Texte;
                         l_Input = new EditText(g_Pare);
+                        l_Input.setFilters(new InputFilter[] {new InputFilter.LengthFilter(g_MaxCaracters)});
                         // Mostrem una finestra per modificar el texte
                         AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(g_Pare);
                         g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolTITModifyTexte));
@@ -723,6 +730,7 @@ public class SimpleDrawView extends RelativeLayout {
         g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolTITAddTexte));
         g_alertDialogBuilder.setView(l_Input);
         l_Input.setText(p_Texte);
+        l_Input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(g_MaxCaracters)});
         g_alertDialogBuilder
                 .setCancelable(false)
                 .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {

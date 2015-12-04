@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.example.it00046.bodina3.Classes.Globals;
@@ -32,7 +33,7 @@ public class salons_client_planol  extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FloatingActionButton l_FLB_Texte, l_FLB_Configuracio, l_FLB_Recta;
+        FloatingActionButton l_FLB_Texte, l_FLB_Configuracio, l_FLB_Recta, l_FLB_Assistent;
         final FloatingActionMenu l_FLM_Eines;
         final SimpleDrawView l_Draw;
         ImageButton l_IMB_Esborrar, l_IMB_Ajuda;
@@ -105,15 +106,15 @@ public class salons_client_planol  extends ActionBarActivity {
                 l_SPN_Unitats = (Spinner) l_VIW_Config.findViewById(R.id.SalonsClientPlanolDialogConfigSPNUnitats);
                 l_SPN_Unitats.setAdapter(l_adapter_Unitats);
                 //
-                AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(Jo);
-                g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolLABConfiguracio));
-                g_alertDialogBuilder.setView(l_VIW_Config);
-                g_alertDialogBuilder
+                AlertDialog.Builder g_DialogConfiguracio = new AlertDialog.Builder(Jo);
+                g_DialogConfiguracio.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolLABConfiguracio));
+                g_DialogConfiguracio.setView(l_VIW_Config);
+                g_DialogConfiguracio
                         .setCancelable(false)
                         .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface p_dialog, int which) {
-                                // Llegim configuració definida
+                                // Llegim configuracio definida
                                 if (l_CBX_Quadricula.isChecked()) {
                                     l_Draw.g_Quadricula = true;
                                     // Repintem el draw
@@ -127,7 +128,43 @@ public class salons_client_planol  extends ActionBarActivity {
                             public void onClick(DialogInterface p_dialog, int p_id) {
                             }
                         });
-                g_alertDialogBuilder.show();
+                g_DialogConfiguracio.show();
+                //
+                l_FLM_Eines.close(true);
+            }
+        });
+        // Finestra de l'assistent
+        //
+        l_FLB_Assistent = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBAssistent);
+        l_FLB_Assistent.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                // Mostrem la finestra de l'assistent
+                SeekBar l_SEK_Amplada, l_SEK_Alsada;
+                final TextView l_TXT_Amplada, l_TXT_Alsada;
+
+                View l_VIW_Config = inflater.inflate(R.layout.salons_client_planol_dialog_assistent, null);
+                // Els seekbar
+                l_SEK_Amplada = (SeekBar) l_VIW_Config.findViewById(R.id.SalonsClientAltaSEKAmplada);
+                l_SEK_Alsada = (SeekBar) l_VIW_Config.findViewById(R.id.SalonsClientAltaSEKAlsada);
+                l_TXT_Amplada = (TextView) l_VIW_Config.findViewById(R.id.SalonsClientAltaLITAmplada);
+                l_TXT_Alsada = (TextView) l_VIW_Config.findViewById(R.id.SalonsClientAltaLITAlsada);
+                //
+                AlertDialog.Builder g_DialogAssistent = new AlertDialog.Builder(Jo);
+                g_DialogAssistent.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolLABAssistent));
+                g_DialogAssistent.setView(l_VIW_Config);
+                g_DialogAssistent
+                        .setCancelable(false)
+                        .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface p_dialog, int which) {
+                            }
+                        })
+                        .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface p_dialog, int p_id) {
+                            }
+                        });
+                g_DialogAssistent.show();
                 //
                 l_FLM_Eines.close(true);
             }
