@@ -39,7 +39,11 @@
         <!-- Fill 2: Alta celebracio -->
         <activity
             android:name=".celebracions_client_alta"
-            android:label="@string/title_activity_ac_celebracio_alta" >
+            android:label="@string/title_activity_CelebracionsClientAlta"
+            android:parentActivityName=".principal" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".principal" />
         </activity>
         <!-- Fill 3: Entitats: SINGLE -->
         <activity

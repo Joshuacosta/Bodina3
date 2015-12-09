@@ -58,11 +58,12 @@ public class SQLDB extends SQLiteOpenHelper {
         l_Create = String.format(Globals.g_Native.getString(R.string.TPlanolsCreate),
                 Globals.g_Native.getString(R.string.TPlanols),
                 Globals.g_Native.getString(R.string.TPlanols_Codi),
+                Globals.g_Native.getString(R.string.TPlanols_Tipus),
                 Globals.g_Native.getString(R.string.TPlanols_OrigenX),
                 Globals.g_Native.getString(R.string.TPlanols_OrigenY),
-                Globals.g_Native.getString(R.string.TPlanols_DestiX),
-                Globals.g_Native.getString(R.string.TPlanols_DestiY),
-                Globals.g_Native.getString(R.string.TPlanols_Angle));
+                Globals.g_Native.getString(R.string.TPlanols_CurvaX),
+                Globals.g_Native.getString(R.string.TPlanols_CurvaY),
+                Globals.g_Native.getString(R.string.TPlanols_Texte));
         db.execSQL(l_Create);
         // 5- Celebracions Client
         l_Create = String.format(Globals.g_Native.getString(R.string.TCelebracionsClientCreate),
@@ -159,6 +160,16 @@ public class SQLDB extends SQLiteOpenHelper {
                 Globals.g_Native.getString(R.string.TLlistaConvidats_Comentari),
                 Globals.g_Native.getString(R.string.TLlistaConvidats_Estat));
         db.execSQL(l_Create);
+        // 14- Taules
+        l_Create = String.format(Globals.g_Native.getString(R.string.TTaulesCreate),
+                Globals.g_Native.getString(R.string.TTaules),
+                Globals.g_Native.getString(R.string.TTaules_Codi),
+                Globals.g_Native.getString(R.string.TTaules_Tipus),
+                Globals.g_Native.getString(R.string.TTaules_MaxPersones),
+                Globals.g_Native.getString(R.string.TTaules_AmpladaRadi),
+                Globals.g_Native.getString(R.string.TTaules_Llargada),
+                Globals.g_Native.getString(R.string.TTaules_Estat));
+        db.execSQL(l_Create);
         // Si executem aixó es que hem creat la BBDD i no hi han dades, de moment:
         Globals.g_NoHiHanDades = true;
         //
@@ -193,6 +204,8 @@ public class SQLDB extends SQLiteOpenHelper {
         l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TConvidats));
         db.execSQL(l_DROP);
         l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TLlistaConvidats));
+        db.execSQL(l_DROP);
+        l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TTaules));
         db.execSQL(l_DROP);
         // Tornem a definir les taules
         this.onCreate(db);

@@ -113,6 +113,17 @@
     <string name="CelebracionsClientPralMNUSalons">Saloons client</string>
     <string name="CelebracionsClientPralMNUActualitzar">Refresh</string>
 
+    <!-- Layout celebracions client alta -->
+    <string name="title_activity_CelebracionsClientAlta">Clients events</string>
+    <string name="CelebracionsClientAltaTXTTipusCelebracio">Celebraction\'s type</string>
+    <string name="CelebracionsClientAltaTXTSalo">Saloon</string>
+    <string name="CelebracionsClientAltaTXTDescripcio">Descripction</string>
+    <string name="CelebracionsClientAltaTXTNumConvidats">Guest\'s number</string>
+    <string name="CelebracionsClientAltaTXTData">Date...</string>
+    <string name="CelebracionsClientAltaTXTLloc">Place</string>
+    <string name="CelebracionsClientAltaTXTContacte">Contact</string>
+    <string name="CelebracionsClientAltaTXTDistribucions">Distributions</string>
+
     <!-- Layout salons client -->
     <string name="title_activity_salons_client">Saloons client</string>
     <string name="SalonsClientPralMNUAfegir">Add saloon</string>
@@ -264,52 +275,55 @@
     <string name="TPlanols">Planols</string>
     <!-- Camps -->
     <string name="TPlanols_Codi">Codi</string>
+    <string name="TPlanols_Tipus">Tipus</string>
     <string name="TPlanols_OrigenX">OrigenX</string>
     <string name="TPlanols_OrigenY">OrigenY</string>
-    <string name="TPlanols_DestiX">DestiX</string>
-    <string name="TPlanols_DestiY">DestiY</string>
-    <string name="TPlanols_Angle">Angle</string>
+    <string name="TPlanols_CurvaX">CurvaX</string>
+    <string name="TPlanols_CurvaY">CurvaY</string>
+    <string name="TPlanols_Texte">Texte</string>
     <!-- Llista camps -->
     <string-array name="TPlanols_Camps">
         <item>@string/TPlanols_Codi</item>
+        <item>@string/TPlanols_Tipus</item>
         <item>@string/TPlanols_OrigenX</item>
         <item>@string/TPlanols_OrigenY</item>
-        <item>@string/TPlanols_DestiX</item>
-        <item>@string/TPlanols_DestiY</item>
-        <item>@string/TPlanols_Angle</item>
+        <item>@string/TPlanols_CurvaX</item>
+        <item>@string/TPlanols_CurvaY</item>
+        <item>@string/TPlanols_Texte</item>
     </string-array>
     <!-- Funcions -->
     <string name="TPlanolsCreate">CREATE TABLE %1$s (
                                 %2$s INTEGER,
                                 %3$s INTEGER,
-                                %4$s INTEGER,
-                                %5$s INTEGER,
-                                %6$s INTEGER,
-                                %7$s INTEGER)</string>
+                                %4$s REAL,
+                                %5$s REAL,
+                                %6$s REAL,
+                                %7$s REAL,
+                                %8$s VARCHAR(20))</string>
     <!-- .................................................................................. -->
     <!-- TAULES (local) -->
     <string name="TTaules">Taules</string>
     <!-- Camps -->
     <string name="TTaules_Codi">Codi</string>
-    <string name="TTaules_CodiTipus">CodiTipus</string>
-    <string name="TTaules_Nom">Nom</string>
-    <string name="TTaules_Tamany1">Tamany1</string>
-    <string name="TTaules_Tamany2">Tamany2</string>
+    <string name="TTaules_Tipus">Tipus</string>
+    <string name="TTaules_MaxPersones">MaxPersones</string>
+    <string name="TTaules_AmpladaRadi">AmpladaRadi</string>
+    <string name="TTaules_Llargada">Llargada</string>
     <string name="TTaules_Estat">Estat</string>
     <!-- Llista camps -->
     <string-array name="TTaules_Camps">
         <item>@string/TTaules_Codi</item>
-        <item>@string/TTaules_CodiTipus</item>
-        <item>@string/TTaules_Nom</item>
-        <item>@string/TTaules_Tamany1</item>
-        <item>@string/TTaules_Tamany2</item>
+        <item>@string/TTaules_Tipus</item>
+        <item>@string/TTaules_MaxPersones</item>
+        <item>@string/TTaules_AmpladaRadi</item>
+        <item>@string/TTaules_Llargada</item>
         <item>@string/TTaules_Estat</item>
     </string-array>
     <!-- Funcions -->
     <string name="TTaulesCreate">CREATE TABLE %1$s (
                                 %2$s INTEGER,
                                 %3$s INTEGER,
-                                %4$s VARCHAR(20),
+                                %4$s INTEGER,
                                 %5$s INTEGER,
                                 %6$s INTEGER,
                                 %7$s INTEGER)</string>
