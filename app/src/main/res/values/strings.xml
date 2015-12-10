@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Generic -->
-    <string name="NoHiHanEntitats">Doesn\'t found entities for your definition country</string>
+    <string name="NoHiHanEntitats">Doesn\'t found entities for your setting country</string>
     <string name="error_CampObligatori">Required field</string>
     <string name="error_eMailIncorrecte">Invalid mail</string>
     <string name="error_Layout">There are some wrong field</string>
@@ -117,7 +117,7 @@
     <string name="title_activity_CelebracionsClientAlta">Clients events</string>
     <string name="CelebracionsClientAltaTXTTipusCelebracio">Celebraction\'s type</string>
     <string name="CelebracionsClientAltaTXTSalo">Saloon</string>
-    <string name="CelebracionsClientAltaTXTDescripcio">Descripction</string>
+    <string name="CelebracionsClientAltaTXTDescripcio">Description</string>
     <string name="CelebracionsClientAltaTXTNumConvidats">Guest\'s number</string>
     <string name="CelebracionsClientAltaTXTData">Date...</string>
     <string name="CelebracionsClientAltaTXTLloc">Place</string>

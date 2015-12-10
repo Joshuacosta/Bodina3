@@ -44,8 +44,6 @@ public class entitat_solicitar extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle p_savedInstanceState) {
-        Button l_botoRecerca;
-
         super.onCreate(p_savedInstanceState);
         setContentView(R.layout.entitat_solicitar);
         // Recuperem controls del layout
@@ -89,26 +87,18 @@ public class entitat_solicitar extends ActionBarActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {g_ETX_Descripcio.setError(null);}
         });
         g_ETX_Contacte.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                g_ETX_Contacte.setError(null);
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {g_ETX_Contacte.setError(null);}
         });
         g_ETX_eMail.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                g_ETX_eMail.setError(null);
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {g_ETX_eMail.setError(null);}
         });
         // Control de enrera/cancel·lacio
         ActionBar actionBar = getSupportActionBar();

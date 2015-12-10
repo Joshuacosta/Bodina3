@@ -16,7 +16,7 @@ public class CelebracioClient {
     public String Contacte;
     public int Estat;
 
-    public void CelebracionsClient(){
+    public CelebracioClient(){
         Codi = 0;
         CodiSalo = 0;
         Tipus = 0;

@@ -8,9 +8,9 @@ public class CategoriaConvidats {
     public int CodiCelebracio;
     public String Descripcio;
 
-    public void CategoriaConvidats(){
-        Codi = -1;
-        CodiCelebracio = -1;
-        Descripcio = null;
+    public CategoriaConvidats(){
+        Codi            = -1;
+        CodiCelebracio  = -1;
+        Descripcio      = null;
     }
 }

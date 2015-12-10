@@ -6,12 +6,17 @@ import android.content.Context;
 import android.database.Cursor;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.Custom.LVWLlistaSalonsClient;
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
 import com.example.it00046.bodina3.Classes.Globals;
+import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNSalonsClient;
 import com.example.it00046.bodina3.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by it00046 on 02/06/2015.
@@ -56,6 +61,50 @@ public final class DAOSalonsClient {
             Globals.TancarEspera();
         }
     }
+
+    // Llegim els tipus de celebracio del client en una spinner
+    public static void Llegir(final Spinner p_SPN_SalonsClient, final Context p_Context) {
+        ArrayAdapter<SPNSalonsClient> l_dataAdapter;
+        final List<SPNSalonsClient> l_SalonsClient = new ArrayList<SPNSalonsClient>();
+        String l_NomSaloSpinner;
+
+        // Posem a la llista la entrada de "Seleccioni..."
+        SPNSalonsClient l_SelectOne = new SPNSalonsClient(null, Globals.g_Native.getString(R.string.llista_Select));
+        l_SalonsClient.add(l_SelectOne);
+        //
+        Globals.MostrarEspera(p_Context);
+        try {
+            Cursor l_cursor = Globals.g_DB.query(TAG_SalonsClient,
+                    Globals.g_Native.getResources().getStringArray(R.array.TSalonsClient_Camps),
+                    null, // c. selections
+                    null, // d. selections args
+                    null, // e. group by
+                    null, // f. having
+                    null, // g. order by
+                    null); // h. limit
+            if (l_cursor.getCount() > 0) {
+                l_cursor.moveToFirst();
+                for (int i=0; i < l_cursor.getCount(); i++) {
+                    SaloClient l_Salo = CursorToSaloClient(l_cursor);
+                    l_NomSaloSpinner = l_Salo.Nom;
+                    SPNSalonsClient l_spinner = new SPNSalonsClient(l_Salo, l_NomSaloSpinner);
+                    l_SalonsClient.add(l_spinner);
+                }
+                // Associem
+                l_dataAdapter = new ArrayAdapter<SPNSalonsClient>(Globals.g_Native, R.layout.linia_spn_defecte, l_SalonsClient);
+                l_dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                p_SPN_SalonsClient.setAdapter(l_dataAdapter);
+
+            }
+            Globals.TancarEspera();
+        }
+        catch(Exception e) {
+            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                    Globals.g_Native.getString(R.string.error_greu), p_Context);
+            Globals.TancarEspera();
+        }
+    }
+
     public static boolean Afegir(SaloClient p_SaloClient, final Context p_Context, boolean p_Asistit, boolean p_Tancam){
         boolean l_resultat = true;
 
@@ -91,6 +140,7 @@ public final class DAOSalonsClient {
         }
         return l_resultat;
     }
+
     public static boolean Modificar(SaloClient p_SaloClient, final Context p_Context, boolean p_Tancam){
         boolean l_resultat = true;
 
@@ -121,6 +171,7 @@ public final class DAOSalonsClient {
         }
         return l_resultat;
     }
+
     public static boolean Esborrar(int p_Codi, final Context p_Context, boolean p_Tancam){
         boolean l_Resultat = true;
 
@@ -150,6 +201,7 @@ public final class DAOSalonsClient {
         }
         return l_Resultat;
     }
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Funcions privades
     ///////////////////////////////////////////////////////////////////////////////////////////////

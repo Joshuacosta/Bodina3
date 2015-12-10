@@ -29,6 +29,6 @@ public class Invitacio {
     private static final String TAG_DataResolucio = Globals.g_Native.getString(R.string.TInvitacions_DataResolucio);
     private static final String TAG_Estat = Globals.g_Native.getString(R.string.TInvitacions_Estat);
     //
-    public void Invitacions(){
+    public Invitacio(){
     }
 }

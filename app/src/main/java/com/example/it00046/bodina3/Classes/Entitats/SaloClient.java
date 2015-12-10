@@ -11,12 +11,12 @@ public class SaloClient {
     public int CodiPlanol;
     public int Estat;
 
-    public void SalonsClient(){
-        Codi = 0;
-        Nom = "";
-        Amplada = 0;
-        Alsada = 0;
-        CodiPlanol = -1;
-        Estat = 0;
+    public SaloClient(){
+        Codi        = 0;
+        Nom         = "";
+        Amplada     = 0;
+        Alsada      = 0;
+        CodiPlanol  = -1;
+        Estat       = 0;
     }
 }

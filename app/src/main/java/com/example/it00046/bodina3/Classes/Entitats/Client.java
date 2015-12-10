@@ -9,26 +9,26 @@ package com.example.it00046.bodina3.Classes.Entitats;
  */
 public class Client
 {
-    public String Codi = new String();
-    public String CodiIntern = new String();
-    public String eMail = new String();
-    public String Nom = new String();
-    public String Pais = new String();
-    public String Contacte = new String();
-    public String DataAlta = new String();
-    public String Idioma = new String();
+    public String Codi;
+    public String CodiIntern;
+    public String eMail;
+    public String Nom;
+    public String Pais;
+    public String Contacte;
+    public String DataAlta;
+    public String Idioma;
     public Boolean Actualitzat;
 
-    public void Client()
+    public Client()
     {
-        Codi = "";		// Es el codi de client que donarem la primera vegada
-        CodiIntern = "";  // Android_ID
-        eMail = "";
-        Nom = "";
-        Pais = "";
-        Contacte = "";
-        Idioma = "";
-        DataAlta = "";
-        Actualitzat = false;
+        Codi            = "";		// Es el codi de client que donarem la primera vegada
+        CodiIntern      = "";  // Android_ID
+        eMail           = "";
+        Nom             = "";
+        Pais            = "";
+        Contacte        = "";
+        Idioma          = "";
+        DataAlta        = "";
+        Actualitzat     = false;
     }
 }

@@ -7,8 +7,8 @@ public class MenuConvidats {
     public int Codi;
     public String Descripcio;
 
-    public void MenuConvidats(){
-        Codi = -1;
-        Descripcio = null;
+    public MenuConvidats(){
+        Codi        = -1;
+        Descripcio  = null;
     }
 }

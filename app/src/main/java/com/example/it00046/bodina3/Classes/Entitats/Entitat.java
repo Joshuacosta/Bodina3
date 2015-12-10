@@ -14,15 +14,15 @@ public class Entitat {
     public String eMail;
     public int Estat;
 
-    public void Entitat(){
-        Codi = new String();
-        Nom = new String();
-        Adresa = new String();
-        Contacte = new String();
-        TipusContacte = 0;
-        Telefon = new String();
-        Pais = new String();
-        eMail = new String();
-        Estat = 0;
+    public Entitat(){
+        Codi            = new String();
+        Nom             = new String();
+        Adresa          = new String();
+        Contacte        = new String();
+        TipusContacte   = 0;
+        Telefon         = new String();
+        Pais            = new String();
+        eMail           = new String();
+        Estat           = 0;
     }
 }

@@ -127,14 +127,6 @@
                 android:value=".entitat_solicitar" />
         </activity>
         <activity
-            android:name=".entitat_detall"
-            android:label="@string/title_activity_ac_entitat_detall"
-            android:parentActivityName=".entitat_pral" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".entitat_pral" />
-        </activity>
-        <activity
             android:name=".entitat_modificar"
             android:label="@string/title_activity_entitat_modificar"
             android:parentActivityName=".entitat_pral" >

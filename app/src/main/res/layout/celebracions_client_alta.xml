@@ -70,13 +70,15 @@
                 android:inputType="number"
                 android:ems="10"
                 android:hint="@string/CelebracionsClientAltaTXTLloc"
-                android:id="@+id/CelebracionsClientAltaTXTNumLloc" />
+                android:id="@+id/CelebracionsClientAltaTXTLloc"
+                android:maxLength="100" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/CelebracionsClientAltaTXTDescripcio"
-                android:id="@+id/CelebracionsClientAltaTXTDescripcio" />
+                android:id="@+id/CelebracionsClientAltaTXTDescripcio"
+                android:maxLength="50" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -115,7 +117,8 @@
                 android:inputType="number"
                 android:ems="10"
                 android:hint="@string/CelebracionsClientAltaTXTContacte"
-                android:id="@+id/CelebracionsClientAltaTXTContacte" />
+                android:id="@+id/CelebracionsClientAltaTXTContacte"
+                android:maxLength="100" />
 
             <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:fab="http://schemas.android.com/apk/res-auto"
