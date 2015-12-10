@@ -27,6 +27,7 @@
                 android:padding="5dp">
 
                 <TextView
+                    android:id="@+id/CelebracionsClientAltatTXTTipusCelebracio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
@@ -49,6 +50,7 @@
                 android:padding="5dp">
 
                 <TextView
+                    android:id="@+id/CelebracionsClientAltatTXTSalo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
@@ -67,7 +69,6 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
                 android:ems="10"
                 android:hint="@string/CelebracionsClientAltaTXTLloc"
                 android:id="@+id/CelebracionsClientAltaTXTLloc"
@@ -114,7 +115,6 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
                 android:ems="10"
                 android:hint="@string/CelebracionsClientAltaTXTContacte"
                 android:id="@+id/CelebracionsClientAltaTXTContacte"

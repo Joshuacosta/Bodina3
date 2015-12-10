@@ -18,10 +18,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.it00046.bodina3.Classes.DAO.DAOCelebracionsClient;
 import com.example.it00046.bodina3.Classes.DAO.DAOSalonsClient;
 import com.example.it00046.bodina3.Classes.DAO.DAOTipusCelebracions;
 import com.example.it00046.bodina3.Classes.Entitats.CelebracioClient;
+import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
 import com.example.it00046.bodina3.Classes.Globals;
+import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNSalonsClient;
+import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNTipusCelebracio;
 import com.example.it00046.bodina3.Classes.Validacio;
 
 import java.util.Calendar;
@@ -32,8 +36,8 @@ public class celebracions_client_alta extends ActionBarActivity {
     public String g_DataCelebracio = new String();
     public Context jo = this;
     private EditText g_ETX_Contacte, g_ETX_Lloc, g_ETX_Descripcio, g_ETX_NumConvidats;
-    Spinner g_SPN_Salo, g_SPN_TipusCelebracio;
-    private TextView g_TXT_Data;
+    private Spinner g_SPN_Salo, g_SPN_TipusCelebracio;
+    private TextView g_TXT_Data, g_TXT_TipusCelebracio, g_TXT_Salo;
     private Context Jo = this;
 
     @Override
@@ -57,6 +61,9 @@ public class celebracions_client_alta extends ActionBarActivity {
             }
         });
         g_TXT_Data = (TextView) findViewById(R.id.CelebracionsClientAltaTXTData);
+        g_TXT_TipusCelebracio = (TextView) findViewById(R.id.CelebracionsClientAltatTXTTipusCelebracio);
+        g_TXT_Salo = (TextView) findViewById(R.id.CelebracionsClientAltatTXTSalo);
+        //
         g_ETX_Contacte = (EditText) findViewById(R.id.CelebracionsClientAltaTXTContacte);
         g_ETX_Lloc = (EditText) findViewById(R.id.CelebracionsClientAltaTXTLloc);
         g_ETX_Descripcio = (EditText) findViewById(R.id.CelebracionsClientAltaTXTDescripcio);
@@ -68,8 +75,7 @@ public class celebracions_client_alta extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView parent, View view, int pos, long id) {
                 // Esborrem possible error
-
-                //g_TXT_Entitat.setError(null);
+                g_TXT_TipusCelebracio.setError(null);
             }
             @Override
             public void onNothingSelected(AdapterView parent) {
@@ -81,11 +87,8 @@ public class celebracions_client_alta extends ActionBarActivity {
         g_SPN_Salo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView parent, View view, int pos, long id) {
-                // Validem si hi caben els convidats
-
-                //g_TXT_Entitat.setError(null);
+                g_TXT_Salo.setError(null);
             }
-
             @Override
             public void onNothingSelected(AdapterView parent) {
             }
@@ -131,32 +134,48 @@ public class celebracions_client_alta extends ActionBarActivity {
     private boolean ValidarFinestra() {
         boolean ret = true;
 
+        // Validacio data celebracio
         if (g_TXT_Data.getText() == Globals.g_Native.getString(R.string.CelebracionsClientAltaTXTData)){
             g_TXT_Data.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
             ret = false;
         }
+        // Camps obligatoris
         if (!Validacio.hasText(g_ETX_Contacte)) ret = false;
         if (!Validacio.hasText(g_ETX_Lloc)) ret = false;
         if (!Validacio.hasText(g_ETX_Descripcio)) ret = false;
         if (!Validacio.hasText(g_ETX_NumConvidats)) ret = false;
-        /* Validacio Spinner
-        if (g_SPN_EntitatsClient.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select_pais))) {
-            g_TXT_Entitat.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
+        // Validacions Spinner's informats
+        if (g_SPN_TipusCelebracio.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))) {
+            g_TXT_TipusCelebracio.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
             ret = false;
         }
-
-        Tambe hauras de validar certa logica: que hi capiguem els convidats definits, ...
-
-        */
+        if (g_SPN_Salo.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))) {
+            g_TXT_Salo.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
+            ret = false;
+        }
         return ret;
     }
 
-    // Codi de acceptació
+    // Codi de acceptacio
     public void FerOperativa(){
         CelebracioClient l_CelebracioClient = new CelebracioClient();
+        SPNSalonsClient l_SaloSeleccionat;
+        SPNTipusCelebracio l_TipusCelebracioSeleccionat;
 
-        if (ValidarFinestra()){
-
+        if (ValidarFinestra()) {
+            // Donem d'alta la celebracio (no validem res mes com podria ser el numero maxim de comensals
+            // que admet el salo ja que en les celebracions i salons del client no ho valorem)
+            l_SaloSeleccionat = (SPNSalonsClient) g_SPN_Salo.getSelectedItem();
+            l_CelebracioClient.CodiSalo = l_SaloSeleccionat.g_Salo.Codi;
+            l_TipusCelebracioSeleccionat = (SPNTipusCelebracio) g_SPN_TipusCelebracio.getSelectedItem();
+            l_CelebracioClient.Tipus = l_TipusCelebracioSeleccionat.g_Tipus.Codi;
+            l_CelebracioClient.Descripcio = g_ETX_Descripcio.getText().toString();
+            l_CelebracioClient.Convidats = Integer.valueOf(g_ETX_NumConvidats.getText().toString());
+            l_CelebracioClient.Data = g_TXT_Data.toString();
+            l_CelebracioClient.Lloc = g_ETX_Lloc.toString();
+            l_CelebracioClient.Contacte = g_ETX_Contacte.toString();
+            //
+            DAOCelebracionsClient.Afegir(l_CelebracioClient, Jo, true, true);
         }
         else{
             Toast.makeText(Jo,
@@ -181,7 +200,8 @@ public class celebracions_client_alta extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.CelebracionsClientAltaMNUAcceptar) {
+            FerOperativa();
             return true;
         }
 

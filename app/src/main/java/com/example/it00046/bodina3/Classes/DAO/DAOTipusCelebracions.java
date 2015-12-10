@@ -87,13 +87,13 @@ public class DAOTipusCelebracions {
                     l_NomTipusCelebracioSpinner = l_Tipus.Descripcio;
                     SPNTipusCelebracio l_spinner = new SPNTipusCelebracio(l_Tipus, l_NomTipusCelebracioSpinner);
                     l_TipusCelebracio.add(l_spinner);
+                    l_cursor.moveToNext();
                 }
-                // Associem
-                l_dataAdapter = new ArrayAdapter<SPNTipusCelebracio>(Globals.g_Native, R.layout.linia_spn_defecte, l_TipusCelebracio);
-                l_dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                p_SPN_TipusCelebracions.setAdapter(l_dataAdapter);
-
             }
+            // Associem
+            l_dataAdapter = new ArrayAdapter<SPNTipusCelebracio>(Globals.g_Native, R.layout.linia_spn_defecte, l_TipusCelebracio);
+            l_dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            p_SPN_TipusCelebracions.setAdapter(l_dataAdapter);
             Globals.TancarEspera();
         }
         catch(Exception e) {

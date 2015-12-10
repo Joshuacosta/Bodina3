@@ -89,13 +89,13 @@ public final class DAOSalonsClient {
                     l_NomSaloSpinner = l_Salo.Nom;
                     SPNSalonsClient l_spinner = new SPNSalonsClient(l_Salo, l_NomSaloSpinner);
                     l_SalonsClient.add(l_spinner);
+                    l_cursor.moveToNext();
                 }
-                // Associem
-                l_dataAdapter = new ArrayAdapter<SPNSalonsClient>(Globals.g_Native, R.layout.linia_spn_defecte, l_SalonsClient);
-                l_dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                p_SPN_SalonsClient.setAdapter(l_dataAdapter);
-
             }
+            // Associem
+            l_dataAdapter = new ArrayAdapter<SPNSalonsClient>(Globals.g_Native, R.layout.linia_spn_defecte, l_SalonsClient);
+            l_dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            p_SPN_SalonsClient.setAdapter(l_dataAdapter);
             Globals.TancarEspera();
         }
         catch(Exception e) {
