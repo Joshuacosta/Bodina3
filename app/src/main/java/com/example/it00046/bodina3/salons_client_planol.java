@@ -117,11 +117,11 @@ public class salons_client_planol  extends ActionBarActivity {
                                 // Llegim configuracio definida
                                 if (l_CBX_Quadricula.isChecked()) {
                                     l_Draw.g_Quadricula = true;
-                                    // Repintem el draw
-                                    l_Draw.invalidate();
                                 }
                                 l_Draw.g_EscalaPlanol = l_SPN_Escala.getSelectedItem().toString();
                                 l_Draw.g_UnitatsPlanol = l_SPN_Unitats.getSelectedItem().toString();
+                                // Repintem
+                                l_Draw.invalidate();
                             }
                         })
                         .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
@@ -140,15 +140,47 @@ public class salons_client_planol  extends ActionBarActivity {
             @Override
             public void onClick(View arg0) {
                 // Mostrem la finestra de l'assistent
-                SeekBar l_SEK_Amplada, l_SEK_Alsada;
-                final TextView l_TXT_Amplada, l_TXT_Alsada;
+                final SeekBar l_SEK_Amplada, l_SEK_Llargada;
+                final TextView l_TXT_Amplada, l_TXT_Llargada;
 
                 View l_VIW_Config = inflater.inflate(R.layout.salons_client_planol_dialog_assistent, null);
-                // Els seekbar
-                l_SEK_Amplada = (SeekBar) l_VIW_Config.findViewById(R.id.SalonsClientAltaSEKAmplada);
-                l_SEK_Alsada = (SeekBar) l_VIW_Config.findViewById(R.id.SalonsClientAltaSEKAlsada);
-                l_TXT_Amplada = (TextView) l_VIW_Config.findViewById(R.id.SalonsClientAltaLITAmplada);
-                l_TXT_Alsada = (TextView) l_VIW_Config.findViewById(R.id.SalonsClientAltaLITAlsada);
+                // Els seekbar i els textes de la finestra assistent
+                l_SEK_Amplada = (SeekBar) l_VIW_Config.findViewById(R.id.SalonsClientAssistentSEKAmplada);
+                l_SEK_Llargada = (SeekBar) l_VIW_Config.findViewById(R.id.SalonsClientAssistentSEKLlargada);
+                l_TXT_Amplada = (TextView) l_VIW_Config.findViewById(R.id.SalonsClientAssistentLITAmplada);
+                l_TXT_Llargada = (TextView) l_VIW_Config.findViewById(R.id.SalonsClientAssistentLITLlargada);
+                // Codi de les seekbars
+                l_SEK_Amplada.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    int l_AmpladaTriada = 0;
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+                        l_AmpladaTriada = progresValue;
+                        l_TXT_Amplada.setText(l_AmpladaTriada + " " + Globals.g_Native.getString(R.string.meters));
+                    }
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                    }
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                    }
+                });
+                l_SEK_Llargada.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    int l_LlargadaTriada = 0;
+
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+                        l_LlargadaTriada = progresValue;
+                        l_TXT_Llargada.setText(l_LlargadaTriada + " " + Globals.g_Native.getString(R.string.meters));
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                    }
+                });
                 //
                 AlertDialog.Builder g_DialogAssistent = new AlertDialog.Builder(Jo);
                 g_DialogAssistent.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolLABAssistent));
@@ -158,6 +190,7 @@ public class salons_client_planol  extends ActionBarActivity {
                         .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface p_dialog, int which) {
+                                l_Draw.Assistent(l_SEK_Amplada.getProgress(), l_SEK_Llargada.getProgress());
                             }
                         })
                         .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {

@@ -13,7 +13,7 @@
         <SeekBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/SalonsClientAltaSEKAmplada"
+            android:id="@+id/SalonsClientAssistentSEKAmplada"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:max="50"/>
@@ -23,13 +23,13 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/SalonsClientAltaLITAmplada"
-            android:id="@+id/SalonsClientAltaLITAmplada"
+            android:id="@+id/SalonsClientAssistentLITAmplada"
             android:layout_gravity="center_horizontal" />
 
         <SeekBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/SalonsClientAltaSEKAlsada"
+            android:id="@+id/SalonsClientAssistentSEKLlargada"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:max="50"/>
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/SalonsClientAltaLITAlsada"
-            android:id="@+id/SalonsClientAltaLITAlsada"
+            android:id="@+id/SalonsClientAssistentLITLlargada"
             android:layout_gravity="center_horizontal" />
 
     </LinearLayout>

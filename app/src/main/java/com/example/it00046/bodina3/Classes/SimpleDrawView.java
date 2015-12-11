@@ -81,6 +81,12 @@ public class SimpleDrawView extends RelativeLayout {
             PuntCurva = new PointF();
             ObjDistancia = new metresCurva();
         }
+
+        public linia(PointF p_Inici, PointF p_Fi, metresCurva p_MetresCurva){
+            Inici = p_Inici;
+            Fi = p_Fi;
+            ObjDistancia = p_MetresCurva;
+        }
     }
     // Class per definir distancies de les linies i que ens serveix per arrosegar i convertirles
     // en curves
@@ -183,6 +189,9 @@ public class SimpleDrawView extends RelativeLayout {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         //view given size
         super.onSizeChanged(w, h, oldw, oldh);
+
+        Log.d("BODINA-Draw", "-----> Amplada/Alsada " + w + " / " + h);
+
         g_CanvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         g_DrawCanvas = new Canvas(g_CanvasBitmap);
         g_CenterX = w / 2;
@@ -676,7 +685,7 @@ public class SimpleDrawView extends RelativeLayout {
     private String EscalaDistancia(double P_Distancia){
         String l_Resultat = null;
 
-        l_Resultat = String.valueOf(Math.round(P_Distancia/5));
+        l_Resultat = String.valueOf(Math.round(P_Distancia / 5));
         return l_Resultat;
     }
 
@@ -772,11 +781,46 @@ public class SimpleDrawView extends RelativeLayout {
         return l_Texte;
     }
 
-    public void Quadricula(){
-        g_Quadricula = !g_Quadricula;
+    public void Assistent(int p_Amplada, int p_Llargada){
+        PointF l_Punt1, l_Punt2, l_Punt3, l_Punt4;
+
+        EsborrarPlanol();
+        // Definim les linies que conformem el planol mitjaçant els seus punts
+        // Aixó...
+        p_Amplada *= 5;
+        p_Llargada *= 5;
+
+        l_Punt1 = new PointF(g_CenterX - (p_Amplada / 2), g_CenterY - (p_Llargada / 2));
+        l_Punt2 = new PointF(g_CenterX + (p_Amplada / 2), g_CenterY - (p_Llargada / 2));
+        l_Punt3 = new PointF(g_CenterX + (p_Amplada / 2), g_CenterY + (p_Llargada / 2));
+        l_Punt4 = new PointF(g_CenterX - (p_Amplada / 2), g_CenterY + (p_Llargada / 2));
+        //
+        g_LiniesPlanol.add(DefineixLinia(l_Punt1, l_Punt2));
+        g_LiniesPlanol.add(DefineixLinia(l_Punt2, l_Punt3));
+        g_LiniesPlanol.add(DefineixLinia(l_Punt3, l_Punt4));
+        g_LiniesPlanol.add(DefineixLinia(l_Punt4, l_Punt1));
+        //
+        g_Finalitzat = true;
         invalidate();
     }
 
+    private linia DefineixLinia(PointF l_Inici, PointF l_Fi){
+        linia l_Linia;
+        String l_Distancia;
+        Rect l_RectDistancia = new Rect();
+        PointF l_PuntMig;
+
+        l_Linia = new linia();
+        l_Linia.Inici = l_Inici;
+        l_Linia.Fi = l_Fi;
+        l_Distancia = EscalaDistancia(CalculaDistancia(l_Linia.Inici, l_Linia.Fi));
+        l_PuntMig = new PointF((l_Linia.Inici.x + l_Linia.Fi.x) / 2, (l_Linia.Inici.y + l_Linia.Fi.y) / 2);
+        l_RectDistancia = new Rect(Math.round(l_PuntMig.x) - 15, Math.round(l_PuntMig.y) - 15,
+                Math.round(l_PuntMig.x) + 15, Math.round(l_PuntMig.y) + 15);
+        l_Linia.ObjDistancia = new metresCurva(l_PuntMig, l_Distancia, l_RectDistancia);
+
+        return l_Linia;
+    }
 }
 
                         /* ANIMACIO
