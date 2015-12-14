@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.support.annotation.IntegerRes;
 import android.text.InputFilter;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
@@ -63,7 +64,8 @@ public class SimpleDrawView extends RelativeLayout {
     private Rect g_Punter = null, g_DetectorIni = null, g_CanvasRect = null;
     public boolean g_Finalitzat = false, g_Dibuixant = false, g_IniciDibuix = false;
     static private int g_CenterX = 0, g_CenterY = 0;
-    private int g_Escala = 20;
+    private int g_UnitatX, g_UnitatY;
+    private int g_AmpladaScreen, g_AlsadaScreen;
 
     // Array per guardar les linies que fem
     public ArrayList<linia> g_LiniesPlanol = new ArrayList<>();
@@ -186,16 +188,15 @@ public class SimpleDrawView extends RelativeLayout {
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        //view given size
-        super.onSizeChanged(w, h, oldw, oldh);
+    protected void onSizeChanged(int p_w, int p_h, int p_oldw, int p_oldh) {
+        super.onSizeChanged(p_w, p_h, p_oldw, p_oldh);
 
-        Log.d("BODINA-Draw", "-----> Amplada/Alsada " + w + " / " + h);
-
-        g_CanvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        g_CanvasBitmap = Bitmap.createBitmap(p_w, p_h, Bitmap.Config.ARGB_8888);
         g_DrawCanvas = new Canvas(g_CanvasBitmap);
-        g_CenterX = w / 2;
-        g_CenterY = h / 2;
+        g_AmpladaScreen = p_w;
+        g_AlsadaScreen = p_h;
+        g_CenterX = g_AmpladaScreen / 2;
+        g_CenterY = g_AlsadaScreen / 2;
     }
 
     @Override
@@ -208,7 +209,12 @@ public class SimpleDrawView extends RelativeLayout {
         PointF l_PuntMig;
 
         canvas.save();
-        Log.d("BODINA-Draw", "-----> Escalem " + g_ScaleFactor);
+        // Calculem escala i unitats
+        String[] l_Valors = g_EscalaPlanol.split("x");
+        g_UnitatX = Math.round(g_AmpladaScreen / Integer.valueOf(l_Valors[0]));
+        g_UnitatY = Math.round(g_AlsadaScreen / Integer.valueOf(l_Valors[1]));
+        //
+        Log.d("BODINA-Draw", "-----> Escalat de l'usuari amb gestos " + g_ScaleFactor);
         //canvas.translate(g_mPosX, g_mPosY);
         canvas.scale(g_ScaleFactor, g_ScaleFactor);
         g_CanvasRect = canvas.getClipBounds();
@@ -223,17 +229,17 @@ public class SimpleDrawView extends RelativeLayout {
 
             float l_dpHeight = displayMetrics.heightPixels;
             float l_dpWidth = displayMetrics.widthPixels;
-            int l_NumLiniesVerticals = Math.round(l_dpHeight)/g_Escala;
-            int l_NumLiniesHoritzontals = Math.round(l_dpWidth)/g_Escala;
+            int l_NumLiniesVerticals = Math.round(l_dpHeight)/g_UnitatY;
+            int l_NumLiniesHoritzontals = Math.round(l_dpWidth)/g_UnitatX;
 
             for (int v=1; v <  l_NumLiniesVerticals; v++) {
-                l_Quadricula.moveTo(0, g_Escala*v);
-                l_Quadricula.lineTo(l_dpWidth, g_Escala*v);
+                l_Quadricula.moveTo(0, g_UnitatY*v);
+                l_Quadricula.lineTo(l_dpWidth, g_UnitatY*v);
             }
 
             for (int v=1; v <  l_NumLiniesHoritzontals; v++) {
-                l_Quadricula.moveTo(g_Escala*v, 0);
-                l_Quadricula.lineTo(g_Escala*v, l_dpHeight);
+                l_Quadricula.moveTo(g_UnitatX*v, 0);
+                l_Quadricula.lineTo(g_UnitatX*v, l_dpHeight);
             }
 
         }
@@ -255,6 +261,10 @@ public class SimpleDrawView extends RelativeLayout {
             if (l_Linia2.Curva) {
                 l_Linia2.PuntCurva.offset(g_mPosX, g_mPosY);
                 g_drawPath.quadTo(l_Linia2.PuntCurva.x, l_Linia2.PuntCurva.y, l_Linia2.Fi.x, l_Linia2.Fi.y);
+                // Si s'ha mogut tambe hem de modificar la posicio
+                if (l_Linia2.ObjDistancia.Mogut){
+                    l_Linia2.ObjDistancia.Punt.offset(g_mPosX, g_mPosY);
+                }
             }
             else {
                 g_drawPath.lineTo(l_Linia2.Fi.x, l_Linia2.Fi.y);
@@ -268,7 +278,7 @@ public class SimpleDrawView extends RelativeLayout {
                 canvas.drawCircle(Math.round(l_Linia2.Fi.x), Math.round(l_Linia2.Fi.y), 25, g_PaintNormal);
                 // Pintem el planol
                 canvas.drawPath(g_drawPath, g_PaintNormal);
-                // Pintem distancies de les rectes
+                // Pintem distancies de les rectes/curves
                 for (int I=0; I < g_LiniesPlanol.size(); I++) {
                     l_Linia2 = g_LiniesPlanol.get(I);
                     // Calculem distancia de la linia i els bounds del texte
@@ -380,6 +390,11 @@ public class SimpleDrawView extends RelativeLayout {
                                     g_DetectorIni = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
                                                              Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
                                 }
+                                // Validem que si estem amb quadricula el punt s'ajusta a aquesta
+                                if (g_Quadricula){
+                                    l_ActualPoint.set(Math.round(l_ActualPoint.x) - mod(Math.round(l_ActualPoint.x),g_UnitatX), Math.round(l_ActualPoint.y) - mod(Math.round(l_ActualPoint.y),g_UnitatY));
+                                }
+                                //
                                 g_PuntInicialLinia = new PointF(l_ActualPoint.x, l_ActualPoint.y);
                                 // Validem si tenim punter per seguir el planol
                                 if (g_Punter != null) {
@@ -453,6 +468,11 @@ public class SimpleDrawView extends RelativeLayout {
                     break;
 
                 case MotionEvent.ACTION_MOVE:
+                    // Validem que si estem amb quadricula el punt segueix la quadricula
+                    if (g_Quadricula){
+                        l_ActualPoint.set(Math.round(l_ActualPoint.x) - mod(Math.round(l_ActualPoint.x),g_UnitatX), Math.round(l_ActualPoint.y) - mod(Math.round(l_ActualPoint.y),g_UnitatY));
+                    }
+                    //
                     switch (g_ModusDibuix) {
                         case curva:
                             // Estem arrosegant una distancia i a g_MarcaDistancia tenim la linia "afectada"
@@ -490,6 +510,9 @@ public class SimpleDrawView extends RelativeLayout {
                                 }
                                 if (g_PuntFinalAnterior != null) {
                                     g_PuntFinalAnterior.offset((int) g_mPosX, (int) g_mPosY);
+                                }
+                                if (g_PrimerPuntDibuix != null) {
+                                    g_PrimerPuntDibuix.offset((int) g_mPosX, (int) g_mPosY);
                                 }
                                 //
                                 invalidate();
@@ -661,6 +684,7 @@ public class SimpleDrawView extends RelativeLayout {
         g_DetectorIni = null;
         g_PrimerPuntDibuix = null;
         g_PuntInicialLinia = null;
+        g_PuntFinalAnterior = null;
         g_Punter = null;
         g_IniciDibuix = false;
         g_Dibuixant = false;
@@ -685,7 +709,7 @@ public class SimpleDrawView extends RelativeLayout {
     private String EscalaDistancia(double P_Distancia){
         String l_Resultat = null;
 
-        l_Resultat = String.valueOf(Math.round(P_Distancia / 5));
+        l_Resultat = String.valueOf(Math.round(P_Distancia / g_UnitatX));
         return l_Resultat;
     }
 
@@ -820,6 +844,13 @@ public class SimpleDrawView extends RelativeLayout {
         l_Linia.ObjDistancia = new metresCurva(l_PuntMig, l_Distancia, l_RectDistancia);
 
         return l_Linia;
+    }
+
+    private int mod(int x, int y){
+        int result = x % y;
+        if (result < 0)
+            result += y;
+        return result;
     }
 }
 

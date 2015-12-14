@@ -679,16 +679,18 @@
         <item>German</item>
     </string-array>
 
+    <string name="LlistaEscalaDefault">100x50</string>
     <string-array name="Escala">
         <item>@string/llista_Select</item>
-        <item>200x100</item>
-        <item>100x50</item>
         <item>50x25</item>
+        <item>@string/LlistaEscalaDefault</item>
+        <item>200x100</item>
     </string-array>
 
+    <string name="LlistaUnitatsDefault">meter</string>
     <string-array name="Unitats">
         <item>@string/llista_Select</item>
-        <item>meter</item>
+        <item>@string/LlistaUnitatsDefault</item>
         <item>yards</item>
     </string-array>
 

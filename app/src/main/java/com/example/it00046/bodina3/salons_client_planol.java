@@ -52,6 +52,9 @@ public class salons_client_planol  extends ActionBarActivity {
         // Inicialment dibuixem rectes
         l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_dibuixar_rectes_mes24dp));
         l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.recta;
+        // Informem resta de parametres inicials
+        l_Draw.g_EscalaPlanol = Globals.g_Native.getString(R.string.LlistaEscalaDefault);
+        l_Draw.g_UnitatsPlanol = Globals.g_Native.getString(R.string.LlistaUnitatsDefault);
         //
         l_FLM_Eines.setOnMenuButtonClickListener(new Button.OnClickListener() {
             @Override
@@ -92,6 +95,7 @@ public class salons_client_planol  extends ActionBarActivity {
                 final CheckBox l_CBX_Quadricula;
                 ArrayAdapter<CharSequence> l_adapter_Escala, l_adapter_Unitats;
                 View l_VIW_Config = inflater.inflate(R.layout.salons_client_planol_dialog_config, null);
+                int l_spinnerPosition;
 
                 // CheckBox
                 l_CBX_Quadricula = (CheckBox) l_VIW_Config.findViewById(R.id.SalonsClientPlanolDialogConfigCBXQuadricula);
@@ -100,11 +104,16 @@ public class salons_client_planol  extends ActionBarActivity {
                 l_adapter_Escala.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 l_SPN_Escala = (Spinner) l_VIW_Config.findViewById(R.id.SalonsClientPlanolDialogConfigSPNEscala);
                 l_SPN_Escala.setAdapter(l_adapter_Escala);
+                l_spinnerPosition = l_adapter_Escala.getPosition(l_Draw.g_EscalaPlanol);
+                l_SPN_Escala.setSelection(l_spinnerPosition);
                 //
                 l_adapter_Unitats = ArrayAdapter.createFromResource(Jo,R.array.Unitats,android.R.layout.simple_spinner_item);
                 l_adapter_Unitats.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 l_SPN_Unitats = (Spinner) l_VIW_Config.findViewById(R.id.SalonsClientPlanolDialogConfigSPNUnitats);
                 l_SPN_Unitats.setAdapter(l_adapter_Unitats);
+                l_SPN_Unitats.setAdapter(l_adapter_Unitats);
+                l_spinnerPosition = l_adapter_Unitats.getPosition(l_Draw.g_UnitatsPlanol);
+                l_SPN_Unitats.setSelection(l_spinnerPosition);
                 //
                 AlertDialog.Builder g_DialogConfiguracio = new AlertDialog.Builder(Jo);
                 g_DialogConfiguracio.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolLABConfiguracio));
