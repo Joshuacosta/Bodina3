@@ -46,6 +46,7 @@ public class SimpleDrawView extends RelativeLayout {
     private Path g_drawPath;
     private Paint g_PaintNormal, g_PaintFinal, g_PaintCanvas, g_PaintText, g_PaintQuadricula;
     private Paint g_PaintTextDistanciaBase, g_PaintTextDistancia, g_PaintTextEsborrantse;
+    private Paint g_PaintLiniaAjuda;
     // Controlador de events
     private GestureDetector g_GestureDetector;
     // Canvas i Bitmap
@@ -159,6 +160,12 @@ public class SimpleDrawView extends RelativeLayout {
         g_PaintQuadricula.setAlpha(100);
         g_PaintQuadricula.setStrokeWidth(1);
         g_PaintQuadricula.setStyle(Paint.Style.STROKE);
+        // Definim paint de quadricula
+        g_PaintLiniaAjuda = new Paint();
+        g_PaintLiniaAjuda.setColor(Color.RED);
+        g_PaintLiniaAjuda.setAlpha(100);
+        g_PaintLiniaAjuda.setStrokeWidth(4);
+        g_PaintLiniaAjuda.setStyle(Paint.Style.STROKE);
         // Definim paint de planol "terminat"
         g_PaintFinal = new Paint();
         g_PaintFinal.setColor(Color.LTGRAY);
@@ -312,6 +319,14 @@ public class SimpleDrawView extends RelativeLayout {
                     // Pintem distancia
                     canvas.drawText(l_Linia2.ObjDistancia.Distancia, l_Linia2.ObjDistancia.Detector.centerX() -15 , l_Linia2.ObjDistancia.Detector.centerY() + 7, g_PaintTextDistancia);
                 }
+                // Remarquem la linia que ens pot tancar el dibuix (si estem amb quadricula)
+                if (g_Quadricula && (g_LiniesPlanol.size() > 2) ) {
+                    if ((Math.round(l_Linia2.Fi.x) == Math.round(g_PrimerPuntDibuix.x)) ||
+                        (Math.round(l_Linia2.Fi.y) == Math.round(g_PrimerPuntDibuix.y))){
+                        // Mostrar la linia que els pot conectar
+                        canvas.drawLine(l_Linia2.Fi.x, l_Linia2.Fi.y, g_PrimerPuntDibuix.x, g_PrimerPuntDibuix.y, g_PaintLiniaAjuda);
+                    }
+                }
             }
         }
         else {
@@ -383,16 +398,16 @@ public class SimpleDrawView extends RelativeLayout {
                         case recta:
                             if (!g_Finalitzat) {
                                 Log.d("BODINA-TouchDOWN", "-----> Inici recta: " + l_ActualPoint.x + ", " + l_ActualPoint.y);
+                                // Validem que si estem amb quadricula el punt s'ajusta a aquesta
+                                if (g_Quadricula){
+                                    l_ActualPoint.set(Math.round(l_ActualPoint.x) - mod(Math.round(l_ActualPoint.x),g_UnitatX), Math.round(l_ActualPoint.y) - mod(Math.round(l_ActualPoint.y),g_UnitatY));
+                                }
                                 // Si es el primer punt lo que fem es definir el detector inicial per poder determinar
                                 // quan tanquem el dibuix
                                 if (g_PrimerPuntDibuix == null) {
                                     g_PrimerPuntDibuix = new PointF(l_ActualPoint.x, l_ActualPoint.y);
                                     g_DetectorIni = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
                                                              Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
-                                }
-                                // Validem que si estem amb quadricula el punt s'ajusta a aquesta
-                                if (g_Quadricula){
-                                    l_ActualPoint.set(Math.round(l_ActualPoint.x) - mod(Math.round(l_ActualPoint.x),g_UnitatX), Math.round(l_ActualPoint.y) - mod(Math.round(l_ActualPoint.y),g_UnitatY));
                                 }
                                 //
                                 g_PuntInicialLinia = new PointF(l_ActualPoint.x, l_ActualPoint.y);
