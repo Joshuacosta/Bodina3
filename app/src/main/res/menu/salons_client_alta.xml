@@ -1,8 +1,0 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".salons_client_alta">
-    <item android:id="@+id/SalonsClientAltaMNUAcceptar" android:title="@string/Acceptar"
-        android:orderInCategory="100"
-        android:icon="@drawable/ic_check_white_48dp"
-        app:showAsAction="always" />
-</menu>

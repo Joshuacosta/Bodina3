@@ -91,9 +91,10 @@
         android:gravity="center_horizontal|top">
 
         <EditText
-            android:id="@+id/SalonsClientAltaTXTNom"
+            android:id="@+id/SalonsClientPlanolTXTNom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLength="50"
             android:hint="@string/SalonsClientAltaTXTNom" />
     </LinearLayout>
 

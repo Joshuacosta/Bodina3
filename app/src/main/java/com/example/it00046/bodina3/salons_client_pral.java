@@ -60,7 +60,7 @@ public class salons_client_pral extends ActionBarActivity {
 
                 arg0.startAnimation(l_Animacio);
                 // Obrim la finestra de alta
-                l_Intent = new Intent(Jo, salons_client_alta.class);
+                l_Intent = new Intent(Jo, salons_client_planol.class);
                 startActivityForResult(l_Intent, g_RQC_SALO_CLIENT_ALTA);
             }
         });
@@ -150,7 +150,7 @@ public class salons_client_pral extends ActionBarActivity {
 
         switch (l_id) {
             case R.id.salons_client_pralMNUAltaSalo:
-                l_Intent = new Intent(this, salons_client_alta.class);
+                l_Intent = new Intent(this, salons_client_planol.class);
                 startActivityForResult(l_Intent, g_RQC_SALO_CLIENT_ALTA);
                 return true;
             case R.id.salons_client_pralMNUOrdenar:
@@ -218,8 +218,6 @@ public class salons_client_pral extends ActionBarActivity {
             l_Salo = (SaloClient)l_LiniaSalo.getTag();
             l_Parametres.Codi = l_Salo.Codi;
             l_Parametres.Nom = l_Salo.Nom;
-            l_Parametres.Amplada = l_Salo.Amplada;
-            l_Parametres.Alsada = l_Salo.Alsada;
             l_Parametres.CodiPlanol = l_Salo.CodiPlanol;
             l_Parametres.Estat = l_Salo.Estat;
             Intent l_editem = new Intent(this, salons_client_modificar.class);

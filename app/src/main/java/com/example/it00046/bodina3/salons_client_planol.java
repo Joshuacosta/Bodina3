@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,12 +18,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.example.it00046.bodina3.Classes.DAO.DAOSalonsClient;
+import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.SimpleDrawView;
+import com.example.it00046.bodina3.Classes.Validacio;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -30,31 +37,33 @@ import com.github.clans.fab.FloatingActionMenu;
  */
 public class salons_client_planol  extends ActionBarActivity {
     Context Jo = this;
+    EditText g_NomSalo;
+    SimpleDrawView g_Draw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FloatingActionButton l_FLB_Texte, l_FLB_Configuracio, l_FLB_Recta, l_FLB_Assistent;
         final FloatingActionMenu l_FLM_Eines;
-        final SimpleDrawView l_Draw;
         ImageButton l_IMB_Esborrar, l_IMB_Ajuda;
         final LayoutInflater inflater = getLayoutInflater();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.salons_client_planol);
         // Recuperem controls
-        l_Draw = (SimpleDrawView) findViewById(R.id.SalonsClientPlanolVIWDrawing);
-        l_Draw.g_Pare = Jo;
+        g_Draw = (SimpleDrawView) findViewById(R.id.SalonsClientPlanolVIWDrawing);
+        g_Draw.g_Pare = Jo;
         l_IMB_Esborrar = (ImageButton) findViewById(R.id.salonsClientPlanolIMBEsborrar);
-        l_Draw.g_IMB_Esborrar = l_IMB_Esborrar;
+        g_Draw.g_IMB_Esborrar = l_IMB_Esborrar;
         l_IMB_Ajuda = (ImageButton) findViewById(R.id.salonsClientPlanolIMBAjuda);
+        g_NomSalo = (EditText) findViewById(R.id.SalonsClientPlanolTXTNom);
         // Accions dels FLB
         l_FLM_Eines = (FloatingActionMenu) findViewById(R.id.salonsClientPlanolFLMEines);
         // Inicialment dibuixem rectes
         l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_dibuixar_rectes_mes24dp));
-        l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.recta;
+        g_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.recta;
         // Informem resta de parametres inicials
-        l_Draw.g_EscalaPlanol = Globals.g_Native.getString(R.string.LlistaEscalaDefault);
-        l_Draw.g_UnitatsPlanol = Globals.g_Native.getString(R.string.LlistaUnitatsDefault);
+        g_Draw.g_EscalaPlanol = Globals.g_Native.getString(R.string.LlistaEscalaDefault);
+        g_Draw.g_UnitatsPlanol = Globals.g_Native.getString(R.string.LlistaUnitatsDefault);
         //
         l_FLM_Eines.setOnMenuButtonClickListener(new Button.OnClickListener() {
             @Override
@@ -68,7 +77,7 @@ public class salons_client_planol  extends ActionBarActivity {
         l_FLB_Texte.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.texte;
+                g_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.texte;
                 // Cambien el icon de eines
                 l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_format_color_text_white_24dp));
                 l_FLM_Eines.close(true);
@@ -78,7 +87,7 @@ public class salons_client_planol  extends ActionBarActivity {
         l_FLB_Recta.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                l_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.recta;
+                g_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.recta;
                 // Cambien el icon de eines
                 l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_border_color_white_24dp));
                 l_FLM_Eines.close(true);
@@ -104,7 +113,7 @@ public class salons_client_planol  extends ActionBarActivity {
                 l_adapter_Escala.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 l_SPN_Escala = (Spinner) l_VIW_Config.findViewById(R.id.SalonsClientPlanolDialogConfigSPNEscala);
                 l_SPN_Escala.setAdapter(l_adapter_Escala);
-                l_spinnerPosition = l_adapter_Escala.getPosition(l_Draw.g_EscalaPlanol);
+                l_spinnerPosition = l_adapter_Escala.getPosition(g_Draw.g_EscalaPlanol);
                 l_SPN_Escala.setSelection(l_spinnerPosition);
                 //
                 l_adapter_Unitats = ArrayAdapter.createFromResource(Jo,R.array.Unitats,android.R.layout.simple_spinner_item);
@@ -112,7 +121,7 @@ public class salons_client_planol  extends ActionBarActivity {
                 l_SPN_Unitats = (Spinner) l_VIW_Config.findViewById(R.id.SalonsClientPlanolDialogConfigSPNUnitats);
                 l_SPN_Unitats.setAdapter(l_adapter_Unitats);
                 l_SPN_Unitats.setAdapter(l_adapter_Unitats);
-                l_spinnerPosition = l_adapter_Unitats.getPosition(l_Draw.g_UnitatsPlanol);
+                l_spinnerPosition = l_adapter_Unitats.getPosition(g_Draw.g_UnitatsPlanol);
                 l_SPN_Unitats.setSelection(l_spinnerPosition);
                 //
                 AlertDialog.Builder g_DialogConfiguracio = new AlertDialog.Builder(Jo);
@@ -125,12 +134,12 @@ public class salons_client_planol  extends ActionBarActivity {
                             public void onClick(DialogInterface p_dialog, int which) {
                                 // Llegim configuracio definida
                                 if (l_CBX_Quadricula.isChecked()) {
-                                    l_Draw.g_Quadricula = true;
+                                    g_Draw.g_Quadricula = true;
                                 }
-                                l_Draw.g_EscalaPlanol = l_SPN_Escala.getSelectedItem().toString();
-                                l_Draw.g_UnitatsPlanol = l_SPN_Unitats.getSelectedItem().toString();
+                                g_Draw.g_EscalaPlanol = l_SPN_Escala.getSelectedItem().toString();
+                                g_Draw.g_UnitatsPlanol = l_SPN_Unitats.getSelectedItem().toString();
                                 // Repintem
-                                l_Draw.invalidate();
+                                g_Draw.invalidate();
                             }
                         })
                         .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
@@ -199,7 +208,7 @@ public class salons_client_planol  extends ActionBarActivity {
                         .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface p_dialog, int which) {
-                                l_Draw.Assistent(l_SEK_Amplada.getProgress(), l_SEK_Llargada.getProgress());
+                                g_Draw.Assistent(l_SEK_Amplada.getProgress(), l_SEK_Llargada.getProgress());
                             }
                         })
                         .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
@@ -216,7 +225,7 @@ public class salons_client_planol  extends ActionBarActivity {
             @Override
             public void onClick(View arg0) {
                 // Hauriem de preguntar si ho fem o no!!!!!!!!!!!!!!!!!!!!!
-                l_Draw.EsborrarPlanol();
+                g_Draw.EsborrarPlanol();
             }
         });
         // Boto de ajuda
@@ -224,6 +233,18 @@ public class salons_client_planol  extends ActionBarActivity {
             @Override
             public void onClick(View arg0) {
                 // Mostrem el dialeg de ajuda
+            }
+        });
+        // Codi de validacio dels camps de la finestra (fem servir la clase estatica Validacio)
+        g_NomSalo.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                g_NomSalo.setError(null);
             }
         });
         // Control de enrera/cancelacio
@@ -244,7 +265,39 @@ public class salons_client_planol  extends ActionBarActivity {
         Intent l_Intent;
         int l_id = p_Item.getItemId();
 
+        if (l_id == R.id.SalonsClientPlanolMNUAcceptar) {
+            FerOperativa();
+            return true;
+        }
+
         return super.onOptionsItemSelected(p_Item);
     }
 
+    // Funcio interna per validar la finestra
+    private boolean ValidarFinestra() {
+        boolean ret = true;
+
+        // Camps obligatoris
+        if (!Validacio.hasText(g_NomSalo)) ret = false;
+        //
+        return ret;
+    }
+
+    // Funcio interna per fer la operativa
+    private void FerOperativa(){
+        SaloClient l_SaloClient = new SaloClient();
+
+        // Validem camps: nom salo definit
+        if (ValidarFinestra()) {
+            // Donem d'alta el salo
+            l_SaloClient.Nom = g_NomSalo.getText().toString();
+            // Donem d'alta el planol si hi es definit
+            if (g_Draw.g_Finalitzat){
+
+            }
+            DAOSalonsClient.Afegir(l_SaloClient, Jo, true, true);
+
+        }
+
+    }
 }

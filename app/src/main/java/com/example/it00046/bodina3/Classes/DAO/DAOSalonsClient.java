@@ -25,8 +25,6 @@ public final class DAOSalonsClient {
     private static final String TAG_SalonsClient = Globals.g_Native.getString(R.string.TSalonsClient);
     private static final String TAG_Codi = Globals.g_Native.getString(R.string.TSalonsClient_Codi);
     private static final String TAG_Nom  = Globals.g_Native.getString(R.string.TSalonsClient_Nom);
-    private static final String TAG_Amplada = Globals.g_Native.getString(R.string.TSalonsClient_Amplada);
-    private static final String TAG_Alsada = Globals.g_Native.getString(R.string.TSalonsClient_Alsada);
     private static final String TAG_CodiPlanol = Globals.g_Native.getString(R.string.TSalonsClient_CodiPlanol);
     private static final String TAG_Estat = Globals.g_Native.getString(R.string.TSalonsClient_Estat);
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -212,8 +210,6 @@ public final class DAOSalonsClient {
             l_values.put(TAG_Codi, p_SaloClient.Codi);
         }
         l_values.put(TAG_Nom, p_SaloClient.Nom);
-        l_values.put(TAG_Amplada, p_SaloClient.Amplada);
-        l_values.put(TAG_Alsada, p_SaloClient.Alsada);
         l_values.put(TAG_CodiPlanol, p_SaloClient.CodiPlanol);
         l_values.put(TAG_Estat, p_SaloClient.Estat);
 
@@ -224,8 +220,6 @@ public final class DAOSalonsClient {
 
         l_SaloClient.Codi = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Codi));
         l_SaloClient.Nom = p_cursor.getString(p_cursor.getColumnIndex(TAG_Nom));
-        l_SaloClient.Amplada = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Amplada));
-        l_SaloClient.Alsada = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Alsada));
         l_SaloClient.CodiPlanol = p_cursor.getInt(p_cursor.getColumnIndex(TAG_CodiPlanol));
         l_SaloClient.Estat = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Estat));
 

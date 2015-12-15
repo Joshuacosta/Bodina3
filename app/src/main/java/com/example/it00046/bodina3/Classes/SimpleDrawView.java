@@ -53,23 +53,23 @@ public class SimpleDrawView extends RelativeLayout {
     private Canvas g_DrawCanvas;
     private Bitmap g_CanvasBitmap;
     // Punts i texte de treball
-    private PointF g_PuntInicialLinia = null, g_PuntFinalAnterior = null, g_PrimerPuntDibuix = null, g_PuntActual = null;
-    private texte g_TexteSeleccionat = null;
-    private linia g_MarcaDistancia = null;
+    static private PointF g_PuntInicialLinia = null, g_PuntFinalAnterior = null, g_PrimerPuntDibuix = null, g_PuntActual = null;
+    static private texte g_TexteSeleccionat = null;
+    static private linia g_MarcaDistancia = null;
     // Modes i variables de treball de dibuix
     public enum g_Modus {recta,curva,texte};
-    public g_Modus g_ModusDibuix = g_Modus.recta;
-    public g_Modus g_ModusDibuixAnterior = g_Modus.recta;
-    public ImageButton g_IMB_Esborrar;
+    static public g_Modus g_ModusDibuix = g_Modus.recta;
+    static public g_Modus g_ModusDibuixAnterior = g_Modus.recta;
+    static private Rect g_Punter = null, g_DetectorIni = null, g_CanvasRect = null;
+    static public boolean g_Finalitzat = false, g_Dibuixant = false, g_IniciDibuix = false;
     //
-    private Rect g_Punter = null, g_DetectorIni = null, g_CanvasRect = null;
-    public boolean g_Finalitzat = false, g_Dibuixant = false, g_IniciDibuix = false;
     static private int g_CenterX = 0, g_CenterY = 0;
     private int g_UnitatX, g_UnitatY;
     private int g_AmpladaScreen, g_AlsadaScreen;
+    public ImageButton g_IMB_Esborrar;
 
     // Array per guardar les linies que fem
-    public ArrayList<linia> g_LiniesPlanol = new ArrayList<>();
+    static public ArrayList<linia> g_LiniesPlanol = new ArrayList<>();
     class linia {
         public PointF Inici;                     // Punt inicial de la recta
         public PointF Fi;                        // Punt final
@@ -113,7 +113,7 @@ public class SimpleDrawView extends RelativeLayout {
         }
     }
     // Array per guardar els textes del planol
-    public ArrayList<texte> g_TextesPlanol = new ArrayList<texte>();
+    static public ArrayList<texte> g_TextesPlanol = new ArrayList<texte>();
     class texte{
         public PointF Punt;
         public Boolean Esborrat;

@@ -182,7 +182,6 @@ public class configuracio extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int l_id = p_item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (l_id == R.id.configuracioMNUacceptar) {
             FerOperativa();
             return true;

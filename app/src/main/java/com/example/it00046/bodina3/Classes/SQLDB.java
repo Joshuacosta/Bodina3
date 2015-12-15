@@ -43,8 +43,6 @@ public class SQLDB extends SQLiteOpenHelper {
                 Globals.g_Native.getString(R.string.TSalonsClient),
                 Globals.g_Native.getString(R.string.TSalonsClient_Codi),
                 Globals.g_Native.getString(R.string.TSalonsClient_Nom),
-                Globals.g_Native.getString(R.string.TSalonsClient_Amplada),
-                Globals.g_Native.getString(R.string.TSalonsClient_Alsada),
                 Globals.g_Native.getString(R.string.TSalonsClient_CodiPlanol),
                 Globals.g_Native.getString(R.string.TSalonsClient_Estat));
         db.execSQL(l_Create);

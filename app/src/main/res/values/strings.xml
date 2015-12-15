@@ -130,19 +130,14 @@
     <string name="SalonsClientPralMNUOrdenar">Sort saloon</string>
     <string name="SalonsClientPralMNUActualitzar">Refresh</string>
 
-    <!-- Layout salo client alta -->
-    <string name="title_activity_salonsclient_alta">Append saloon</string>
-    <string name="SalonsClientAltaTXTNom">Name</string>
-    <string name="SalonsClientAltaLITAmplada">-with-</string>
-    <string name="SalonsClientAltaLITAlsada">-height-</string>
-    <string name="SalonsClientAltaBUTFetAma">Hand made</string>
-    <string name="SalonsClientAltaBUTPlanol"></string>
-
     <!-- Layout salo client modificacion -->
     <string name="title_activity_salonsclient_modificacio">Modify saloon</string>
 
     <!-- Layout salo client planol -->
     <string name="title_activity_salonsclient_planol">Draw saloon</string>
+    <string name="SalonsClientAltaTXTNom">Name</string>
+    <string name="SalonsClientAltaLITAmplada">-with-</string>
+    <string name="SalonsClientAltaLITAlsada">-height-</string>
     <string name="SalonsClientPlanolLABRecta">Line</string>
     <string name="SalonsClientPlanolLABCurva">Curve</string>
     <string name="SalonsClientPlanolLABTexte">Text</string>
@@ -249,16 +244,12 @@
     <!-- Camps -->
     <string name="TSalonsClient_Codi">Codi</string>
     <string name="TSalonsClient_Nom">Nom</string>
-    <string name="TSalonsClient_Amplada">Amplada</string>
-    <string name="TSalonsClient_Alsada">Alsada</string>
     <string name="TSalonsClient_CodiPlanol">CodiPlanol</string>
     <string name="TSalonsClient_Estat">Estat</string>
     <!-- Llista camps -->
     <string-array name="TSalonsClient_Camps">
         <item>@string/TSalonsClient_Codi</item>
         <item>@string/TSalonsClient_Nom</item>
-        <item>@string/TSalonsClient_Amplada</item>
-        <item>@string/TSalonsClient_Alsada</item>
         <item>@string/TSalonsClient_CodiPlanol</item>
         <item>@string/TSalonsClient_Estat</item>
     </string-array>
@@ -267,9 +258,7 @@
                                 %2$s INTEGER PRIMARY KEY,
                                 %3$s VARCHAR(50),
                                 %4$s INTEGER,
-                                %5$s INTEGER,
-                                %6$s INTEGER,
-                                %7$s INTEGER)</string>
+                                %5$s INTEGER)</string>
     <!-- .................................................................................. -->
     <!-- PLANOL (local) -->
     <string name="TPlanols">Planols</string>
@@ -293,7 +282,7 @@
     </string-array>
     <!-- Funcions -->
     <string name="TPlanolsCreate">CREATE TABLE %1$s (
-                                %2$s INTEGER,
+                                %2$s INTEGER PRIMARY KEY,
                                 %3$s INTEGER,
                                 %4$s REAL,
                                 %5$s REAL,
