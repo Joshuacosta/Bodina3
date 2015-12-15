@@ -23,9 +23,12 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.DAO.DAOSalonsClient;
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
+import com.example.it00046.bodina3.Classes.Feina.linia;
+import com.example.it00046.bodina3.Classes.Feina.texte;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.SimpleDrawView;
 import com.example.it00046.bodina3.Classes.Validacio;
@@ -277,6 +280,14 @@ public class salons_client_planol  extends ActionBarActivity {
     private boolean ValidarFinestra() {
         boolean ret = true;
 
+        // Validem si hi han linies aquestes tanquin el planol
+        if ((g_Draw.g_LiniesPlanol.size() > 0) || (!g_Draw.g_Finalitzat)) {
+            // El planol s'ha de tancar
+            Toast.makeText(Jo,
+                    Globals.g_Native.getString(R.string.error_PlanolNoTancat),
+                    Toast.LENGTH_LONG).show();
+            ret = false;
+        }
         // Camps obligatoris
         if (!Validacio.hasText(g_NomSalo)) ret = false;
         //
@@ -286,17 +297,40 @@ public class salons_client_planol  extends ActionBarActivity {
     // Funcio interna per fer la operativa
     private void FerOperativa(){
         SaloClient l_SaloClient = new SaloClient();
+        SaloClient.DetallPlanol l_Detall = new SaloClient.DetallPlanol();
+        int i;
+        linia l_Linia;
+        texte l_Texte;
 
-        // Validem camps: nom salo definit
+        // Validem finestra
         if (ValidarFinestra()) {
-            // Donem d'alta el salo
             l_SaloClient.Nom = g_NomSalo.getText().toString();
-            // Donem d'alta el planol si hi es definit
-            if (g_Draw.g_Finalitzat){
-
+            // Llegim les linies del plano
+            for (i = 0; i < g_Draw.g_LiniesPlanol.size(); i++) {
+                l_Linia = g_Draw.g_LiniesPlanol.get(i);
+                l_Detall.Tipus = 0;
+                l_Detall.OrigenX = l_Linia.Inici.x;
+                l_Detall.OrigenY = l_Linia.Inici.y;
+                l_Detall.DestiX = l_Linia.Fi.x;
+                l_Detall.DestiY = l_Linia.Fi.y;
+                if (l_Linia.Curva) {
+                    l_Detall.CurvaX = l_Linia.PuntCurva.x;
+                    l_Detall.CurvaY = l_Linia.PuntCurva.y;
+                }
+                //
+                l_SaloClient.g_Planol.add(l_Detall);
+            }
+            // LLegim els textes
+            for (i = 0; i < g_Draw.g_TextesPlanol.size(); i++) {
+                l_Texte = g_Draw.g_TextesPlanol.get(i);
+                l_Detall.Tipus = 0;
+                l_Detall.OrigenX = l_Texte.Punt.x;
+                l_Detall.OrigenY = l_Texte.Punt.y;
+                l_Detall.Texte = l_Texte.Texte;
+                //
+                l_SaloClient.g_Planol.add(l_Detall);
             }
             DAOSalonsClient.Afegir(l_SaloClient, Jo, true, true);
-
         }
 
     }

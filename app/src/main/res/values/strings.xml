@@ -151,6 +151,7 @@
     <string name="SalonsClientPlanolDialogConfigCBXQuadricula">Quarter</string>
     <string name="SalonsClientPlanolDialogConfigTXTEscala">Scale</string>
     <string name="SalonsClientPlanolDialogConfigTXTUnitats">Units</string>
+    <string name="error_PlanolNoTancat">The saloon must be closed</string>
 
     <!-- Layout celebracio alta -->
     <string name="title_activity_ac_celebracio_alta">Append event</string>

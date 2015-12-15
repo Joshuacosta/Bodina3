@@ -23,6 +23,9 @@ import android.view.ScaleGestureDetector;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+
+import com.example.it00046.bodina3.Classes.Feina.linia;
+import com.example.it00046.bodina3.Classes.Feina.texte;
 import com.example.it00046.bodina3.R;
 import java.util.ArrayList;
 
@@ -70,6 +73,8 @@ public class SimpleDrawView extends RelativeLayout {
 
     // Array per guardar les linies que fem
     static public ArrayList<linia> g_LiniesPlanol = new ArrayList<>();
+
+    /*
     class linia {
         public PointF Inici;                     // Punt inicial de la recta
         public PointF Fi;                        // Punt final
@@ -91,6 +96,7 @@ public class SimpleDrawView extends RelativeLayout {
             ObjDistancia = p_MetresCurva;
         }
     }
+
     // Class per definir distancies de les linies i que ens serveix per arrosegar i convertirles
     // en curves
     class metresCurva {
@@ -112,25 +118,9 @@ public class SimpleDrawView extends RelativeLayout {
             Detector = p_Detector;
         }
     }
+    */
     // Array per guardar els textes del planol
     static public ArrayList<texte> g_TextesPlanol = new ArrayList<texte>();
-    class texte{
-        public PointF Punt;
-        public Boolean Esborrat;
-        public Boolean Esborrantse;
-        public String Texte;
-        public int Id;
-        public Rect Detector;
-
-        public texte(){
-            Punt = new PointF();
-            Esborrat = false;
-            Esborrantse = false;
-            Texte = new String();
-            Id = -1;
-            Detector = new Rect();
-        }
-    }
 
     public SimpleDrawView(Context p_Context, AttributeSet p_Attrs) {
         super(p_Context, p_Attrs);
@@ -295,7 +285,8 @@ public class SimpleDrawView extends RelativeLayout {
                             Math.round(l_PuntMig.x) + 15, Math.round(l_PuntMig.y) + 15);
                     // Definim el objecte distancia si no es definit
                     if (l_Linia2.ObjDistancia == null){
-                        l_Linia2.ObjDistancia = new metresCurva(l_PuntMig, l_Distancia, l_RectDistancia);
+                        l_Linia2.ObjDistancia = new linia.metresCurva(l_PuntMig, l_Distancia, l_RectDistancia);
+
                     }
                     else{
                         // Modifiquem la posicio i els bounds
@@ -856,7 +847,7 @@ public class SimpleDrawView extends RelativeLayout {
         l_PuntMig = new PointF((l_Linia.Inici.x + l_Linia.Fi.x) / 2, (l_Linia.Inici.y + l_Linia.Fi.y) / 2);
         l_RectDistancia = new Rect(Math.round(l_PuntMig.x) - 15, Math.round(l_PuntMig.y) - 15,
                 Math.round(l_PuntMig.x) + 15, Math.round(l_PuntMig.y) + 15);
-        l_Linia.ObjDistancia = new metresCurva(l_PuntMig, l_Distancia, l_RectDistancia);
+        l_Linia.ObjDistancia = new linia.metresCurva(l_PuntMig, l_Distancia, l_RectDistancia);
 
         return l_Linia;
     }

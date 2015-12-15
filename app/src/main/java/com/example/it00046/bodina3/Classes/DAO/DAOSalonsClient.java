@@ -110,9 +110,13 @@ public final class DAOSalonsClient {
             Globals.MostrarEspera(p_Context);
         }
         try {
+            Globals.g_DB.beginTransaction();
             Globals.g_DB.insert(TAG_SalonsClient,
-                                null,
-                                SaloClientToContentValues(p_SaloClient, true));
+                    null,
+                    SaloClientToContentValues(p_SaloClient, true));
+
+            Globals.g_DB.setTransactionSuccessful();
+
         }
         catch(Exception e) {
             if (p_Asistit) {
@@ -135,6 +139,7 @@ public final class DAOSalonsClient {
                     l_activity.finish();
                 }
             }
+            Globals.g_DB.endTransaction();
         }
         return l_resultat;
     }
