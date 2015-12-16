@@ -30,6 +30,7 @@ import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
 import com.example.it00046.bodina3.Classes.Feina.linia;
 import com.example.it00046.bodina3.Classes.Feina.texte;
 import com.example.it00046.bodina3.Classes.Globals;
+import com.example.it00046.bodina3.Classes.Params.PARSaloClient;
 import com.example.it00046.bodina3.Classes.SimpleDrawView;
 import com.example.it00046.bodina3.Classes.Validacio;
 import com.github.clans.fab.FloatingActionButton;
@@ -49,6 +50,7 @@ public class salons_client_planol  extends ActionBarActivity {
         final FloatingActionMenu l_FLM_Eines;
         ImageButton l_IMB_Esborrar, l_IMB_Ajuda;
         final LayoutInflater inflater = getLayoutInflater();
+        PARSaloClient l_CodiPlanol;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.salons_client_planol);
@@ -59,6 +61,15 @@ public class salons_client_planol  extends ActionBarActivity {
         g_Draw.g_IMB_Esborrar = l_IMB_Esborrar;
         l_IMB_Ajuda = (ImageButton) findViewById(R.id.salonsClientPlanolIMBAjuda);
         g_NomSalo = (EditText) findViewById(R.id.SalonsClientPlanolTXTNom);
+        // Validem si estem editant una associacio
+        Intent l_intent = getIntent();
+        l_CodiPlanol = (PARSaloClient) l_intent.getSerializableExtra("SaloClient");
+        if (l_CodiPlanol != null){
+            // Estem modificant
+        }
+        else{
+            // Estem en alta
+        }
         // Accions dels FLB
         l_FLM_Eines = (FloatingActionMenu) findViewById(R.id.salonsClientPlanolFLMEines);
         // Inicialment dibuixem rectes
@@ -281,7 +292,7 @@ public class salons_client_planol  extends ActionBarActivity {
         boolean ret = true;
 
         // Validem si hi han linies aquestes tanquin el planol
-        if ((g_Draw.g_LiniesPlanol.size() > 0) || (!g_Draw.g_Finalitzat)) {
+        if ((g_Draw.g_LiniesPlanol.size() > 0) && (!g_Draw.g_Finalitzat)) {
             // El planol s'ha de tancar
             Toast.makeText(Jo,
                     Globals.g_Native.getString(R.string.error_PlanolNoTancat),
@@ -332,6 +343,5 @@ public class salons_client_planol  extends ActionBarActivity {
             }
             DAOSalonsClient.Afegir(l_SaloClient, Jo, true, true);
         }
-
     }
 }

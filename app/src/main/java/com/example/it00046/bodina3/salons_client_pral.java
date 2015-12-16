@@ -218,9 +218,8 @@ public class salons_client_pral extends ActionBarActivity {
             l_Salo = (SaloClient)l_LiniaSalo.getTag();
             l_Parametres.Codi = l_Salo.Codi;
             l_Parametres.Nom = l_Salo.Nom;
-            l_Parametres.CodiPlanol = l_Salo.CodiPlanol;
             l_Parametres.Estat = l_Salo.Estat;
-            Intent l_editem = new Intent(this, salons_client_modificar.class);
+            Intent l_editem = new Intent(this, salons_client_planol.class);
             l_editem.putExtra("SaloClient", l_Parametres);
             startActivityForResult(l_editem, g_RQC_SALO_CLIENT_MODIFIQUEM);
         }

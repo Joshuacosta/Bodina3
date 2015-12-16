@@ -8,14 +8,12 @@ import java.util.ArrayList;
 public class SaloClient {
     public int Codi;
     public String Nom;
-    public int CodiPlanol;
     public int Estat;
     public ArrayList<DetallPlanol> g_Planol;
 
     public SaloClient(){
         Codi        = 0;
         Nom         = "";
-        CodiPlanol  = 0;
         Estat       = 0;
         g_Planol = new ArrayList<>();
     }

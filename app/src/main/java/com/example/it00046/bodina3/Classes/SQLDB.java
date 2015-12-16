@@ -43,7 +43,6 @@ public class SQLDB extends SQLiteOpenHelper {
                 Globals.g_Native.getString(R.string.TSalonsClient),
                 Globals.g_Native.getString(R.string.TSalonsClient_Codi),
                 Globals.g_Native.getString(R.string.TSalonsClient_Nom),
-                Globals.g_Native.getString(R.string.TSalonsClient_CodiPlanol),
                 Globals.g_Native.getString(R.string.TSalonsClient_Estat));
         db.execSQL(l_Create);
         // 3- Tipus de celebracio
@@ -55,10 +54,12 @@ public class SQLDB extends SQLiteOpenHelper {
         // 4- Planols
         l_Create = String.format(Globals.g_Native.getString(R.string.TPlanolsCreate),
                 Globals.g_Native.getString(R.string.TPlanols),
-                Globals.g_Native.getString(R.string.TPlanols_Codi),
+                Globals.g_Native.getString(R.string.TPlanols_CodiSalo),
                 Globals.g_Native.getString(R.string.TPlanols_Tipus),
                 Globals.g_Native.getString(R.string.TPlanols_OrigenX),
                 Globals.g_Native.getString(R.string.TPlanols_OrigenY),
+                Globals.g_Native.getString(R.string.TPlanols_DestiX),
+                Globals.g_Native.getString(R.string.TPlanols_DestiY),
                 Globals.g_Native.getString(R.string.TPlanols_CurvaX),
                 Globals.g_Native.getString(R.string.TPlanols_CurvaY),
                 Globals.g_Native.getString(R.string.TPlanols_Texte));
