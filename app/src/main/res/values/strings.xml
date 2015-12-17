@@ -284,7 +284,7 @@
     </string-array>
     <!-- Funcions -->
     <string name="TPlanolsCreate">CREATE TABLE %1$s (
-                                %2$s INTEGER PRIMARY KEY,
+                                %2$s INTEGER,
                                 %3$s INTEGER,
                                 %4$s REAL,
                                 %5$s REAL,

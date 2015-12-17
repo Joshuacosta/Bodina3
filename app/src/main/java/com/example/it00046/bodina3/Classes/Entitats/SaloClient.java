@@ -14,28 +14,28 @@ public class SaloClient {
     public SaloClient(){
         Codi        = 0;
         Nom         = "";
-        Estat       = 0;
+        Estat       = 1; // Per defecte actiu
         g_Planol = new ArrayList<>();
     }
 
     static public class DetallPlanol{
         public int Tipus;       // Pot ser una linia o un texte
-        public double OrigenX;
-        public double OrigenY;
-        public double DestiX;
-        public double DestiY;
-        public double CurvaX;
-        public double CurvaY;
+        public float OrigenX;
+        public float OrigenY;
+        public float DestiX;
+        public float DestiY;
+        public float CurvaX;
+        public float CurvaY;
         public String Texte;
 
         public DetallPlanol(){
             Tipus = 0;
-            OrigenX = 0.0;
-            OrigenY = 0.0;
-            DestiX = 0.0;
-            DestiY = 0.0;
-            CurvaX = 0.0;
-            CurvaY = 0.0;
+            OrigenX = 0;
+            OrigenY = 0;
+            DestiX = 0;
+            DestiY = 0;
+            CurvaX = 0;
+            CurvaY = 0;
             Texte = "";
         }
     }

@@ -24,8 +24,10 @@ import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
 import com.example.it00046.bodina3.Classes.ExpandAnimation;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.Params.PARSaloClient;
+import com.example.it00046.bodina3.Classes.Params.PARSaloPlanolClient;
 import com.melnykov.fab.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
@@ -192,6 +194,7 @@ public class salons_client_pral extends ActionBarActivity {
         TransitionDrawable l_transition;
         View l_parent, l_LiniaSalo;
         PARSaloClient l_Parametres;
+        ArrayList<PARSaloPlanolClient> l_Planol = new ArrayList<>();
         SaloClient l_Salo;
 
         // Recuperem "jerarquia"
@@ -219,8 +222,26 @@ public class salons_client_pral extends ActionBarActivity {
             l_Parametres.Codi = l_Salo.Codi;
             l_Parametres.Nom = l_Salo.Nom;
             l_Parametres.Estat = l_Salo.Estat;
+            // Planol
+            if (l_Salo.g_Planol.size() > 0){
+                for (int i = 0; i < l_Salo.g_Planol.size(); i++){
+                    SaloClient.DetallPlanol l_Detall;
+                    PARSaloPlanolClient l_DetallParametre = new PARSaloPlanolClient();
+                    l_Detall = l_Salo.g_Planol.get(i);
+                    l_DetallParametre.Tipus = l_Detall.Tipus;
+                    l_DetallParametre.OrigenX = l_Detall.OrigenX;
+                    l_DetallParametre.OrigenY = l_Detall.OrigenY;
+                    l_DetallParametre.DestiX = l_Detall.DestiX;
+                    l_DetallParametre.DestiY = l_Detall.DestiY;
+                    l_DetallParametre.CurvaX = l_Detall.CurvaX;
+                    l_DetallParametre.CurvaY = l_Detall.CurvaY;
+                    l_DetallParametre.Texte = l_Detall.Texte;
+                    l_Planol.add(l_DetallParametre);
+                }
+            }
             Intent l_editem = new Intent(this, salons_client_planol.class);
             l_editem.putExtra("SaloClient", l_Parametres);
+            l_editem.putExtra("PlanolSalo", l_Planol);
             startActivityForResult(l_editem, g_RQC_SALO_CLIENT_MODIFIQUEM);
         }
     }

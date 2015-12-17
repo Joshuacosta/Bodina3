@@ -70,8 +70,8 @@ public final class DAOSalonsClient {
                             null, // f. having
                             null, // g. order by
                             null); // h. limit
-                    if (l_cursor.getCount() > 0) {
-                        l_cursor.moveToFirst();
+                    if (l_cursorPlanol.getCount() > 0) {
+                        l_cursorPlanol.moveToFirst();
                         for (i=0; i < l_cursorPlanol.getCount(); i++) {
                             SaloClient.DetallPlanol l_DetallPlanol = CursorToSaloPlanolClient(l_cursorPlanol);
                             l_Salo.g_Planol.add(l_DetallPlanol);

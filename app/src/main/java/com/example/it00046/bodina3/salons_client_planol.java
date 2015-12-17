@@ -31,10 +31,13 @@ import com.example.it00046.bodina3.Classes.Feina.linia;
 import com.example.it00046.bodina3.Classes.Feina.texte;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.Params.PARSaloClient;
+import com.example.it00046.bodina3.Classes.Params.PARSaloPlanolClient;
 import com.example.it00046.bodina3.Classes.SimpleDrawView;
 import com.example.it00046.bodina3.Classes.Validacio;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+
+import java.util.ArrayList;
 
 /**
  * Created by it00046 on 05/10/2015.
@@ -43,6 +46,7 @@ public class salons_client_planol  extends ActionBarActivity {
     Context Jo = this;
     EditText g_NomSalo;
     SimpleDrawView g_Draw;
+    String g_ModusFeina = Globals.k_OPE_Alta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,10 @@ public class salons_client_planol  extends ActionBarActivity {
         final FloatingActionMenu l_FLM_Eines;
         ImageButton l_IMB_Esborrar, l_IMB_Ajuda;
         final LayoutInflater inflater = getLayoutInflater();
-        PARSaloClient l_CodiPlanol;
+        PARSaloClient l_SaloClient;
+        ArrayList<PARSaloPlanolClient> l_PlanolClient = new ArrayList<>();
+
+        Intent l_intent = getIntent();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.salons_client_planol);
@@ -61,14 +68,32 @@ public class salons_client_planol  extends ActionBarActivity {
         g_Draw.g_IMB_Esborrar = l_IMB_Esborrar;
         l_IMB_Ajuda = (ImageButton) findViewById(R.id.salonsClientPlanolIMBAjuda);
         g_NomSalo = (EditText) findViewById(R.id.SalonsClientPlanolTXTNom);
-        // Validem si estem editant una associacio
-        Intent l_intent = getIntent();
-        l_CodiPlanol = (PARSaloClient) l_intent.getSerializableExtra("SaloClient");
-        if (l_CodiPlanol != null){
+        // Validem si estem fent un alta o una modificacio
+        l_SaloClient = (PARSaloClient) l_intent.getSerializableExtra("SaloClient");
+        if (l_SaloClient != null){
             // Estem modificant
-        }
-        else{
-            // Estem en alta
+            g_ModusFeina = Globals.k_OPE_Update;
+            // Informem les dades i dibuixen el planol si ho te
+            g_NomSalo.setText(l_SaloClient.Nom);
+            l_PlanolClient = (ArrayList<PARSaloPlanolClient>) l_intent.getSerializableExtra("PlanolSalo");
+            if (l_PlanolClient != null) {
+                ArrayList<SaloClient.DetallPlanol> l_Planol = new ArrayList<>();
+                for (int i = 0; i < l_PlanolClient.size(); i++){
+                    SaloClient.DetallPlanol l_Detall = new SaloClient.DetallPlanol();
+                    PARSaloPlanolClient l_DetallParametre = new PARSaloPlanolClient();
+                    l_DetallParametre = l_PlanolClient.get(i);
+                    l_Detall.Tipus = l_DetallParametre.Tipus;
+                    l_Detall.OrigenX = l_DetallParametre.OrigenX;
+                    l_Detall.OrigenY = l_DetallParametre.OrigenY;
+                    l_Detall.DestiX = l_DetallParametre.DestiX;
+                    l_Detall.DestiY = l_DetallParametre.DestiY;
+                    l_Detall.CurvaX = l_DetallParametre.CurvaX;
+                    l_Detall.CurvaY = l_DetallParametre.CurvaY;
+                    l_Detall.Texte = l_DetallParametre.Texte;
+                    l_Planol.add(l_Detall);
+                }
+                g_Draw.DibuixaPlanol(l_Planol);
+            }
         }
         // Accions dels FLB
         l_FLM_Eines = (FloatingActionMenu) findViewById(R.id.salonsClientPlanolFLMEines);
@@ -82,8 +107,8 @@ public class salons_client_planol  extends ActionBarActivity {
         l_FLM_Eines.setOnMenuButtonClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                // Tanquem el altre menu i ens obrim
-                l_FLM_Eines.toggle(true);
+            // Tanquem el altre menu i ens obrim
+            l_FLM_Eines.toggle(true);
             }
         });
         // Sub-menus
@@ -308,7 +333,7 @@ public class salons_client_planol  extends ActionBarActivity {
     // Funcio interna per fer la operativa
     private void FerOperativa(){
         SaloClient l_SaloClient = new SaloClient();
-        SaloClient.DetallPlanol l_Detall = new SaloClient.DetallPlanol();
+        SaloClient.DetallPlanol l_Detall;
         int i;
         linia l_Linia;
         texte l_Texte;
@@ -319,6 +344,7 @@ public class salons_client_planol  extends ActionBarActivity {
             // Llegim les linies del plano
             for (i = 0; i < g_Draw.g_LiniesPlanol.size(); i++) {
                 l_Linia = g_Draw.g_LiniesPlanol.get(i);
+                l_Detall = new SaloClient.DetallPlanol();
                 l_Detall.Tipus = 0;
                 l_Detall.OrigenX = l_Linia.Inici.x;
                 l_Detall.OrigenY = l_Linia.Inici.y;
@@ -334,7 +360,8 @@ public class salons_client_planol  extends ActionBarActivity {
             // LLegim els textes
             for (i = 0; i < g_Draw.g_TextesPlanol.size(); i++) {
                 l_Texte = g_Draw.g_TextesPlanol.get(i);
-                l_Detall.Tipus = 0;
+                l_Detall = new SaloClient.DetallPlanol();
+                l_Detall.Tipus = 1;
                 l_Detall.OrigenX = l_Texte.Punt.x;
                 l_Detall.OrigenY = l_Texte.Punt.y;
                 l_Detall.Texte = l_Texte.Texte;

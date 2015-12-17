@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
+import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
 import com.example.it00046.bodina3.Classes.Feina.linia;
 import com.example.it00046.bodina3.Classes.Feina.texte;
 import com.example.it00046.bodina3.R;
@@ -708,7 +709,7 @@ public class SimpleDrawView extends RelativeLayout {
         l_Part1 = new Float(Math.abs(P_Punt1.x)-Math.abs(P_Punt2.x));
         l_Part2 = new Float(Math.abs(P_Punt1.y)-Math.abs(P_Punt2.y));
 
-        l_Resultat = Math.sqrt( Math.pow(l_Part1, 2) + Math.pow(l_Part2, 2));
+        l_Resultat = Math.sqrt(Math.pow(l_Part1, 2) + Math.pow(l_Part2, 2));
         return l_Resultat;
     }
 
@@ -811,14 +812,43 @@ public class SimpleDrawView extends RelativeLayout {
         return l_Texte;
     }
 
+    public void DibuixaPlanol(ArrayList<SaloClient.DetallPlanol> p_Planol){
+        SaloClient.DetallPlanol l_Element;
+        PointF l_PuntInici, l_PuntFi, l_PuntCurva, l_PuntTexte;
+
+        for (int i=0; i < p_Planol.size(); i++){
+            l_Element = p_Planol.get(i);
+            switch (l_Element.Tipus){
+                case 0: // Linia
+                    l_PuntInici = new PointF(l_Element.OrigenX, l_Element.OrigenY);
+                    l_PuntFi = new PointF(l_Element.DestiX, l_Element.DestiY);
+                    if (l_Element.CurvaX != 0){
+                        // Curva
+                        l_PuntCurva = new PointF(l_Element.CurvaX, l_Element.CurvaY);
+                        g_LiniesPlanol.add(DefineixCurva(l_PuntInici, l_PuntFi, l_PuntCurva));
+                    }
+                    else{
+                        g_LiniesPlanol.add(DefineixLinia(l_PuntInici, l_PuntFi));
+                    }
+                    break;
+                case 1: // Texte
+                    l_PuntTexte = new PointF(l_Element.OrigenX, l_Element.OrigenY);
+                    g_TextesPlanol.add(DefineixTexte(l_Element.Texte, l_PuntTexte));
+                    break;
+            }
+        }
+        //
+        g_Finalitzat = true;
+        invalidate();
+    }
+
     public void Assistent(int p_Amplada, int p_Llargada){
         PointF l_Punt1, l_Punt2, l_Punt3, l_Punt4;
 
         EsborrarPlanol();
         // Definim les linies que conformem el planol mitjaçant els seus punts
-        // Aixó...
-        p_Amplada *= 5;
-        p_Llargada *= 5;
+        p_Amplada *= g_UnitatX;
+        p_Llargada *= g_UnitatY;
 
         l_Punt1 = new PointF(g_CenterX - (p_Amplada / 2), g_CenterY - (p_Llargada / 2));
         l_Punt2 = new PointF(g_CenterX + (p_Amplada / 2), g_CenterY - (p_Llargada / 2));
@@ -834,15 +864,16 @@ public class SimpleDrawView extends RelativeLayout {
         invalidate();
     }
 
-    private linia DefineixLinia(PointF l_Inici, PointF l_Fi){
+    private linia DefineixLinia(PointF p_Inici, PointF p_Fi){
         linia l_Linia;
         String l_Distancia;
         Rect l_RectDistancia = new Rect();
         PointF l_PuntMig;
 
         l_Linia = new linia();
-        l_Linia.Inici = l_Inici;
-        l_Linia.Fi = l_Fi;
+        l_Linia.Inici = p_Inici;
+        l_Linia.Fi = p_Fi;
+        l_Linia.Curva = false;
         l_Distancia = EscalaDistancia(CalculaDistancia(l_Linia.Inici, l_Linia.Fi));
         l_PuntMig = new PointF((l_Linia.Inici.x + l_Linia.Fi.x) / 2, (l_Linia.Inici.y + l_Linia.Fi.y) / 2);
         l_RectDistancia = new Rect(Math.round(l_PuntMig.x) - 15, Math.round(l_PuntMig.y) - 15,
@@ -850,6 +881,50 @@ public class SimpleDrawView extends RelativeLayout {
         l_Linia.ObjDistancia = new linia.metresCurva(l_PuntMig, l_Distancia, l_RectDistancia);
 
         return l_Linia;
+    }
+
+    private linia DefineixCurva(PointF p_Inici, PointF p_Fi, PointF p_Curva){
+        linia l_Linia;
+        String l_Distancia;
+        Rect l_RectDistancia = new Rect();
+        PointF l_PuntMig;
+
+        l_Linia = new linia();
+        l_Linia.Inici = p_Inici;
+        l_Linia.Fi = p_Fi;
+        l_Linia.Curva = true;
+        l_Distancia = EscalaDistancia(CalculaDistancia(l_Linia.Inici, l_Linia.Fi));
+        l_PuntMig = new PointF((l_Linia.Inici.x + l_Linia.Fi.x) / 2, (l_Linia.Inici.y + l_Linia.Fi.y) / 2);
+        l_RectDistancia = new Rect(Math.round(l_PuntMig.x) - 15, Math.round(l_PuntMig.y) - 15,
+                Math.round(l_PuntMig.x) + 15, Math.round(l_PuntMig.y) + 15);
+        l_Linia.ObjDistancia = new linia.metresCurva(l_PuntMig, l_Distancia, l_RectDistancia);
+
+        return l_Linia;
+    }
+
+    public texte DefineixTexte(String p_Texte, PointF p_Punt){
+        // Afegim el texte que ha introduit l'usuari, el posem al mig sino s'indica un altre,
+        // el usuari el podra moure
+        texte l_Texte = new texte();
+        Rect l_Detector = new Rect();
+        EditText l_EditText = new EditText(g_Pare);
+        TextPaint l_TextPaint;
+
+        l_EditText.setText(p_Texte);
+        l_TextPaint = l_EditText.getPaint();
+        // Definim el detector del texte
+        l_TextPaint.getTextBounds(l_EditText.getText().toString(), 0, l_EditText.getText().length(), l_Detector);
+        l_Detector.offsetTo(Math.round(p_Punt.x), Math.round(p_Punt.y));
+        // Definim el texte
+        l_Texte.Id = g_TextesPlanol.size();
+        l_Texte.Detector = l_Detector;
+        l_Texte.Texte = l_EditText.getText().toString();
+        l_Texte.Punt = p_Punt;
+        l_Texte.Esborrat = false;
+        l_Texte.Esborrantse = false;
+        g_TextesPlanol.add(l_Texte);
+
+        return l_Texte;
     }
 
     private int mod(int x, int y){
