@@ -9,12 +9,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -32,7 +30,7 @@ import com.example.it00046.bodina3.Classes.Feina.texte;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.Params.PARSaloClient;
 import com.example.it00046.bodina3.Classes.Params.PARSaloPlanolClient;
-import com.example.it00046.bodina3.Classes.SimpleDrawView;
+import com.example.it00046.bodina3.Classes.PlanolEdicio;
 import com.example.it00046.bodina3.Classes.Validacio;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -45,8 +43,9 @@ import java.util.ArrayList;
 public class salons_client_planol  extends ActionBarActivity {
     Context Jo = this;
     EditText g_NomSalo;
-    SimpleDrawView g_Draw;
+    PlanolEdicio g_Draw;
     String g_ModusFeina = Globals.k_OPE_Alta;
+    int g_CodiSaloModificacio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +61,7 @@ public class salons_client_planol  extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.salons_client_planol);
         // Recuperem controls
-        g_Draw = (SimpleDrawView) findViewById(R.id.SalonsClientPlanolVIWDrawing);
+        g_Draw = (PlanolEdicio) findViewById(R.id.SalonsClientPlanolVIWDrawing);
         g_Draw.g_Pare = Jo;
         l_IMB_Esborrar = (ImageButton) findViewById(R.id.salonsClientPlanolIMBEsborrar);
         g_Draw.g_IMB_Esborrar = l_IMB_Esborrar;
@@ -75,6 +74,7 @@ public class salons_client_planol  extends ActionBarActivity {
             g_ModusFeina = Globals.k_OPE_Update;
             // Informem les dades i dibuixen el planol si ho te
             g_NomSalo.setText(l_SaloClient.Nom);
+            g_CodiSaloModificacio = l_SaloClient.Codi;
             l_PlanolClient = (ArrayList<PARSaloPlanolClient>) l_intent.getSerializableExtra("PlanolSalo");
             if (l_PlanolClient != null) {
                 ArrayList<SaloClient.DetallPlanol> l_Planol = new ArrayList<>();
@@ -99,7 +99,7 @@ public class salons_client_planol  extends ActionBarActivity {
         l_FLM_Eines = (FloatingActionMenu) findViewById(R.id.salonsClientPlanolFLMEines);
         // Inicialment dibuixem rectes
         l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_dibuixar_rectes_mes24dp));
-        g_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.recta;
+        g_Draw.g_ModusDibuix = PlanolEdicio.g_Modus.recta;
         // Informem resta de parametres inicials
         g_Draw.g_EscalaPlanol = Globals.g_Native.getString(R.string.LlistaEscalaDefault);
         g_Draw.g_UnitatsPlanol = Globals.g_Native.getString(R.string.LlistaUnitatsDefault);
@@ -116,7 +116,7 @@ public class salons_client_planol  extends ActionBarActivity {
         l_FLB_Texte.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                g_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.texte;
+                g_Draw.g_ModusDibuix = PlanolEdicio.g_Modus.texte;
                 // Cambien el icon de eines
                 l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_format_color_text_white_24dp));
                 l_FLM_Eines.close(true);
@@ -126,7 +126,7 @@ public class salons_client_planol  extends ActionBarActivity {
         l_FLB_Recta.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                g_Draw.g_ModusDibuix = SimpleDrawView.g_Modus.recta;
+                g_Draw.g_ModusDibuix = PlanolEdicio.g_Modus.recta;
                 // Cambien el icon de eines
                 l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_border_color_white_24dp));
                 l_FLM_Eines.close(true);
@@ -368,7 +368,13 @@ public class salons_client_planol  extends ActionBarActivity {
                 //
                 l_SaloClient.g_Planol.add(l_Detall);
             }
-            DAOSalonsClient.Afegir(l_SaloClient, Jo, true, true);
+            if (g_ModusFeina == Globals.k_OPE_Alta) {
+                DAOSalonsClient.Afegir(l_SaloClient, Jo, true, true);
+            }
+            else{
+                l_SaloClient.Codi = g_CodiSaloModificacio;
+                DAOSalonsClient.Modificar(l_SaloClient, Jo, true);
+            }
         }
     }
 }

@@ -216,7 +216,7 @@ public class salons_client_pral extends ActionBarActivity {
             //
         }
         else {
-            // Obrim la activitat de modificacio de associacio
+            // Obrim la activitat de modificacio
             l_Parametres = new PARSaloClient();
             l_Salo = (SaloClient)l_LiniaSalo.getTag();
             l_Parametres.Codi = l_Salo.Codi;

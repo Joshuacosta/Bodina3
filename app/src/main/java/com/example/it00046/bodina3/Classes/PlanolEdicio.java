@@ -30,7 +30,7 @@ import com.example.it00046.bodina3.Classes.Feina.texte;
 import com.example.it00046.bodina3.R;
 import java.util.ArrayList;
 
-public class SimpleDrawView extends RelativeLayout {
+public class PlanolEdicio extends RelativeLayout {
 
     ///////////////////////////////////////////////////
     public Context g_Pare;
@@ -74,56 +74,10 @@ public class SimpleDrawView extends RelativeLayout {
 
     // Array per guardar les linies que fem
     static public ArrayList<linia> g_LiniesPlanol = new ArrayList<>();
-
-    /*
-    class linia {
-        public PointF Inici;                     // Punt inicial de la recta
-        public PointF Fi;                        // Punt final
-        public Boolean Curva;                    // Es curva?
-        public PointF PuntCurva;                 // Punt que defineix la curva
-        public metresCurva ObjDistancia;         // Element metresCurva (distancia i que a mes, si l'arroseguem         // converteix la recta en curva
-
-        public linia(){
-            Inici = new PointF();
-            Fi = new PointF();
-            Curva = false;
-            PuntCurva = new PointF();
-            ObjDistancia = new metresCurva();
-        }
-
-        public linia(PointF p_Inici, PointF p_Fi, metresCurva p_MetresCurva){
-            Inici = p_Inici;
-            Fi = p_Fi;
-            ObjDistancia = p_MetresCurva;
-        }
-    }
-
-    // Class per definir distancies de les linies i que ens serveix per arrosegar i convertirles
-    // en curves
-    class metresCurva {
-        public PointF Punt;         // Punt on es definit
-        public String Distancia;    // Distancia que mostra
-        public Rect Detector;       // Detector
-        public Boolean Mogut;
-
-        public metresCurva(){
-            Punt = new PointF();
-            Distancia = new String();
-            Detector = new Rect();
-            Mogut = false;
-        }
-
-        public metresCurva(PointF p_Punt, String p_Distancia, Rect p_Detector){
-            Punt = p_Punt;
-            Distancia = p_Distancia;
-            Detector = p_Detector;
-        }
-    }
-    */
     // Array per guardar els textes del planol
     static public ArrayList<texte> g_TextesPlanol = new ArrayList<texte>();
 
-    public SimpleDrawView(Context p_Context, AttributeSet p_Attrs) {
+    public PlanolEdicio(Context p_Context, AttributeSet p_Attrs) {
         super(p_Context, p_Attrs);
         setupDrawing();
         // Definim el gesture detector
@@ -181,8 +135,10 @@ public class SimpleDrawView extends RelativeLayout {
         g_PaintTextEsborrantse.setColor(Color.RED);
         g_PaintTextEsborrantse.setTextSize(35);
         // Inicialitzem variables estatiques (oju!)
-        g_mPosX = 0;
-        g_mPosY = 0;
+        EsborrarPlanol();
+        //g_mPosX = 0;
+        //g_mPosY = 0;
+
     }
 
     @Override
@@ -893,6 +849,7 @@ public class SimpleDrawView extends RelativeLayout {
         l_Linia.Inici = p_Inici;
         l_Linia.Fi = p_Fi;
         l_Linia.Curva = true;
+        l_Linia.PuntCurva = p_Curva;
         l_Distancia = EscalaDistancia(CalculaDistancia(l_Linia.Inici, l_Linia.Fi));
         l_PuntMig = new PointF((l_Linia.Inici.x + l_Linia.Fi.x) / 2, (l_Linia.Inici.y + l_Linia.Fi.y) / 2);
         l_RectDistancia = new Rect(Math.round(l_PuntMig.x) - 15, Math.round(l_PuntMig.y) - 15,

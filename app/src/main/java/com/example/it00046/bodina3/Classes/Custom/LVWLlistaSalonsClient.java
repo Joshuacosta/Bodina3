@@ -10,7 +10,11 @@ import android.widget.TextView;
 import com.example.it00046.bodina3.Classes.Entitats.CelebracioClient;
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
 import com.example.it00046.bodina3.Classes.Globals;
+import com.example.it00046.bodina3.Classes.Params.PARSaloPlanolClient;
+import com.example.it00046.bodina3.Classes.PlanolVista;
 import com.example.it00046.bodina3.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by it00046 on 02/06/2015.
@@ -27,7 +31,8 @@ public class LVWLlistaSalonsClient extends ArrayAdapter<SaloClient> {
     @Override
     public View getView(int p_position, View p_convertView, ViewGroup p_parent) {
         SaloClient l_Salo;
-        TextView l_TXT_Nom, l_TXT_Descripcio;
+        PlanolVista l_Draw;
+        TextView l_TXT_Nom;
 
         l_Salo = getItem(p_position);
         LayoutInflater inflater = LayoutInflater.from(this.g_context);
@@ -37,10 +42,12 @@ public class LVWLlistaSalonsClient extends ArrayAdapter<SaloClient> {
         // Omplim camps visibles
         l_TXT_Nom = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaSalonsClientTXTNom);
         l_TXT_Nom.setText(l_Salo.Nom);
-        l_TXT_Descripcio = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaCelebracionsClientTXTNomSalo);
-        // Manca definir la descripcio (en funcio de si hi ha planol i tal)
-
-        //
+        // Planol
+        if (l_Salo.g_Planol.size() > 0) {
+            l_Draw = (PlanolVista)p_convertView.findViewById(R.id.LiniaLVWLlistaSalonsClientVIWDrawing);
+            l_Draw.DibuixaPlanol(l_Salo.g_Planol);
+        }
+        // Guardem les dades al tag
         p_convertView.setTag(l_Salo);
 
         return p_convertView;

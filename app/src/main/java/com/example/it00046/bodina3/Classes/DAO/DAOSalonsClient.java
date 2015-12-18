@@ -45,7 +45,7 @@ public final class DAOSalonsClient {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Recuperem salons i planols
     public static void Llegir(final ListView p_LVW_SalonsClient, int p_Layout, final Context p_Context) {
-        int i = 0;
+        int i, j;
         final ArrayAdapter<SaloClient> l_Llista = new LVWLlistaSalonsClient(p_Context, p_Layout);
         Globals.MostrarEspera(p_Context);
         try {
@@ -64,7 +64,7 @@ public final class DAOSalonsClient {
                     // Llegim les dades del planol (si hi ha)
                     Cursor l_cursorPlanol = Globals.g_DB.query(TAG_PlanolClient,
                             Globals.g_Native.getResources().getStringArray(R.array.TPlanols_Camps),
-                            null, // c. selections
+                            TAG_CodiPlanol + "= " + l_Salo.Codi,
                             null, // d. selections args
                             null, // e. group by
                             null, // f. having
@@ -72,9 +72,10 @@ public final class DAOSalonsClient {
                             null); // h. limit
                     if (l_cursorPlanol.getCount() > 0) {
                         l_cursorPlanol.moveToFirst();
-                        for (i=0; i < l_cursorPlanol.getCount(); i++) {
+                        for (j=0; j < l_cursorPlanol.getCount(); j++) {
                             SaloClient.DetallPlanol l_DetallPlanol = CursorToSaloPlanolClient(l_cursorPlanol);
                             l_Salo.g_Planol.add(l_DetallPlanol);
+                            l_cursorPlanol.moveToNext();
                         }
                     }
                     l_cursorPlanol.close();
@@ -180,6 +181,7 @@ public final class DAOSalonsClient {
                 // Tanquem a qui ens ha cridat
                 if (p_Tancam) {
                     Activity l_activity = (Activity) p_Context;
+                    l_activity.setResult(Activity.RESULT_OK);
                     l_activity.finish();
                 }
             }
@@ -231,6 +233,7 @@ public final class DAOSalonsClient {
             // Tanquem a qui ens ha cridat
             if (p_Tancam) {
                 Activity l_activity = (Activity) p_Context;
+                l_activity.setResult(Activity.RESULT_OK);
                 l_activity.finish();
             }
         }
@@ -270,6 +273,7 @@ public final class DAOSalonsClient {
             // Tanquem a qui ens ha cridat
             if (p_Tancam) {
                 Activity l_activity = (Activity) p_Context;
+                l_activity.setResult(Activity.RESULT_OK);
                 l_activity.finish();
             }
         }
@@ -323,7 +327,7 @@ public final class DAOSalonsClient {
         SaloClient.DetallPlanol l_SaloClient = new SaloClient.DetallPlanol();
 
         l_SaloClient.Tipus = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Tipus));
-        l_SaloClient.OrigenY = p_cursor.getInt(p_cursor.getColumnIndex(TAG_OrigenX));
+        l_SaloClient.OrigenX = p_cursor.getInt(p_cursor.getColumnIndex(TAG_OrigenX));
         l_SaloClient.OrigenY = p_cursor.getInt(p_cursor.getColumnIndex(TAG_OrigenY));
         l_SaloClient.DestiX = p_cursor.getInt(p_cursor.getColumnIndex(TAG_DestiX));
         l_SaloClient.DestiY = p_cursor.getInt(p_cursor.getColumnIndex(TAG_DestiY));
