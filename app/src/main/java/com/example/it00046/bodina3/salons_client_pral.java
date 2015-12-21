@@ -25,6 +25,7 @@ import com.example.it00046.bodina3.Classes.ExpandAnimation;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.Params.PARSaloClient;
 import com.example.it00046.bodina3.Classes.Params.PARSaloPlanolClient;
+import com.example.it00046.bodina3.Classes.PlanolVista;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class salons_client_pral extends ActionBarActivity {
     private ListView g_LVW_SalonsClient;
     private int g_Posicio = -1;
     private SaloClient g_SaloClientAnterior;
+    private View g_LIN_ToolbarAnterior = null;
     private ImageButton g_IMB_Esborrar = null, g_IMB_Editar = null;
     private Context Jo = this;
     private Boolean g_EstatEsborrar = false;
@@ -77,6 +79,7 @@ public class salons_client_pral extends ActionBarActivity {
                 ExpandAnimation l_expandAni;
                 final Animation l_Animacio_Amagar, l_Animacio_Mostrar;
                 SaloClient l_SaloClient;
+                PlanolVista l_Draw;
 
                 l_SaloClient = (SaloClient) p_view.getTag();
                 // Preparem animacions
@@ -107,6 +110,29 @@ public class salons_client_pral extends ActionBarActivity {
                     g_IMB_Esborrar = l_IMB_Esborrar;
                     g_IMB_Editar = l_IMB_Editar;
                     g_SaloClientAnterior = l_SaloClient;
+                    // Amaguem si correspon
+                    // El colapsem
+                    if (g_LIN_ToolbarAnterior != null) {
+                        l_expandAni = new ExpandAnimation(g_LIN_ToolbarAnterior, 100);
+                        g_LIN_ToolbarAnterior.startAnimation(l_expandAni);
+                        l_Draw = (PlanolVista) p_view.findViewById(R.id.LiniaLVWLlistaSalonsClientVIWDrawing);
+                        l_Draw.EsborraPlanol();
+                    }
+                    // Expandim
+                    l_LIN_Toolbar = p_view.findViewById(R.id.LiniaLVWLlistaSalonsClientLINToolbar);
+                    // Definim l'animació del item
+                    l_expandAni = new ExpandAnimation(l_LIN_Toolbar, 100);
+                    l_LIN_Toolbar.startAnimation(l_expandAni);
+                    // Construim el planol (si hi ha)
+                    if (l_SaloClient.g_Planol.size() > 0) {
+                        l_Draw = (PlanolVista) p_view.findViewById(R.id.LiniaLVWLlistaSalonsClientVIWDrawing);
+                        l_Draw.DibuixaPlanol(l_SaloClient.g_Planol);
+                        g_LIN_ToolbarAnterior = l_LIN_Toolbar;
+                    }
+                    else{
+                        // No hi haura planol i no s'ha expandit la linia
+                        g_LIN_ToolbarAnterior = null;
+                    }
                 }
                 else {
                     // Amaguem/mostrem els botons

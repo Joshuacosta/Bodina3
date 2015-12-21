@@ -43,7 +43,11 @@ public class SQLDB extends SQLiteOpenHelper {
                 Globals.g_Native.getString(R.string.TSalonsClient),
                 Globals.g_Native.getString(R.string.TSalonsClient_Codi),
                 Globals.g_Native.getString(R.string.TSalonsClient_Nom),
-                Globals.g_Native.getString(R.string.TSalonsClient_Estat));
+                Globals.g_Native.getString(R.string.TSalonsClient_Estat),
+                Globals.g_Native.getString(R.string.TSalonsClient_Descripcio),
+                Globals.g_Native.getString(R.string.TSalonsClient_MaxPersones),
+                Globals.g_Native.getString(R.string.TSalonsClient_EscalaPlanol),
+                Globals.g_Native.getString(R.string.TSalonsClient_UnitatPlanol));
         db.execSQL(l_Create);
         // 3- Tipus de celebracio
         l_Create = String.format(Globals.g_Native.getString(R.string.TTipusCelebracioCreate),

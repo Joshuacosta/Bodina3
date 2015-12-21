@@ -7,11 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.it00046.bodina3.Classes.Entitats.CelebracioClient;
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
-import com.example.it00046.bodina3.Classes.Globals;
-import com.example.it00046.bodina3.Classes.Params.PARSaloPlanolClient;
-import com.example.it00046.bodina3.Classes.PlanolVista;
 import com.example.it00046.bodina3.R;
 
 import java.util.ArrayList;
@@ -31,7 +27,6 @@ public class LVWLlistaSalonsClient extends ArrayAdapter<SaloClient> {
     @Override
     public View getView(int p_position, View p_convertView, ViewGroup p_parent) {
         SaloClient l_Salo;
-        PlanolVista l_Draw;
         TextView l_TXT_Nom;
 
         l_Salo = getItem(p_position);
@@ -42,12 +37,7 @@ public class LVWLlistaSalonsClient extends ArrayAdapter<SaloClient> {
         // Omplim camps visibles
         l_TXT_Nom = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaSalonsClientTXTNom);
         l_TXT_Nom.setText(l_Salo.Nom);
-        // Planol
-        if (l_Salo.g_Planol.size() > 0) {
-            l_Draw = (PlanolVista)p_convertView.findViewById(R.id.LiniaLVWLlistaSalonsClientVIWDrawing);
-            l_Draw.DibuixaPlanol(l_Salo.g_Planol);
-        }
-        // Guardem les dades al tag
+        // Guardem les dades del salo al tag
         p_convertView.setTag(l_Salo);
 
         return p_convertView;

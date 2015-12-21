@@ -54,14 +54,17 @@
         android:gravity="center_vertical|left" />
 
     <RelativeLayout
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:id="@+id/LiniaLVWLlistaSalonsClientLINToolbar"
+        android:layout_marginBottom="-120dip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
         android:gravity="center_vertical|center_horizontal" >
 
         <com.example.it00046.bodina3.Classes.PlanolVista
             android:id="@+id/LiniaLVWLlistaSalonsClientVIWDrawing"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
             android:layout_marginBottom="3dp"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"

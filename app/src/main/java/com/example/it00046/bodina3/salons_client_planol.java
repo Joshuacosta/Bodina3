@@ -341,7 +341,7 @@ public class salons_client_planol  extends ActionBarActivity {
         // Validem finestra
         if (ValidarFinestra()) {
             l_SaloClient.Nom = g_NomSalo.getText().toString();
-            // Llegim les linies del plano
+            // Llegim les linies del planol
             for (i = 0; i < g_Draw.g_LiniesPlanol.size(); i++) {
                 l_Linia = g_Draw.g_LiniesPlanol.get(i);
                 l_Detall = new SaloClient.DetallPlanol();

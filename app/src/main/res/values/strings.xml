@@ -246,17 +246,29 @@
     <string name="TSalonsClient_Codi">Codi</string>
     <string name="TSalonsClient_Nom">Nom</string>
     <string name="TSalonsClient_Estat">Estat</string>
+    <string name="TSalonsClient_Descripcio">Descripcio</string>
+    <string name="TSalonsClient_MaxPersones">MaxPersones</string>
+    <string name="TSalonsClient_EscalaPlanol">EscalaPlanol</string>
+    <string name="TSalonsClient_UnitatPlanol">UnitatPlanol</string>
     <!-- Llista camps -->
     <string-array name="TSalonsClient_Camps">
         <item>@string/TSalonsClient_Codi</item>
         <item>@string/TSalonsClient_Nom</item>
         <item>@string/TSalonsClient_Estat</item>
+        <item>@string/TSalonsClient_Descripcio</item>
+        <item>@string/TSalonsClient_MaxPersones</item>
+        <item>@string/TSalonsClient_EscalaPlanol</item>
+        <item>@string/TSalonsClient_UnitatPlanol</item>
     </string-array>
     <!-- Funcions -->
     <string name="TSalonsClientCreate">CREATE TABLE %1$s (
                                 %2$s INTEGER PRIMARY KEY,
-                                %3$s VARCHAR(50),
-                                %4$s INTEGER)</string>
+                                %3$s VARCHAR(20),
+                                %4$s VARCHAR(50),
+                                %5$s INTEGER,
+                                %6$s REAL,
+                                %7$s VARCHAR(10),
+                                %8$s INTEGER)</string>
     <!-- .................................................................................. -->
     <!-- PLANOL (local) -->
     <string name="TPlanols">Planols</string>

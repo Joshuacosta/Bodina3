@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.support.annotation.IntegerRes;
 import android.text.InputFilter;
@@ -38,7 +39,7 @@ public class PlanolEdicio extends RelativeLayout {
     public String g_EscalaPlanol;
     public String g_UnitatsPlanol;
     ///////////////////////////////////////////////////
-    private static final int g_MaxCaracters = 20;
+    private static final int g_MaxCaractersNom = 20;
     //////////////////////////////////////////////////
     private ScaleGestureDetector g_GestureScale;
     private float g_ScaleFactor = 1;
@@ -594,7 +595,7 @@ public class PlanolEdicio extends RelativeLayout {
                         Log.d("BODINA-Down", "--------> Tocat " + l_Texte.Texte);
                         g_TexteSeleccionat = l_Texte;
                         l_Input = new EditText(g_Pare);
-                        l_Input.setFilters(new InputFilter[] {new InputFilter.LengthFilter(g_MaxCaracters)});
+                        l_Input.setFilters(new InputFilter[] {new InputFilter.LengthFilter(g_MaxCaractersNom)});
                         // Mostrem una finestra per modificar el texte
                         AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(g_Pare);
                         g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolTITModifyTexte));
@@ -726,7 +727,7 @@ public class PlanolEdicio extends RelativeLayout {
         g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolTITAddTexte));
         g_alertDialogBuilder.setView(l_Input);
         l_Input.setText(p_Texte);
-        l_Input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(g_MaxCaracters)});
+        l_Input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(g_MaxCaractersNom)});
         g_alertDialogBuilder
                 .setCancelable(false)
                 .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {

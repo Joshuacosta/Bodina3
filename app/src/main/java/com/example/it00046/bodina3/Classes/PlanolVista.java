@@ -1,8 +1,6 @@
 package com.example.it00046.bodina3.Classes;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,37 +8,27 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
-import android.text.InputFilter;
-import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
 import com.example.it00046.bodina3.Classes.Feina.linia;
-import com.example.it00046.bodina3.Classes.Feina.texte;
-import com.example.it00046.bodina3.R;
 
 import java.util.ArrayList;
 
 public class PlanolVista extends RelativeLayout {
-    static private float g_mPosX = 0;
-    static private float g_mPosY = 0;
+    private float g_mPosX = 0;
+    private float g_mPosY = 0;
     private Path g_drawPath;
-    private Paint g_PaintFinal, g_PaintCanvas;
+    private Paint g_PaintFinal, g_PaintCanvas, g_PaintTextDistancia;
     private Canvas g_DrawCanvas;
     private Bitmap g_CanvasBitmap;
-    static private Rect g_CanvasRect = null;
-    static private int g_CenterX = 0, g_CenterY = 0;
+    private Rect g_CanvasRect = null;
+    private int g_CenterX = 0, g_CenterY = 0;
     private int g_AmpladaScreen, g_AlsadaScreen;
-    static public ArrayList<linia> g_LiniesPlanol = new ArrayList<>();
+    public ArrayList<linia> g_LiniesPlanol = new ArrayList<>();
 
     public PlanolVista(Context p_Context, AttributeSet p_Attrs) {
         super(p_Context, p_Attrs);
@@ -58,7 +46,12 @@ public class PlanolVista extends RelativeLayout {
         g_PaintFinal.setAlpha(120);
         g_PaintFinal.setStyle(Paint.Style.FILL);
         g_PaintFinal.setAntiAlias(true);
-        // Inicialitzem variables estatiques (oju!)
+        // Definim el paint de texte distancia
+        g_PaintTextDistancia = new Paint();
+        g_PaintTextDistancia.setTextSize(22);
+        g_PaintTextDistancia.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.ITALIC));
+        g_PaintTextDistancia.setColor(Color.RED);
+        //
         g_LiniesPlanol = new ArrayList<>();
         g_mPosX = 0;
         g_mPosY = 0;
@@ -78,58 +71,72 @@ public class PlanolVista extends RelativeLayout {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        linia l_Linia2;
+        linia l_Linia;
+        RectF l_Bounds = new RectF();
+        PointF l_PuntMig;
+        String l_Distancia;
 
         canvas.save();
         g_CanvasRect = canvas.getClipBounds();
         canvas.drawBitmap(g_CanvasBitmap, 0, 0, g_PaintCanvas);
         // Pintem rectes i curves
         g_drawPath.reset();
+        //canvas.translate(g_CenterX / 8, g_CenterY / 8);
+        canvas.scale(0.8f, 0.8f);
+        //canvas.scale((1 - g_AmpladaScreen/this.getWidth()), (1 - g_AmpladaScreen/this.getWidth()));
         for (int I=0; I < g_LiniesPlanol.size(); I++) {
-            l_Linia2 = g_LiniesPlanol.get(I);
-            l_Linia2.Inici.offset(g_mPosX, g_mPosY);
+            l_Linia = g_LiniesPlanol.get(I);
+            l_Linia.Inici.offset(g_mPosX, g_mPosY);
             // Si estem a la primera linia ens posicionem "al principi" amb un move
             if (I == 0) {
-                g_drawPath.moveTo(l_Linia2.Inici.x, l_Linia2.Inici.y);
+                g_drawPath.moveTo(l_Linia.Inici.x, l_Linia.Inici.y);
             }
             // Pintem el punt final
-            l_Linia2.Fi.offset(g_mPosX, g_mPosY);
+            l_Linia.Fi.offset(g_mPosX, g_mPosY);
             // Validem si es una curva
-            if (l_Linia2.Curva) {
-                l_Linia2.PuntCurva.offset(g_mPosX, g_mPosY);
-                g_drawPath.quadTo(l_Linia2.PuntCurva.x, l_Linia2.PuntCurva.y, l_Linia2.Fi.x, l_Linia2.Fi.y);
+            if (l_Linia.Curva) {
+                l_Linia.PuntCurva.offset(g_mPosX, g_mPosY);
+                g_drawPath.quadTo(l_Linia.PuntCurva.x, l_Linia.PuntCurva.y, l_Linia.Fi.x, l_Linia.Fi.y);
                 // Si s'ha mogut tambe hem de modificar la posicio
-                if (l_Linia2.ObjDistancia.Mogut){
-                    l_Linia2.ObjDistancia.Punt.offset(g_mPosX, g_mPosY);
+                if (l_Linia.ObjDistancia.Mogut) {
+                    l_Linia.ObjDistancia.Punt.offset(g_mPosX, g_mPosY);
                 }
             }
             else {
-                g_drawPath.lineTo(l_Linia2.Fi.x, l_Linia2.Fi.y);
+                g_drawPath.lineTo(l_Linia.Fi.x, l_Linia.Fi.y);
             }
+        }
+        // Ens centrem: recuperem bound i calculem
+        g_drawPath.computeBounds(l_Bounds, true);
+        canvas.translate(-(l_Bounds.centerX() - g_CenterX), -(l_Bounds.centerY() - g_CenterY));
+        // Pintem distancies de les rectes
+        for (int I=0; I < g_LiniesPlanol.size(); I++) {
+            l_Linia = g_LiniesPlanol.get(I);
+            // Calculem distancia de la linia i els bounds del texte
+            l_Distancia = EscalaDistancia(CalculaDistancia(l_Linia.Inici, l_Linia.Fi));
+            l_PuntMig = new PointF((l_Linia.Inici.x + l_Linia.Fi.x) / 2, (l_Linia.Inici.y + l_Linia.Fi.y) / 2);
+            canvas.drawText(l_Distancia, l_PuntMig.x, l_PuntMig.y, g_PaintTextDistancia);
         }
         // Pintem el planol
         canvas.drawPath(g_drawPath, g_PaintFinal);
-        canvas.scale(0.5f, 0.5f);
-        //canvas.translate(g_CenterX, g_CenterY);
         canvas.restore();
     }
 
     public void DibuixaPlanol(ArrayList<SaloClient.DetallPlanol> p_Planol){
         SaloClient.DetallPlanol l_Element;
-        PointF l_PuntInici, l_PuntFi, l_PuntCurva, l_PuntTexte;
+        PointF l_PuntInici, l_PuntFi, l_PuntCurva;
 
-        for (int i=0; i < p_Planol.size(); i++){
+        for (int i = 0; i < p_Planol.size(); i++) {
             l_Element = p_Planol.get(i);
-            switch (l_Element.Tipus){
+            switch (l_Element.Tipus) {
                 case 0: // Linia
                     l_PuntInici = new PointF(l_Element.OrigenX, l_Element.OrigenY);
                     l_PuntFi = new PointF(l_Element.DestiX, l_Element.DestiY);
-                    if (l_Element.CurvaX != 0){
+                    if (l_Element.CurvaX != 0) {
                         // Curva
                         l_PuntCurva = new PointF(l_Element.CurvaX, l_Element.CurvaY);
                         g_LiniesPlanol.add(DefineixCurva(l_PuntInici, l_PuntFi, l_PuntCurva));
-                    }
-                    else{
+                    } else {
                         g_LiniesPlanol.add(DefineixLinia(l_PuntInici, l_PuntFi));
                     }
                     break;
@@ -138,6 +145,11 @@ public class PlanolVista extends RelativeLayout {
             }
         }
         //
+        invalidate();
+    }
+
+    public void EsborraPlanol(){
+        g_LiniesPlanol = new ArrayList<>();
         invalidate();
     }
 
@@ -161,4 +173,24 @@ public class PlanolVista extends RelativeLayout {
         l_Linia.PuntCurva = p_Curva;
         return l_Linia;
     }
+
+    private double CalculaDistancia(PointF P_Punt1, PointF P_Punt2){
+        double l_Part1, l_Part2, l_Resultat;
+
+        l_Part1 = new Float(Math.abs(P_Punt1.x)-Math.abs(P_Punt2.x));
+        l_Part2 = new Float(Math.abs(P_Punt1.y)-Math.abs(P_Punt2.y));
+
+        l_Resultat = Math.sqrt(Math.pow(l_Part1, 2) + Math.pow(l_Part2, 2));
+        return l_Resultat;
+    }
+
+    private String EscalaDistancia(double P_Distancia){
+        String l_Resultat = null;
+
+        //l_Resultat = String.valueOf(Math.round(P_Distancia / g_UnitatX));
+        l_Resultat = String.valueOf(Math.round(P_Distancia));
+        return l_Resultat;
+    }
+
+
 }
