@@ -28,6 +28,11 @@ public final class DAOSalonsClient {
     private static final String TAG_Codi = Globals.g_Native.getString(R.string.TSalonsClient_Codi);
     private static final String TAG_Nom  = Globals.g_Native.getString(R.string.TSalonsClient_Nom);
     private static final String TAG_Estat = Globals.g_Native.getString(R.string.TSalonsClient_Estat);
+    private static final String TAG_Descripcio = Globals.g_Native.getString(R.string.TSalonsClient_Descripcio);
+    private static final String TAG_Capacitat  = Globals.g_Native.getString(R.string.TSalonsClient_Capacitat);
+    private static final String TAG_UnitatsPlanol = Globals.g_Native.getString(R.string.TSalonsClient_UnitatsPlanol);
+    private static final String TAG_EscalaPlanol = Globals.g_Native.getString(R.string.TSalonsClient_EscalaPlanol);
+    private static final String TAG_UnitatMesura = Globals.g_Native.getString(R.string.TSalonsClient_UnitatMesura);
     // Planol
     private static final String TAG_PlanolClient = Globals.g_Native.getString(R.string.TPlanols);
     // Detall planol
@@ -290,6 +295,11 @@ public final class DAOSalonsClient {
             l_values.put(TAG_Codi, p_SaloClient.Codi);
         }
         l_values.put(TAG_Nom, p_SaloClient.Nom);
+        l_values.put(TAG_Descripcio, p_SaloClient.Descripcio);
+        l_values.put(TAG_Capacitat, p_SaloClient.Capacitat);
+        l_values.put(TAG_EscalaPlanol, p_SaloClient.EscalaPlanol);
+        l_values.put(TAG_UnitatsPlanol, p_SaloClient.UnitatsPlanol);
+        l_values.put(TAG_UnitatMesura, p_SaloClient.UnitatMesura);
         l_values.put(TAG_Estat, p_SaloClient.Estat);
 
         return l_values;
@@ -318,6 +328,11 @@ public final class DAOSalonsClient {
 
         l_SaloClient.Codi = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Codi));
         l_SaloClient.Nom = p_cursor.getString(p_cursor.getColumnIndex(TAG_Nom));
+        l_SaloClient.Capacitat = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Capacitat));
+        l_SaloClient.Descripcio = p_cursor.getString(p_cursor.getColumnIndex(TAG_Descripcio));
+        l_SaloClient.EscalaPlanol = p_cursor.getString(p_cursor.getColumnIndex(TAG_EscalaPlanol));
+        l_SaloClient.UnitatsPlanol = p_cursor.getString(p_cursor.getColumnIndex(TAG_UnitatsPlanol));
+        l_SaloClient.UnitatMesura = p_cursor.getInt(p_cursor.getColumnIndex(TAG_UnitatMesura));
         l_SaloClient.Estat = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Estat));
 
         return l_SaloClient;

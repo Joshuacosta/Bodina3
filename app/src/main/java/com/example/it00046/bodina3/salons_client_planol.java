@@ -42,7 +42,7 @@ import java.util.ArrayList;
  */
 public class salons_client_planol  extends ActionBarActivity {
     Context Jo = this;
-    EditText g_NomSalo;
+    EditText g_NomSalo, g_Descripcio, g_Capacitat;
     PlanolEdicio g_Draw;
     String g_ModusFeina = Globals.k_OPE_Alta;
     int g_CodiSaloModificacio;
@@ -67,6 +67,8 @@ public class salons_client_planol  extends ActionBarActivity {
         g_Draw.g_IMB_Esborrar = l_IMB_Esborrar;
         l_IMB_Ajuda = (ImageButton) findViewById(R.id.salonsClientPlanolIMBAjuda);
         g_NomSalo = (EditText) findViewById(R.id.SalonsClientPlanolTXTNom);
+        g_Descripcio = (EditText) findViewById(R.id.SalonsClientPlanolTXTDescripcio);
+        g_Capacitat = (EditText) findViewById(R.id.SalonsClientPlanolTXTCapacitat);
         // Validem si estem fent un alta o una modificacio
         l_SaloClient = (PARSaloClient) l_intent.getSerializableExtra("SaloClient");
         if (l_SaloClient != null){
@@ -74,6 +76,14 @@ public class salons_client_planol  extends ActionBarActivity {
             g_ModusFeina = Globals.k_OPE_Update;
             // Informem les dades i dibuixen el planol si ho te
             g_NomSalo.setText(l_SaloClient.Nom);
+            g_Descripcio.setText(l_SaloClient.Descripcio);
+            if (l_SaloClient.Capacitat != Globals.k_CapacitatSenseDefinir) {
+                g_Capacitat.setText(l_SaloClient.Capacitat);
+            }
+            // Parametres globals
+            g_Draw.g_UnitatsPlanol = l_SaloClient.UnitatsPlanol;
+            g_Draw.g_EscalaPlanol = l_SaloClient.EscalaPlanol;
+            //
             g_CodiSaloModificacio = l_SaloClient.Codi;
             l_PlanolClient = (ArrayList<PARSaloPlanolClient>) l_intent.getSerializableExtra("PlanolSalo");
             if (l_PlanolClient != null) {
@@ -95,15 +105,15 @@ public class salons_client_planol  extends ActionBarActivity {
                 g_Draw.DibuixaPlanol(l_Planol);
             }
         }
+        else{
+            g_Draw.g_EscalaPlanol = Globals.g_Native.getString(R.string.LlistaEscalaDefault);
+            g_Draw.g_UnitatsPlanol = Globals.g_Native.getString(R.string.LlistaUnitatsDefault);
+        }
         // Accions dels FLB
         l_FLM_Eines = (FloatingActionMenu) findViewById(R.id.salonsClientPlanolFLMEines);
         // Inicialment dibuixem rectes
         l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_dibuixar_rectes_mes24dp));
         g_Draw.g_ModusDibuix = PlanolEdicio.g_Modus.recta;
-        // Informem resta de parametres inicials
-        g_Draw.g_EscalaPlanol = Globals.g_Native.getString(R.string.LlistaEscalaDefault);
-        g_Draw.g_UnitatsPlanol = Globals.g_Native.getString(R.string.LlistaUnitatsDefault);
-        //
         l_FLM_Eines.setOnMenuButtonClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -204,6 +214,10 @@ public class salons_client_planol  extends ActionBarActivity {
                 // Els seekbar i els textes de la finestra assistent
                 l_SEK_Amplada = (SeekBar) l_VIW_Config.findViewById(R.id.SalonsClientAssistentSEKAmplada);
                 l_SEK_Llargada = (SeekBar) l_VIW_Config.findViewById(R.id.SalonsClientAssistentSEKLlargada);
+                // Definim els maxims definibles en funcio de la escala del planol
+                l_SEK_Amplada.setMax(g_Draw.g_EscalaPlanolAmplada);
+                l_SEK_Llargada.setMax(g_Draw.g_EscalaPlanolLlargada);
+                // Textes
                 l_TXT_Amplada = (TextView) l_VIW_Config.findViewById(R.id.SalonsClientAssistentLITAmplada);
                 l_TXT_Llargada = (TextView) l_VIW_Config.findViewById(R.id.SalonsClientAssistentLITLlargada);
                 // Codi de les seekbars
@@ -341,6 +355,13 @@ public class salons_client_planol  extends ActionBarActivity {
         // Validem finestra
         if (ValidarFinestra()) {
             l_SaloClient.Nom = g_NomSalo.getText().toString();
+            l_SaloClient.Descripcio = g_Descripcio.getText().toString();
+            if (g_Capacitat.getText().toString() != "") {
+                l_SaloClient.Capacitat = Integer.valueOf(g_Capacitat.getText().toString());
+            }
+            else{
+                l_SaloClient.Capacitat = Globals.k_CapacitatSenseDefinir;
+            }
             // Llegim les linies del planol
             for (i = 0; i < g_Draw.g_LiniesPlanol.size(); i++) {
                 l_Linia = g_Draw.g_LiniesPlanol.get(i);
@@ -368,6 +389,10 @@ public class salons_client_planol  extends ActionBarActivity {
                 //
                 l_SaloClient.g_Planol.add(l_Detall);
             }
+            // Dades de configuracio
+            l_SaloClient.UnitatsPlanol = g_Draw.g_UnitatsPlanol;
+            l_SaloClient.EscalaPlanol = g_Draw.g_EscalaPlanol;
+            l_SaloClient.UnitatMesura = g_Draw.g_UnitatX;
             if (g_ModusFeina == Globals.k_OPE_Alta) {
                 DAOSalonsClient.Afegir(l_SaloClient, Jo, true, true);
             }

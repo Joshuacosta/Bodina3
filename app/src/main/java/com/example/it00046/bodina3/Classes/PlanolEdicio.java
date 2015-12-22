@@ -36,11 +36,12 @@ public class PlanolEdicio extends RelativeLayout {
     ///////////////////////////////////////////////////
     public Context g_Pare;
     public boolean g_Quadricula = false;
-    public String g_EscalaPlanol;
+    public String g_EscalaPlanol = "1x1";   // Definim aquest valors per poder fer una preview.
+                                            // Així no dona error la execució del onDraw en disseny
     public String g_UnitatsPlanol;
-    ///////////////////////////////////////////////////
+    ////////////////////////////////////////////////
     private static final int g_MaxCaractersNom = 20;
-    //////////////////////////////////////////////////
+    ////////////////////////////////////////////////
     private ScaleGestureDetector g_GestureScale;
     private float g_ScaleFactor = 1;
     private float scaleFactorAnterior = 1;
@@ -69,8 +70,9 @@ public class PlanolEdicio extends RelativeLayout {
     static public boolean g_Finalitzat = false, g_Dibuixant = false, g_IniciDibuix = false;
     //
     static private int g_CenterX = 0, g_CenterY = 0;
-    private int g_UnitatX, g_UnitatY;
-    private int g_AmpladaScreen, g_AlsadaScreen;
+    public int g_UnitatX, g_UnitatY;
+    public int g_EscalaPlanolAmplada, g_EscalaPlanolLlargada;
+    private int g_AmpladaScreen, g_LlargadaScreen;
     public ImageButton g_IMB_Esborrar;
 
     // Array per guardar les linies que fem
@@ -149,9 +151,9 @@ public class PlanolEdicio extends RelativeLayout {
         g_CanvasBitmap = Bitmap.createBitmap(p_w, p_h, Bitmap.Config.ARGB_8888);
         g_DrawCanvas = new Canvas(g_CanvasBitmap);
         g_AmpladaScreen = p_w;
-        g_AlsadaScreen = p_h;
+        g_LlargadaScreen = p_h;
         g_CenterX = g_AmpladaScreen / 2;
-        g_CenterY = g_AlsadaScreen / 2;
+        g_CenterY = g_LlargadaScreen / 2;
     }
 
     @Override
@@ -166,8 +168,10 @@ public class PlanolEdicio extends RelativeLayout {
         canvas.save();
         // Calculem escala i unitats
         String[] l_Valors = g_EscalaPlanol.split("x");
-        g_UnitatX = Math.round(g_AmpladaScreen / Integer.valueOf(l_Valors[0]));
-        g_UnitatY = Math.round(g_AlsadaScreen / Integer.valueOf(l_Valors[1]));
+        g_EscalaPlanolAmplada = Integer.valueOf(l_Valors[0]);
+        g_UnitatX = Math.round(g_AmpladaScreen / g_EscalaPlanolAmplada);
+        g_EscalaPlanolLlargada = Integer.valueOf(l_Valors[1]);
+        g_UnitatY = Math.round(g_LlargadaScreen / g_EscalaPlanolLlargada);
         //
         Log.d("BODINA-Draw", "-----> Escalat de l'usuari amb gestos " + g_ScaleFactor);
         //canvas.translate(g_mPosX, g_mPosY);

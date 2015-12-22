@@ -94,6 +94,7 @@ public final class Globals
     public static final String TAG_RECERCA = "Recerca";
     public static final int k_Entitat_NomesInvitacio = 0;
     public static final int k_Entitat_PermetSolicitar = 1;
+    public static final int k_CapacitatSenseDefinir = 0;
 
     public static void ExitAppDialog(final Activity activity)
     {

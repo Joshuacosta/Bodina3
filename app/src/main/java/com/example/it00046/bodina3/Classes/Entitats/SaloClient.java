@@ -7,19 +7,20 @@ import java.util.ArrayList;
  */
 public class SaloClient {
     public int Codi;
-    public String Nom, Descripcio, UnitatPlanol;
-    public int Estat, MaxPersones;
-    public float EscalaPlanol;
+    public String Nom, Descripcio, UnitatsPlanol, EscalaPlanol;
+    public int Estat, Capacitat;
+    public float UnitatMesura;
     public ArrayList<DetallPlanol> g_Planol;
 
     public SaloClient(){
         Codi            = 0;
         Nom             = "";
         Descripcio      = "";
-        MaxPersones     = 0;    // Numero maxim de persones del salo
+        Capacitat       = 0;    // Numero maxim de persones del salo
         Estat           = 1;    // Per defecte actiu
-        EscalaPlanol    = 0;    // Escala del planol (per saber les distancies)
-        UnitatPlanol    = "";   // Unitat de mesura del planol
+        EscalaPlanol    = "";
+        UnitatsPlanol    = "";
+        UnitatMesura    = 0.0f;
         g_Planol = new ArrayList<>();
     }
 

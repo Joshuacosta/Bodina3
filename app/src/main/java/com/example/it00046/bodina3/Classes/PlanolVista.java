@@ -75,15 +75,13 @@ public class PlanolVista extends RelativeLayout {
         RectF l_Bounds = new RectF();
         PointF l_PuntMig;
         String l_Distancia;
+        Float l_Factor, l_Escala, l_NouX, l_NouY;
 
         canvas.save();
         g_CanvasRect = canvas.getClipBounds();
         canvas.drawBitmap(g_CanvasBitmap, 0, 0, g_PaintCanvas);
         // Pintem rectes i curves
         g_drawPath.reset();
-        //canvas.translate(g_CenterX / 8, g_CenterY / 8);
-        canvas.scale(0.8f, 0.8f);
-        //canvas.scale((1 - g_AmpladaScreen/this.getWidth()), (1 - g_AmpladaScreen/this.getWidth()));
         for (int I=0; I < g_LiniesPlanol.size(); I++) {
             l_Linia = g_LiniesPlanol.get(I);
             l_Linia.Inici.offset(g_mPosX, g_mPosY);
@@ -106,9 +104,21 @@ public class PlanolVista extends RelativeLayout {
                 g_drawPath.lineTo(l_Linia.Fi.x, l_Linia.Fi.y);
             }
         }
-        // Ens centrem: recuperem bound i calculem
+        // Ens centrem: recuperem bound i calculem escala
         g_drawPath.computeBounds(l_Bounds, true);
-        canvas.translate(-(l_Bounds.centerX() - g_CenterX), -(l_Bounds.centerY() - g_CenterY));
+        // Centrem
+        l_NouX = -(l_Bounds.centerX() - g_CenterX);
+        l_NouY = -(l_Bounds.centerY() - g_CenterY);
+        canvas.translate(l_NouX, l_NouY);
+        // Escalem
+        if (l_Bounds.height() >= l_Bounds.width()){
+            l_Factor = l_Bounds.height();
+        }
+        else{
+            l_Factor = l_Bounds.width();
+        }
+        l_Escala = (l_Factor / g_AmpladaScreen);
+        canvas.scale(l_Escala, l_Escala);
         // Pintem distancies de les rectes
         for (int I=0; I < g_LiniesPlanol.size(); I++) {
             l_Linia = g_LiniesPlanol.get(I);
