@@ -15,6 +15,7 @@
             android:id="@+id/LiniaLVWLlistaSalonsClientTXTNom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="3dp"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_gravity="center_vertical" />
@@ -46,28 +47,38 @@
 
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/LiniaLVWLlistaSalonsClientTXTDescripcio"
-        android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:textSize="18sp"
-        android:gravity="center_horizontal" />
-
     <LinearLayout
         android:id="@+id/LiniaLVWLlistaSalonsClientLINToolbar"
         android:layout_marginBottom="-120dip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/LiniaLVWLlistaSalonsClientTXTDescripcio"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            android:gravity="left"/>
+
+        <TextView
+            android:id="@+id/LiniaLVWLlistaSalonsClientTXTCapacitat"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:gravity="left" />
 
         <com.example.it00046.bodina3.Classes.PlanolVista
             android:id="@+id/LiniaLVWLlistaSalonsClientVIWDrawing"
             android:layout_width="250dp"
             android:layout_height="250dp"
             android:layout_marginLeft="30dp"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:background="@color/white"/>
     </LinearLayout>
 </LinearLayout>

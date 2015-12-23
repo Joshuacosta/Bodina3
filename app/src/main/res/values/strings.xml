@@ -5,6 +5,8 @@
     <string name="error_CampObligatori">Required field</string>
     <string name="error_eMailIncorrecte">Invalid mail</string>
     <string name="error_Layout">There are some wrong field</string>
+    <string name="error_CapacitatSuperada">Capacity exceeded</string>
+    <string name="error_LimitCapacitat">Limit capacity</string>
     <string name="llista_Select">Select...</string>
     <string name="llista_Select_pais">Select entity for country...</string>
     <string name="nomes_invitacio">only invitation</string>
@@ -129,6 +131,7 @@
     <string name="SalonsClientPralMNUAfegir">Add saloon</string>
     <string name="SalonsClientPralMNUOrdenar">Sort saloon</string>
     <string name="SalonsClientPralMNUActualitzar">Refresh</string>
+    <string name="SalonsClientPralLITCapacitat">Capacity</string>
 
     <!-- Layout salo client modificacion -->
     <string name="title_activity_salonsclient_modificacio">Modify saloon</string>

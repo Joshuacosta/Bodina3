@@ -78,7 +78,7 @@ public class salons_client_planol  extends ActionBarActivity {
             g_NomSalo.setText(l_SaloClient.Nom);
             g_Descripcio.setText(l_SaloClient.Descripcio);
             if (l_SaloClient.Capacitat != Globals.k_CapacitatSenseDefinir) {
-                g_Capacitat.setText(l_SaloClient.Capacitat);
+                g_Capacitat.setText(Integer.toString(l_SaloClient.Capacitat));
             }
             // Parametres globals
             g_Draw.g_UnitatsPlanol = l_SaloClient.UnitatsPlanol;

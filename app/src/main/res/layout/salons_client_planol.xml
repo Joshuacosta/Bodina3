@@ -93,14 +93,14 @@
 
         <EditText
             android:id="@+id/SalonsClientPlanolTXTNom"
-            android:layout_width="100"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:maxLength="20"
             android:hint="@string/SalonsClientAltaTXTNom" />
 
         <EditText
             android:id="@+id/SalonsClientPlanolTXTDescripcio"
-            android:layout_width="300"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:maxLength="50"
@@ -108,7 +108,7 @@
 
         <EditText
             android:id="@+id/SalonsClientPlanolTXTCapacitat"
-            android:layout_width="100"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:maxLength="4"

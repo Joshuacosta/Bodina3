@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
+import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.R;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class LVWLlistaSalonsClient extends ArrayAdapter<SaloClient> {
     @Override
     public View getView(int p_position, View p_convertView, ViewGroup p_parent) {
         SaloClient l_Salo;
-        TextView l_TXT_Nom;
+        TextView l_TXT_Nom, l_TXT_Descripcio, l_TXT_Capacitat;
 
         l_Salo = getItem(p_position);
         LayoutInflater inflater = LayoutInflater.from(this.g_context);
@@ -37,6 +38,11 @@ public class LVWLlistaSalonsClient extends ArrayAdapter<SaloClient> {
         // Omplim camps visibles
         l_TXT_Nom = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaSalonsClientTXTNom);
         l_TXT_Nom.setText(l_Salo.Nom);
+        // Omplim camps no visibles
+        l_TXT_Descripcio = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaSalonsClientTXTDescripcio);
+        l_TXT_Descripcio.setText(l_Salo.Descripcio);
+        l_TXT_Capacitat = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaSalonsClientTXTCapacitat);
+        l_TXT_Capacitat.setText(Globals.g_Native.getString(R.string.SalonsClientPralLITCapacitat) + " : " + Integer.toString(l_Salo.Capacitat));
         // Guardem les dades del salo al tag
         p_convertView.setTag(l_Salo);
 

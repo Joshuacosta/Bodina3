@@ -126,7 +126,7 @@ public class salons_client_pral extends ActionBarActivity {
                     // Construim el planol (si hi ha)
                     if (l_SaloClient.g_Planol.size() > 0) {
                         l_Draw = (PlanolVista) p_view.findViewById(R.id.LiniaLVWLlistaSalonsClientVIWDrawing);
-                        l_Draw.DibuixaPlanol(l_SaloClient.g_Planol);
+                        l_Draw.DibuixaPlanol(l_SaloClient.g_Planol, l_SaloClient.UnitatMesura);
                         g_LIN_ToolbarAnterior = l_LIN_Toolbar;
                     }
                     else{
@@ -247,7 +247,12 @@ public class salons_client_pral extends ActionBarActivity {
             l_Salo = (SaloClient)l_LiniaSalo.getTag();
             l_Parametres.Codi = l_Salo.Codi;
             l_Parametres.Nom = l_Salo.Nom;
+            l_Parametres.Descripcio = l_Salo.Descripcio;
+            l_Parametres.Capacitat = l_Salo.Capacitat;
             l_Parametres.Estat = l_Salo.Estat;
+            l_Parametres.EscalaPlanol = l_Salo.EscalaPlanol;
+            l_Parametres.UnitatsPlanol = l_Salo.UnitatsPlanol;
+            l_Parametres.UnitatMesura = l_Salo.UnitatMesura;
             // Planol
             if (l_Salo.g_Planol.size() > 0){
                 for (int i = 0; i < l_Salo.g_Planol.size(); i++){

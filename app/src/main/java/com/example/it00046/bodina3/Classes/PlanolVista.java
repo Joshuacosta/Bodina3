@@ -29,6 +29,7 @@ public class PlanolVista extends RelativeLayout {
     private int g_CenterX = 0, g_CenterY = 0;
     private int g_AmpladaScreen, g_AlsadaScreen;
     public ArrayList<linia> g_LiniesPlanol = new ArrayList<>();
+    private float g_UnitatMesura;
 
     public PlanolVista(Context p_Context, AttributeSet p_Attrs) {
         super(p_Context, p_Attrs);
@@ -132,10 +133,11 @@ public class PlanolVista extends RelativeLayout {
         canvas.restore();
     }
 
-    public void DibuixaPlanol(ArrayList<SaloClient.DetallPlanol> p_Planol){
+    public void DibuixaPlanol(ArrayList<SaloClient.DetallPlanol> p_Planol, float p_UnitatMesura){
         SaloClient.DetallPlanol l_Element;
         PointF l_PuntInici, l_PuntFi, l_PuntCurva;
 
+        g_UnitatMesura = p_UnitatMesura;
         for (int i = 0; i < p_Planol.size(); i++) {
             l_Element = p_Planol.get(i);
             switch (l_Element.Tipus) {
@@ -197,8 +199,7 @@ public class PlanolVista extends RelativeLayout {
     private String EscalaDistancia(double P_Distancia){
         String l_Resultat = null;
 
-        //l_Resultat = String.valueOf(Math.round(P_Distancia / g_UnitatX));
-        l_Resultat = String.valueOf(Math.round(P_Distancia));
+        l_Resultat = String.valueOf(Math.round(P_Distancia / g_UnitatMesura));
         return l_Resultat;
     }
 

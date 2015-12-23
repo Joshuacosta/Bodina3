@@ -119,8 +119,34 @@ public class celebracions_client_alta extends ActionBarActivity {
                 g_ETX_Descripcio.setError(null);}
         });
         g_ETX_NumConvidats.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {}
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void afterTextChanged(Editable s) {
+                SPNSalonsClient l_SaloSeleccionat;
+                int l_Capacitat;
+                // Validem que si hi ha definida una capacitat del salo mostrem
+                // el valor en vermell i una explicacio
+                if (s.toString() != null){
+                    int l_NumConvidats = Integer.valueOf(s.toString());
+                    l_SaloSeleccionat = (SPNSalonsClient) g_SPN_Salo.getSelectedItem();
+                    l_Capacitat = l_SaloSeleccionat.g_Salo.Capacitat;
+                    if (l_Capacitat >= 0) {
+                        if (l_NumConvidats > l_Capacitat) {
+                            g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.red));
+                            g_ETX_NumConvidats.setError(Globals.g_Native.getString(R.string.error_CapacitatSuperada));
+                        } else {
+                            if (l_NumConvidats == l_Capacitat) {
+                                g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.orange));
+                                g_ETX_NumConvidats.setError(Globals.g_Native.getString(R.string.error_LimitCapacitat));
+                            } else {
+                                g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.black));
+                                g_ETX_NumConvidats.setError(null);
+                            }
+                        }
+                    }
+                }
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                g_ETX_NumConvidats.setError(null);
+            }
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 g_ETX_NumConvidats.setError(null);}
         });
