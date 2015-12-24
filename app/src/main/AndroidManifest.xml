@@ -43,7 +43,7 @@
             android:parentActivityName=".principal" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".principal" />
+                android:value=".celebracions_client_pral" />
         </activity>
         <!-- Fill 3: Entitats: SINGLE -->
         <activity

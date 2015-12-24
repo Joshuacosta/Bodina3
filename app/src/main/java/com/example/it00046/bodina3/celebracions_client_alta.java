@@ -87,7 +87,27 @@ public class celebracions_client_alta extends ActionBarActivity {
         g_SPN_Salo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView parent, View view, int pos, long id) {
+                SPNSalonsClient l_SaloSeleccionat;
+
                 g_TXT_Salo.setError(null);
+                // Validem si superem la capacitat del saló si tenim indicat el numero de comensals
+                if (g_ETX_NumConvidats.getText().toString().trim().length() > 0){
+                    l_SaloSeleccionat = (SPNSalonsClient) g_SPN_Salo.getSelectedItem();
+                    if (Integer.parseInt(g_ETX_NumConvidats.getText().toString().trim()) > l_SaloSeleccionat.g_Salo.Capacitat){
+                        g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.red));
+                        g_ETX_NumConvidats.setError(Globals.g_Native.getString(R.string.error_CapacitatSuperada));
+                    }
+                    else{
+                        if (Integer.parseInt(g_ETX_NumConvidats.getText().toString().trim()) == l_SaloSeleccionat.g_Salo.Capacitat) {
+                            g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.orange));
+                            g_ETX_NumConvidats.setError(Globals.g_Native.getString(R.string.error_LimitCapacitat));
+                        }
+                        else{
+                            g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.black));
+                            g_ETX_NumConvidats.setError(null);
+                        }
+                    }
+                }
             }
             @Override
             public void onNothingSelected(AdapterView parent) {
@@ -123,22 +143,24 @@ public class celebracions_client_alta extends ActionBarActivity {
                 SPNSalonsClient l_SaloSeleccionat;
                 int l_Capacitat;
                 // Validem que si hi ha definida una capacitat del salo mostrem
-                // el valor en vermell i una explicacio
-                if (s.toString() != null){
-                    int l_NumConvidats = Integer.valueOf(s.toString());
-                    l_SaloSeleccionat = (SPNSalonsClient) g_SPN_Salo.getSelectedItem();
-                    l_Capacitat = l_SaloSeleccionat.g_Salo.Capacitat;
-                    if (l_Capacitat >= 0) {
-                        if (l_NumConvidats > l_Capacitat) {
-                            g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.red));
-                            g_ETX_NumConvidats.setError(Globals.g_Native.getString(R.string.error_CapacitatSuperada));
-                        } else {
-                            if (l_NumConvidats == l_Capacitat) {
-                                g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.orange));
-                                g_ETX_NumConvidats.setError(Globals.g_Native.getString(R.string.error_LimitCapacitat));
+                // el valor en vermell i una explicacio (ho fem si hi ha indicat un salo)
+                if (!s.toString().trim().equalsIgnoreCase("")){
+                    if (!g_SPN_Salo.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))) {
+                        int l_NumConvidats = Integer.valueOf(s.toString());
+                        l_SaloSeleccionat = (SPNSalonsClient) g_SPN_Salo.getSelectedItem();
+                        l_Capacitat = l_SaloSeleccionat.g_Salo.Capacitat;
+                        if (l_Capacitat >= 0) {
+                            if (l_NumConvidats > l_Capacitat) {
+                                g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.red));
+                                g_ETX_NumConvidats.setError(Globals.g_Native.getString(R.string.error_CapacitatSuperada));
                             } else {
-                                g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.black));
-                                g_ETX_NumConvidats.setError(null);
+                                if (l_NumConvidats == l_Capacitat) {
+                                    g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.orange));
+                                    g_ETX_NumConvidats.setError(Globals.g_Native.getString(R.string.error_LimitCapacitat));
+                                } else {
+                                    g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.black));
+                                    g_ETX_NumConvidats.setError(null);
+                                }
                             }
                         }
                     }
@@ -208,7 +230,6 @@ public class celebracions_client_alta extends ActionBarActivity {
                     Globals.g_Native.getString(R.string.error_Layout),
                     Toast.LENGTH_LONG).show();
         }
-
     }
 
     @Override
