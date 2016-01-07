@@ -3,6 +3,7 @@
     <!-- Generic -->
     <string name="NoHiHanEntitats">Doesn\'t found entities for your setting country</string>
     <string name="error_CampObligatori">Required field</string>
+    <string name="error_NoEventDate">Requeired event date</string>
     <string name="error_eMailIncorrecte">Invalid mail</string>
     <string name="error_Layout">There are some wrong field</string>
     <string name="error_CapacitatSuperada">Capacity exceeded</string>

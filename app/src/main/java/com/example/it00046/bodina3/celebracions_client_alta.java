@@ -1,12 +1,14 @@
 package com.example.it00046.bodina3;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.DAO.DAOCelebracionsClient;
@@ -42,11 +45,12 @@ public class celebracions_client_alta extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ImageButton l_IMB_Data;
+        ImageButton l_IMB_Data, l_IMB_Temps;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.celebracions_client_alta);
         // Recuperem controls del layout
+        // Data
         l_IMB_Data = (ImageButton) findViewById(R.id.CelebracionsClientAltaIMBData);
         l_IMB_Data.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -54,12 +58,24 @@ public class celebracions_client_alta extends ActionBarActivity {
                 int mYear = c.get(Calendar.YEAR);
                 int mMonth = c.get(Calendar.MONTH);
                 int mDay = c.get(Calendar.DAY_OF_MONTH);
-                System.out.println("the selected " + mDay);
                 DatePickerDialog dialog = new DatePickerDialog(jo,
                         new mDateSetListener(), mYear, mMonth, mDay);
                 dialog.show();
             }
         });
+        // Temps
+        l_IMB_Temps = (ImageButton) findViewById(R.id.CelebracionsClientAltaIMBTime);
+        l_IMB_Temps.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Calendar c = Calendar.getInstance();
+                int hour = c.get(Calendar.HOUR_OF_DAY);
+                int minute = c.get(Calendar.MINUTE);
+                TimePickerDialog dialog = new TimePickerDialog(jo,
+                        new mTimeSetListener(), hour, minute, DateFormat.is24HourFormat(jo));
+                dialog.show();
+            }
+        });
+        // Resta controls
         g_TXT_Data = (TextView) findViewById(R.id.CelebracionsClientAltaTXTData);
         g_TXT_TipusCelebracio = (TextView) findViewById(R.id.CelebracionsClientAltatTXTTipusCelebracio);
         g_TXT_Salo = (TextView) findViewById(R.id.CelebracionsClientAltatTXTSalo);
@@ -187,6 +203,13 @@ public class celebracions_client_alta extends ActionBarActivity {
             g_TXT_Data.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
             ret = false;
         }
+        else{
+            // Validem que estigui definit el dia (per si de cas nomes han definit hora)
+            if (!g_TXT_Data.getText().toString().contains("/")){
+                g_TXT_Data.setError(Globals.g_Native.getString(R.string.error_NoEventDate));
+                ret = false;
+            }
+        }
         // Camps obligatoris
         if (!Validacio.hasText(g_ETX_Contacte)) ret = false;
         if (!Validacio.hasText(g_ETX_Lloc)) ret = false;
@@ -211,8 +234,7 @@ public class celebracions_client_alta extends ActionBarActivity {
         SPNTipusCelebracio l_TipusCelebracioSeleccionat;
 
         if (ValidarFinestra()) {
-            // Donem d'alta la celebracio (no validem res mes com podria ser el numero maxim de comensals
-            // que admet el salo ja que en les celebracions i salons del client no ho valorem)
+            // Donem d'alta la celebracio
             l_SaloSeleccionat = (SPNSalonsClient) g_SPN_Salo.getSelectedItem();
             l_CelebracioClient.CodiSalo = l_SaloSeleccionat.g_Salo.Codi;
             l_TipusCelebracioSeleccionat = (SPNTipusCelebracio) g_SPN_TipusCelebracio.getSelectedItem();
@@ -259,12 +281,22 @@ public class celebracions_client_alta extends ActionBarActivity {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
-            // TODO Auto-generated method stub
-            // getCalender();
             int mYear = year;
             int mMonth = monthOfYear;
             int mDay = dayOfMonth;
-            g_DataCelebracio = (mMonth + 1) + "/" + mDay + "/" + mYear;
+            g_DataCelebracio =  String.format("%02d/%02d/%04d", (mMonth + 1), mDay, mYear) + " " + g_DataCelebracio;
+            g_TXT_Data.setText(g_DataCelebracio);
+        }
+    }
+
+    class mTimeSetListener implements TimePickerDialog.OnTimeSetListener {
+        @Override
+        public void onTimeSet(TimePicker view, int p_Hora, int p_Minuts) {
+            int l_Hora = p_Hora;
+            int l_Minuts = p_Minuts;
+
+            g_DataCelebracio = g_DataCelebracio + " " + String.format("%02d:%02d", l_Hora, l_Minuts);
+            g_TXT_Data.setText(g_DataCelebracio);
         }
     }
 }
