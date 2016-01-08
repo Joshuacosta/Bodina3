@@ -106,7 +106,7 @@ public class celebracions_client_alta extends ActionBarActivity {
                 SPNSalonsClient l_SaloSeleccionat;
 
                 g_TXT_Salo.setError(null);
-                // Validem si superem la capacitat del saló si tenim indicat el numero de comensals
+                // Validem si superem la capacitat del salo si tenim indicat el numero de comensals
                 if (g_ETX_NumConvidats.getText().toString().trim().length() > 0){
                     l_SaloSeleccionat = (SPNSalonsClient) g_SPN_Salo.getSelectedItem();
                     if (Integer.parseInt(g_ETX_NumConvidats.getText().toString().trim()) > l_SaloSeleccionat.g_Salo.Capacitat){
@@ -236,14 +236,14 @@ public class celebracions_client_alta extends ActionBarActivity {
         if (ValidarFinestra()) {
             // Donem d'alta la celebracio
             l_SaloSeleccionat = (SPNSalonsClient) g_SPN_Salo.getSelectedItem();
-            l_CelebracioClient.CodiSalo = l_SaloSeleccionat.g_Salo.Codi;
+            l_CelebracioClient.Salo.Codi = l_SaloSeleccionat.g_Salo.Codi;
             l_TipusCelebracioSeleccionat = (SPNTipusCelebracio) g_SPN_TipusCelebracio.getSelectedItem();
-            l_CelebracioClient.Tipus = l_TipusCelebracioSeleccionat.g_Tipus.Codi;
+            l_CelebracioClient.Tipus.Codi = l_TipusCelebracioSeleccionat.g_Tipus.Codi;
             l_CelebracioClient.Descripcio = g_ETX_Descripcio.getText().toString();
             l_CelebracioClient.Convidats = Integer.valueOf(g_ETX_NumConvidats.getText().toString());
-            l_CelebracioClient.Data = g_TXT_Data.toString();
-            l_CelebracioClient.Lloc = g_ETX_Lloc.toString();
-            l_CelebracioClient.Contacte = g_ETX_Contacte.toString();
+            l_CelebracioClient.Data = g_TXT_Data.getText().toString();
+            l_CelebracioClient.Lloc = g_ETX_Lloc.getText().toString();
+            l_CelebracioClient.Contacte = g_ETX_Contacte.getText().toString();
             //
             DAOCelebracionsClient.Afegir(l_CelebracioClient, Jo, true, true);
         }

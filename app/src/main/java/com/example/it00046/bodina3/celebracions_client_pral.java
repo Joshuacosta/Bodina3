@@ -292,8 +292,8 @@ public class celebracions_client_pral extends ActionBarActivity {
             l_Parametres = new PARCelebracioClient();
             l_Celebracio = (CelebracioClient)l_LiniaCelebracio.getTag();
             l_Parametres.Codi = l_Celebracio.Codi;
-            l_Parametres.CodiSalo = l_Celebracio.CodiSalo;
-            l_Parametres.Tipus = l_Celebracio.Tipus;
+            l_Parametres.CodiSalo = l_Celebracio.Salo.Codi;
+            l_Parametres.Tipus = l_Celebracio.Tipus.Codi;
             l_Parametres.Descripcio = l_Celebracio.Descripcio;
             l_Parametres.Convidats = l_Celebracio.Convidats;
             l_Parametres.Data = l_Celebracio.Descripcio;

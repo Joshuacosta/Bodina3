@@ -7,8 +7,8 @@ import java.util.Date;
  */
 public class CelebracioClient {
     public int Codi;
-    public int CodiSalo;
-    public int Tipus;
+    public SaloClient Salo;
+    public TipusCelebracio Tipus;
     public String Descripcio;
     public int Convidats;
     public String Data;
@@ -18,8 +18,12 @@ public class CelebracioClient {
 
     public CelebracioClient(){
         Codi = 0;
-        CodiSalo = 0;
-        Tipus = 0;
+        Salo = new SaloClient();
+        Salo.Codi = 0;
+        Salo.Nom = "";
+        Tipus = new TipusCelebracio();
+        Tipus.Codi = 0;
+        Tipus.Descripcio = "";
         Descripcio = "";
         Convidats = 0;
         Data = "";

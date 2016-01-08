@@ -28,6 +28,15 @@ public final class DAOCelebracionsClient {
     private static final String TAG_Lloc = Globals.g_Native.getString(R.string.TCelebracionsClient_Lloc);
     private static final String TAG_Contacte = Globals.g_Native.getString(R.string.TCelebracionsClient_Contacte);
     private static final String TAG_Estat = Globals.g_Native.getString(R.string.TCelebracionsClient_Estat);
+
+    private static final String TAG_SalonsClient = Globals.g_Native.getString(R.string.TSalonsClient);
+    private static final String TAG_SalonsClientCodi = Globals.g_Native.getString(R.string.TSalonsClient_Codi);
+    private static final String TAG_SalonsClientNom = Globals.g_Native.getString(R.string.TSalonsClient_Nom);
+
+    private static final String TAG_TipusCelebracio = Globals.g_Native.getString(R.string.TTipusCelebracio);
+    private static final String TAG_TipusCelebracioCodi = Globals.g_Native.getString(R.string.TTipusCelebracio_Codi);
+    private static final String TAG_TipusCelebracioDescripcio = Globals.g_Native.getString(R.string.TTipusCelebracio_Descripcio);
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,6 +45,7 @@ public final class DAOCelebracionsClient {
         final ArrayAdapter<CelebracioClient> l_Llista = new LVWLlistaCelebracionsClient(p_Context, p_Layout);
         Globals.MostrarEspera(p_Context);
         try {
+            /*
             Cursor l_cursor = Globals.g_DB.query(TAG_CelebracionsClient,
                     Globals.g_Native.getResources().getStringArray(R.array.TCelebracionsClient_Camps),
                     null, // c. selections
@@ -44,6 +54,40 @@ public final class DAOCelebracionsClient {
                     null, // f. having
                     null, // g. order by
                     null); // h. limit
+            */
+            /*
+            Cursor l_cursor = Globals.g_DB.query(TAG_CelebracionsClient +
+                                                 " LEFT OUTER JOIN " +
+                                                 TAG_SalonsClient + " ON " + TAG_CelebracionsClient + "." + TAG_CodiSalo + "=" +
+                                                 TAG_SalonsClient + "." + TAG_SalonsClientCodi +
+                                                 " LEFT OUTER JOIN " +
+                                                 TAG_TipusCelebracio + " ON " + TAG_CelebracionsClient + "." + TAG_Tipus + "=" +
+                                                 TAG_TipusCelebracio + "." + TAG_TipusCelebracioCodi,
+                    Globals.g_Native.getResources().getStringArray(R.array.JTCelebracionsClient_Camps),
+                    null, // c. selections
+                    null, // d. selections args
+                    null, // e. group by
+                    null, // f. having
+                    null, // g. order by
+                    null); // h. limit
+            */
+            String l_Query = "SELECT CelebracionsClient.Codi, " +
+                                    "CelebracionsClient.CodiSalo, " +
+                                    "SalonsClient.Nom, " +
+                                    "CelebracionsClient.Tipus, " +
+                                    "TipusCelebracio.Descripcio, " +
+                                    "CelebracionsClient.Descripcio, " +
+                                    "CelebracionsClient.Convidats, " +
+                                    "CelebracionsClient.Data, " +
+                                    "CelebracionsClient.Lloc, " +
+                                    "CelebracionsClient.Contacte, " +
+                                    "CelebracionsClient.Estat " +
+                                    "FROM CelebracionsClient " +
+                            "LEFT OUTER JOIN SalonsClient " +
+                            "ON CelebracionsClient.CodiSalo = SalonsClient.Codi " +
+                            "LEFT OUTER JOIN TipusCelebracio " +
+                            "ON CelebracionsClient.Tipus = TipusCelebracio.Codi";
+            Cursor l_cursor = Globals.g_DB.rawQuery(l_Query, null); // h. limit
             if (l_cursor.getCount() > 0) {
                 l_cursor.moveToFirst();
                 for (int i=0; i < l_cursor.getCount(); i++) {
@@ -165,8 +209,8 @@ public final class DAOCelebracionsClient {
         if (p_Insercio == false) {
             l_values.put(TAG_Codi, p_CelebracioClient.Codi);
         }
-        l_values.put(TAG_CodiSalo, p_CelebracioClient.CodiSalo);
-        l_values.put(TAG_Tipus, p_CelebracioClient.Tipus);
+        l_values.put(TAG_CodiSalo, p_CelebracioClient.Salo.Codi);
+        l_values.put(TAG_Tipus, p_CelebracioClient.Tipus.Codi);
         l_values.put(TAG_Descripcio, p_CelebracioClient.Descripcio);
         l_values.put(TAG_Convidats, p_CelebracioClient.Convidats);
         l_values.put(TAG_Data, p_CelebracioClient.Data);
@@ -181,8 +225,10 @@ public final class DAOCelebracionsClient {
         CelebracioClient l_CelebracioClient = new CelebracioClient();
 
         l_CelebracioClient.Codi = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Codi));
-        l_CelebracioClient.CodiSalo = p_cursor.getInt(p_cursor.getColumnIndex(TAG_CodiSalo));
-        l_CelebracioClient.Tipus = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Tipus));
+        l_CelebracioClient.Salo.Codi = p_cursor.getInt(p_cursor.getColumnIndex(TAG_CodiSalo));
+        l_CelebracioClient.Salo.Nom = p_cursor.getString(p_cursor.getColumnIndex(TAG_SalonsClientNom));
+        l_CelebracioClient.Tipus.Codi = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Tipus));
+        l_CelebracioClient.Tipus.Descripcio = p_cursor.getString(p_cursor.getColumnIndex(TAG_TipusCelebracioDescripcio));
         l_CelebracioClient.Descripcio = p_cursor.getString(p_cursor.getColumnIndex(TAG_Descripcio));
         l_CelebracioClient.Convidats = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Convidats));
         l_CelebracioClient.Data = p_cursor.getString(p_cursor.getColumnIndex(TAG_Data));

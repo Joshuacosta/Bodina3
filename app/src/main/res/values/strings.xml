@@ -230,6 +230,8 @@
     <!-- Camps -->
     <string name="TTipusCelebracio_Codi">Codi</string>
     <string name="TTipusCelebracio_Descripcio">Descripcio</string>
+    <!-- Camps Join -->
+    <string name="JTTipusCelebracio_Descripcio">TipusCelebracio.Descripcio</string>
     <!-- Valors inicials -->
     <string name="TipusCelebracio0">Weddindg</string>
     <string name="TipusCelebracio1">Christening</string>
@@ -257,6 +259,8 @@
     <string name="TSalonsClient_UnitatsPlanol">UnitatsPlanol</string>
     <string name="TSalonsClient_UnitatMesura">UnitatMesura</string>
     <string name="TSalonsClient_Estat">Estat</string>
+    <!-- Camps Join -->
+    <string name="JTSalonsClient_Nom">SalonsClient.Nom</string>
     <!-- Llista camps -->
     <string-array name="TSalonsClient_Camps">
         <item>@string/TSalonsClient_Codi</item>
@@ -354,6 +358,16 @@
     <string name="TCelebracionsClient_Lloc">Lloc</string>
     <string name="TCelebracionsClient_Contacte">Contacte</string>
     <string name="TCelebracionsClient_Estat">Estat</string>
+    <!-- Camps Join -->
+    <string name="JTCelebracionsClient_Codi">CelebracionsClient.Codi</string>
+    <string name="JTCelebracionsClient_CodiSalo">CelebracionsClient.CodiSalo</string>
+    <string name="JTCelebracionsClient_Tipus">CelebracionsClient.Tipus</string>
+    <string name="JTCelebracionsClient_Descripcio">CelebracionsClient.Descripcio</string>
+    <string name="JTCelebracionsClient_Convidats">CelebracionsClient.Convidats</string>
+    <string name="JTCelebracionsClient_Data">CelebracionsClient.Data</string>
+    <string name="JTCelebracionsClient_Lloc">CelebracionsClient.Lloc</string>
+    <string name="JTCelebracionsClient_Contacte">CelebracionsClient.Contacte</string>
+    <string name="JTCelebracionsClient_Estat">CelebracionsClient.Estat</string>
     <!-- Llista camps -->
     <string-array name="TCelebracionsClient_Camps">
         <item>@string/TCelebracionsClient_Codi</item>
@@ -365,6 +379,20 @@
         <item>@string/TCelebracionsClient_Lloc</item>
         <item>@string/TCelebracionsClient_Contacte</item>
         <item>@string/TCelebracionsClient_Estat</item>
+    </string-array>
+    <!-- Llista camps Join -->
+    <string-array name="JTCelebracionsClient_Camps">
+        <item>@string/JTCelebracionsClient_Codi</item>
+        <item>@string/JTCelebracionsClient_CodiSalo</item>
+        <item>@string/JTSalonsClient_Nom</item>
+        <item>@string/JTCelebracionsClient_Tipus</item>
+        <item>@string/JTTipusCelebracio_Descripcio</item>
+        <item>@string/JTCelebracionsClient_Descripcio</item>
+        <item>@string/JTCelebracionsClient_Convidats</item>
+        <item>@string/JTCelebracionsClient_Data</item>
+        <item>@string/JTCelebracionsClient_Lloc</item>
+        <item>@string/JTCelebracionsClient_Contacte</item>
+        <item>@string/JTCelebracionsClient_Estat</item>
     </string-array>
     <!-- Funcions -->
     <string name="TCelebracionsClientCreate">CREATE TABLE %1$s (
