@@ -7,7 +7,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context=".celebracions_client_alta">
+    tools:context=".celebracions_client_mant">
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -26,14 +26,14 @@
                 android:layout_marginTop="9dp">
 
                 <TextView
-                    android:id="@+id/CelebracionsClientAltatTXTTipusCelebracio"
+                    android:id="@+id/CelebracionsClientMantTXTTipusCelebracio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/CelebracionsClientAltaTXTTipusCelebracio"/>
 
                 <Spinner
-                    android:id="@+id/CelebracionsClientAltaSPNTipusCelebracio"
+                    android:id="@+id/CelebracionsClientMantSPNTipusCelebracio"
                     android:layout_marginTop="25dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -49,14 +49,14 @@
                 android:padding="5dp">
 
                 <TextView
-                    android:id="@+id/CelebracionsClientAltatTXTSalo"
+                    android:id="@+id/CelebracionsClientMantTXTSalo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/CelebracionsClientAltaTXTSalo"/>
 
                 <Spinner
-                    android:id="@+id/CelebracionsClientAltaSPNSalo"
+                    android:id="@+id/CelebracionsClientMantSPNSalo"
                     android:layout_marginTop="25dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -70,14 +70,14 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/CelebracionsClientAltaTXTLloc"
-                android:id="@+id/CelebracionsClientAltaTXTLloc"
+                android:id="@+id/CelebracionsClientMantTXTLloc"
                 android:maxLength="100" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/CelebracionsClientAltaTXTDescripcio"
-                android:id="@+id/CelebracionsClientAltaTXTDescripcio"
+                android:id="@+id/CelebracionsClientMantTXTDescripcio"
                 android:maxLength="50" />
 
             <EditText
@@ -86,7 +86,7 @@
                 android:inputType="number"
                 android:ems="10"
                 android:hint="@string/CelebracionsClientAltaTXTNumConvidats"
-                android:id="@+id/CelebracionsClientAltaTXTNumConvidats" />
+                android:id="@+id/CelebracionsClientMantTXTNumConvidats" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -100,21 +100,21 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="6"
                     android:text="@string/CelebracionsClientAltaTXTData"
-                    android:id="@+id/CelebracionsClientAltaTXTData"/>
+                    android:id="@+id/CelebracionsClientMantTXTData"/>
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_access_time_black_24dp"
-                    android:id="@+id/CelebracionsClientAltaIMBTime"/>
+                    android:id="@+id/CelebracionsClientMantIMBTime"/>
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_action_calendar_day"
-                    android:id="@+id/CelebracionsClientAltaIMBData"/>
+                    android:id="@+id/CelebracionsClientMantIMBData"/>
 
             </LinearLayout>
 
@@ -123,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/CelebracionsClientAltaTXTContacte"
-                android:id="@+id/CelebracionsClientAltaTXTContacte"
+                android:id="@+id/CelebracionsClientMantTXTContacte"
                 android:maxLength="100" />
 
         </LinearLayout>

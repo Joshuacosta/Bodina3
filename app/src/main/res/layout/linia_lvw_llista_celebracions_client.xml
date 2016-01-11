@@ -60,7 +60,7 @@
         android:textStyle="italic"
         android:layout_weight="1"
         android:gravity="center_vertical|left"/>
-    <!--*** Layout que s'extent amb la informació de la celebració ****-->
+    <!-- Layout que s'extent amb la informació de la celebració -->
     <LinearLayout android:id="@+id/LiniaLVWLlistaCelebracionsClientLINToolbar"
         android:layout_marginBottom="-120dip"
         android:layout_height="wrap_content"

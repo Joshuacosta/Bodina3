@@ -128,7 +128,7 @@ public class principal extends ActionBarActivity {
                 startActivity(l_intent);
                 break;
             case R.id.principalMNUafegir:
-                l_intent = new Intent(this, celebracions_client_alta.class);
+                l_intent = new Intent(this, celebracions_client_mant.class);
                 startActivity(l_intent);
                 return true;
             case R.id.principalMNUCelebracionsClient:

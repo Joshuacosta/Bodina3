@@ -3,6 +3,7 @@ package com.example.it00046.bodina3;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -25,16 +27,18 @@ import com.example.it00046.bodina3.Classes.DAO.DAOCelebracionsClient;
 import com.example.it00046.bodina3.Classes.DAO.DAOSalonsClient;
 import com.example.it00046.bodina3.Classes.DAO.DAOTipusCelebracions;
 import com.example.it00046.bodina3.Classes.Entitats.CelebracioClient;
-import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
 import com.example.it00046.bodina3.Classes.Globals;
+import com.example.it00046.bodina3.Classes.Params.PARCelebracioClient;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNSalonsClient;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNTipusCelebracio;
 import com.example.it00046.bodina3.Classes.Validacio;
 
+import java.sql.Time;
 import java.util.Calendar;
+import java.util.Date;
 
 
-public class celebracions_client_alta extends ActionBarActivity {
+public class celebracions_client_mant extends ActionBarActivity {
 
     public String g_DataCelebracio = new String();
     public Context jo = this;
@@ -45,47 +49,73 @@ public class celebracions_client_alta extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ImageButton l_IMB_Data, l_IMB_Temps;
+        final ImageButton l_IMB_Data, l_IMB_Temps;
+        PARCelebracioClient l_CelebracioClient;
+        Intent l_intent = getIntent();
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.celebracions_client_alta);
+        setContentView(R.layout.celebracions_client_mant);
         // Recuperem controls del layout
         // Data
-        l_IMB_Data = (ImageButton) findViewById(R.id.CelebracionsClientAltaIMBData);
+        l_IMB_Data = (ImageButton) findViewById(R.id.CelebracionsClientMantIMBData);
         l_IMB_Data.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR);
-                int mMonth = c.get(Calendar.MONTH);
-                int mDay = c.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog dialog = new DatePickerDialog(jo,
-                        new mDateSetListener(), mYear, mMonth, mDay);
+                int l_Any, l_Mes, l_Dia;
+                Date l_Data;
+                Calendar l_Calendari = Calendar.getInstance();
+
+                // Si hi ha data definida la informem, sino mostrem el dia actual
+                if (g_TXT_Data.getText().toString().contains("/")){
+                    l_Data = Globals.StringToDate(g_TXT_Data.getText().toString());
+                    l_Calendari.setTime(l_Data);
+                    l_Any = l_Calendari.YEAR;
+                    l_Mes = l_Calendari.MONTH;
+                    l_Dia = l_Calendari.DAY_OF_MONTH;
+                }
+                else{
+                    // No tenim data
+                    l_Any = l_Calendari.get(Calendar.YEAR);
+                    l_Mes = l_Calendari.get(Calendar.MONTH);
+                    l_Dia = l_Calendari.get(Calendar.DAY_OF_MONTH);
+                }
+                DatePickerDialog dialog = new DatePickerDialog(jo, new mDateSetListener(), l_Any, l_Mes, l_Dia);
                 dialog.show();
             }
         });
         // Temps
-        l_IMB_Temps = (ImageButton) findViewById(R.id.CelebracionsClientAltaIMBTime);
+        l_IMB_Temps = (ImageButton) findViewById(R.id.CelebracionsClientMantIMBTime);
         l_IMB_Temps.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Calendar c = Calendar.getInstance();
-                int hour = c.get(Calendar.HOUR_OF_DAY);
-                int minute = c.get(Calendar.MINUTE);
-                TimePickerDialog dialog = new TimePickerDialog(jo,
-                        new mTimeSetListener(), hour, minute, DateFormat.is24HourFormat(jo));
+                int l_Hora, l_Minut;
+                Date l_Data;
+                Calendar l_Calendari = Calendar.getInstance();
+
+                // Si hi ha hora definida la informem, sino mostrem el dia actual
+                if (g_TXT_Data.getText().toString().contains(":")) {
+                    l_Data = Globals.StringToDate(g_TXT_Data.getText().toString());
+                    l_Calendari.setTime(l_Data);
+                    l_Hora = l_Calendari.HOUR;
+                    l_Minut = l_Calendari.MINUTE;
+                }
+                else{
+                    l_Hora = l_Calendari.get(Calendar.HOUR_OF_DAY);
+                    l_Minut = l_Calendari.get(Calendar.MINUTE);
+                }
+                TimePickerDialog dialog = new TimePickerDialog(jo, new mTimeSetListener(), l_Hora, l_Minut, DateFormat.is24HourFormat(jo));
                 dialog.show();
             }
         });
         // Resta controls
-        g_TXT_Data = (TextView) findViewById(R.id.CelebracionsClientAltaTXTData);
-        g_TXT_TipusCelebracio = (TextView) findViewById(R.id.CelebracionsClientAltatTXTTipusCelebracio);
-        g_TXT_Salo = (TextView) findViewById(R.id.CelebracionsClientAltatTXTSalo);
+        g_TXT_Data = (TextView) findViewById(R.id.CelebracionsClientMantTXTData);
+        g_TXT_TipusCelebracio = (TextView) findViewById(R.id.CelebracionsClientMantTXTTipusCelebracio);
+        g_TXT_Salo = (TextView) findViewById(R.id.CelebracionsClientMantTXTSalo);
         //
-        g_ETX_Contacte = (EditText) findViewById(R.id.CelebracionsClientAltaTXTContacte);
-        g_ETX_Lloc = (EditText) findViewById(R.id.CelebracionsClientAltaTXTLloc);
-        g_ETX_Descripcio = (EditText) findViewById(R.id.CelebracionsClientAltaTXTDescripcio);
-        g_ETX_NumConvidats = (EditText) findViewById(R.id.CelebracionsClientAltaTXTNumConvidats);
+        g_ETX_Contacte = (EditText) findViewById(R.id.CelebracionsClientMantTXTContacte);
+        g_ETX_Lloc = (EditText) findViewById(R.id.CelebracionsClientMantTXTLloc);
+        g_ETX_Descripcio = (EditText) findViewById(R.id.CelebracionsClientMantTXTDescripcio);
+        g_ETX_NumConvidats = (EditText) findViewById(R.id.CelebracionsClientMantTXTNumConvidats);
         // Spinner de tipus de celebracions
-        g_SPN_TipusCelebracio = (Spinner)findViewById(R.id.CelebracionsClientAltaSPNTipusCelebracio);
+        g_SPN_TipusCelebracio = (Spinner)findViewById(R.id.CelebracionsClientMantSPNTipusCelebracio);
         DAOTipusCelebracions.Llegir(g_SPN_TipusCelebracio, Jo);
         g_SPN_TipusCelebracio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -98,7 +128,7 @@ public class celebracions_client_alta extends ActionBarActivity {
             }
         });
         // Spinner de salons del client
-        g_SPN_Salo = (Spinner)findViewById(R.id.CelebracionsClientAltaSPNSalo);
+        g_SPN_Salo = (Spinner)findViewById(R.id.CelebracionsClientMantSPNSalo);
         DAOSalonsClient.Llegir(g_SPN_Salo, Jo);
         g_SPN_Salo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -129,6 +159,42 @@ public class celebracions_client_alta extends ActionBarActivity {
             public void onNothingSelected(AdapterView parent) {
             }
         });
+        // Validem si estem fent un alta o una modificacio
+        l_CelebracioClient = (PARCelebracioClient) l_intent.getSerializableExtra("CelebracioClient");
+        if (l_CelebracioClient != null) {
+            // Estem modificant, carreguem dades
+            g_ETX_Descripcio.setText(l_CelebracioClient.Descripcio);
+            g_ETX_NumConvidats.setText(Integer.toString(l_CelebracioClient.Convidats));
+            g_ETX_Lloc.setText(l_CelebracioClient.Lloc);
+            g_ETX_Contacte.setText(l_CelebracioClient.Contacte);
+            g_TXT_Data.setText(l_CelebracioClient.Data);
+
+            // Marquem en el Spinners els valors adequats
+            ArrayAdapter<SPNSalonsClient> l_LlistaSalons = (ArrayAdapter<SPNSalonsClient>)g_SPN_Salo.getAdapter();
+            for (int i=0; i < l_LlistaSalons.getCount(); i++){
+                SPNSalonsClient l_Element = l_LlistaSalons.getItem(i);
+                if (l_Element.g_Salo != null){
+                    if (l_Element.g_Salo.Codi == l_CelebracioClient.CodiSalo) {
+                        g_SPN_Salo.setSelection(i);
+                        break;
+                    }
+                }
+            }
+
+            ArrayAdapter<SPNTipusCelebracio> l_LlistaTipus = (ArrayAdapter<SPNTipusCelebracio>)g_SPN_TipusCelebracio.getAdapter();
+            for (int i=0; i < l_LlistaTipus.getCount(); i++){
+                SPNTipusCelebracio l_Element = l_LlistaTipus.getItem(i);
+                if (l_Element.g_Tipus != null){
+                    if (l_Element.g_Tipus.Codi == l_CelebracioClient.Tipus) {
+                        g_SPN_TipusCelebracio.setSelection(i);
+                        break;
+                    }
+                }
+            }
+        }
+        else{
+            // Fem un alta (no cal fer res)
+        }
         // Codi de validacio dels camps de la finestra (fem servir la clase estatica Validacio)
         g_TXT_Data.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {}
@@ -159,7 +225,7 @@ public class celebracions_client_alta extends ActionBarActivity {
                 SPNSalonsClient l_SaloSeleccionat;
                 int l_Capacitat;
                 // Validem que si hi ha definida una capacitat del salo mostrem
-                // el valor en vermell i una explicacio (ho fem si hi ha indicat un salo)
+                // el valor en vermell i una explicacio de lo que pasa (ho fem si hi ha indicat un salo)
                 if (!s.toString().trim().equalsIgnoreCase("")){
                     if (!g_SPN_Salo.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))) {
                         int l_NumConvidats = Integer.valueOf(s.toString());
@@ -244,6 +310,7 @@ public class celebracions_client_alta extends ActionBarActivity {
             l_CelebracioClient.Data = g_TXT_Data.getText().toString();
             l_CelebracioClient.Lloc = g_ETX_Lloc.getText().toString();
             l_CelebracioClient.Contacte = g_ETX_Contacte.getText().toString();
+            l_CelebracioClient.Estat = Globals.k_CelebracioClientActiva;
             //
             DAOCelebracionsClient.Afegir(l_CelebracioClient, Jo, true, true);
         }

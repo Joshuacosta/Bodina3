@@ -6,9 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -22,13 +20,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import com.example.it00046.bodina3.Classes.DAO.DAOCelebracionsClient;
-import com.example.it00046.bodina3.Classes.Entitats.Associacio;
 import com.example.it00046.bodina3.Classes.Entitats.CelebracioClient;
 import com.example.it00046.bodina3.Classes.ExpandAnimation;
 import com.example.it00046.bodina3.Classes.Globals;
-import com.example.it00046.bodina3.Classes.Params.PARAssociacio;
 import com.example.it00046.bodina3.Classes.Params.PARCelebracioClient;
-import com.example.it00046.bodina3.Classes.celebracions_client_modificar;
 import com.melnykov.fab.FloatingActionButton;
 import java.util.Comparator;
 
@@ -68,7 +63,7 @@ public class celebracions_client_pral extends ActionBarActivity {
 
                 arg0.startAnimation(l_Animacio);
                 // Obrim la finestra de alta
-                l_Intent = new Intent(Jo, celebracions_client_alta.class);
+                l_Intent = new Intent(Jo, celebracions_client_mant.class);
                 startActivityForResult(l_Intent, g_RQC_CELEBRACIO_CLIENT_ALTA);
             }
         });
@@ -218,7 +213,7 @@ public class celebracions_client_pral extends ActionBarActivity {
 
         switch (l_id) {
             case R.id.celebracions_client_pralMNUAltaCelebracio:
-                l_Intent = new Intent(this, celebracions_client_alta.class);
+                l_Intent = new Intent(this, celebracions_client_mant.class);
                 startActivityForResult(l_Intent, g_RQC_CELEBRACIO_CLIENT_ALTA);
                 return true;
             case R.id.celebracions_client_pralMNUOrdenar:
@@ -300,7 +295,7 @@ public class celebracions_client_pral extends ActionBarActivity {
             l_Parametres.Lloc = l_Celebracio.Lloc;
             l_Parametres.Contacte = l_Celebracio.Contacte;
             l_Parametres.Estat = l_Celebracio.Estat;
-            Intent l_editem = new Intent(this, celebracions_client_modificar.class);
+            Intent l_editem = new Intent(this, celebracions_client_mant.class);
             l_editem.putExtra("CelebracioClient", l_Parametres);
             startActivityForResult(l_editem, g_RQC_CELEBRACIO_CLIENT_MODIFIQUEM);
         }

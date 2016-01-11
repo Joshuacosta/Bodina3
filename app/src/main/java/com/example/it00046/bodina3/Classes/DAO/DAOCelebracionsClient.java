@@ -45,17 +45,17 @@ public final class DAOCelebracionsClient {
         final ArrayAdapter<CelebracioClient> l_Llista = new LVWLlistaCelebracionsClient(p_Context, p_Layout);
         Globals.MostrarEspera(p_Context);
         try {
-            /*
-            Cursor l_cursor = Globals.g_DB.query(TAG_CelebracionsClient,
-                    Globals.g_Native.getResources().getStringArray(R.array.TCelebracionsClient_Camps),
-                    null, // c. selections
-                    null, // d. selections args
-                    null, // e. group by
-                    null, // f. having
-                    null, // g. order by
-                    null); // h. limit
-            */
-            /*
+            String l_Join[] = new String[]{TAG_Codi,
+                                           TAG_CodiSalo,
+                                           TAG_SalonsClientNom,
+                                           TAG_Tipus,
+                                           TAG_TipusCelebracioDescripcio,
+                                           TAG_Descripcio,
+                                           TAG_Convidats,
+                                           TAG_Data,
+                                           TAG_Lloc,
+                                           TAG_Contacte,
+                                           TAG_Estat};
             Cursor l_cursor = Globals.g_DB.query(TAG_CelebracionsClient +
                                                  " LEFT OUTER JOIN " +
                                                  TAG_SalonsClient + " ON " + TAG_CelebracionsClient + "." + TAG_CodiSalo + "=" +
@@ -63,31 +63,13 @@ public final class DAOCelebracionsClient {
                                                  " LEFT OUTER JOIN " +
                                                  TAG_TipusCelebracio + " ON " + TAG_CelebracionsClient + "." + TAG_Tipus + "=" +
                                                  TAG_TipusCelebracio + "." + TAG_TipusCelebracioCodi,
-                    Globals.g_Native.getResources().getStringArray(R.array.JTCelebracionsClient_Camps),
+                    l_Join,
                     null, // c. selections
                     null, // d. selections args
                     null, // e. group by
                     null, // f. having
                     null, // g. order by
                     null); // h. limit
-            */
-            String l_Query = "SELECT CelebracionsClient.Codi, " +
-                                    "CelebracionsClient.CodiSalo, " +
-                                    "SalonsClient.Nom, " +
-                                    "CelebracionsClient.Tipus, " +
-                                    "TipusCelebracio.Descripcio, " +
-                                    "CelebracionsClient.Descripcio, " +
-                                    "CelebracionsClient.Convidats, " +
-                                    "CelebracionsClient.Data, " +
-                                    "CelebracionsClient.Lloc, " +
-                                    "CelebracionsClient.Contacte, " +
-                                    "CelebracionsClient.Estat " +
-                                    "FROM CelebracionsClient " +
-                            "LEFT OUTER JOIN SalonsClient " +
-                            "ON CelebracionsClient.CodiSalo = SalonsClient.Codi " +
-                            "LEFT OUTER JOIN TipusCelebracio " +
-                            "ON CelebracionsClient.Tipus = TipusCelebracio.Codi";
-            Cursor l_cursor = Globals.g_DB.rawQuery(l_Query, null); // h. limit
             if (l_cursor.getCount() > 0) {
                 l_cursor.moveToFirst();
                 for (int i=0; i < l_cursor.getCount(); i++) {
@@ -134,6 +116,7 @@ public final class DAOCelebracionsClient {
                 // Tanquem a qui ens ha cridat
                 if (p_Tancam) {
                     Activity l_activity = (Activity) p_Context;
+                    l_activity.setResult(Activity.RESULT_OK);
                     l_activity.finish();
                 }
             }
@@ -165,17 +148,21 @@ public final class DAOCelebracionsClient {
             // Tanquem a qui ens ha cridat
             if (p_Tancam) {
                 Activity l_activity = (Activity) p_Context;
+                l_activity.setResult(Activity.RESULT_OK);
                 l_activity.finish();
             }
         }
         return l_resultat;
     }
     public static boolean Esborrar(int p_Codi, final Context p_Context, boolean p_Tancam){
+        ContentValues l_actualitzat = new ContentValues();
         boolean l_Resultat = true;
 
         Globals.MostrarEspera(p_Context);
+        l_actualitzat.put(TAG_Estat, Globals.k_CelebracioClientBaixa);
         try {
-            Globals.g_DB.delete(TAG_CelebracionsClient,
+            Globals.g_DB.update(TAG_CelebracionsClient,
+                    l_actualitzat,
                     TAG_Codi + "= " + p_Codi,
                     null);
         }
@@ -194,6 +181,7 @@ public final class DAOCelebracionsClient {
             // Tanquem a qui ens ha cridat
             if (p_Tancam) {
                 Activity l_activity = (Activity) p_Context;
+                l_activity.setResult(Activity.RESULT_OK);
                 l_activity.finish();
             }
         }

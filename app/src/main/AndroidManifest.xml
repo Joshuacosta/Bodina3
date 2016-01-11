@@ -38,7 +38,7 @@
         </activity>
         <!-- Fill 2: Alta celebracio -->
         <activity
-            android:name=".celebracions_client_alta"
+            android:name=".celebracions_client_mant"
             android:label="@string/title_activity_CelebracionsClientAlta"
             android:parentActivityName=".principal" >
             <meta-data

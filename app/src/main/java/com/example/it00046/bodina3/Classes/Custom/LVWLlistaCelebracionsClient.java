@@ -44,10 +44,9 @@ public class LVWLlistaCelebracionsClient extends ArrayAdapter<CelebracioClient> 
         l_TXT_Data.setText(l_Celebracio.Data);
         // Omplim camps "invisibles"
         l_TXT_Tipus = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaCelebracionsClientTXTTipus);
-        // Manca expresar el nom del tipus
         l_TXT_Tipus.setText(l_Celebracio.Tipus.Descripcio);
         l_TXT_Convidats = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaCelebracionsClientTXTConvidats);
-        l_TXT_Convidats.setText(l_Celebracio.Convidats);
+        l_TXT_Convidats.setText(Integer.toString(l_Celebracio.Convidats));
         l_TXT_Lloc = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaCelebracionsClientTXTLloc);
         l_TXT_Lloc.setText(l_Celebracio.Lloc);
         l_TXT_Contacte = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaCelebracionsClientTXTContacte);
