@@ -283,7 +283,7 @@ public class celebracions_client_pral extends ActionBarActivity {
             //
         }
         else {
-            // Obrim la activitat de modificacio de associacio
+            // Obrim la activitat de modificacio de la celebracio
             l_Parametres = new PARCelebracioClient();
             l_Celebracio = (CelebracioClient)l_LiniaCelebracio.getTag();
             l_Parametres.Codi = l_Celebracio.Codi;
@@ -291,7 +291,7 @@ public class celebracions_client_pral extends ActionBarActivity {
             l_Parametres.Tipus = l_Celebracio.Tipus.Codi;
             l_Parametres.Descripcio = l_Celebracio.Descripcio;
             l_Parametres.Convidats = l_Celebracio.Convidats;
-            l_Parametres.Data = l_Celebracio.Descripcio;
+            l_Parametres.Data = l_Celebracio.Data;
             l_Parametres.Lloc = l_Celebracio.Lloc;
             l_Parametres.Contacte = l_Celebracio.Contacte;
             l_Parametres.Estat = l_Celebracio.Estat;

@@ -25,6 +25,7 @@ public final class DAOCelebracionsClient {
     private static final String TAG_Descripcio = Globals.g_Native.getString(R.string.TCelebracionsClient_Descripcio);
     private static final String TAG_Convidats  = Globals.g_Native.getString(R.string.TCelebracionsClient_Convidats);
     private static final String TAG_Data = Globals.g_Native.getString(R.string.TCelebracionsClient_Data);
+    private static final String TAG_Hora = Globals.g_Native.getString(R.string.TCelebracionsClient_Hora);
     private static final String TAG_Lloc = Globals.g_Native.getString(R.string.TCelebracionsClient_Lloc);
     private static final String TAG_Contacte = Globals.g_Native.getString(R.string.TCelebracionsClient_Contacte);
     private static final String TAG_Estat = Globals.g_Native.getString(R.string.TCelebracionsClient_Estat);
@@ -53,6 +54,7 @@ public final class DAOCelebracionsClient {
                                            TAG_Descripcio,
                                            TAG_Convidats,
                                            TAG_Data,
+                                           TAG_Hora,
                                            TAG_Lloc,
                                            TAG_Contacte,
                                            TAG_Estat};
@@ -202,6 +204,7 @@ public final class DAOCelebracionsClient {
         l_values.put(TAG_Descripcio, p_CelebracioClient.Descripcio);
         l_values.put(TAG_Convidats, p_CelebracioClient.Convidats);
         l_values.put(TAG_Data, p_CelebracioClient.Data);
+        l_values.put(TAG_Hora, p_CelebracioClient.Hora);
         l_values.put(TAG_Lloc, p_CelebracioClient.Lloc);
         l_values.put(TAG_Contacte, p_CelebracioClient.Contacte);
         l_values.put(TAG_Estat, p_CelebracioClient.Estat);
@@ -219,7 +222,8 @@ public final class DAOCelebracionsClient {
         l_CelebracioClient.Tipus.Descripcio = p_cursor.getString(p_cursor.getColumnIndex(TAG_TipusCelebracioDescripcio));
         l_CelebracioClient.Descripcio = p_cursor.getString(p_cursor.getColumnIndex(TAG_Descripcio));
         l_CelebracioClient.Convidats = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Convidats));
-        l_CelebracioClient.Data = p_cursor.getString(p_cursor.getColumnIndex(TAG_Data));
+        l_CelebracioClient.Data = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Data));
+        l_CelebracioClient.Data = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Hora));
         l_CelebracioClient.Lloc = p_cursor.getString(p_cursor.getColumnIndex(TAG_Lloc));
         l_CelebracioClient.Contacte = p_cursor.getString(p_cursor.getColumnIndex(TAG_Contacte));
         l_CelebracioClient.Estat = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Estat));

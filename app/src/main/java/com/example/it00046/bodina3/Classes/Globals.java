@@ -171,11 +171,18 @@ public final class Globals
     }
 
     public static String DateToString(Date p_Data){
-        String l_Data = null;
         SimpleDateFormat l_format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return l_format.format(p_Data);
+    }
 
-        l_Data = l_format.format(p_Data);
-        return l_Data;
+    public static String HoraToString(Calendar p_Data){
+        SimpleDateFormat l_format = new SimpleDateFormat("HH:mm");
+        return l_format.format(p_Data.getTime());
+    }
+
+    public static String DataToString(Calendar p_Data){
+        DateFormat l_format = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+        return l_format.format(p_Data.getTime());
     }
 
     public static Date StringToDate(String p_Data){
@@ -184,6 +191,21 @@ public final class Globals
 
         try {
             l_Data = l_format.parse(p_Data);
+        }
+        catch (ParseException e) {
+            ;
+        }
+        return l_Data;
+    }
+
+    public static Calendar StringToCalendar(String p_Data){
+        Calendar l_Data = Calendar.getInstance();
+        DateFormat l_format = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+        String l_x;
+        l_x = "dd/MM/yyyy HH:MM";
+        SimpleDateFormat l_Simple = new SimpleDateFormat(l_x, Locale.getDefault());
+        try {
+            l_Data.setTime(l_Simple.parse(p_Data));
         }
         catch (ParseException e) {
             ;

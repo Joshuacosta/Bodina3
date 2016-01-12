@@ -11,7 +11,8 @@ public class CelebracioClient {
     public TipusCelebracio Tipus;
     public String Descripcio;
     public int Convidats;
-    public String Data;
+    public long Data;
+    public long Hora;
     public String Lloc;
     public String Contacte;
     public int Estat;
@@ -26,7 +27,8 @@ public class CelebracioClient {
         Tipus.Descripcio = "";
         Descripcio = "";
         Convidats = 0;
-        Data = "";
+        Data = 0;
+        Hora = 0;
         Lloc = "";
         Contacte = "";
         Estat = -1;

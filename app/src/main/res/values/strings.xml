@@ -123,6 +123,7 @@
     <string name="CelebracionsClientAltaTXTDescripcio">Description</string>
     <string name="CelebracionsClientAltaTXTNumConvidats">Guest\'s number</string>
     <string name="CelebracionsClientAltaTXTData">Date...</string>
+    <string name="CelebracionsClientAltaTXTHora">Hour...</string>
     <string name="CelebracionsClientAltaTXTLloc">Place</string>
     <string name="CelebracionsClientAltaTXTContacte">Contact</string>
     <string name="CelebracionsClientAltaTXTDistribucions">Distributions</string>
@@ -351,6 +352,7 @@
     <string name="TCelebracionsClient_Descripcio">DescripcioCC</string>
     <string name="TCelebracionsClient_Convidats">ConvidatsCC</string>
     <string name="TCelebracionsClient_Data">DataCC</string>
+    <string name="TCelebracionsClient_Hora">HoraCC</string>
     <string name="TCelebracionsClient_Lloc">LlocCC</string>
     <string name="TCelebracionsClient_Contacte">ContacteCC</string>
     <string name="TCelebracionsClient_Estat">EstatCC</string>
@@ -362,6 +364,7 @@
         <item>@string/TCelebracionsClient_Descripcio</item>
         <item>@string/TCelebracionsClient_Convidats</item>
         <item>@string/TCelebracionsClient_Data</item>
+        <item>@string/TCelebracionsClient_Hora</item>
         <item>@string/TCelebracionsClient_Lloc</item>
         <item>@string/TCelebracionsClient_Contacte</item>
         <item>@string/TCelebracionsClient_Estat</item>
@@ -373,10 +376,11 @@
                                 %4$s INTEGER,
                                 %5$s VARCHAR(50),
                                 %6$s INTEGER,
-                                %7$s VARCHAR(20),
-                                %8$s VARCHAR(100),
+                                %7$s INTEGER,
+                                %8$s INTEGER,
                                 %9$s VARCHAR(100),
-                                %10$s INTEGER)</string>
+                                %10$s VARCHAR(100),
+                                %11$s INTEGER)</string>
     <!-- .................................................................................. -->
     <!-- DISTRIBUCIONS (local) -->
     <string name="TDistribucions">Distribucions</string>

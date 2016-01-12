@@ -78,6 +78,7 @@ public class SQLDB extends SQLiteOpenHelper {
                 Globals.g_Native.getString(R.string.TCelebracionsClient_Descripcio),
                 Globals.g_Native.getString(R.string.TCelebracionsClient_Convidats),
                 Globals.g_Native.getString(R.string.TCelebracionsClient_Data),
+                Globals.g_Native.getString(R.string.TCelebracionsClient_Hora),
                 Globals.g_Native.getString(R.string.TCelebracionsClient_Lloc),
                 Globals.g_Native.getString(R.string.TCelebracionsClient_Contacte),
                 Globals.g_Native.getString(R.string.TCelebracionsClient_Estat));
