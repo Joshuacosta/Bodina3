@@ -39,7 +39,7 @@
         <!-- Fill 2: Alta celebracio -->
         <activity
             android:name=".celebracions_client_mant"
-            android:label="@string/title_activity_CelebracionsClientAlta"
+            android:label="@string/title_activity_CelebracionsClientMant"
             android:parentActivityName=".principal" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -57,7 +57,7 @@
                 android:value=".principal" />
         </activity>
 
-        <!-- Fill 4: Celebracions del client -->
+        <!-- 4: Celebracions del client -->
         <activity
             android:name=".celebracions_client_pral"
             android:label="@string/title_activity_celebracions_client" >
@@ -65,7 +65,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".principal" />
         </activity>
-        <!-- Fill 1 de Celebracions del client: Salons del client -->
+        <!-- 4.1 Celebracions del client.Salons del client -->
         <activity
             android:name=".salons_client_pral"
             android:label="@string/title_activity_salons_client" >
@@ -73,7 +73,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".celebracions_client_pral" />
         </activity>
-        <!-- Fill 1 de Salons del client: Alta salo (portrait) -->
+        <!-- 4.1.1 Celebracions del client.Salons del client.Alta salo (portrait) -->
         <activity
             android:name=".salons_client_planol"
             android:screenOrientation="landscape"
@@ -82,6 +82,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".salons_client_pral" />
         </activity>
+        <!-- 4.2 Celebracions del client.Taules del client -->
+        <activity
+            android:name=".taules_client"
+            android:label="@string/title_activity_taules_client" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".celebracions_client_pral" />
+        </activity>
+
         <!-- Fill 1 de Entitats: Solicitar -->
         <activity
             android:name=".entitat_solicitar"

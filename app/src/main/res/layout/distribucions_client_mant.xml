@@ -1,0 +1,119 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.example.it00046.bodina3.Classes.PlanolEdicio
+        android:id="@+id/SalonsClientPlanolVIWDrawing"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_weight="1"
+        android:background="@color/white" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/salonsClientPlanolIMBEsborrar"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="12dp"
+        android:layout_gravity="left|top"
+        android:background="@drawable/ic_delete_black_36dp" />
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/salonsClientPlanolFLMEines"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom|right"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        fab:menu_showShadow="false"
+        fab:menu_buttonSpacing="3dp"
+        fab:menu_colorNormal="@color/green"
+        fab:menu_backgroundColor="@color/white"
+        fab:menu_labels_singleLine="true"
+        fab:menu_labels_position="left">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/salonsClientPlanolFLBAssistent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_wizard"
+            fab:fab_size="mini"
+            fab:fab_showShadow="false"
+            fab:fab_label="@string/SalonsClientPlanolLABAssistent"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/salonsClientPlanolFLBConfiguracio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_settings_white_24dp"
+            fab:fab_size="mini"
+            fab:fab_showShadow="false"
+            fab:fab_label="@string/SalonsClientPlanolLABConfiguracio"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/salonsClientPlanolFLBTexte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_format_color_text_white_24dp"
+            fab:fab_size="mini"
+            fab:fab_showShadow="false"
+            fab:fab_label="@string/SalonsClientPlanolLABTexte" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/salonsClientPlanolFLBRecta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_border_color_white_24dp"
+            fab:fab_size="mini"
+            fab:fab_showShadow="false"
+            fab:fab_label="@string/SalonsClientPlanolLABRecta"/>
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/salonsClientPlanolIMBAjuda"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="bottom|left"
+        android:background="@drawable/ic_help_black_24dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="60dp"
+        android:gravity="top">
+
+        <EditText
+            android:id="@+id/SalonsClientPlanolTXTNom"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:maxLength="20"
+            android:hint="@string/SalonsClientAltaTXTNom" />
+
+        <EditText
+            android:id="@+id/SalonsClientPlanolTXTDescripcio"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:maxLength="50"
+            android:hint="@string/SalonsClientAltaTXTDescripcio" />
+
+        <EditText
+            android:id="@+id/SalonsClientPlanolTXTCapacitat"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:maxLength="4"
+            android:inputType="number"
+            android:hint="@string/SalonsClientAltaTXTCapacitat" />
+    </LinearLayout>
+
+</FrameLayout>

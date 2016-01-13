@@ -114,19 +114,20 @@
     <string name="CelebracionsClientPralMNUAfegir">Add event</string>
     <string name="CelebracionsClientPralMNUOrdenar">Sort events</string>
     <string name="CelebracionsClientPralMNUSalons">Saloons client</string>
+    <string name="CelebracionsClientPralMNUTaules">Tables client</string>
     <string name="CelebracionsClientPralMNUActualitzar">Refresh</string>
 
-    <!-- Layout celebracions client alta -->
-    <string name="title_activity_CelebracionsClientAlta">Clients events</string>
-    <string name="CelebracionsClientAltaTXTTipusCelebracio">Celebraction\'s type</string>
-    <string name="CelebracionsClientAltaTXTSalo">Saloon</string>
-    <string name="CelebracionsClientAltaTXTDescripcio">Description</string>
-    <string name="CelebracionsClientAltaTXTNumConvidats">Guest\'s number</string>
-    <string name="CelebracionsClientAltaTXTData">Date...</string>
-    <string name="CelebracionsClientAltaTXTHora">Hour...</string>
-    <string name="CelebracionsClientAltaTXTLloc">Place</string>
-    <string name="CelebracionsClientAltaTXTContacte">Contact</string>
-    <string name="CelebracionsClientAltaTXTDistribucions">Distributions</string>
+    <!-- Layout celebracions client manteniment (i alta) -->
+    <string name="title_activity_CelebracionsClientMant">Clients events</string>
+    <string name="CelebracionsClientMantTXTTipusCelebracio">Celebraction\'s type</string>
+    <string name="CelebracionsClientMantTXTSalo">Saloon</string>
+    <string name="CelebracionsClientMantTXTDescripcio">Description</string>
+    <string name="CelebracionsClientMantTXTNumConvidats">Guest\'s number</string>
+    <string name="CelebracionsClientMantTXTData">Date...</string>
+    <string name="CelebracionsClientMantTXTHora">Hour...</string>
+    <string name="CelebracionsClientMantTXTLloc">Place</string>
+    <string name="CelebracionsClientMantTXTContacte">Contact</string>
+    <string name="CelebracionsClientMantTXTDistribucions">Distributions</string>
 
     <!-- Layout salons client -->
     <string name="title_activity_salons_client">Saloons client</string>
@@ -179,6 +180,12 @@
     <string name="tipus_celebracionsMNUAfegirTipus">Add type</string>
     <string name="tipus_celebracions_Afegir">Add type</string>
     <string name="tipus_celebracions_Modificar">Modifiy type</string>
+
+    <!-- Layout taules client -->
+    <string name="title_activity_taules_client">Types of events</string>
+    <string name="taules_clientMNUAfegir">Add table</string>
+    <string name="taules_client_Afegir">Add table</string>
+    <string name="taules_client_Modificar">Modifiy table</string>
 
     <!-- ################################################################################### -->
     <!-- B A S E   D E   D A D E S -->
@@ -316,19 +323,21 @@
                                 %9$s REAL,
                                 %10$s VARCHAR(20))</string>
     <!-- .................................................................................. -->
-    <!-- TAULES (local) -->
-    <string name="TTaules">Taules</string>
+    <!-- TAULES (local) : TA -->
+    <string name="TTaules">TaulesTA</string>
     <!-- Camps -->
-    <string name="TTaules_Codi">Codi</string>
-    <string name="TTaules_Tipus">Tipus</string>
-    <string name="TTaules_MaxPersones">MaxPersones</string>
-    <string name="TTaules_AmpladaRadi">AmpladaRadi</string>
-    <string name="TTaules_Llargada">Llargada</string>
-    <string name="TTaules_Estat">Estat</string>
+    <string name="TTaules_Codi">CodiTA</string>
+    <string name="TTaules_Tipus">TipusTA</string>
+    <string name="TTaules_Descripcio">DescripcioTA</string>
+    <string name="TTaules_MaxPersones">MaxPersonesTA</string>
+    <string name="TTaules_AmpladaRadi">AmpladaRadiTA</string>
+    <string name="TTaules_Llargada">LlargadaTA</string>
+    <string name="TTaules_Estat">EstatTA</string>
     <!-- Llista camps -->
     <string-array name="TTaules_Camps">
         <item>@string/TTaules_Codi</item>
         <item>@string/TTaules_Tipus</item>
+        <item>@string/TTaules_Descripcio</item>
         <item>@string/TTaules_MaxPersones</item>
         <item>@string/TTaules_AmpladaRadi</item>
         <item>@string/TTaules_Llargada</item>
@@ -338,10 +347,11 @@
     <string name="TTaulesCreate">CREATE TABLE %1$s (
                                 %2$s INTEGER,
                                 %3$s INTEGER,
-                                %4$s INTEGER,
+                                %4$s VARCHAR(20),
                                 %5$s INTEGER,
                                 %6$s INTEGER,
-                                %7$s INTEGER)</string>
+                                %7$s INTEGER,
+                                %8$s INTEGER)</string>
     <!-- .................................................................................. -->
     <!-- CELEBRACIONS CLIENT (local) : CC -->
     <string name="TCelebracionsClient">CelebracionsClientCC</string>
@@ -662,10 +672,13 @@
     <!-- ################################################################################### -->
     <!-- String-Arrays -->
     <!-- ################################################################################### -->
+    <string name="TipusTaulaRodona">Round</string>
+    <string name="TipusTaulaQuadrada">Square</string>
+    <string name="TipusTaulaRectangular">Rectangular</string>
     <string-array name="TipusTaulesClient">
-        <item>Round</item>
-        <item>Square</item>
-        <item>Rectangular</item>
+        <item>@string/TipusTaulaRodona</item>
+        <item>@string/TipusTaulaQuadrada</item>
+        <item>@string/TipusTaulaRectangular</item>
     </string-array>
 
     <string-array name="TipusConvidats">

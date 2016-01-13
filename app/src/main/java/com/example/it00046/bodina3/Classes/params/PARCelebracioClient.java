@@ -12,7 +12,8 @@ public class PARCelebracioClient implements Serializable {
     public int Tipus;
     public String Descripcio;
     public int Convidats;
-    public String Data;
+    public long Data;
+    public long Hora;
     public String Lloc;
     public String Contacte;
     public int Estat;

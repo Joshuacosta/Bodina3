@@ -10,14 +10,13 @@ import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.Custom.LVWLlistaCelebracionsClient;
 import com.example.it00046.bodina3.Classes.Entitats.CelebracioClient;
-import com.example.it00046.bodina3.Classes.Entitats.TipusCelebracio;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.R;
 
 /**
  * Created by it00046 on 02/06/2015.
  */
-public final class DAOCelebracionsClient {
+public final class DAODistribucionsClient {
     private static final String TAG_CelebracionsClient = Globals.g_Native.getString(R.string.TCelebracionsClient);
     private static final String TAG_Codi = Globals.g_Native.getString(R.string.TCelebracionsClient_Codi);
     private static final String TAG_CodiSalo = Globals.g_Native.getString(R.string.TCelebracionsClient_CodiSalo);

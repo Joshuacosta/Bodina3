@@ -41,7 +41,7 @@ public class LVWLlistaCelebracionsClient extends ArrayAdapter<CelebracioClient> 
         l_TXT_NomSalo = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaCelebracionsClientTXTNomSalo);
         l_TXT_NomSalo.setText(l_Celebracio.Salo.Nom);
         l_TXT_Data = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaCelebracionsClientTXTData);
-        l_TXT_Data.setText(l_Celebracio.Data);
+        l_TXT_Data.setText(Globals.MilliDataToString(l_Celebracio.Data) + " " + Globals.MilliHoraToString(l_Celebracio.Hora));
         // Omplim camps "invisibles"
         l_TXT_Tipus = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaCelebracionsClientTXTTipus);
         l_TXT_Tipus.setText(l_Celebracio.Tipus.Descripcio);

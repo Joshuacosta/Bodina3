@@ -185,6 +185,26 @@ public final class Globals
         return l_format.format(p_Data.getTime());
     }
 
+    public static String MilliHoraToString(long p_Milli){
+        Calendar l_Calendar = Calendar.getInstance();
+        String l_Hora = "";
+
+        if (p_Milli != 0) {
+            l_Calendar.setTimeInMillis(p_Milli);
+            SimpleDateFormat l_format = new SimpleDateFormat("HH:mm");
+            l_Hora = l_format.format(l_Calendar.getTime());
+        }
+        return l_Hora;
+    }
+
+    public static String MilliDataToString(long p_Milli){
+        Calendar l_Calendar = Calendar.getInstance();
+
+        l_Calendar.setTimeInMillis(p_Milli);
+        DateFormat l_format = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+        return l_format.format(l_Calendar.getTime());
+    }
+
     public static Date StringToDate(String p_Data){
         Date l_Data = null;
         DateFormat l_format = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
@@ -218,6 +238,17 @@ public final class Globals
         DateFormat l_sdf;
         l_sdf = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
         return l_sdf.format(c.getTime());
+    }
+
+    public static String getDate(long milliSeconds, String dateFormat)
+    {
+        // Create a DateFormatter object for displaying date in specified format.
+        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat, Locale.getDefault());
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        return formatter.format(calendar.getTime());
     }
 
     public static void MostrarEspera(Context p_Context) {

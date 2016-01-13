@@ -30,7 +30,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="@string/CelebracionsClientAltaTXTTipusCelebracio"/>
+                    android:text="@string/CelebracionsClientMantTXTTipusCelebracio"/>
 
                 <Spinner
                     android:id="@+id/CelebracionsClientMantSPNTipusCelebracio"
@@ -53,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="@string/CelebracionsClientAltaTXTSalo"/>
+                    android:text="@string/CelebracionsClientMantTXTSalo"/>
 
                 <Spinner
                     android:id="@+id/CelebracionsClientMantSPNSalo"
@@ -69,14 +69,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/CelebracionsClientAltaTXTLloc"
+                android:hint="@string/CelebracionsClientMantTXTLloc"
                 android:id="@+id/CelebracionsClientMantTXTLloc"
                 android:maxLength="100" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/CelebracionsClientAltaTXTDescripcio"
+                android:hint="@string/CelebracionsClientMantTXTDescripcio"
                 android:id="@+id/CelebracionsClientMantTXTDescripcio"
                 android:maxLength="50" />
 
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
-                android:hint="@string/CelebracionsClientAltaTXTNumConvidats"
+                android:hint="@string/CelebracionsClientMantTXTNumConvidats"
                 android:id="@+id/CelebracionsClientMantTXTNumConvidats" />
 
             <LinearLayout
@@ -99,7 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="6"
-                    android:text="@string/CelebracionsClientAltaTXTData"
+                    android:text="@string/CelebracionsClientMantTXTData"
                     android:id="@+id/CelebracionsClientMantTXTData"/>
 
                 <ImageButton
@@ -115,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="6"
-                    android:text="@string/CelebracionsClientAltaTXTHora"
+                    android:text="@string/CelebracionsClientMantTXTHora"
                     android:id="@+id/CelebracionsClientMantTXTHora"/>
 
                 <ImageButton
@@ -131,9 +131,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/CelebracionsClientAltaTXTContacte"
+                android:hint="@string/CelebracionsClientMantTXTContacte"
                 android:id="@+id/CelebracionsClientMantTXTContacte"
                 android:maxLength="100" />
+
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:fab="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/CelebracionsClientMantFRMDistribucions">
+
+                <TextView
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/CelebracionsClientMantTXTDistribucions"
+                    android:id="@+id/CelebracionsClientMantTXTDistribucions"/>
+
+                <ListView
+                    android:id="@+id/celebracionsClientMantLVWCelebracions"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@android:color/darker_gray"
+                    android:dividerHeight="7dp" />
+
+                <com.melnykov.fab.FloatingActionButton
+                    android:id="@+id/celebracionsClientMantFLBAltaDistribucio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:layout_margin="16dp"
+                    android:src="@drawable/ic_add_black_36dp"
+                    fab:fab_colorNormal="@color/white"
+                    fab:fab_colorPressed="@color/black"
+                    fab:fab_colorRipple="@color/blue" />
+            </FrameLayout>
 
         </LinearLayout>
     </ScrollView>

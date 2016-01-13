@@ -42,7 +42,6 @@ public class celebracions_client_pral extends ActionBarActivity {
     private AlertDialog.Builder g_alertDialogBuilder;
     private int g_OpcioOrdenacio = -1;
 
-
     @Override
     protected void onCreate(Bundle l_savedInstanceState) {
         final Animation l_Animacio;
@@ -156,7 +155,8 @@ public class celebracions_client_pral extends ActionBarActivity {
         };
         final Comparator<CelebracioClient> ComparaData = new Comparator<CelebracioClient>() {
             public int compare(CelebracioClient p_a1, CelebracioClient p_a2) {
-                return Globals.StringToDate(p_a1.Data).compareTo(Globals.StringToDate(p_a2.Data));
+                //return Globals.StringToDate(p_a1.Data).compareTo(Globals.StringToDate(p_a2.Data));
+                return Math.round(p_a2.Data - p_a1.Data);
             }
         };
         final Comparator<CelebracioClient> ComparaConvidats = new Comparator<CelebracioClient>() {
@@ -226,6 +226,10 @@ public class celebracions_client_pral extends ActionBarActivity {
                 l_Intent = new Intent(this, salons_client_pral.class);
                 startActivity(l_Intent);
                 return true;
+            case R.id.celebracions_client_pralMNUTaules:
+                l_Intent = new Intent(this, taules_client.class);
+                startActivity(l_Intent);
+                return true;
             case R.id.celebracions_client_pralMNUActualitzar:
                 DAOCelebracionsClient.Llegir(g_LVW_CelebracionsClient, R.layout.linia_lvw_llista_celebracions_client, Jo);
                 //
@@ -292,6 +296,7 @@ public class celebracions_client_pral extends ActionBarActivity {
             l_Parametres.Descripcio = l_Celebracio.Descripcio;
             l_Parametres.Convidats = l_Celebracio.Convidats;
             l_Parametres.Data = l_Celebracio.Data;
+            l_Parametres.Hora = l_Celebracio.Hora;
             l_Parametres.Lloc = l_Celebracio.Lloc;
             l_Parametres.Contacte = l_Celebracio.Contacte;
             l_Parametres.Estat = l_Celebracio.Estat;
