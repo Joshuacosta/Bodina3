@@ -1,405 +1,362 @@
 package com.example.it00046.bodina3;
 
-import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.it00046.bodina3.Classes.DAO.DAOCelebracionsClient;
 import com.example.it00046.bodina3.Classes.DAO.DAOSalonsClient;
-import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
-import com.example.it00046.bodina3.Classes.Feina.linia;
-import com.example.it00046.bodina3.Classes.Feina.texte;
+import com.example.it00046.bodina3.Classes.DAO.DAOTipusCelebracions;
+import com.example.it00046.bodina3.Classes.Entitats.CelebracioClient;
 import com.example.it00046.bodina3.Classes.Globals;
-import com.example.it00046.bodina3.Classes.Params.PARSaloClient;
-import com.example.it00046.bodina3.Classes.Params.PARSaloPlanolClient;
-import com.example.it00046.bodina3.Classes.PlanolEdicio;
+import com.example.it00046.bodina3.Classes.Params.PARCelebracioClient;
+import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNSalonsClient;
+import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNTipusCelebracio;
 import com.example.it00046.bodina3.Classes.Validacio;
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
+import java.util.Calendar;
 
-import java.util.ArrayList;
 
-/**
- * Created by it00046 on 05/10/2015.
- */
 public class celebracions_client_mant extends ActionBarActivity {
-    Context Jo = this;
-    EditText g_NomSalo, g_Descripcio, g_Capacitat;
-    PlanolEdicio g_Draw;
-    String g_ModusFeina = Globals.k_OPE_Alta;
-    int g_CodiSaloModificacio;
+    public Context jo = this;
+    private EditText g_ETX_Contacte, g_ETX_Lloc, g_ETX_Descripcio, g_ETX_NumConvidats;
+    private Spinner g_SPN_Salo, g_SPN_TipusCelebracio;
+    private TextView g_TXT_Data, g_TXT_Hora, g_TXT_TipusCelebracio, g_TXT_Salo;
+    private Context Jo = this;
+    private String g_Operativa = "Alta";
+    private Calendar g_CAL_DataCelebracio = null, g_CAL_HoraCelebracio = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FloatingActionButton l_FLB_Texte, l_FLB_Configuracio, l_FLB_Recta, l_FLB_Assistent;
-        final FloatingActionMenu l_FLM_Eines;
-        ImageButton l_IMB_Esborrar, l_IMB_Ajuda;
-        final LayoutInflater inflater = getLayoutInflater();
-        PARSaloClient l_SaloClient;
-        ArrayList<PARSaloPlanolClient> l_PlanolClient = new ArrayList<>();
-
+        final ImageButton l_IMB_Data, l_IMB_Temps;
+        PARCelebracioClient l_CelebracioClient;
         Intent l_intent = getIntent();
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.salons_client_planol);
-        // Recuperem controls
-        g_Draw = (PlanolEdicio) findViewById(R.id.SalonsClientPlanolVIWDrawing);
-        g_Draw.g_Pare = Jo;
-        l_IMB_Esborrar = (ImageButton) findViewById(R.id.salonsClientPlanolIMBEsborrar);
-        g_Draw.g_IMB_Esborrar = l_IMB_Esborrar;
-        l_IMB_Ajuda = (ImageButton) findViewById(R.id.salonsClientPlanolIMBAjuda);
-        g_NomSalo = (EditText) findViewById(R.id.SalonsClientPlanolTXTNom);
-        g_Descripcio = (EditText) findViewById(R.id.SalonsClientPlanolTXTDescripcio);
-        g_Capacitat = (EditText) findViewById(R.id.SalonsClientPlanolTXTCapacitat);
-        // Validem si estem fent un alta o una modificacio
-        l_SaloClient = (PARSaloClient) l_intent.getSerializableExtra("SaloClient");
-        if (l_SaloClient != null){
-            // Estem modificant
-            g_ModusFeina = Globals.k_OPE_Update;
-            // Informem les dades i dibuixen el planol si ho te
-            g_NomSalo.setText(l_SaloClient.Nom);
-            g_Descripcio.setText(l_SaloClient.Descripcio);
-            if (l_SaloClient.Capacitat != Globals.k_CapacitatSenseDefinir) {
-                g_Capacitat.setText(Integer.toString(l_SaloClient.Capacitat));
-            }
-            // Parametres globals
-            g_Draw.g_UnitatsPlanol = l_SaloClient.UnitatsPlanol;
-            g_Draw.g_EscalaPlanol = l_SaloClient.EscalaPlanol;
-            //
-            g_CodiSaloModificacio = l_SaloClient.Codi;
-            l_PlanolClient = (ArrayList<PARSaloPlanolClient>) l_intent.getSerializableExtra("PlanolSalo");
-            if (l_PlanolClient != null) {
-                ArrayList<SaloClient.DetallPlanol> l_Planol = new ArrayList<>();
-                for (int i = 0; i < l_PlanolClient.size(); i++){
-                    SaloClient.DetallPlanol l_Detall = new SaloClient.DetallPlanol();
-                    PARSaloPlanolClient l_DetallParametre = new PARSaloPlanolClient();
-                    l_DetallParametre = l_PlanolClient.get(i);
-                    l_Detall.Tipus = l_DetallParametre.Tipus;
-                    l_Detall.OrigenX = l_DetallParametre.OrigenX;
-                    l_Detall.OrigenY = l_DetallParametre.OrigenY;
-                    l_Detall.DestiX = l_DetallParametre.DestiX;
-                    l_Detall.DestiY = l_DetallParametre.DestiY;
-                    l_Detall.CurvaX = l_DetallParametre.CurvaX;
-                    l_Detall.CurvaY = l_DetallParametre.CurvaY;
-                    l_Detall.Texte = l_DetallParametre.Texte;
-                    l_Planol.add(l_Detall);
+        setContentView(R.layout.celebracions_client_mant);
+        // Recuperem controls del layout
+        // Data celebracio
+        l_IMB_Data = (ImageButton) findViewById(R.id.CelebracionsClientMantIMBData);
+        l_IMB_Data.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                int l_Any, l_Mes, l_Dia;
+                Calendar l_Calendari = Calendar.getInstance();
+
+                // Si hi ha data definida la informem, sino mostrem el dia actual
+                if (g_CAL_DataCelebracio != null){
+                    l_Any = g_CAL_DataCelebracio.get(Calendar.YEAR);
+                    l_Mes = g_CAL_DataCelebracio.get(Calendar.MONTH);
+                    l_Dia = g_CAL_DataCelebracio.get(Calendar.DAY_OF_MONTH);
+                } else {
+                    // No tenim data, agafem la actuial
+                    l_Any = l_Calendari.get(Calendar.YEAR);
+                    l_Mes = l_Calendari.get(Calendar.MONTH);
+                    l_Dia = l_Calendari.get(Calendar.DAY_OF_MONTH);
                 }
-                g_Draw.DibuixaPlanol(l_Planol);
+                DatePickerDialog dialog = new DatePickerDialog(jo, new LST_DatePickerSet(), l_Any, l_Mes, l_Dia);
+                dialog.show();
+            }
+        });
+        // Hora celebracio
+        l_IMB_Temps = (ImageButton) findViewById(R.id.CelebracionsClientMantIMBTime);
+        l_IMB_Temps.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                int l_Hora, l_Minut;
+                Calendar l_Calendari = Calendar.getInstance();
+
+                // Si hi ha hora definida la informem, sino mostrem el dia actual
+                if (g_CAL_HoraCelebracio != null){
+                    l_Hora = g_CAL_HoraCelebracio.get(Calendar.HOUR_OF_DAY);
+                    l_Minut = g_CAL_HoraCelebracio.get(Calendar.MINUTE);
+                }
+                else{
+                    // No tenim hora, agafem la actuial
+                    l_Hora = l_Calendari.get(Calendar.HOUR_OF_DAY);
+                    l_Minut = l_Calendari.get(Calendar.MINUTE);
+                }
+                TimePickerDialog dialog = new TimePickerDialog(jo, new LST_TimePickerSet(), l_Hora, l_Minut, DateFormat.is24HourFormat(jo));
+                dialog.show();
+            }
+        });
+        // Resta controls
+        g_TXT_Data = (TextView) findViewById(R.id.CelebracionsClientMantTXTData);
+        g_TXT_Hora = (TextView) findViewById(R.id.CelebracionsClientMantTXTHora);
+        g_TXT_TipusCelebracio = (TextView) findViewById(R.id.CelebracionsClientMantTXTTipusCelebracio);
+        g_TXT_Salo = (TextView) findViewById(R.id.CelebracionsClientMantTXTSalo);
+        //
+        g_ETX_Contacte = (EditText) findViewById(R.id.CelebracionsClientMantTXTContacte);
+        g_ETX_Lloc = (EditText) findViewById(R.id.CelebracionsClientMantTXTLloc);
+        g_ETX_Descripcio = (EditText) findViewById(R.id.CelebracionsClientMantTXTDescripcio);
+        g_ETX_NumConvidats = (EditText) findViewById(R.id.CelebracionsClientMantTXTNumConvidats);
+        // Spinner de tipus de celebracions
+        g_SPN_TipusCelebracio = (Spinner)findViewById(R.id.CelebracionsClientMantSPNTipusCelebracio);
+        DAOTipusCelebracions.Llegir(g_SPN_TipusCelebracio, Jo);
+        g_SPN_TipusCelebracio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView parent, View view, int pos, long id) {
+                // Esborrem possible error
+                g_TXT_TipusCelebracio.setError(null);
+            }
+            @Override
+            public void onNothingSelected(AdapterView parent) {
+            }
+        });
+        // Spinner de salons del client
+        g_SPN_Salo = (Spinner)findViewById(R.id.CelebracionsClientMantSPNSalo);
+        DAOSalonsClient.Llegir(g_SPN_Salo, Jo);
+        g_SPN_Salo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView parent, View view, int pos, long id) {
+                SPNSalonsClient l_SaloSeleccionat;
+
+                g_TXT_Salo.setError(null);
+                // Validem si superem la capacitat del salo si tenim indicat el numero de comensals
+                if (g_ETX_NumConvidats.getText().toString().trim().length() > 0){
+                    l_SaloSeleccionat = (SPNSalonsClient) g_SPN_Salo.getSelectedItem();
+                    if (Integer.parseInt(g_ETX_NumConvidats.getText().toString().trim()) > l_SaloSeleccionat.g_Salo.Capacitat){
+                        g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.red));
+                        g_ETX_NumConvidats.setError(Globals.g_Native.getString(R.string.error_CapacitatSuperada));
+                    }
+                    else{
+                        if (Integer.parseInt(g_ETX_NumConvidats.getText().toString().trim()) == l_SaloSeleccionat.g_Salo.Capacitat) {
+                            g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.orange));
+                            g_ETX_NumConvidats.setError(Globals.g_Native.getString(R.string.error_LimitCapacitat));
+                        }
+                        else{
+                            g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.black));
+                            g_ETX_NumConvidats.setError(null);
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView parent) {
+            }
+        });
+        // Validem si estem fent un alta o una modificacio
+        l_CelebracioClient = (PARCelebracioClient) l_intent.getSerializableExtra("CelebracioClient");
+        if (l_CelebracioClient != null) {
+            g_Operativa = "Modificacio";
+            // Estem modificant, carreguem dades
+            g_ETX_Descripcio.setText(l_CelebracioClient.Descripcio);
+            g_ETX_NumConvidats.setText(Integer.toString(l_CelebracioClient.Convidats));
+            g_ETX_Lloc.setText(l_CelebracioClient.Lloc);
+            g_ETX_Contacte.setText(l_CelebracioClient.Contacte);
+            g_TXT_Data.setText(Globals.MilliDataToString(l_CelebracioClient.Data));
+            g_TXT_Hora.setText(Globals.MilliDataToString(l_CelebracioClient.Hora));
+            // Marquem en el Spinners els valors adequats
+            ArrayAdapter<SPNSalonsClient> l_LlistaSalons = (ArrayAdapter<SPNSalonsClient>)g_SPN_Salo.getAdapter();
+            for (int i=0; i < l_LlistaSalons.getCount(); i++){
+                SPNSalonsClient l_Element = l_LlistaSalons.getItem(i);
+                if (l_Element.g_Salo != null){
+                    if (l_Element.g_Salo.Codi == l_CelebracioClient.CodiSalo) {
+                        g_SPN_Salo.setSelection(i);
+                        break;
+                    }
+                }
+            }
+
+            ArrayAdapter<SPNTipusCelebracio> l_LlistaTipus = (ArrayAdapter<SPNTipusCelebracio>)g_SPN_TipusCelebracio.getAdapter();
+            for (int i=0; i < l_LlistaTipus.getCount(); i++){
+                SPNTipusCelebracio l_Element = l_LlistaTipus.getItem(i);
+                if (l_Element.g_Tipus != null){
+                    if (l_Element.g_Tipus.Codi == l_CelebracioClient.Tipus) {
+                        g_SPN_TipusCelebracio.setSelection(i);
+                        break;
+                    }
+                }
             }
         }
         else{
-            g_Draw.g_EscalaPlanol = Globals.g_Native.getString(R.string.LlistaEscalaDefault);
-            g_Draw.g_UnitatsPlanol = Globals.g_Native.getString(R.string.LlistaUnitatsDefault);
+            // Fem un alta (no cal fer res)
         }
-        // Accions dels FLB
-        l_FLM_Eines = (FloatingActionMenu) findViewById(R.id.salonsClientPlanolFLMEines);
-        // Inicialment dibuixem rectes
-        l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_dibuixar_rectes_mes24dp));
-        g_Draw.g_ModusDibuix = PlanolEdicio.g_Modus.recta;
-        l_FLM_Eines.setOnMenuButtonClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-            // Tanquem el altre menu i ens obrim
-            l_FLM_Eines.toggle(true);
-            }
-        });
-        // Sub-menus
-        l_FLB_Texte = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBTexte);
-        l_FLB_Texte.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                g_Draw.g_ModusDibuix = PlanolEdicio.g_Modus.texte;
-                // Cambien el icon de eines
-                l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_format_color_text_white_24dp));
-                l_FLM_Eines.close(true);
-            }
-        });
-        l_FLB_Recta = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBRecta);
-        l_FLB_Recta.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                g_Draw.g_ModusDibuix = PlanolEdicio.g_Modus.recta;
-                // Cambien el icon de eines
-                l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_border_color_white_24dp));
-                l_FLM_Eines.close(true);
-            }
-        });
-        // Finestra de configuracio
-        //
-        l_FLB_Configuracio = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBConfiguracio);
-        l_FLB_Configuracio.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                // Mostrem la finestra de configuracio
-                final Spinner l_SPN_Escala, l_SPN_Unitats;
-                final CheckBox l_CBX_Quadricula;
-                ArrayAdapter<CharSequence> l_adapter_Escala, l_adapter_Unitats;
-                View l_VIW_Config = inflater.inflate(R.layout.salons_client_planol_dialog_config, null);
-                int l_spinnerPosition;
-
-                // CheckBox
-                l_CBX_Quadricula = (CheckBox) l_VIW_Config.findViewById(R.id.SalonsClientPlanolDialogConfigCBXQuadricula);
-                // Spinners
-                l_adapter_Escala = ArrayAdapter.createFromResource(Jo,R.array.Escala,android.R.layout.simple_spinner_item);
-                l_adapter_Escala.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                l_SPN_Escala = (Spinner) l_VIW_Config.findViewById(R.id.SalonsClientPlanolDialogConfigSPNEscala);
-                l_SPN_Escala.setAdapter(l_adapter_Escala);
-                l_spinnerPosition = l_adapter_Escala.getPosition(g_Draw.g_EscalaPlanol);
-                l_SPN_Escala.setSelection(l_spinnerPosition);
-                //
-                l_adapter_Unitats = ArrayAdapter.createFromResource(Jo,R.array.Unitats,android.R.layout.simple_spinner_item);
-                l_adapter_Unitats.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                l_SPN_Unitats = (Spinner) l_VIW_Config.findViewById(R.id.SalonsClientPlanolDialogConfigSPNUnitats);
-                l_SPN_Unitats.setAdapter(l_adapter_Unitats);
-                l_SPN_Unitats.setAdapter(l_adapter_Unitats);
-                l_spinnerPosition = l_adapter_Unitats.getPosition(g_Draw.g_UnitatsPlanol);
-                l_SPN_Unitats.setSelection(l_spinnerPosition);
-                //
-                AlertDialog.Builder g_DialogConfiguracio = new AlertDialog.Builder(Jo);
-                g_DialogConfiguracio.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolLABConfiguracio));
-                g_DialogConfiguracio.setView(l_VIW_Config);
-                g_DialogConfiguracio
-                        .setCancelable(false)
-                        .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface p_dialog, int which) {
-                                // Llegim configuracio definida
-                                if (l_CBX_Quadricula.isChecked()) {
-                                    g_Draw.g_Quadricula = true;
-                                }
-                                g_Draw.g_EscalaPlanol = l_SPN_Escala.getSelectedItem().toString();
-                                g_Draw.g_UnitatsPlanol = l_SPN_Unitats.getSelectedItem().toString();
-                                // Repintem
-                                g_Draw.invalidate();
-                            }
-                        })
-                        .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface p_dialog, int p_id) {
-                            }
-                        });
-                g_DialogConfiguracio.show();
-                //
-                l_FLM_Eines.close(true);
-            }
-        });
-        // Finestra de l'assistent
-        //
-        l_FLB_Assistent = (FloatingActionButton) findViewById(R.id.salonsClientPlanolFLBAssistent);
-        l_FLB_Assistent.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                // Mostrem la finestra de l'assistent
-                final SeekBar l_SEK_Amplada, l_SEK_Llargada;
-                final TextView l_TXT_Amplada, l_TXT_Llargada;
-
-                View l_VIW_Config = inflater.inflate(R.layout.salons_client_planol_dialog_assistent, null);
-                // Els seekbar i els textes de la finestra assistent
-                l_SEK_Amplada = (SeekBar) l_VIW_Config.findViewById(R.id.SalonsClientAssistentSEKAmplada);
-                l_SEK_Llargada = (SeekBar) l_VIW_Config.findViewById(R.id.SalonsClientAssistentSEKLlargada);
-                // Definim els maxims definibles en funcio de la escala del planol
-                l_SEK_Amplada.setMax(g_Draw.g_EscalaPlanolAmplada);
-                l_SEK_Llargada.setMax(g_Draw.g_EscalaPlanolLlargada);
-                // Textes
-                l_TXT_Amplada = (TextView) l_VIW_Config.findViewById(R.id.SalonsClientAssistentLITAmplada);
-                l_TXT_Llargada = (TextView) l_VIW_Config.findViewById(R.id.SalonsClientAssistentLITLlargada);
-                // Codi de les seekbars
-                l_SEK_Amplada.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                    int l_AmpladaTriada = 0;
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
-                        l_AmpladaTriada = progresValue;
-                        l_TXT_Amplada.setText(l_AmpladaTriada + " " + Globals.g_Native.getString(R.string.meters));
-                    }
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-                    }
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-                    }
-                });
-                l_SEK_Llargada.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                    int l_LlargadaTriada = 0;
-
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
-                        l_LlargadaTriada = progresValue;
-                        l_TXT_Llargada.setText(l_LlargadaTriada + " " + Globals.g_Native.getString(R.string.meters));
-                    }
-
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-                    }
-                });
-                //
-                AlertDialog.Builder g_DialogAssistent = new AlertDialog.Builder(Jo);
-                g_DialogAssistent.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolLABAssistent));
-                g_DialogAssistent.setView(l_VIW_Config);
-                g_DialogAssistent
-                        .setCancelable(false)
-                        .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface p_dialog, int which) {
-                                g_Draw.Assistent(l_SEK_Amplada.getProgress(), l_SEK_Llargada.getProgress());
-                            }
-                        })
-                        .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface p_dialog, int p_id) {
-                            }
-                        });
-                g_DialogAssistent.show();
-                //
-                l_FLM_Eines.close(true);
-            }
-        });
-        // Boto/Imatge de esborrar
-        l_IMB_Esborrar.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                // Hauriem de preguntar si ho fem o no!!!!!!!!!!!!!!!!!!!!!
-                g_Draw.EsborrarPlanol();
-            }
-        });
-        // Boto de ajuda
-        l_IMB_Ajuda.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                // Mostrem el dialeg de ajuda
-            }
-        });
         // Codi de validacio dels camps de la finestra (fem servir la clase estatica Validacio)
-        g_NomSalo.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
+        g_TXT_Data.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                g_NomSalo.setError(null);
+                g_TXT_Data.setError(null);}
+        });
+        g_ETX_Contacte.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                g_ETX_Contacte.setError(null);}
+        });
+        g_ETX_Lloc.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                g_ETX_Lloc.setError(null);}
+        });
+        g_ETX_Descripcio.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                g_ETX_Descripcio.setError(null);}
+        });
+        g_ETX_NumConvidats.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                SPNSalonsClient l_SaloSeleccionat;
+                int l_Capacitat;
+                // Validem que si hi ha definida una capacitat del salo mostrem
+                // el valor en vermell i una explicacio de lo que pasa (ho fem si hi ha indicat un salo)
+                if (!s.toString().trim().equalsIgnoreCase("")){
+                    if (!g_SPN_Salo.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))) {
+                        int l_NumConvidats = Integer.valueOf(s.toString());
+                        l_SaloSeleccionat = (SPNSalonsClient) g_SPN_Salo.getSelectedItem();
+                        l_Capacitat = l_SaloSeleccionat.g_Salo.Capacitat;
+                        if (l_Capacitat >= 0) {
+                            if (l_NumConvidats > l_Capacitat) {
+                                g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.red));
+                                g_ETX_NumConvidats.setError(Globals.g_Native.getString(R.string.error_CapacitatSuperada));
+                            } else {
+                                if (l_NumConvidats == l_Capacitat) {
+                                    g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.orange));
+                                    g_ETX_NumConvidats.setError(Globals.g_Native.getString(R.string.error_LimitCapacitat));
+                                } else {
+                                    g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.black));
+                                    g_ETX_NumConvidats.setError(null);
+                                }
+                            }
+                        }
+                    }
+                }
             }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                g_ETX_NumConvidats.setError(null);
+            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                g_ETX_NumConvidats.setError(null);}
         });
         // Control de enrera/cancelacio
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_close_white_48dp);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.salons_client_planol, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem p_Item) {
-        Intent l_Intent;
-        int l_id = p_Item.getItemId();
-
-        if (l_id == R.id.SalonsClientPlanolMNUAcceptar) {
-            FerOperativa();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(p_Item);
+        ActionBar l_actionBar = getSupportActionBar();
+        l_actionBar.setDisplayHomeAsUpEnabled(true);
+        l_actionBar.setHomeAsUpIndicator(R.drawable.ic_close_white_48dp);
     }
 
     // Funcio interna per validar la finestra
     private boolean ValidarFinestra() {
         boolean ret = true;
 
-        // Validem si hi han linies aquestes tanquin el planol
-        if ((g_Draw.g_LiniesPlanol.size() > 0) && (!g_Draw.g_Finalitzat)) {
-            // El planol s'ha de tancar
-            Toast.makeText(Jo,
-                    Globals.g_Native.getString(R.string.error_PlanolNoTancat),
-                    Toast.LENGTH_LONG).show();
+        // Validacio data celebracio
+        if (g_TXT_Data.getText() == Globals.g_Native.getString(R.string.CelebracionsClientMantTXTData)){
+            g_TXT_Data.setError(Globals.g_Native.getString(R.string.error_NoEventDate));
             ret = false;
         }
         // Camps obligatoris
-        if (!Validacio.hasText(g_NomSalo)) ret = false;
-        //
+        if (!Validacio.hasText(g_ETX_Contacte)) ret = false;
+        if (!Validacio.hasText(g_ETX_Lloc)) ret = false;
+        if (!Validacio.hasText(g_ETX_Descripcio)) ret = false;
+        if (!Validacio.hasText(g_ETX_NumConvidats)) ret = false;
+        // Validacions Spinner's informats
+        if (g_SPN_TipusCelebracio.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))) {
+            g_TXT_TipusCelebracio.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
+            ret = false;
+        }
+        if (g_SPN_Salo.getSelectedItem().toString().equals(Globals.g_Native.getString(R.string.llista_Select))) {
+            g_TXT_Salo.setError(Globals.g_Native.getString(R.string.error_CampObligatori));
+            ret = false;
+        }
         return ret;
     }
 
-    // Funcio interna per fer la operativa
-    private void FerOperativa(){
-        SaloClient l_SaloClient = new SaloClient();
-        SaloClient.DetallPlanol l_Detall;
-        int i;
-        linia l_Linia;
-        texte l_Texte;
+    // Codi de acceptacio
+    public void FerOperativa(){
+        CelebracioClient l_CelebracioClient = new CelebracioClient();
+        SPNSalonsClient l_SaloSeleccionat;
+        SPNTipusCelebracio l_TipusCelebracioSeleccionat;
 
-        // Validem finestra
         if (ValidarFinestra()) {
-            l_SaloClient.Nom = g_NomSalo.getText().toString();
-            l_SaloClient.Descripcio = g_Descripcio.getText().toString();
-            if (g_Capacitat.getText().toString() != "") {
-                l_SaloClient.Capacitat = Integer.valueOf(g_Capacitat.getText().toString());
+            l_SaloSeleccionat = (SPNSalonsClient) g_SPN_Salo.getSelectedItem();
+            l_CelebracioClient.Salo.Codi = l_SaloSeleccionat.g_Salo.Codi;
+            l_TipusCelebracioSeleccionat = (SPNTipusCelebracio) g_SPN_TipusCelebracio.getSelectedItem();
+            l_CelebracioClient.Tipus.Codi = l_TipusCelebracioSeleccionat.g_Tipus.Codi;
+            l_CelebracioClient.Descripcio = g_ETX_Descripcio.getText().toString();
+            l_CelebracioClient.Convidats = Integer.valueOf(g_ETX_NumConvidats.getText().toString());
+            l_CelebracioClient.Data = g_CAL_DataCelebracio.getTimeInMillis();
+            l_CelebracioClient.Hora = g_CAL_HoraCelebracio.getTimeInMillis();
+            l_CelebracioClient.Lloc = g_ETX_Lloc.getText().toString();
+            l_CelebracioClient.Contacte = g_ETX_Contacte.getText().toString();
+            l_CelebracioClient.Estat = Globals.k_CelebracioClientActiva;
+            //
+            if (g_Operativa == "Alta") {
+                DAOCelebracionsClient.Afegir(l_CelebracioClient, Jo, true, true);
             }
             else{
-                l_SaloClient.Capacitat = Globals.k_CapacitatSenseDefinir;
+                DAOCelebracionsClient.Modificar(l_CelebracioClient, Jo, true);
             }
-            // Llegim les linies del planol
-            for (i = 0; i < g_Draw.g_LiniesPlanol.size(); i++) {
-                l_Linia = g_Draw.g_LiniesPlanol.get(i);
-                l_Detall = new SaloClient.DetallPlanol();
-                l_Detall.Tipus = 0;
-                l_Detall.OrigenX = l_Linia.Inici.x;
-                l_Detall.OrigenY = l_Linia.Inici.y;
-                l_Detall.DestiX = l_Linia.Fi.x;
-                l_Detall.DestiY = l_Linia.Fi.y;
-                if (l_Linia.Curva) {
-                    l_Detall.CurvaX = l_Linia.PuntCurva.x;
-                    l_Detall.CurvaY = l_Linia.PuntCurva.y;
-                }
-                //
-                l_SaloClient.g_Planol.add(l_Detall);
+        }
+        else{
+            Toast.makeText(Jo,
+                    Globals.g_Native.getString(R.string.error_Layout),
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.celebracions_client_alta, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.CelebracionsClientAltaMNUAcceptar) {
+            FerOperativa();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    class LST_DatePickerSet implements DatePickerDialog.OnDateSetListener {
+        @Override
+        public void onDateSet(DatePicker p_view, int p_year, int p_monthOfYear, int p_dayOfMonth) {
+            if (g_CAL_DataCelebracio == null){
+                g_CAL_DataCelebracio = Calendar.getInstance();
             }
-            // LLegim els textes
-            for (i = 0; i < g_Draw.g_TextesPlanol.size(); i++) {
-                l_Texte = g_Draw.g_TextesPlanol.get(i);
-                l_Detall = new SaloClient.DetallPlanol();
-                l_Detall.Tipus = 1;
-                l_Detall.OrigenX = l_Texte.Punt.x;
-                l_Detall.OrigenY = l_Texte.Punt.y;
-                l_Detall.Texte = l_Texte.Texte;
-                //
-                l_SaloClient.g_Planol.add(l_Detall);
+            g_CAL_DataCelebracio.set(Calendar.DAY_OF_MONTH, p_dayOfMonth);
+            g_CAL_DataCelebracio.set(Calendar.MONTH, p_monthOfYear+1);
+            g_CAL_DataCelebracio.set(Calendar.YEAR, p_year);
+            g_TXT_Data.setText(Globals.DataToString(g_CAL_DataCelebracio));
+        }
+    }
+
+    class LST_TimePickerSet implements TimePickerDialog.OnTimeSetListener {
+        @Override
+        public void onTimeSet(TimePicker view, int p_Hora, int p_Minuts) {
+            if (g_CAL_HoraCelebracio == null){
+                g_CAL_HoraCelebracio = Calendar.getInstance();
             }
-            // Dades de configuracio
-            l_SaloClient.UnitatsPlanol = g_Draw.g_UnitatsPlanol;
-            l_SaloClient.EscalaPlanol = g_Draw.g_EscalaPlanol;
-            l_SaloClient.UnitatMesura = g_Draw.g_UnitatX;
-            if (g_ModusFeina == Globals.k_OPE_Alta) {
-                DAOSalonsClient.Afegir(l_SaloClient, Jo, true, true);
-            }
-            else{
-                l_SaloClient.Codi = g_CodiSaloModificacio;
-                DAOSalonsClient.Modificar(l_SaloClient, Jo, true);
-            }
+            g_CAL_HoraCelebracio.set(Calendar.HOUR_OF_DAY, p_Hora);
+            g_CAL_HoraCelebracio.set(Calendar.MINUTE, p_Minuts);
+            g_TXT_Hora.setText(Globals.HoraToString(g_CAL_HoraCelebracio));
         }
     }
 }

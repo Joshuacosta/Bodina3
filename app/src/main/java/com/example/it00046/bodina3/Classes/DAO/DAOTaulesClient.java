@@ -9,9 +9,11 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.it00046.bodina3.Classes.Custom.LVWLlistaTipusCelebracions;
+import com.example.it00046.bodina3.Classes.Custom.LVWLlistaTaulesClient;
+import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
 import com.example.it00046.bodina3.Classes.Entitats.TipusCelebracio;
 import com.example.it00046.bodina3.Classes.Globals;
+import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNTaulesClient;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNTipusCelebracio;
 import com.example.it00046.bodina3.R;
 
@@ -22,20 +24,25 @@ import java.util.List;
  * Created by it00046 on 05/08/2015.
  */
 public class DAOTaulesClient {
-    private static final String TAG_TipusCelebracio = Globals.g_Native.getString(R.string.TTipusCelebracio);
-    private static final String TAG_Codi = Globals.g_Native.getString(R.string.TTipusCelebracio_Codi);
-    private static final String TAG_Descripcio = Globals.g_Native.getString(R.string.TTipusCelebracio_Descripcio);
+    private static final String TAG_TaulesClient = Globals.g_Native.getString(R.string.TTaulesClient);
+    private static final String TAG_Codi = Globals.g_Native.getString(R.string.TTaulesClient_Codi);
+    private static final String TAG_Tipus = Globals.g_Native.getString(R.string.TTaulesClient_Tipus);
+    private static final String TAG_Descripcio = Globals.g_Native.getString(R.string.TTaulesClient_Descripcio);
+    private static final String TAG_MaxPersones = Globals.g_Native.getString(R.string.TTaulesClient_MaxPersones);
+    private static final String TAG_AmpladaDiametre = Globals.g_Native.getString(R.string.TTaulesClient_AmpladaDiametre);
+    private static final String TAG_Llargada = Globals.g_Native.getString(R.string.TTaulesClient_Llargada);
+    private static final String TAG_Estat = Globals.g_Native.getString(R.string.TTaulesClient_Estat);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    // Llegim els tipus de celebracio del client en una list view
-    public static void Llegir(final ListView p_LVW_TipusCelebracions, int p_Layout, final Context p_Context) {
-        final ArrayAdapter<TipusCelebracio> l_Llista = new LVWLlistaTipusCelebracions(p_Context, p_Layout);
+    // Llegim les taules del client en una list view
+    public static void Llegir(final ListView p_LVW_TaulesClient, int p_Layout, final Context p_Context) {
+        final ArrayAdapter<TaulaClient> l_Llista = new LVWLlistaTaulesClient(p_Context, p_Layout);
         Globals.MostrarEspera(p_Context);
         try {
-            Cursor l_cursor = Globals.g_DB.query(TAG_TipusCelebracio,
-                    Globals.g_Native.getResources().getStringArray(R.array.TTipusCelebracio_Camps),
+            Cursor l_cursor = Globals.g_DB.query(TAG_TaulesClient,
+                    Globals.g_Native.getResources().getStringArray(R.array.TTaulesClient_Camps),
                     null, // c. selections
                     null, // d. selections args
                     null, // e. group by
@@ -45,11 +52,11 @@ public class DAOTaulesClient {
             if (l_cursor.getCount() > 0) {
                 l_cursor.moveToFirst();
                 for (int i=0; i < l_cursor.getCount(); i++) {
-                    TipusCelebracio l_Tipus = CursorToTipusCelebracio(l_cursor);
+                    TaulaClient l_Tipus = CursorToTaulaClient(l_cursor);
                     l_Llista.add(l_Tipus);
                     l_cursor.moveToNext();
                 }
-                p_LVW_TipusCelebracions.setAdapter(l_Llista);
+                p_LVW_TaulesClient.setAdapter(l_Llista);
             }
             Globals.TancarEspera();
         }
@@ -60,20 +67,20 @@ public class DAOTaulesClient {
         }
     }
 
-    // Llegim els tipus de celebracio del client en una spinner
-    public static void Llegir(final Spinner p_SPN_TipusCelebracions, final Context p_Context) {
-        ArrayAdapter<SPNTipusCelebracio> l_dataAdapter;
-        final List<SPNTipusCelebracio> l_TipusCelebracio = new ArrayList<SPNTipusCelebracio>();
-        String l_NomTipusCelebracioSpinner;
+    // Llegim les taules del client en una spinner
+    public static void Llegir(final Spinner p_SPN_TaulesClient, final Context p_Context) {
+        ArrayAdapter<SPNTaulesClient> l_dataAdapter;
+        final List<SPNTaulesClient> l_TaulesClient = new ArrayList<SPNTaulesClient>();
+        String l_DescripcioTaula;
 
         // Posem a la llista la entrada de "Seleccioni..."
-        SPNTipusCelebracio l_SelectOne = new SPNTipusCelebracio(null, Globals.g_Native.getString(R.string.llista_Select));
-        l_TipusCelebracio.add(l_SelectOne);
+        SPNTaulesClient l_SelectOne = new SPNTaulesClient(null, Globals.g_Native.getString(R.string.llista_Select));
+        l_TaulesClient.add(l_SelectOne);
         //
         Globals.MostrarEspera(p_Context);
         try {
-            Cursor l_cursor = Globals.g_DB.query(TAG_TipusCelebracio,
-                    Globals.g_Native.getResources().getStringArray(R.array.TTipusCelebracio_Camps),
+            Cursor l_cursor = Globals.g_DB.query(TAG_TaulesClient,
+                    Globals.g_Native.getResources().getStringArray(R.array.TTaulesClient_Camps),
                     null, // c. selections
                     null, // d. selections args
                     null, // e. group by
@@ -83,17 +90,17 @@ public class DAOTaulesClient {
             if (l_cursor.getCount() > 0) {
                 l_cursor.moveToFirst();
                 for (int i=0; i < l_cursor.getCount(); i++) {
-                    TipusCelebracio l_Tipus = CursorToTipusCelebracio(l_cursor);
-                    l_NomTipusCelebracioSpinner = l_Tipus.Descripcio;
-                    SPNTipusCelebracio l_spinner = new SPNTipusCelebracio(l_Tipus, l_NomTipusCelebracioSpinner);
-                    l_TipusCelebracio.add(l_spinner);
+                    TaulaClient l_Taula = CursorToTaulaClient(l_cursor);
+                    l_DescripcioTaula = l_Taula.Detall();
+                    SPNTaulesClient l_spinner = new SPNTaulesClient(l_Taula, l_DescripcioTaula);
+                    l_TaulesClient.add(l_spinner);
                     l_cursor.moveToNext();
                 }
             }
             // Associem
-            l_dataAdapter = new ArrayAdapter<SPNTipusCelebracio>(Globals.g_Native, R.layout.linia_spn_defecte, l_TipusCelebracio);
+            l_dataAdapter = new ArrayAdapter<SPNTaulesClient>(Globals.g_Native, R.layout.linia_spn_defecte, l_TaulesClient);
             l_dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            p_SPN_TipusCelebracions.setAdapter(l_dataAdapter);
+            p_SPN_TaulesClient.setAdapter(l_dataAdapter);
             Globals.TancarEspera();
         }
         catch(Exception e) {
@@ -103,17 +110,16 @@ public class DAOTaulesClient {
         }
     }
 
-    // Afegim un tipus de celebracio
-    public static boolean Afegir(TipusCelebracio p_TipusCelebracio, final Context p_Context, boolean p_Asistit, boolean p_Tancam){
+    public static boolean Afegir(TaulaClient p_TaulaClient, final Context p_Context, boolean p_Asistit, boolean p_Tancam){
         boolean l_resultat = true;
 
         if (p_Asistit) {
             Globals.MostrarEspera(p_Context);
         }
         try {
-            Globals.g_DB.insert(TAG_TipusCelebracio,
+            Globals.g_DB.insert(TAG_TaulesClient,
                                 null,
-                                TipusCelebracioToContentValues(p_TipusCelebracio, true));
+                                TaulaClientToContentValues(p_TaulaClient, true));
         }
         catch(Exception e) {
             if (p_Asistit) {
@@ -139,15 +145,15 @@ public class DAOTaulesClient {
         }
         return l_resultat;
     }
-    // Modifiquem un tipus de celebracio
-    public static boolean Modificar(TipusCelebracio p_TipusCelebracio, final Context p_Context, boolean p_Tancam){
+
+    public static boolean Modificar(TaulaClient p_TaulaClient, final Context p_Context, boolean p_Tancam){
         boolean l_resultat = true;
 
         Globals.MostrarEspera(p_Context);
         try {
-            Globals.g_DB.update(TAG_TipusCelebracio,
-                    TipusCelebracioToContentValues(p_TipusCelebracio, false),
-                    TAG_Codi + "= " + p_TipusCelebracio.Codi,
+            Globals.g_DB.update(TAG_TaulesClient,
+                    TaulaClientToContentValues(p_TaulaClient, false),
+                    TAG_Codi + "= " + p_TaulaClient.Codi,
                     null);
         }
         catch(Exception e) {
@@ -170,13 +176,14 @@ public class DAOTaulesClient {
         }
         return l_resultat;
     }
-    // Esborrem un tipus de celebracio
+
+    // Per esborrar una taula validem previament que no es faci servir a cap distribucio
     public static boolean Esborrar(int p_Codi, final Context p_Context, boolean p_Tancam){
         boolean l_Resultat = true;
 
         Globals.MostrarEspera(p_Context);
         try {
-            Globals.g_DB.delete(TAG_TipusCelebracio,
+            Globals.g_DB.delete(TAG_TaulesClient,
                     TAG_Codi + "= " + p_Codi,
                     null);
         }
@@ -200,46 +207,80 @@ public class DAOTaulesClient {
         }
         return l_Resultat;
     }
-    // Definim els tipus inicials de celebracio
-    public static void ValorsInicials() {
-        TipusCelebracio l_TipusCelebracio;
 
-        l_TipusCelebracio = new TipusCelebracio();
-        l_TipusCelebracio.Codi = 0;
-        l_TipusCelebracio.Descripcio = Globals.g_Native.getString(R.string.TipusCelebracio0);
-        Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
-        l_TipusCelebracio.Codi = 1;
-        l_TipusCelebracio.Descripcio = Globals.g_Native.getString(R.string.TipusCelebracio1);
-        Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
-        l_TipusCelebracio.Codi = 2;
-        l_TipusCelebracio.Descripcio = Globals.g_Native.getString(R.string.TipusCelebracio2);
-        Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
-        l_TipusCelebracio.Codi = 3;
-        l_TipusCelebracio.Descripcio = Globals.g_Native.getString(R.string.TipusCelebracio3);
-        Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
-        l_TipusCelebracio.Codi = 4;
-        l_TipusCelebracio.Descripcio = Globals.g_Native.getString(R.string.TipusCelebracio4);
-        Afegir(l_TipusCelebracio, Globals.g_Native, false, false);
+    // Definim les taules inicials
+    public static void ValorsInicials() {
+        TaulaClient l_TaulaClient;
+
+        l_TaulaClient = new TaulaClient();
+        l_TaulaClient.Codi = 0;
+        l_TaulaClient.Tipus = 0;
+        l_TaulaClient.AmpladaDiametre = 150;
+        l_TaulaClient.MaxPersones = 10;
+        l_TaulaClient.Descripcio = Globals.g_Native.getString(R.string.TaulaClientDef0);
+        Afegir(l_TaulaClient, Globals.g_Native, false, false);
+        l_TaulaClient.Codi = 1;
+        l_TaulaClient.Tipus = 0;
+        l_TaulaClient.AmpladaDiametre = 130;
+        l_TaulaClient.MaxPersones = 8;
+        l_TaulaClient.Descripcio = Globals.g_Native.getString(R.string.TaulaClientDef1);
+        Afegir(l_TaulaClient, Globals.g_Native, false, false);
+        l_TaulaClient.Codi = 2;
+        l_TaulaClient.Tipus = 0;
+        l_TaulaClient.AmpladaDiametre = 180;
+        l_TaulaClient.MaxPersones = 12;
+        l_TaulaClient.Descripcio = Globals.g_Native.getString(R.string.TaulaClientDef2);
+        Afegir(l_TaulaClient, Globals.g_Native, false, false);
+        l_TaulaClient.Codi = 3;
+        l_TaulaClient.Tipus = 0;
+        l_TaulaClient.AmpladaDiametre = 120;
+        l_TaulaClient.MaxPersones = 4;
+        l_TaulaClient.Descripcio = Globals.g_Native.getString(R.string.TaulaClientDef3);
+        Afegir(l_TaulaClient, Globals.g_Native, false, false);
+        l_TaulaClient.Codi = 4;
+        l_TaulaClient.Tipus = 1;
+        l_TaulaClient.AmpladaDiametre = 150;
+        l_TaulaClient.MaxPersones = 8;
+        l_TaulaClient.Descripcio = Globals.g_Native.getString(R.string.TaulaClientDef4);
+        Afegir(l_TaulaClient, Globals.g_Native, false, false);
+        l_TaulaClient.Codi = 5;
+        l_TaulaClient.Tipus = 2;
+        l_TaulaClient.AmpladaDiametre = 180;
+        l_TaulaClient.Llargada = 75;
+        l_TaulaClient.MaxPersones = 8;
+        l_TaulaClient.Descripcio = Globals.g_Native.getString(R.string.TaulaClientDef5);
+        Afegir(l_TaulaClient, Globals.g_Native, false, false);
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Funcions privades
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Posa les dades del client a contentValue
-    private static ContentValues TipusCelebracioToContentValues(TipusCelebracio p_TipusCelebracio, boolean p_Insercio) {
+    private static ContentValues TaulaClientToContentValues(TaulaClient p_TaulaClient, boolean p_Insercio) {
         ContentValues l_values = new ContentValues();
 
         if (p_Insercio == false) {
-            l_values.put(TAG_Codi, p_TipusCelebracio.Codi);
+            l_values.put(TAG_Codi, p_TaulaClient.Codi);
         }
-        l_values.put(TAG_Descripcio, p_TipusCelebracio.Descripcio);
+        l_values.put(TAG_Tipus, p_TaulaClient.Tipus);
+        l_values.put(TAG_Descripcio, p_TaulaClient.Descripcio);
+        l_values.put(TAG_MaxPersones, p_TaulaClient.MaxPersones);
+        l_values.put(TAG_AmpladaDiametre, p_TaulaClient.AmpladaDiametre);
+        l_values.put(TAG_Llargada, p_TaulaClient.Llargada);
+        l_values.put(TAG_Estat, p_TaulaClient.Estat);
         return l_values;
     }
-    // Pasa les dades del cursor a TipusCelebracio
-    private static TipusCelebracio CursorToTipusCelebracio(Cursor p_cursor){
-        TipusCelebracio l_TipusCelebracio = new TipusCelebracio();
 
-        l_TipusCelebracio.Codi = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Codi));
-        l_TipusCelebracio.Descripcio = p_cursor.getString(p_cursor.getColumnIndex(TAG_Descripcio));
-        return l_TipusCelebracio;
+    // Pasa les dades del cursor a TaulaClient
+    private static TaulaClient CursorToTaulaClient(Cursor p_cursor){
+        TaulaClient l_TaulaClient = new TaulaClient();
+
+        l_TaulaClient.Codi = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Codi));
+        l_TaulaClient.Tipus = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Tipus));
+        l_TaulaClient.Descripcio = p_cursor.getString(p_cursor.getColumnIndex(TAG_Descripcio));
+        l_TaulaClient.MaxPersones = p_cursor.getInt(p_cursor.getColumnIndex(TAG_MaxPersones));
+        l_TaulaClient.AmpladaDiametre = p_cursor.getInt(p_cursor.getColumnIndex(TAG_AmpladaDiametre));
+        l_TaulaClient.Llargada = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Llargada));
+        l_TaulaClient.Estat = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Estat));
+        return l_TaulaClient;
     }
 }

@@ -8,6 +8,7 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.example.it00046.bodina3.Classes.DAO.DAOTaulesClient;
 import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
@@ -31,24 +33,66 @@ public class taules_client extends ActionBarActivity{
     static private ListView g_LVW_Taules;
     private int g_Posicio = -1;
     private ImageButton g_IMB_Esborrar = null, g_IMB_Editar = null;
-    private Context Jo = this;
+    public Context Jo = this;
+    final LayoutInflater inflater = getLayoutInflater();
     private Boolean g_EstatEsborrar = false;
-    static private int g_CodiModificacio;
-    static private String g_Descripcio;
+    static private TaulaClient g_TaulaSeleccionada;
 
-    public static void MostraOperacio(final Activity p_activity, final boolean p_Alta)
+    public void MostraOperacio(final Activity p_activity, final boolean p_Alta)
     {
-        final EditText l_input = new EditText(p_activity);
+        final EditText l_ETX_Descripcio, l_ETX_MaxPersones, l_ETX_AmpladaDiametre, l_ETX_Llargada;
+        final Spinner l_SPN_Tipus;
+        ArrayAdapter<CharSequence> l_adapter_Tipus;
+        View l_VIW_MantenimentTaula = inflater.inflate(R.layout.taules_client_dialog_mant, null);
 
+        l_ETX_Descripcio = (EditText)l_VIW_MantenimentTaula.findViewById(R.id.TaulesClientDialogMantTXTDescripcio);
+        l_ETX_MaxPersones = (EditText)l_VIW_MantenimentTaula.findViewById(R.id.TaulesClientDialogMantTXTMaxPersones);
+        l_ETX_AmpladaDiametre = (EditText)l_VIW_MantenimentTaula.findViewById(R.id.TaulesClientDialogMantTXTAmpladaDiametre);
+        l_ETX_Llargada = (EditText)l_VIW_MantenimentTaula.findViewById(R.id.TaulesClientDialogMantTXTLlargada);
+        //
+        l_adapter_Tipus = ArrayAdapter.createFromResource(Jo,R.array.TipusTaulesClient,android.R.layout.simple_spinner_item);
+        l_adapter_Tipus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        l_SPN_Tipus = (Spinner)l_VIW_MantenimentTaula.findViewById(R.id.TaulesClientDialogMantSPNTipus);
+        l_SPN_Tipus.setAdapter(l_adapter_Tipus);
+        //
         AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(p_activity);
         if (p_Alta) {
             g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.taules_client_Afegir));
         }
         else{
-            l_input.setText(g_Descripcio);
+            // Posem els valors de la taula seleccionada
+            l_SPN_Tipus.setSelection(g_TaulaSeleccionada.Tipus);
+            l_ETX_Descripcio.setText(g_TaulaSeleccionada.Descripcio);
+            l_ETX_MaxPersones.setText(g_TaulaSeleccionada.MaxPersones);
+            l_ETX_AmpladaDiametre.setText(g_TaulaSeleccionada.AmpladaDiametre);
+            l_ETX_Llargada.setText(g_TaulaSeleccionada.Llargada);
             g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.taules_client_Modificar));
         }
-        g_alertDialogBuilder.setView(l_input);
+        // Codi del Spinner de tipus de taula (afecta a camps)
+        l_SPN_Tipus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView parent, View view, int pos, long id) {
+                switch (pos){
+                    case 0: // rodona
+                        l_ETX_AmpladaDiametre.setHint(Globals.g_Native.getString(R.string.TaulesClientDialogTXTDiametre));
+                        l_ETX_Llargada.setVisibility(View.GONE);
+                        break;
+                    case 1: // quadrada
+                        l_ETX_AmpladaDiametre.setHint(Globals.g_Native.getString(R.string.TaulesClientDialogTXTAmplada));
+                        l_ETX_Llargada.setVisibility(View.VISIBLE);
+                        break;
+                    case 2: // rectangular
+                        l_ETX_AmpladaDiametre.setHint(Globals.g_Native.getString(R.string.TaulesClientDialogTXTAmplada));
+                        l_ETX_Llargada.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView parent) {
+            }
+        });
+        g_alertDialogBuilder.setView(l_VIW_MantenimentTaula);
         g_alertDialogBuilder
                 .setCancelable(false)
                 .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
@@ -56,7 +100,11 @@ public class taules_client extends ActionBarActivity{
                     public void onClick(DialogInterface p_dialog, int which) {
                         TaulaClient l_TaulaClient = new TaulaClient();
 
-                        l_TaulaClient.Descripcio = l_input.getText().toString();
+                        // Posem els valors
+                        l_TaulaClient.Descripcio = l_ETX_Descripcio.getText().toString();
+                        l_TaulaClient.MaxPersones = Integer.valueOf(l_ETX_MaxPersones.getText().toString());;
+                        l_TaulaClient.AmpladaDiametre = Integer.valueOf(l_ETX_AmpladaDiametre.getText().toString());
+                        l_TaulaClient.Llargada = Integer.valueOf(l_ETX_Llargada.getText().toString());;
                         if (p_Alta) {
                             // Fem la insercio i si va be refresquem la llista
                             if (DAOTaulesClient.Afegir(l_TaulaClient, p_activity, false, false)) {
@@ -64,7 +112,7 @@ public class taules_client extends ActionBarActivity{
                             }
                         }
                         else{
-                            l_TaulaClient.Codi = g_CodiModificacio;
+                            l_TaulaClient.Codi = g_TaulaSeleccionada.Codi;
                             if (DAOTaulesClient.Modificar(l_TaulaClient, p_activity, false)){
                                 DAOTaulesClient.Llegir(g_LVW_Taules, R.layout.linia_lvw_llista_taules_client, p_activity);
                             }
@@ -197,9 +245,7 @@ public class taules_client extends ActionBarActivity{
         }
         else {
             // Obrim la activitat de modificacio de la taula
-            l_TaulaClient = (TaulaClient)l_LiniaTaulaClient.getTag();
-            g_CodiModificacio = l_TaulaClient.Codi;
-            g_Descripcio = l_TaulaClient.Descripcio;
+            g_TaulaSeleccionada = (TaulaClient)l_LiniaTaulaClient.getTag();
             MostraOperacio(taules_client.this, false);
         }
     }

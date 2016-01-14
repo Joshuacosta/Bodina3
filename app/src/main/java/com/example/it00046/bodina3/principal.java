@@ -11,6 +11,7 @@ import android.widget.ExpandableListView;
 
 import com.example.it00046.bodina3.Classes.Custom.LVWEntitatsClientCelebracions;
 import com.example.it00046.bodina3.Classes.DAO.DAOClients;
+import com.example.it00046.bodina3.Classes.DAO.DAOTaulesClient;
 import com.example.it00046.bodina3.Classes.DAO.DAOTipusCelebracions;
 import com.example.it00046.bodina3.Classes.Globals;
 
@@ -43,8 +44,9 @@ public class principal extends ActionBarActivity {
         DAOClients.Llegir(jo);
         if (Globals.g_NoHiHanDades == true) {
             // Inserim valors de defecte de les taules
-            // Afegim els tipus basics de celebracio
-            DAOTipusCelebracions.ValorsInicials();
+            // Afegim els tipus basics de celebracio i taules
+            //DAOTipusCelebracions.ValorsInicials();
+            //DAOTaulesClient.ValorsInicials();
             //
             l_intent = new Intent(this, configuracio.class);
             startActivity(l_intent);

@@ -8,50 +8,59 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <CheckBox
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/TaulesClientDialogMantTXTTipus"/>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:id="@+id/TaulesClientDialogMantSPNTipus"
+            android:spinnerMode="dropdown" />
+
+    </FrameLayout>
+
+    <EditText
+        android:id="@+id/TaulesClientDialogMantTXTDescripcio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLength="20"
+        android:hint="@string/TaulesClientDialogTXTDescripcio" />
+
+    <EditText
+        android:id="@+id/TaulesClientDialogMantTXTMaxPersones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/SalonsClientPlanolDialogConfigCBXQuadricula"
-        android:id="@+id/SalonsClientPlanolDialogConfigCBXQuadricula" />
+        android:inputType="number"
+        android:hint="@string/TaulesClientDialogTXTMaxPersones" />
 
-    <FrameLayout
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="9dp"
-        android:padding="5dp">
+        android:orientation="horizontal">
 
-        <TextView
+        <!-- El hint de aquest camp es en un principi radi perque tenim marcat inicialment el tipus rodo -->
+        <EditText
+            android:id="@+id/TaulesClientDialogMantTXTAmpladaDiametre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/SalonsClientPlanolDialogConfigTXTEscala"/>
+            android:inputType="number"
+            android:hint="@string/TaulesClientDialogTXTDiametre" />
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:id="@+id/SalonsClientPlanolDialogConfigSPNEscala"
-            android:spinnerMode="dropdown" />
-
-    </FrameLayout>
-
-
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="9dp"
-        android:padding="5dp">
-
-        <TextView
+        <EditText
+            android:id="@+id/TaulesClientDialogMantTXTLlargada"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/SalonsClientPlanolDialogConfigTXTUnitats"/>
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:id="@+id/SalonsClientPlanolDialogConfigSPNUnitats"
-            android:spinnerMode="dropdown" />
-    </FrameLayout>
-
+            android:width="80dp"
+            android:inputType="number"
+            android:hint="@string/TaulesClientDialogTXTLlargada" />
+    </LinearLayout>
 </LinearLayout>

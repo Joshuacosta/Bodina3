@@ -14,11 +14,11 @@ import com.example.it00046.bodina3.R;
 /**
  * Created by it00046 on 02/06/2015.
  */
-public class LVWLlistaTaules extends ArrayAdapter<TaulaClient> {
+public class LVWLlistaTaulesClient extends ArrayAdapter<TaulaClient> {
 
     private Context g_context;
 
-    public LVWLlistaTaules(Context p_context, int p_textViewResourceId) {
+    public LVWLlistaTaulesClient(Context p_context, int p_textViewResourceId) {
         super(p_context, p_textViewResourceId);
         g_context = p_context;
     }
@@ -36,7 +36,8 @@ public class LVWLlistaTaules extends ArrayAdapter<TaulaClient> {
         }
         l_TXT_Descripcio = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaTaulesClientTXTDescripcio);
         // Anem a construir el texte de la descricpio de la taula
-        l_DescripcioTaula = l_TaulaClient.Descripcio;
+        l_DescripcioTaula = l_TaulaClient.Detall();
+        /*
         switch (l_TaulaClient.Tipus){
             case 0:
                 l_DescripcioTaula += " " + Globals.g_Native.getResources().getString(R.string.TipusTaulaRodona);
@@ -51,6 +52,7 @@ public class LVWLlistaTaules extends ArrayAdapter<TaulaClient> {
                 l_DescripcioTaula += " " + l_TaulaClient.AmpladaRadi + "x" + l_TaulaClient.Llargada;
                 break;
         }
+        */
         l_TXT_Descripcio.setText(l_DescripcioTaula);
         //
         p_convertView.setTag(l_TaulaClient);

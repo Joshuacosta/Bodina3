@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.it00046.bodina3.Classes.DAO.DAOTaulesClient;
 import com.example.it00046.bodina3.Classes.DAO.DAOTipusCelebracions;
 import com.example.it00046.bodina3.Classes.Entitats.TipusCelebracio;
 import com.example.it00046.bodina3.R;
@@ -166,15 +167,21 @@ public class SQLDB extends SQLiteOpenHelper {
                 Globals.g_Native.getString(R.string.TLlistaConvidats_Estat));
         db.execSQL(l_Create);
         // 14- Taules
-        l_Create = String.format(Globals.g_Native.getString(R.string.TTaulesCreate),
-                Globals.g_Native.getString(R.string.TTaules),
-                Globals.g_Native.getString(R.string.TTaules_Codi),
-                Globals.g_Native.getString(R.string.TTaules_Tipus),
-                Globals.g_Native.getString(R.string.TTaules_MaxPersones),
-                Globals.g_Native.getString(R.string.TTaules_AmpladaRadi),
-                Globals.g_Native.getString(R.string.TTaules_Llargada),
-                Globals.g_Native.getString(R.string.TTaules_Estat));
+        l_Create = String.format(Globals.g_Native.getString(R.string.TTaulesClientCreate),
+                Globals.g_Native.getString(R.string.TTaulesClient),
+                Globals.g_Native.getString(R.string.TTaulesClient_Codi),
+                Globals.g_Native.getString(R.string.TTaulesClient_Tipus),
+                Globals.g_Native.getString(R.string.TTaulesClient_Descripcio),
+                Globals.g_Native.getString(R.string.TTaulesClient_MaxPersones),
+                Globals.g_Native.getString(R.string.TTaulesClient_AmpladaDiametre),
+                Globals.g_Native.getString(R.string.TTaulesClient_Llargada),
+                Globals.g_Native.getString(R.string.TTaulesClient_Estat));
         db.execSQL(l_Create);
+        //
+        // Inserim valors de defecte de les taules
+        // Afegim els tipus basics de celebracio i taules
+        DAOTipusCelebracions.ValorsInicials();
+        DAOTaulesClient.ValorsInicials();
         // Si executem aixó es que hem creat la BBDD i no hi han dades, de moment:
         Globals.g_NoHiHanDades = true;
         //
@@ -210,7 +217,7 @@ public class SQLDB extends SQLiteOpenHelper {
         db.execSQL(l_DROP);
         l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TLlistaConvidats));
         db.execSQL(l_DROP);
-        l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TTaules));
+        l_DROP = String.format(Globals.g_Native.getString(R.string.TDrop), Globals.g_Native.getString(R.string.TTaulesClient));
         db.execSQL(l_DROP);
         // Tornem a definir les taules
         this.onCreate(db);
