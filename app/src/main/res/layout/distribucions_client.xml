@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.example.it00046.bodina3.Classes.PlanolEdicio
-        android:id="@+id/SalonsClientPlanolVIWDrawing"
+    <com.example.it00046.bodina3.Classes.DistribucioEdicio
+        android:id="@+id/DistribucionsClientVIWDrawing"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginBottom="3dp"
@@ -17,14 +17,14 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/salonsClientPlanolIMBEsborrar"
+        android:id="@+id/DistribucionsClientIMBEsborrar"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="12dp"
         android:layout_gravity="left|top"
         android:background="@drawable/ic_delete_black_36dp" />
 
     <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/salonsClientPlanolFLMEines"
+        android:id="@+id/DistribucionsClientFLMEines"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom|right"
@@ -38,7 +38,7 @@
         fab:menu_labels_position="left">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/salonsClientPlanolFLBAssistent"
+            android:id="@+id/DistribucionsClientFLBAssistent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_action_wizard"
@@ -47,7 +47,7 @@
             fab:fab_label="@string/SalonsClientPlanolLABAssistent"/>
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/salonsClientPlanolFLBConfiguracio"
+            android:id="@+id/DistribucionsClientFLBConfiguracio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_settings_white_24dp"
@@ -56,7 +56,7 @@
             fab:fab_label="@string/SalonsClientPlanolLABConfiguracio"/>
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/salonsClientPlanolFLBTexte"
+            android:id="@+id/DistribucionsClientFLBTexte"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_format_color_text_white_24dp"
@@ -65,7 +65,7 @@
             fab:fab_label="@string/SalonsClientPlanolLABTexte" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/salonsClientPlanolFLBRecta"
+            android:id="@+id/DistribucionsClientFLBRecta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_border_color_white_24dp"
@@ -78,7 +78,7 @@
     <ImageButton
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:id="@+id/salonsClientPlanolIMBAjuda"
+        android:id="@+id/DistribucionsClientIMBAjuda"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_gravity="bottom|left"
@@ -92,14 +92,14 @@
         android:gravity="top">
 
         <EditText
-            android:id="@+id/SalonsClientPlanolTXTNom"
+            android:id="@+id/DistribucionsClientTXTNom"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:maxLength="20"
             android:hint="@string/SalonsClientAltaTXTNom" />
 
         <EditText
-            android:id="@+id/SalonsClientPlanolTXTDescripcio"
+            android:id="@+id/DistribucionsClientTXTDescripcio"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
@@ -107,7 +107,7 @@
             android:hint="@string/SalonsClientAltaTXTDescripcio" />
 
         <EditText
-            android:id="@+id/SalonsClientPlanolTXTCapacitat"
+            android:id="@+id/DistribucionsClientTXTCapacitat"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"

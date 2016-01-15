@@ -34,7 +34,6 @@ public class taules_client extends ActionBarActivity{
     private int g_Posicio = -1;
     private ImageButton g_IMB_Esborrar = null, g_IMB_Editar = null;
     public Context Jo = this;
-    final LayoutInflater inflater = getLayoutInflater();
     private Boolean g_EstatEsborrar = false;
     static private TaulaClient g_TaulaSeleccionada;
 
@@ -43,8 +42,10 @@ public class taules_client extends ActionBarActivity{
         final EditText l_ETX_Descripcio, l_ETX_MaxPersones, l_ETX_AmpladaDiametre, l_ETX_Llargada;
         final Spinner l_SPN_Tipus;
         ArrayAdapter<CharSequence> l_adapter_Tipus;
-        View l_VIW_MantenimentTaula = inflater.inflate(R.layout.taules_client_dialog_mant, null);
+        View l_VIW_MantenimentTaula;
+        final LayoutInflater inflater = getLayoutInflater();
 
+        l_VIW_MantenimentTaula = inflater.inflate(R.layout.taules_client_dialog_mant, null);
         l_ETX_Descripcio = (EditText)l_VIW_MantenimentTaula.findViewById(R.id.TaulesClientDialogMantTXTDescripcio);
         l_ETX_MaxPersones = (EditText)l_VIW_MantenimentTaula.findViewById(R.id.TaulesClientDialogMantTXTMaxPersones);
         l_ETX_AmpladaDiametre = (EditText)l_VIW_MantenimentTaula.findViewById(R.id.TaulesClientDialogMantTXTAmpladaDiametre);
@@ -63,9 +64,9 @@ public class taules_client extends ActionBarActivity{
             // Posem els valors de la taula seleccionada
             l_SPN_Tipus.setSelection(g_TaulaSeleccionada.Tipus);
             l_ETX_Descripcio.setText(g_TaulaSeleccionada.Descripcio);
-            l_ETX_MaxPersones.setText(g_TaulaSeleccionada.MaxPersones);
-            l_ETX_AmpladaDiametre.setText(g_TaulaSeleccionada.AmpladaDiametre);
-            l_ETX_Llargada.setText(g_TaulaSeleccionada.Llargada);
+            l_ETX_MaxPersones.setText(Integer.toString(g_TaulaSeleccionada.MaxPersones));
+            l_ETX_AmpladaDiametre.setText(Integer.toString(g_TaulaSeleccionada.AmpladaDiametre));
+            l_ETX_Llargada.setText(Integer.toString(g_TaulaSeleccionada.Llargada));
             g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.taules_client_Modificar));
         }
         // Codi del Spinner de tipus de taula (afecta a camps)
@@ -109,12 +110,14 @@ public class taules_client extends ActionBarActivity{
                             // Fem la insercio i si va be refresquem la llista
                             if (DAOTaulesClient.Afegir(l_TaulaClient, p_activity, false, false)) {
                                 DAOTaulesClient.Llegir(g_LVW_Taules, R.layout.linia_lvw_llista_taules_client, p_activity);
+                                g_Posicio = -1;
                             }
                         }
                         else{
                             l_TaulaClient.Codi = g_TaulaSeleccionada.Codi;
                             if (DAOTaulesClient.Modificar(l_TaulaClient, p_activity, false)){
                                 DAOTaulesClient.Llegir(g_LVW_Taules, R.layout.linia_lvw_llista_taules_client, p_activity);
+                                g_Posicio = -1;
                             }
                         }
                     }
@@ -266,6 +269,7 @@ public class taules_client extends ActionBarActivity{
             if (DAOTaulesClient.Esborrar(l_TaulaClient.Codi, Jo, false)) {
                 // Refresquem la llista
                 DAOTaulesClient.Llegir(g_LVW_Taules, R.layout.linia_lvw_llista_taules_client, Jo);
+                g_Posicio = -1;
             }
         }
         else {

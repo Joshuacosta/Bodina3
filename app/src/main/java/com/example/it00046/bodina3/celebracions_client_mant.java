@@ -13,11 +13,16 @@ import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -32,6 +37,8 @@ import com.example.it00046.bodina3.Classes.Params.PARCelebracioClient;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNSalonsClient;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNTipusCelebracio;
 import com.example.it00046.bodina3.Classes.Validacio;
+import com.melnykov.fab.FloatingActionButton;
+
 import java.util.Calendar;
 
 
@@ -40,13 +47,18 @@ public class celebracions_client_mant extends ActionBarActivity {
     private EditText g_ETX_Contacte, g_ETX_Lloc, g_ETX_Descripcio, g_ETX_NumConvidats;
     private Spinner g_SPN_Salo, g_SPN_TipusCelebracio;
     private TextView g_TXT_Data, g_TXT_Hora, g_TXT_TipusCelebracio, g_TXT_Salo;
+    private ListView g_LVW_DistribucionsClient;
     private Context Jo = this;
     private String g_Operativa = "Alta";
     private Calendar g_CAL_DataCelebracio = null, g_CAL_HoraCelebracio = null;
+    static final int g_RQC_DISTRIBUCIO_CLIENT_ALTA = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         final ImageButton l_IMB_Data, l_IMB_Temps;
+        FloatingActionButton l_FLB_DistribucioClient;
+        final Animation l_Animacio;
+        FrameLayout l_FLY_Distribucions;
         PARCelebracioClient l_CelebracioClient;
         Intent l_intent = getIntent();
 
@@ -61,7 +73,7 @@ public class celebracions_client_mant extends ActionBarActivity {
                 Calendar l_Calendari = Calendar.getInstance();
 
                 // Si hi ha data definida la informem, sino mostrem el dia actual
-                if (g_CAL_DataCelebracio != null){
+                if (g_CAL_DataCelebracio != null) {
                     l_Any = g_CAL_DataCelebracio.get(Calendar.YEAR);
                     l_Mes = g_CAL_DataCelebracio.get(Calendar.MONTH);
                     l_Dia = g_CAL_DataCelebracio.get(Calendar.DAY_OF_MONTH);
@@ -129,26 +141,40 @@ public class celebracions_client_mant extends ActionBarActivity {
 
                 g_TXT_Salo.setError(null);
                 // Validem si superem la capacitat del salo si tenim indicat el numero de comensals
-                if (g_ETX_NumConvidats.getText().toString().trim().length() > 0){
+                if (g_ETX_NumConvidats.getText().toString().trim().length() > 0) {
                     l_SaloSeleccionat = (SPNSalonsClient) g_SPN_Salo.getSelectedItem();
-                    if (Integer.parseInt(g_ETX_NumConvidats.getText().toString().trim()) > l_SaloSeleccionat.g_Salo.Capacitat){
+                    if (Integer.parseInt(g_ETX_NumConvidats.getText().toString().trim()) > l_SaloSeleccionat.g_Salo.Capacitat) {
                         g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.red));
                         g_ETX_NumConvidats.setError(Globals.g_Native.getString(R.string.error_CapacitatSuperada));
-                    }
-                    else{
+                    } else {
                         if (Integer.parseInt(g_ETX_NumConvidats.getText().toString().trim()) == l_SaloSeleccionat.g_Salo.Capacitat) {
                             g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.orange));
                             g_ETX_NumConvidats.setError(Globals.g_Native.getString(R.string.error_LimitCapacitat));
-                        }
-                        else{
+                        } else {
                             g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.black));
                             g_ETX_NumConvidats.setError(null);
                         }
                     }
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView parent) {
+            }
+        });
+        g_LVW_DistribucionsClient = (ListView) findViewById(R.id.celebracionsClientMantLVWDistribucions);
+        l_FLB_DistribucioClient = (FloatingActionButton) findViewById(R.id.celebracions_clientFLBAltaCelebracio);
+        l_FLB_DistribucioClient.attachToListView(g_LVW_DistribucionsClient);
+        l_Animacio = AnimationUtils.loadAnimation(this, R.anim.alpha_parpadeig);
+        l_FLB_DistribucioClient.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Intent l_Intent;
+
+                arg0.startAnimation(l_Animacio);
+                // Obrim la finestra de alta
+                l_Intent = new Intent(Jo, distribucions_client.class);
+                startActivityForResult(l_Intent, g_RQC_DISTRIBUCIO_CLIENT_ALTA);
             }
         });
         // Validem si estem fent un alta o una modificacio
@@ -188,7 +214,9 @@ public class celebracions_client_mant extends ActionBarActivity {
             }
         }
         else{
-            // Fem un alta (no cal fer res)
+            // Fem un alta, amaguem finestra de distribucions
+            l_FLY_Distribucions = (FrameLayout) findViewById(R.id.CelebracionsClientMantFRMDistribucions);
+            l_FLY_Distribucions.setVisibility(View.INVISIBLE);
         }
         // Codi de validacio dels camps de la finestra (fem servir la clase estatica Validacio)
         g_TXT_Data.addTextChangedListener(new TextWatcher() {

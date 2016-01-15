@@ -177,11 +177,12 @@ public class DAOTaulesClient {
         return l_resultat;
     }
 
-    // Per esborrar una taula validem previament que no es faci servir a cap distribucio
     public static boolean Esborrar(int p_Codi, final Context p_Context, boolean p_Tancam){
         boolean l_Resultat = true;
 
         Globals.MostrarEspera(p_Context);
+        // Per esborrar una taula validem previament que no es faci servir a cap distribucio
+
         try {
             Globals.g_DB.delete(TAG_TaulesClient,
                     TAG_Codi + "= " + p_Codi,

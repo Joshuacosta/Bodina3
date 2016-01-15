@@ -36,7 +36,7 @@ public class tipus_celebracions extends ActionBarActivity{
     static private int g_CodiModificacio;
     static private String g_Descripcio;
 
-    public static void MostraOperacio(final Activity p_activity, final boolean p_Alta)
+    public void MostraOperacio(final Activity p_activity, final boolean p_Alta)
     {
         final EditText l_input = new EditText(p_activity);
 
@@ -61,12 +61,14 @@ public class tipus_celebracions extends ActionBarActivity{
                             // Fem la insercio i si va be refresquem la llista
                             if (DAOTipusCelebracions.Afegir(l_TipusCelebracio, p_activity, false, false)) {
                                 DAOTipusCelebracions.Llegir(g_LVW_TipusCelebracions, R.layout.linia_lvw_llista_tipuscelebracions, p_activity);
+                                g_Posicio = -1;
                             }
                         }
                         else{
                             l_TipusCelebracio.Codi = g_CodiModificacio;
                             if (DAOTipusCelebracions.Modificar(l_TipusCelebracio, p_activity, false)){
                                 DAOTipusCelebracions.Llegir(g_LVW_TipusCelebracions, R.layout.linia_lvw_llista_tipuscelebracions, p_activity);
+                                g_Posicio = -1;
                             }
                         }
                     }
@@ -229,6 +231,7 @@ public class tipus_celebracions extends ActionBarActivity{
             if (DAOTipusCelebracions.Esborrar(l_TipusCelebracio.Codi, Jo, false)) {
                 // Refresquem la llista
                 DAOTipusCelebracions.Llegir(g_LVW_TipusCelebracions, R.layout.linia_lvw_llista_tipuscelebracions, Jo);
+                g_Posicio = -1;
             }
         }
         else {

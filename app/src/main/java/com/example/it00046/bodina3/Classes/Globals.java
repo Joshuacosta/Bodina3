@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.it00046.bodina3.Classes.DAO.DAOTaulesClient;
+import com.example.it00046.bodina3.Classes.DAO.DAOTipusCelebracions;
 import com.example.it00046.bodina3.Classes.Entitats.Client;
 import com.example.it00046.bodina3.Classes.Entitats.Entitat;
 import com.example.it00046.bodina3.R;
@@ -37,6 +39,7 @@ public final class Globals
 {
     // Variables
     public static Boolean g_NoHiHanDades = true;
+    public static Boolean g_BD_ValorsInicials = false;
     public static Client g_Client = new Client();
     public static Context g_Native;
     public static Context g_Recerca;
@@ -119,6 +122,11 @@ public final class Globals
     public static void CreateBBDD(){
         g_BBDD = new SQLDB(g_Native);
         g_DB = g_BBDD.getWritableDatabase();
+        if (Globals.g_BD_ValorsInicials) {
+            // Inserim valors de defecte de les taules
+            DAOTipusCelebracions.ValorsInicials();
+            DAOTaulesClient.ValorsInicials();
+        }
     }
 
     public static void TancarBBDD() {

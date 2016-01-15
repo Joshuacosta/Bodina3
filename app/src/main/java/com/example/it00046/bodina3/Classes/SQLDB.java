@@ -178,12 +178,9 @@ public class SQLDB extends SQLiteOpenHelper {
                 Globals.g_Native.getString(R.string.TTaulesClient_Estat));
         db.execSQL(l_Create);
         //
-        // Inserim valors de defecte de les taules
-        // Afegim els tipus basics de celebracio i taules
-        DAOTipusCelebracions.ValorsInicials();
-        DAOTaulesClient.ValorsInicials();
         // Si executem aixó es que hem creat la BBDD i no hi han dades, de moment:
         Globals.g_NoHiHanDades = true;
+        Globals.g_BD_ValorsInicials = true;
         //
     }
 
