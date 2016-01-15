@@ -161,7 +161,9 @@ public class celebracions_client_mant extends ActionBarActivity {
             g_ETX_Lloc.setText(l_CelebracioClient.Lloc);
             g_ETX_Contacte.setText(l_CelebracioClient.Contacte);
             g_TXT_Data.setText(Globals.MilliDataToString(l_CelebracioClient.Data));
+            g_CAL_DataCelebracio.setTimeInMillis(l_CelebracioClient.Data);
             g_TXT_Hora.setText(Globals.MilliDataToString(l_CelebracioClient.Hora));
+            g_CAL_HoraCelebracio.setTimeInMillis(l_CelebracioClient.Hora);
             // Marquem en el Spinners els valors adequats
             ArrayAdapter<SPNSalonsClient> l_LlistaSalons = (ArrayAdapter<SPNSalonsClient>)g_SPN_Salo.getAdapter();
             for (int i=0; i < l_LlistaSalons.getCount(); i++){
