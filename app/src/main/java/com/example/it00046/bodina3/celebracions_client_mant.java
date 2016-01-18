@@ -163,7 +163,7 @@ public class celebracions_client_mant extends ActionBarActivity {
             }
         });
         g_LVW_DistribucionsClient = (ListView) findViewById(R.id.celebracionsClientMantLVWDistribucions);
-        l_FLB_DistribucioClient = (FloatingActionButton) findViewById(R.id.celebracions_clientFLBAltaCelebracio);
+        l_FLB_DistribucioClient = (FloatingActionButton) findViewById(R.id.celebracionsClientMantFLBAltaDistribucio);
         l_FLB_DistribucioClient.attachToListView(g_LVW_DistribucionsClient);
         l_Animacio = AnimationUtils.loadAnimation(this, R.anim.alpha_parpadeig);
         l_FLB_DistribucioClient.setOnClickListener(new Button.OnClickListener() {
@@ -173,7 +173,7 @@ public class celebracions_client_mant extends ActionBarActivity {
 
                 arg0.startAnimation(l_Animacio);
                 // Obrim la finestra de alta
-                l_Intent = new Intent(Jo, distribucions_client.class);
+                l_Intent = new Intent(Jo, distribucions_client_mant.class);
                 startActivityForResult(l_Intent, g_RQC_DISTRIBUCIO_CLIENT_ALTA);
             }
         });
@@ -215,8 +215,8 @@ public class celebracions_client_mant extends ActionBarActivity {
         }
         else{
             // Fem un alta, amaguem finestra de distribucions
-            l_FLY_Distribucions = (FrameLayout) findViewById(R.id.CelebracionsClientMantFRMDistribucions);
-            l_FLY_Distribucions.setVisibility(View.INVISIBLE);
+            //l_FLY_Distribucions = (FrameLayout) findViewById(R.id.CelebracionsClientMantFRMDistribucions);
+            //l_FLY_Distribucions.setVisibility(View.INVISIBLE);
         }
         // Codi de validacio dels camps de la finestra (fem servir la clase estatica Validacio)
         g_TXT_Data.addTextChangedListener(new TextWatcher() {

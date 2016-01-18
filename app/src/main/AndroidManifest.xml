@@ -36,15 +36,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".principal" />
         </activity>
-        <!-- Fill 2: Alta celebracio -->
-        <activity
-            android:name=".celebracions_client_mant"
-            android:label="@string/title_activity_CelebracionsClientMant"
-            android:parentActivityName=".principal" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".celebracions_client_pral" />
-        </activity>
         <!-- Fill 3: Entitats: SINGLE -->
         <activity
             android:name=".entitat_pral"
@@ -64,6 +55,24 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".principal" />
+        </activity>
+        <!-- 4.0 Celebracions del client.Manteniment -->
+        <activity
+            android:name=".celebracions_client_mant"
+            android:label="@string/title_activity_CelebracionsClientMant"
+            android:parentActivityName=".principal" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".celebracions_client_pral" />
+        </activity>
+        <!-- 4.0 Celebracions del client.Manteniment.Distribucio -->
+        <activity
+            android:name=".distribucions_client_mant"
+            android:screenOrientation="landscape"
+            android:label="@string/title_activity_DistribucionsClientMant">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".celebracions_client_mant" />
         </activity>
         <!-- 4.1 Celebracions del client.Salons del client -->
         <activity

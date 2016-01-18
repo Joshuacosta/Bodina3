@@ -23,7 +23,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.it00046.bodina3.Classes.DAO.DAODistribucionsClient;
 import com.example.it00046.bodina3.Classes.DAO.DAOSalonsClient;
 import com.example.it00046.bodina3.Classes.DistribucioEdicio;
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
@@ -32,9 +31,7 @@ import com.example.it00046.bodina3.Classes.Feina.texte;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.Params.PARSaloClient;
 import com.example.it00046.bodina3.Classes.Params.PARSaloPlanolClient;
-import com.example.it00046.bodina3.Classes.PlanolEdicio;
 import com.example.it00046.bodina3.Classes.Validacio;
-import com.example.it00046.bodina3.R;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -43,7 +40,7 @@ import java.util.ArrayList;
 /**
  * Created by it00046 on 05/10/2015.
  */
-public class distribucions_client extends ActionBarActivity {
+public class distribucions_client_mant extends ActionBarActivity {
     Context Jo = this;
     EditText g_NomSalo, g_Descripcio, g_Capacitat;
     DistribucioEdicio g_Draw;
@@ -62,7 +59,7 @@ public class distribucions_client extends ActionBarActivity {
         Intent l_intent = getIntent();
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.distribucions_client);
+        setContentView(R.layout.distribucions_client_mant);
         // Recuperem controls
         g_Draw = (DistribucioEdicio) findViewById(R.id.DistribucionsClientVIWDrawing);
         g_Draw.g_Pare = Jo;

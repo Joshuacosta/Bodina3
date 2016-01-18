@@ -130,6 +130,9 @@
     <string name="CelebracionsClientMantTXTContacte">Contact</string>
     <string name="CelebracionsClientMantTXTDistribucions">Distributions</string>
 
+    <!-- Layout distribucions client manteniment -->
+    <string name="title_activity_DistribucionsClientMant">Client distribution</string>
+
     <!-- Layout salons client -->
     <string name="title_activity_salons_client">Saloons client</string>
     <string name="SalonsClientPralMNUAfegir">Add saloon</string>

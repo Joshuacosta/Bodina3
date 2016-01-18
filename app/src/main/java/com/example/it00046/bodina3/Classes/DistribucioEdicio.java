@@ -332,9 +332,11 @@ public class DistribucioEdicio extends RelativeLayout {
                 l_TaulaPoint.offset(g_mPosX, g_mPosY);
                 // Validant si volen esborrar el texte
                 if (g_TaulesDistribucio.get(l).Esborrantse == false) {
-                    canvas.drawCircle(l_TaulaPoint.x, l_TaulaPoint.y, 10, g_PaintNormal);
+                    g_TaulesDistribucio.get(l).draw(canvas, g_PaintNormal, true);
+                    //canvas.drawCircle(l_TaulaPoint.x, l_TaulaPoint.y, 10, g_PaintNormal);
                 } else {
-                    canvas.drawCircle(l_TaulaPoint.x, l_TaulaPoint.y, 10, g_PaintFinal);
+                    g_TaulesDistribucio.get(l).draw(canvas, g_PaintFinal, true);
+                    //canvas.drawCircle(l_TaulaPoint.x, l_TaulaPoint.y, 10, g_PaintFinal);
                 }
                 // Movem el Detector per si s'ha desplaçat el canvas
                 g_TaulesDistribucio.get(l).Detector.offset(Math.round(g_mPosX), Math.round(g_mPosY));
@@ -831,6 +833,10 @@ public class DistribucioEdicio extends RelativeLayout {
         l_Taula.Esborrat = false;
         l_Taula.Esborrantse = false;
         g_TaulesDistribucio.add(l_Taula);
+    }
+
+    public void PosaTaulaView(PointF p_PuntDonat){
+
     }
 
     public void DibuixaPlanol(ArrayList<SaloClient.DetallPlanol> p_Planol){
