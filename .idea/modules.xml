@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Bodina3NOU.iml" filepath="$PROJECT_DIR$/Bodina3NOU.iml" />
-      <module fileurl="file://$PROJECT_DIR$/BodinaW.iml" filepath="$PROJECT_DIR$/BodinaW.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

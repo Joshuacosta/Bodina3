@@ -25,7 +25,9 @@ import android.widget.RelativeLayout;
 
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
 import com.example.it00046.bodina3.Classes.Feina.linia;
+import com.example.it00046.bodina3.Classes.Feina.llista_taules;
 import com.example.it00046.bodina3.Classes.Feina.taula;
+import com.example.it00046.bodina3.Classes.Feina.taulaGraf;
 import com.example.it00046.bodina3.Classes.Feina.texte;
 import com.example.it00046.bodina3.R;
 
@@ -81,7 +83,8 @@ public class DistribucioEdicio extends RelativeLayout {
     // Array per guardar els textes del planol
     static public ArrayList<texte> g_TextesPlanol = new ArrayList<>();
     // Array per guardar les taules que dibuixem
-    static public ArrayList<taula> g_TaulesDistribucio = new ArrayList<>();
+    //static public ArrayList<taula> g_TaulesDistribucio = new ArrayList<>();
+    static public llista_taules g_TaulesDistribucio = new llista_taules();
 
     public DistribucioEdicio(Context p_Context, AttributeSet p_Attrs) {
         super(p_Context, p_Attrs);
@@ -325,21 +328,21 @@ public class DistribucioEdicio extends RelativeLayout {
         }
         // ///////////////////////////////////////////////////////////////////////////////////////
         // Pintem taules
-        for (int l=0; l < g_TaulesDistribucio.size(); l++){
+        for (int l=0; l < g_TaulesDistribucio.Tamany(); l++){
             // Validem que la taula no estigui esborrada
-            if (g_TaulesDistribucio.get(l).Esborrat == false) {
-                l_TaulaPoint = g_TaulesDistribucio.get(l).Punt;
+            if (g_TaulesDistribucio.element(l).Esborrat == false) {
+                l_TaulaPoint = g_TaulesDistribucio.element(l).Punt;
                 l_TaulaPoint.offset(g_mPosX, g_mPosY);
                 // Validant si volen esborrar el texte
-                if (g_TaulesDistribucio.get(l).Esborrantse == false) {
-                    g_TaulesDistribucio.get(l).draw(canvas, g_PaintNormal, true);
+                if (g_TaulesDistribucio.element(l).Esborrantse == false) {
+                    g_TaulesDistribucio.element(l).draw(canvas, g_PaintNormal);
                     //canvas.drawCircle(l_TaulaPoint.x, l_TaulaPoint.y, 10, g_PaintNormal);
                 } else {
-                    g_TaulesDistribucio.get(l).draw(canvas, g_PaintFinal, true);
+                    g_TaulesDistribucio.element(l).draw(canvas, g_PaintFinal);
                     //canvas.drawCircle(l_TaulaPoint.x, l_TaulaPoint.y, 10, g_PaintFinal);
                 }
                 // Movem el Detector per si s'ha desplaçat el canvas
-                g_TaulesDistribucio.get(l).Detector.offset(Math.round(g_mPosX), Math.round(g_mPosY));
+                g_TaulesDistribucio.element(l).Detector.offset(Math.round(g_mPosX), Math.round(g_mPosY));
             }
         }
         //
@@ -454,17 +457,31 @@ public class DistribucioEdicio extends RelativeLayout {
                                 FinestraTexte(Globals.g_Native.getResources().getString(R.string.Text));
                             }
                             break;
+
                         case taula:
                             l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
                                     Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
-                            l_Taula = MarquemTaula(l_Detector);
-                            if (l_Taula != null) {
-                                g_TaulaSeleccionada = l_Taula;
+                            // Validem que no tinguem marcada una taula
+                            if (g_TaulaSeleccionada == null) {
+                                l_Taula = MarquemTaula(l_Detector);
+                                if (l_Taula != null) {
+                                    g_TaulaSeleccionada = l_Taula;
+                                } else {
+                                    // Afegim una taula a la distribucio
+                                    PosaTaula(l_ActualPoint);
+                                    g_TaulaSeleccionada = null;
+                                }
                             }
-                            else {
-                                // Afegim una taula a la distribucio
-                                g_TaulaSeleccionada = null;
-                                PosaTaula(l_ActualPoint);
+                            else{
+                                // Tenim una taula seleccionada, validem si l'usuari esta marcant
+                                // el moviment, sino, desmarcarem la taula.
+                                if (g_TaulaSeleccionada.DetectorButo.intersect(l_Detector)){
+                                    ;// Ok
+                                }
+                                else{
+                                    g_TaulesDistribucio.DesmarcarActives();
+                                    g_TaulaSeleccionada = null;
+                                }
                             }
                             break;
                     }
@@ -535,6 +552,24 @@ public class DistribucioEdicio extends RelativeLayout {
                                 }
                                 else {
                                     g_TexteSeleccionat.Esborrantse = false;
+                                }
+                                invalidate();
+                            }
+                            break;
+
+                        case taula:
+                            if (g_TaulaSeleccionada != null) {
+                                // Movem el punt que posiciona el texte i el detector
+                                g_TaulesDistribucio.element(g_TaulaSeleccionada.Id).Punt = new PointF(l_ActualPoint.x, l_ActualPoint.y - 50);
+                                g_TaulesDistribucio.element(g_TaulaSeleccionada.Id).Detector.offsetTo(Math.round(l_ActualPoint.x), Math.round(l_ActualPoint.y) + 20);
+                                // Validem si ens volen esborrar
+                                l_Esborrar = new Rect();
+                                g_IMB_Esborrar.getHitRect(l_Esborrar);
+                                if (g_TaulaSeleccionada.Detector.intersect(l_Esborrar)) {
+                                    g_TaulaSeleccionada.Esborrantse = true;
+                                }
+                                else {
+                                    g_TaulaSeleccionada.Esborrantse = false;
                                 }
                                 invalidate();
                             }
@@ -759,16 +794,19 @@ public class DistribucioEdicio extends RelativeLayout {
     private taula MarquemTaula(Rect P_Posicio){
         taula l_Marcat = null;
 
-        for (int i=0; i < g_TaulesDistribucio.size(); i++){
-            if (P_Posicio.intersect(g_TaulesDistribucio.get(i).Detector)){
-                l_Marcat = g_TaulesDistribucio.get(i);
+        g_TaulesDistribucio.DesmarcarActives();
+
+        for (int i=0; i < g_TaulesDistribucio.Tamany(); i++){
+            if (P_Posicio.intersect(g_TaulesDistribucio.element(i).Detector)){
+                l_Marcat = g_TaulesDistribucio.element(i);
+                g_TaulesDistribucio.Activar(i);
                 break;
             }
         }
         return l_Marcat;
     }
 
-    private void FinestraTexte(final String p_Texte){
+    private void FinestraTexte(final String p_Texte) {
         final EditText l_Input;
 
         l_Input = new EditText(g_Pare);
@@ -820,23 +858,22 @@ public class DistribucioEdicio extends RelativeLayout {
     }
 
     public void PosaTaula(PointF p_PuntDonat){
-        taula l_Taula = new taula();
+        taula l_Taula = new taula(true);
+        taulaGraf l_TaulaGraf = new taulaGraf(g_Pare);
         Rect l_Detector = new Rect();
 
+        // Desmarco si hi ha alguna ctiva
+        g_TaulesDistribucio.DesmarcarActives();
         // Definim el detector
         l_Detector = new Rect(Math.round(p_PuntDonat.x), Math.round(p_PuntDonat.y),
-                              Math.round(p_PuntDonat.x) + 20, Math.round(p_PuntDonat.y) + 20);
+                              Math.round(p_PuntDonat.x) + 30, Math.round(p_PuntDonat.y) + 30);
         // Definim la taula
-        l_Taula.Id = g_TaulesDistribucio.size();
+        l_Taula.Id = g_TaulesDistribucio.Tamany();
         l_Taula.Detector = l_Detector;
         l_Taula.Punt = p_PuntDonat;
         l_Taula.Esborrat = false;
         l_Taula.Esborrantse = false;
-        g_TaulesDistribucio.add(l_Taula);
-    }
-
-    public void PosaTaulaView(PointF p_PuntDonat){
-
+        g_TaulesDistribucio.Afegir(l_Taula);
     }
 
     public void DibuixaPlanol(ArrayList<SaloClient.DetallPlanol> p_Planol){

@@ -1,7 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/iddistribucions_client_mant">
 
     <com.example.it00046.bodina3.Classes.DistribucioEdicio
         android:id="@+id/DistribucionsClientVIWDrawing"

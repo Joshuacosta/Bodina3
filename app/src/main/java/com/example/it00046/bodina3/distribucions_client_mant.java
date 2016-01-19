@@ -17,7 +17,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -404,5 +407,13 @@ public class distribucions_client_mant extends ActionBarActivity {
                 DAOSalonsClient.Modificar(l_SaloClient, Jo, true);
             }
         }
+    }
+
+    public void MostrarBotonsTaula(){
+        Button b = new Button(this);
+        RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        rl.addRule(RelativeLayout.ALIGN_BOTTOM);
+        b.setLayoutParams(rl);
+        //((RelativeLayout) findViewById(R.id.iddistribucions_client_mant)).addView(b);
     }
 }
