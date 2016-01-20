@@ -17,18 +17,26 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 
+import com.example.it00046.bodina3.Classes.DAO.DAOTaulesClient;
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
+import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
 import com.example.it00046.bodina3.Classes.Feina.linia;
 import com.example.it00046.bodina3.Classes.Feina.llista_taules;
 import com.example.it00046.bodina3.Classes.Feina.taula;
 import com.example.it00046.bodina3.Classes.Feina.taulaGraf;
 import com.example.it00046.bodina3.Classes.Feina.texte;
+import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNTaulesClient;
 import com.example.it00046.bodina3.R;
 
 import java.util.ArrayList;
@@ -55,6 +63,9 @@ public class DistribucioEdicio extends RelativeLayout {
     private Paint g_PaintNormal, g_PaintFinal, g_PaintCanvas, g_PaintText, g_PaintQuadricula;
     private Paint g_PaintTextDistanciaBase, g_PaintTextDistancia, g_PaintTextEsborrantse;
     private Paint g_PaintLiniaAjuda;
+    //
+    private boolean g_TaulaDefecteDefinida = false;
+    private TaulaClient g_TaulaDefecte = null;
     // Controlador de events
     private GestureDetector g_GestureDetector;
     // Canvas i Bitmap
@@ -466,10 +477,17 @@ public class DistribucioEdicio extends RelativeLayout {
                                 l_Taula = MarquemTaula(l_Detector);
                                 if (l_Taula != null) {
                                     g_TaulaSeleccionada = l_Taula;
-                                } else {
-                                    // Afegim una taula a la distribucio
-                                    PosaTaula(l_ActualPoint);
+                                }
+                                else {
                                     g_TaulaSeleccionada = null;
+                                    // Afegim una taula a la distribucio si treballem amb taula per defecte
+                                    if (g_TaulaDefecteDefinida) {
+                                        PosaTaula(l_ActualPoint, g_TaulaDefecte);
+                                    }
+                                    else{
+                                        // Hem de preguntar quina taula posem
+                                        FinestraTaules(l_ActualPoint);
+                                    }
                                 }
                             }
                             else{
@@ -833,6 +851,53 @@ public class DistribucioEdicio extends RelativeLayout {
         g_alertDialogBuilder.show();
     }
 
+    // Mostrem les taules que pot triar per disposar a la distribucio (on ha pres)
+    private void FinestraTaules(final PointF p_Punt) {
+        // Mostrem la finestra de configuracio
+        final Spinner l_SPN_Taules;
+        final CheckBox l_CBX_TaulaDefecte;
+        ArrayAdapter<CharSequence> l_adapter_Taules;
+        //LayoutInflater inflater = (LayoutInflater) g_Pare.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        LayoutInflater inflater = LayoutInflater.from(g_Pare);
+        View l_VIW_Config = inflater.inflate(R.layout.distribucions_client_mant_dialog_config, null);
+
+        // CheckBox
+        l_CBX_TaulaDefecte = (CheckBox) l_VIW_Config.findViewById(R.id.DistribucionsClientMantDialogTaulesCBXTaulaDefecte);
+        // Spinner
+        l_SPN_Taules = (Spinner) l_VIW_Config.findViewById(R.id.DistribucionsClientMantDialogConfigSPNTaules);
+        DAOTaulesClient.Llegir(l_SPN_Taules, g_Pare);
+        //
+        AlertDialog.Builder g_DialogConfiguracio = new AlertDialog.Builder(g_Pare);
+        g_DialogConfiguracio.setTitle(Globals.g_Native.getString(R.string.DistribucionsClientMantLABConfiguracioTriaTaula));
+        g_DialogConfiguracio.setView(l_VIW_Config);
+        g_DialogConfiguracio
+                .setCancelable(false)
+                .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface p_dialog, int which) {
+                        // Recuperem taula triada
+                        SPNTaulesClient l_TaulaTriada = (SPNTaulesClient) l_SPN_Taules.getSelectedItem();
+                        if (l_TaulaTriada != null) {
+                            PosaTaula(p_Punt, l_TaulaTriada.g_Taula);
+                            // Llegim configuracio definida
+                            if (l_CBX_TaulaDefecte.isChecked()) {
+                                g_TaulaDefecteDefinida = true;
+                                g_TaulaDefecte = l_TaulaTriada.g_Taula;
+                            }
+                            invalidate();
+                        } else {
+                            // No s'ha triat cap taula, no fem res
+                        }
+                    }
+                })
+                .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface p_dialog, int p_id) {
+                    }
+                });
+        g_DialogConfiguracio.show();
+    }
+
+
     public texte EscriuTexte(EditText P_TexteDonat, PointF p_PuntDonat){
         // Afegim el texte que ha introduit l'usuari, el posem al mig sino s'indica un altre,
         // el usuari el podra moure
@@ -857,14 +922,13 @@ public class DistribucioEdicio extends RelativeLayout {
         return l_Texte;
     }
 
-    public void PosaTaula(PointF p_PuntDonat){
+    public void PosaTaula(PointF p_PuntDonat, TaulaClient P_Taula){
         taula l_Taula = new taula(true);
-        taulaGraf l_TaulaGraf = new taulaGraf(g_Pare);
         Rect l_Detector = new Rect();
 
         // Desmarco si hi ha alguna ctiva
         g_TaulesDistribucio.DesmarcarActives();
-        // Definim el detector
+        // Definim el detector de la taula
         l_Detector = new Rect(Math.round(p_PuntDonat.x), Math.round(p_PuntDonat.y),
                               Math.round(p_PuntDonat.x) + 30, Math.round(p_PuntDonat.y) + 30);
         // Definim la taula
@@ -873,6 +937,7 @@ public class DistribucioEdicio extends RelativeLayout {
         l_Taula.Punt = p_PuntDonat;
         l_Taula.Esborrat = false;
         l_Taula.Esborrantse = false;
+        l_Taula.Taula = P_Taula;
         g_TaulesDistribucio.Afegir(l_Taula);
     }
 

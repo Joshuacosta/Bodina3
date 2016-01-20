@@ -45,10 +45,10 @@ import java.util.ArrayList;
  */
 public class distribucions_client_mant extends ActionBarActivity {
     Context Jo = this;
-    EditText g_NomSalo, g_Descripcio, g_Capacitat;
+    EditText g_NomSalo;
     DistribucioEdicio g_Draw;
     String g_ModusFeina = Globals.k_OPE_Alta;
-    int g_CodiSaloModificacio;
+    int g_CodiSalo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,8 @@ public class distribucions_client_mant extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.distribucions_client_mant);
+        // Recuperem el codi del salo per poder construir el planol del mateix
+        g_CodiSalo = l_intent.getIntExtra("CodiSaloCelebracioClient", 0);
         // Recuperem controls
         g_Draw = (DistribucioEdicio) findViewById(R.id.DistribucionsClientVIWDrawing);
         g_Draw.g_Pare = Jo;
@@ -70,8 +72,6 @@ public class distribucions_client_mant extends ActionBarActivity {
         g_Draw.g_IMB_Esborrar = l_IMB_Esborrar;
         l_IMB_Ajuda = (ImageButton) findViewById(R.id.DistribucionsClientIMBAjuda);
         g_NomSalo = (EditText) findViewById(R.id.DistribucionsClientTXTNom);
-        g_Descripcio = (EditText) findViewById(R.id.DistribucionsClientTXTDescripcio);
-        g_Capacitat = (EditText) findViewById(R.id.DistribucionsClientTXTCapacitat);
         // Validem si estem fent un alta o una modificacio
         l_SaloClient = (PARSaloClient) l_intent.getSerializableExtra("SaloClient");
         if (l_SaloClient != null){
@@ -79,15 +79,11 @@ public class distribucions_client_mant extends ActionBarActivity {
             g_ModusFeina = Globals.k_OPE_Update;
             // Informem les dades i dibuixen el planol si ho te
             g_NomSalo.setText(l_SaloClient.Nom);
-            g_Descripcio.setText(l_SaloClient.Descripcio);
-            if (l_SaloClient.Capacitat != Globals.k_CapacitatSenseDefinir) {
-                g_Capacitat.setText(Integer.toString(l_SaloClient.Capacitat));
-            }
             // Parametres globals
             g_Draw.g_UnitatsPlanol = l_SaloClient.UnitatsPlanol;
             g_Draw.g_EscalaPlanol = l_SaloClient.EscalaPlanol;
             //
-            g_CodiSaloModificacio = l_SaloClient.Codi;
+            g_CodiSalo = l_SaloClient.Codi;
             l_PlanolClient = (ArrayList<PARSaloPlanolClient>) l_intent.getSerializableExtra("PlanolSalo");
             if (l_PlanolClient != null) {
                 ArrayList<SaloClient.DetallPlanol> l_Planol = new ArrayList<>();
@@ -125,17 +121,6 @@ public class distribucions_client_mant extends ActionBarActivity {
             public void onClick(View arg0) {
             // Tanquem el altre menu i ens obrim
             l_FLM_Eines.toggle(true);
-            }
-        });
-        // Sub-menus
-        l_FLB_Texte = (FloatingActionButton) findViewById(R.id.DistribucionsClientFLBTexte);
-        l_FLB_Texte.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                g_Draw.g_ModusDibuix = DistribucioEdicio.g_Modus.texte;
-                // Cambien el icon de eines
-                l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_format_color_text_white_24dp));
-                l_FLM_Eines.close(true);
             }
         });
         l_FLB_Recta = (FloatingActionButton) findViewById(R.id.DistribucionsClientFLBRecta);
@@ -361,13 +346,6 @@ public class distribucions_client_mant extends ActionBarActivity {
         // Validem finestra
         if (ValidarFinestra()) {
             l_SaloClient.Nom = g_NomSalo.getText().toString();
-            l_SaloClient.Descripcio = g_Descripcio.getText().toString();
-            if (g_Capacitat.getText().toString() != "") {
-                l_SaloClient.Capacitat = Integer.valueOf(g_Capacitat.getText().toString());
-            }
-            else{
-                l_SaloClient.Capacitat = Globals.k_CapacitatSenseDefinir;
-            }
             // Llegim les linies del planol
             for (i = 0; i < g_Draw.g_LiniesPlanol.size(); i++) {
                 l_Linia = g_Draw.g_LiniesPlanol.get(i);
@@ -403,7 +381,7 @@ public class distribucions_client_mant extends ActionBarActivity {
                 DAOSalonsClient.Afegir(l_SaloClient, Jo, true, true);
             }
             else{
-                l_SaloClient.Codi = g_CodiSaloModificacio;
+                l_SaloClient.Codi = g_CodiSalo;
                 DAOSalonsClient.Modificar(l_SaloClient, Jo, true);
             }
         }

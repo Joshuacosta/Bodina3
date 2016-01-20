@@ -57,10 +57,10 @@
             fab:fab_label="@string/SalonsClientPlanolLABConfiguracio"/>
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/DistribucionsClientFLBTexte"
+            android:id="@+id/DistribucionsClientFLBMoure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_format_color_text_white_24dp"
+            android:src="@drawable/ic_ma_blanc_24"
             fab:fab_size="mini"
             fab:fab_showShadow="false"
             fab:fab_label="@string/SalonsClientPlanolLABTexte" />
@@ -97,24 +97,8 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:maxLength="20"
-            android:hint="@string/SalonsClientAltaTXTNom" />
+            android:hint="@string/DistribucionsClientMantTXTNom" />
 
-        <EditText
-            android:id="@+id/DistribucionsClientTXTDescripcio"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:maxLength="50"
-            android:hint="@string/SalonsClientAltaTXTDescripcio" />
-
-        <EditText
-            android:id="@+id/DistribucionsClientTXTCapacitat"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:maxLength="4"
-            android:inputType="number"
-            android:hint="@string/SalonsClientAltaTXTCapacitat" />
     </LinearLayout>
 
 </FrameLayout>

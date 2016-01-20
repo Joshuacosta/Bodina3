@@ -49,8 +49,9 @@ public class celebracions_client_mant extends ActionBarActivity {
     private TextView g_TXT_Data, g_TXT_Hora, g_TXT_TipusCelebracio, g_TXT_Salo;
     private ListView g_LVW_DistribucionsClient;
     private Context Jo = this;
-    private String g_Operativa = "Alta";
+    private String g_Operativa = "Modificacio";
     private Calendar g_CAL_DataCelebracio = null, g_CAL_HoraCelebracio = null;
+    private PARCelebracioClient g_CelebracioClient;
     static final int g_RQC_DISTRIBUCIO_CLIENT_ALTA = 1;
 
     @Override
@@ -59,7 +60,6 @@ public class celebracions_client_mant extends ActionBarActivity {
         FloatingActionButton l_FLB_DistribucioClient;
         final Animation l_Animacio;
         FrameLayout l_FLY_Distribucions;
-        PARCelebracioClient l_CelebracioClient;
         Intent l_intent = getIntent();
 
         super.onCreate(savedInstanceState);
@@ -172,30 +172,33 @@ public class celebracions_client_mant extends ActionBarActivity {
                 Intent l_Intent;
 
                 arg0.startAnimation(l_Animacio);
-                // Obrim la finestra de alta
+                // Obrim la finestra de distribucions, informem del codi de planol
                 l_Intent = new Intent(Jo, distribucions_client_mant.class);
+                l_Intent.putExtra("CodiSaloCelebracioClient", g_CelebracioClient.CodiSalo);
                 startActivityForResult(l_Intent, g_RQC_DISTRIBUCIO_CLIENT_ALTA);
             }
         });
         // Validem si estem fent un alta o una modificacio
-        l_CelebracioClient = (PARCelebracioClient) l_intent.getSerializableExtra("CelebracioClient");
-        if (l_CelebracioClient != null) {
+        g_CelebracioClient = (PARCelebracioClient) l_intent.getSerializableExtra("CelebracioClient");
+        if (g_CelebracioClient != null) {
             g_Operativa = "Modificacio";
             // Estem modificant, carreguem dades
-            g_ETX_Descripcio.setText(l_CelebracioClient.Descripcio);
-            g_ETX_NumConvidats.setText(Integer.toString(l_CelebracioClient.Convidats));
-            g_ETX_Lloc.setText(l_CelebracioClient.Lloc);
-            g_ETX_Contacte.setText(l_CelebracioClient.Contacte);
-            g_TXT_Data.setText(Globals.MilliDataToString(l_CelebracioClient.Data));
-            g_CAL_DataCelebracio.setTimeInMillis(l_CelebracioClient.Data);
-            g_TXT_Hora.setText(Globals.MilliDataToString(l_CelebracioClient.Hora));
-            g_CAL_HoraCelebracio.setTimeInMillis(l_CelebracioClient.Hora);
+            g_ETX_Descripcio.setText(g_CelebracioClient.Descripcio);
+            g_ETX_NumConvidats.setText(Integer.toString(g_CelebracioClient.Convidats));
+            g_ETX_Lloc.setText(g_CelebracioClient.Lloc);
+            g_ETX_Contacte.setText(g_CelebracioClient.Contacte);
+            g_TXT_Data.setText(Globals.MilliDataToString(g_CelebracioClient.Data));
+            g_CAL_DataCelebracio = Calendar.getInstance();
+            g_CAL_DataCelebracio.setTimeInMillis(g_CelebracioClient.Data);
+            g_TXT_Hora.setText(Globals.MilliHoraToString(g_CelebracioClient.Hora));
+            g_CAL_HoraCelebracio = Calendar.getInstance();
+            g_CAL_HoraCelebracio.setTimeInMillis(g_CelebracioClient.Hora);
             // Marquem en el Spinners els valors adequats
             ArrayAdapter<SPNSalonsClient> l_LlistaSalons = (ArrayAdapter<SPNSalonsClient>)g_SPN_Salo.getAdapter();
             for (int i=0; i < l_LlistaSalons.getCount(); i++){
                 SPNSalonsClient l_Element = l_LlistaSalons.getItem(i);
                 if (l_Element.g_Salo != null){
-                    if (l_Element.g_Salo.Codi == l_CelebracioClient.CodiSalo) {
+                    if (l_Element.g_Salo.Codi == g_CelebracioClient.CodiSalo) {
                         g_SPN_Salo.setSelection(i);
                         break;
                     }
@@ -206,7 +209,7 @@ public class celebracions_client_mant extends ActionBarActivity {
             for (int i=0; i < l_LlistaTipus.getCount(); i++){
                 SPNTipusCelebracio l_Element = l_LlistaTipus.getItem(i);
                 if (l_Element.g_Tipus != null){
-                    if (l_Element.g_Tipus.Codi == l_CelebracioClient.Tipus) {
+                    if (l_Element.g_Tipus.Codi == g_CelebracioClient.Tipus) {
                         g_SPN_TipusCelebracio.setSelection(i);
                         break;
                     }
@@ -214,9 +217,12 @@ public class celebracions_client_mant extends ActionBarActivity {
             }
         }
         else{
+            g_Operativa = "Alta";
             // Fem un alta, amaguem finestra de distribucions
-            //l_FLY_Distribucions = (FrameLayout) findViewById(R.id.CelebracionsClientMantFRMDistribucions);
-            //l_FLY_Distribucions.setVisibility(View.INVISIBLE);
+            l_FLY_Distribucions = (FrameLayout) findViewById(R.id.CelebracionsClientMantFRMDistribucions);
+            l_FLY_Distribucions.setVisibility(View.INVISIBLE);
+            // Amaguem la opcio de afegir distribucio
+            this.invalidateOptionsMenu();
         }
         // Codi de validacio dels camps de la finestra (fem servir la clase estatica Validacio)
         g_TXT_Data.addTextChangedListener(new TextWatcher() {
@@ -345,7 +351,11 @@ public class celebracions_client_mant extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.celebracions_client_alta, menu);
+        getMenuInflater().inflate(R.menu.celebracions_client_mant, menu);
+        if (g_Operativa == "Alta"){
+            MenuItem mnu_AfegirDistribucio = menu.findItem(R.id.CelebracionsClientMantMNUAfegirDistribucio);
+            mnu_AfegirDistribucio.setVisible(false);
+        }
         return true;
     }
 
@@ -355,11 +365,17 @@ public class celebracions_client_mant extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        Intent l_Intent;
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.CelebracionsClientAltaMNUAcceptar) {
-            FerOperativa();
-            return true;
+        switch (id){
+            case R.id.CelebracionsClientMantMNUAfegirDistribucio:
+                l_Intent = new Intent(Jo, distribucions_client_mant.class);
+                l_Intent.putExtra("CodiSaloCelebracioClient", g_CelebracioClient.CodiSalo);
+                startActivityForResult(l_Intent, g_RQC_DISTRIBUCIO_CLIENT_ALTA);
+                break;
+            case R.id.CelebracionsClientMantMNUAcceptar:
+                FerOperativa();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

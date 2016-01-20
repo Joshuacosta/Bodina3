@@ -38,7 +38,6 @@ public class taula {
     private BitmapDrawable b1;
     public Rect DetectorButo;
 
-
     private Drawable mCustomImage;
 
     public taula(boolean p_Actiu) {
@@ -53,7 +52,7 @@ public class taula {
         //
         p = new Paint();
         p.setColor(Color.RED);
-        b = BitmapFactory.decodeResource(Globals.g_Native.getResources(), R.drawable.ic_mode_edit_black_36dp);
+        b = BitmapFactory.decodeResource(Globals.g_Native.getResources(), R.drawable.ic_ma_blanc_24);
         //b.setWidth(15);
         //b1 = new BitmapDrawable(Globals.g_Native.getResources(), b);
         DIB_Actiu = p_Actiu;
@@ -63,6 +62,7 @@ public class taula {
         if (DIB_Actiu) {
             p_Canvas.drawCircle(Punt.x, Punt.y, 20, p);
             bGraf = Bitmap.createScaledBitmap(b, 40, 40, false);
+            p_Canvas.drawCircle(Punt.x - 20, Punt.y - 20, 20, p_Paint);
             p_Canvas.drawBitmap(bGraf, Punt.x, Punt.y + 25, p);
             // Detector buto
             DetectorButo = new Rect(Math.round(Punt.x) - 20, (Math.round(Punt.y) + 25) - 20, Math.round(Punt.x) + 20, (Math.round(Punt.y) + 25) + 10);

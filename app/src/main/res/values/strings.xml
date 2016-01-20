@@ -129,9 +129,15 @@
     <string name="CelebracionsClientMantTXTLloc">Place</string>
     <string name="CelebracionsClientMantTXTContacte">Contact</string>
     <string name="CelebracionsClientMantTXTDistribucions">Distributions</string>
+    <string name="CelebracionsClientMantMNUAfegirDistribucio">Add distribution</string>
 
     <!-- Layout distribucions client manteniment -->
     <string name="title_activity_DistribucionsClientMant">Client distribution</string>
+    <string name="DistribucionsClientMantTXTNom">Name</string>
+    <string name="DistribucionsClientMantLABConfiguracio">Settings</string>
+    <string name="DistribucionsClientMantLABConfiguracioTriaTaula">Choose table</string>
+    <string name="DistribucionsClientMantDialogConfigCBXTaulaDefecte">Default table</string>
+    <string name="DistribucionsClientMantDialogConfigTXTTaules">Tables</string>
 
     <!-- Layout salons client -->
     <string name="title_activity_salons_client">Saloons client</string>
