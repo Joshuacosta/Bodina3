@@ -45,14 +45,14 @@ import java.util.ArrayList;
  */
 public class distribucions_client_mant extends ActionBarActivity {
     Context Jo = this;
-    EditText g_NomSalo;
+    EditText g_NomDistribucio;
     DistribucioEdicio g_Draw;
     String g_ModusFeina = Globals.k_OPE_Alta;
     int g_CodiSalo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FloatingActionButton l_FLB_Texte, l_FLB_Configuracio, l_FLB_Recta, l_FLB_Assistent;
+        FloatingActionButton l_FLB_Moure, l_FLB_Configuracio, l_FLB_Taula, l_FLB_Assistent;
         final FloatingActionMenu l_FLM_Eines;
         ImageButton l_IMB_Esborrar, l_IMB_Ajuda;
         final LayoutInflater inflater = getLayoutInflater();
@@ -63,57 +63,29 @@ public class distribucions_client_mant extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.distribucions_client_mant);
-        // Recuperem el codi del salo per poder construir el planol del mateix
-        g_CodiSalo = l_intent.getIntExtra("CodiSaloCelebracioClient", 0);
         // Recuperem controls
         g_Draw = (DistribucioEdicio) findViewById(R.id.DistribucionsClientVIWDrawing);
         g_Draw.g_Pare = Jo;
+        // Recuperem el codi del salo per poder construir el planol del mateix
+        // (aixó es indiferent de si fem una alta o modificacio de la distribucio de un client)
+        g_CodiSalo = l_intent.getIntExtra("CodiSaloCelebracioClient", 0);
+        g_Draw.g_CodiSalo = g_CodiSalo;
         l_IMB_Esborrar = (ImageButton) findViewById(R.id.DistribucionsClientIMBEsborrar);
         g_Draw.g_IMB_Esborrar = l_IMB_Esborrar;
         l_IMB_Ajuda = (ImageButton) findViewById(R.id.DistribucionsClientIMBAjuda);
-        g_NomSalo = (EditText) findViewById(R.id.DistribucionsClientTXTNom);
+        g_NomDistribucio = (EditText) findViewById(R.id.DistribucionsClientTXTNom);
         // Validem si estem fent un alta o una modificacio
-        l_SaloClient = (PARSaloClient) l_intent.getSerializableExtra("SaloClient");
+        l_SaloClient = (PARSaloClient) l_intent.getSerializableExtra("DistribucioClient");
         if (l_SaloClient != null){
             // Estem modificant
             g_ModusFeina = Globals.k_OPE_Update;
-            // Informem les dades i dibuixen el planol si ho te
-            g_NomSalo.setText(l_SaloClient.Nom);
-            // Parametres globals
-            g_Draw.g_UnitatsPlanol = l_SaloClient.UnitatsPlanol;
-            g_Draw.g_EscalaPlanol = l_SaloClient.EscalaPlanol;
-            //
-            g_CodiSalo = l_SaloClient.Codi;
-            l_PlanolClient = (ArrayList<PARSaloPlanolClient>) l_intent.getSerializableExtra("PlanolSalo");
-            if (l_PlanolClient != null) {
-                ArrayList<SaloClient.DetallPlanol> l_Planol = new ArrayList<>();
-                for (int i = 0; i < l_PlanolClient.size(); i++){
-                    SaloClient.DetallPlanol l_Detall = new SaloClient.DetallPlanol();
-                    PARSaloPlanolClient l_DetallParametre = new PARSaloPlanolClient();
-                    l_DetallParametre = l_PlanolClient.get(i);
-                    l_Detall.Tipus = l_DetallParametre.Tipus;
-                    l_Detall.OrigenX = l_DetallParametre.OrigenX;
-                    l_Detall.OrigenY = l_DetallParametre.OrigenY;
-                    l_Detall.DestiX = l_DetallParametre.DestiX;
-                    l_Detall.DestiY = l_DetallParametre.DestiY;
-                    l_Detall.CurvaX = l_DetallParametre.CurvaX;
-                    l_Detall.CurvaY = l_DetallParametre.CurvaY;
-                    l_Detall.Texte = l_DetallParametre.Texte;
-                    l_Planol.add(l_Detall);
-                }
-                g_Draw.DibuixaPlanol(l_Planol);
-            }
         }
         else{
-            g_Draw.g_EscalaPlanol = Globals.g_Native.getString(R.string.LlistaEscalaDefault);
-            g_Draw.g_UnitatsPlanol = Globals.g_Native.getString(R.string.LlistaUnitatsDefault);
+            g_ModusFeina = Globals.k_OPE_Alta;
         }
         // Accions dels FLB
         l_FLM_Eines = (FloatingActionMenu) findViewById(R.id.DistribucionsClientFLMEines);
-        // Inicialment dibuixem rectes
-        l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_dibuixar_rectes_mes24dp));
-
-        // DE MOMENT!!!!!!!!!!!!!!!!!!!!!!!!
+        // Inicialment treballem amb taules !!!!!!!!!!!!!!!!!!!!!!!!
         g_Draw.g_ModusDibuix = DistribucioEdicio.g_Modus.taula;
 
         l_FLM_Eines.setOnMenuButtonClickListener(new Button.OnClickListener() {
@@ -123,13 +95,25 @@ public class distribucions_client_mant extends ActionBarActivity {
             l_FLM_Eines.toggle(true);
             }
         });
-        l_FLB_Recta = (FloatingActionButton) findViewById(R.id.DistribucionsClientFLBRecta);
-        l_FLB_Recta.setOnClickListener(new Button.OnClickListener() {
+        // Boto de taules
+        l_FLB_Taula = (FloatingActionButton) findViewById(R.id.DistribucionsClientFLBTaula);
+        l_FLB_Taula.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                g_Draw.g_ModusDibuix = DistribucioEdicio.g_Modus.recta;
+                g_Draw.g_ModusDibuix = DistribucioEdicio.g_Modus.taula;
                 // Cambien el icon de eines
-                l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_border_color_white_24dp));
+                l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_action_eye_closed));
+                l_FLM_Eines.close(true);
+            }
+        });
+        // Boto de tactil
+        l_FLB_Moure = (FloatingActionButton) findViewById(R.id.DistribucionsClientFLBMoure);
+        l_FLB_Moure.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                g_Draw.g_ModusDibuix = DistribucioEdicio.g_Modus.moure;
+                // Cambien el icon de eines
+                l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_ma_blanc_24));
                 l_FLM_Eines.close(true);
             }
         });
@@ -268,8 +252,10 @@ public class distribucions_client_mant extends ActionBarActivity {
         l_IMB_Esborrar.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                // Hauriem de preguntar si ho fem o no!!!!!!!!!!!!!!!!!!!!!
-                g_Draw.EsborrarPlanol();
+            // Hauriem de preguntar si ho fem o no!!!!!!!!!!!!!!!!!!!!!
+            //
+            // MANCA ESBORRAR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // I QUE ESBORREM
             }
         });
         // Boto de ajuda
@@ -280,7 +266,7 @@ public class distribucions_client_mant extends ActionBarActivity {
             }
         });
         // Codi de validacio dels camps de la finestra (fem servir la clase estatica Validacio)
-        g_NomSalo.addTextChangedListener(new TextWatcher() {
+        g_NomDistribucio.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
             }
 
@@ -288,7 +274,7 @@ public class distribucions_client_mant extends ActionBarActivity {
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                g_NomSalo.setError(null);
+                g_NomDistribucio.setError(null);
             }
         });
         // Control de enrera/cancelacio
@@ -300,7 +286,7 @@ public class distribucions_client_mant extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.salons_client_planol, menu);
+        getMenuInflater().inflate(R.menu.distribucions_client_mant, menu);
         return true;
     }
 
@@ -309,7 +295,7 @@ public class distribucions_client_mant extends ActionBarActivity {
         Intent l_Intent;
         int l_id = p_Item.getItemId();
 
-        if (l_id == R.id.SalonsClientPlanolMNUAcceptar) {
+        if (l_id == R.id.DistribucionsClientMantMNUAcceptar) {
             FerOperativa();
             return true;
         }
@@ -322,7 +308,7 @@ public class distribucions_client_mant extends ActionBarActivity {
         boolean ret = true;
 
         // Validem si hi han linies aquestes tanquin el planol
-        if ((g_Draw.g_LiniesPlanol.size() > 0) && (!g_Draw.g_Finalitzat)) {
+        if ((g_Draw.g_LiniesPlanol.size() > 0)) {
             // El planol s'ha de tancar
             Toast.makeText(Jo,
                     Globals.g_Native.getString(R.string.error_PlanolNoTancat),
@@ -330,7 +316,7 @@ public class distribucions_client_mant extends ActionBarActivity {
             ret = false;
         }
         // Camps obligatoris
-        if (!Validacio.hasText(g_NomSalo)) ret = false;
+        if (!Validacio.hasText(g_NomDistribucio)) ret = false;
         //
         return ret;
     }
@@ -345,7 +331,7 @@ public class distribucions_client_mant extends ActionBarActivity {
 
         // Validem finestra
         if (ValidarFinestra()) {
-            l_SaloClient.Nom = g_NomSalo.getText().toString();
+            l_SaloClient.Nom = g_NomDistribucio.getText().toString();
             // Llegim les linies del planol
             for (i = 0; i < g_Draw.g_LiniesPlanol.size(); i++) {
                 l_Linia = g_Draw.g_LiniesPlanol.get(i);
@@ -385,13 +371,5 @@ public class distribucions_client_mant extends ActionBarActivity {
                 DAOSalonsClient.Modificar(l_SaloClient, Jo, true);
             }
         }
-    }
-
-    public void MostrarBotonsTaula(){
-        Button b = new Button(this);
-        RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        rl.addRule(RelativeLayout.ALIGN_BOTTOM);
-        b.setLayoutParams(rl);
-        //((RelativeLayout) findViewById(R.id.iddistribucions_client_mant)).addView(b);
     }
 }

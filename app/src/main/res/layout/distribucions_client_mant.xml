@@ -45,7 +45,7 @@
             android:src="@drawable/ic_action_wizard"
             fab:fab_size="mini"
             fab:fab_showShadow="false"
-            fab:fab_label="@string/SalonsClientPlanolLABAssistent"/>
+            fab:fab_label="@string/DistribucionsClientMantLABAssistent"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/DistribucionsClientFLBConfiguracio"
@@ -54,7 +54,7 @@
             android:src="@drawable/ic_settings_white_24dp"
             fab:fab_size="mini"
             fab:fab_showShadow="false"
-            fab:fab_label="@string/SalonsClientPlanolLABConfiguracio"/>
+            fab:fab_label="@string/DistribucionsClientMantLABConfiguracio"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/DistribucionsClientFLBMoure"
@@ -63,16 +63,16 @@
             android:src="@drawable/ic_ma_blanc_24"
             fab:fab_size="mini"
             fab:fab_showShadow="false"
-            fab:fab_label="@string/SalonsClientPlanolLABTexte" />
+            fab:fab_label="@string/DistribucionsClientMantLABMa" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/DistribucionsClientFLBRecta"
+            android:id="@+id/DistribucionsClientFLBTaula"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_border_color_white_24dp"
+            android:src="@drawable/ic_action_eye_closed"
             fab:fab_size="mini"
             fab:fab_showShadow="false"
-            fab:fab_label="@string/SalonsClientPlanolLABRecta"/>
+            fab:fab_label="@string/DistribucionsClientMantLABTaula"/>
 
     </com.github.clans.fab.FloatingActionMenu>
 

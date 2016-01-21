@@ -25,7 +25,7 @@ public class SaloClient {
     }
 
     static public class DetallPlanol{
-        public int Tipus;       // Pot ser una linia o un texte
+        public int Tipus;       // Pot ser una linia (0) o un texte (1)
         public float OrigenX;
         public float OrigenY;
         public float DestiX;

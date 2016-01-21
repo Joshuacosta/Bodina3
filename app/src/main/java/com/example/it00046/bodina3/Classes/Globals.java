@@ -85,6 +85,8 @@ public final class Globals
     public static final int k_InvitacioPendent = 2;
     public static final int k_InvitacioRebutjat = 3;
 
+    public static final int k_TipusLinia = 0;
+    public static final int k_TipusTexte = 1;
 
     public static final int k_EntitatBaixa = 0;
     // - Treball

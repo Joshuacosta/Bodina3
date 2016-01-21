@@ -138,6 +138,9 @@
     <string name="DistribucionsClientMantLABConfiguracioTriaTaula">Choose table</string>
     <string name="DistribucionsClientMantDialogConfigCBXTaulaDefecte">Default table</string>
     <string name="DistribucionsClientMantDialogConfigTXTTaules">Tables</string>
+    <string name="DistribucionsClientMantLABTaula">Table</string>
+    <string name="DistribucionsClientMantLABMa">Tactile</string>
+    <string name="DistribucionsClientMantLABAssistent">Assistant</string>
 
     <!-- Layout salons client -->
     <string name="title_activity_salons_client">Saloons client</string>
@@ -171,7 +174,7 @@
     <string name="SalonsClientPlanolDialogConfigTXTUnitats">Units</string>
     <string name="error_PlanolNoTancat">The saloon must be closed</string>
 
-    <!-- Layout celebracio alta -->
+    <!-- Layout celebracio entitat alta -->
     <string name="title_activity_ac_celebracio_alta">Append event</string>
     <string name="EntitatSolicitar_DataHora">Date/time</string>
     <string name="EntitatSolicitar_TipusCelebracio">Type event</string>

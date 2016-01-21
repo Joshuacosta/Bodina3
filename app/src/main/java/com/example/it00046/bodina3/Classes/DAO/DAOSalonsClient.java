@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.Custom.LVWLlistaSalonsClient;
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
+import com.example.it00046.bodina3.Classes.Feina.planol;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNSalonsClient;
 import com.example.it00046.bodina3.R;
@@ -283,6 +284,59 @@ public final class DAOSalonsClient {
             }
         }
         return l_Resultat;
+    }
+
+    public static planol LlegirPlanolSalo(int P_Codi, Context p_Context){
+        planol l_PlanolSalo = new planol();
+        int i, j;
+
+        Globals.MostrarEspera(p_Context);
+        try {
+            Cursor l_cursor = Globals.g_DB.query(TAG_SalonsClient,
+                    Globals.g_Native.getResources().getStringArray(R.array.TSalonsClient_Camps),
+                    TAG_Codi + "= " + P_Codi,
+                    null, // d. selections args
+                    null, // e. group by
+                    null, // f. having
+                    null, // g. order by
+                    null); // h. limit
+            if (l_cursor.getCount() > 0) {
+                l_cursor.moveToFirst();
+                // Nomes llegirem un salo
+                for (i = 0; i < l_cursor.getCount(); i++) {
+                    SaloClient l_Salo = CursorToSaloClient(l_cursor);
+                    l_PlanolSalo.Escala = l_Salo.EscalaPlanol;
+                    l_PlanolSalo.Unitats = l_Salo.UnitatsPlanol;
+                    l_PlanolSalo.Mesura = l_Salo.UnitatMesura;
+                    // Llegim les dades del planol
+                    Cursor l_cursorPlanol = Globals.g_DB.query(TAG_PlanolClient,
+                            Globals.g_Native.getResources().getStringArray(R.array.TPlanols_Camps),
+                            TAG_CodiPlanol + "= " + P_Codi,
+                            null, // d. selections args
+                            null, // e. group by
+                            null, // f. having
+                            null, // g. order by
+                            null); // h. limit
+                    if (l_cursorPlanol.getCount() > 0) {
+                        l_cursorPlanol.moveToFirst();
+                        for (j = 0; j < l_cursorPlanol.getCount(); j++) {
+                            SaloClient.DetallPlanol l_DetallPlanol = CursorToSaloPlanolClient(l_cursorPlanol);
+                            l_PlanolSalo.Grava(l_DetallPlanol);
+                            l_cursorPlanol.moveToNext();
+                        }
+                    }
+                    l_cursorPlanol.close();
+                }
+                l_cursor.close();
+            }
+            Globals.TancarEspera();
+        }
+        catch(Exception e) {
+            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                    Globals.g_Native.getString(R.string.error_greu), p_Context);
+            Globals.TancarEspera();
+        }
+        return l_PlanolSalo;
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
