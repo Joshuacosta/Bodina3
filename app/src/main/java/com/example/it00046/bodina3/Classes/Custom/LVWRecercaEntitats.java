@@ -26,10 +26,6 @@ public final class LVWRecercaEntitats extends ArrayAdapter<Entitat> {
         g_Layout = p_textViewResourceId;
     }
 
-    public int prova(){
-        return 0;
-    }
-
     @Override
     public View getView(int p_position, View p_convertView, ViewGroup p_parent) {
 

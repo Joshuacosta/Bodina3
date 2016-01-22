@@ -58,11 +58,11 @@ public class taula {
         DIB_Actiu = p_Actiu;
     }
 
-    public void draw(Canvas p_Canvas, Paint p_Paint) {
+    public void draw(Canvas p_Canvas, Paint p_Paint, float p_FactorMida) {
         if (DIB_Actiu) {
-            p_Canvas.drawCircle(Punt.x, Punt.y, 20, p);
+            p_Canvas.drawCircle(Punt.x, Punt.y, Taula.AmpladaDiametre*p_FactorMida, p);
             bGraf = Bitmap.createScaledBitmap(b, 40, 40, false);
-            p_Canvas.drawCircle(Punt.x - 20, Punt.y - 20, 20, p_Paint);
+            //p_Canvas.drawCircle(Punt.x - 20, Punt.y - 20, Taula.AmpladaDiametre*p_FactorMida, p_Paint);
             p_Canvas.drawBitmap(bGraf, Punt.x, Punt.y + 25, p);
             // Detector buto
             DetectorButo = new Rect(Math.round(Punt.x) - 20, (Math.round(Punt.y) + 25) - 20, Math.round(Punt.x) + 20, (Math.round(Punt.y) + 25) + 10);
@@ -73,7 +73,7 @@ public class taula {
             */
         }
         else{
-            p_Canvas.drawCircle(Punt.x, Punt.y, 20, p_Paint);
+            p_Canvas.drawCircle(Punt.x, Punt.y, Taula.AmpladaDiametre*p_FactorMida, p_Paint);
         }
     }
 

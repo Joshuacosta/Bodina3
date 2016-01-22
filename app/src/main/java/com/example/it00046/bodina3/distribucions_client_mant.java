@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -67,7 +68,7 @@ public class distribucions_client_mant extends ActionBarActivity {
         g_Draw = (DistribucioEdicio) findViewById(R.id.DistribucionsClientVIWDrawing);
         g_Draw.g_Pare = Jo;
         // Recuperem el codi del salo per poder construir el planol del mateix
-        // (aixó es indiferent de si fem una alta o modificacio de la distribucio de un client)
+        // (aixo es indiferent de si fem una alta o modificacio de la distribucio de un client)
         g_CodiSalo = l_intent.getIntExtra("CodiSaloCelebracioClient", 0);
         g_Draw.g_CodiSalo = g_CodiSalo;
         l_IMB_Esborrar = (ImageButton) findViewById(R.id.DistribucionsClientIMBEsborrar);
@@ -372,4 +373,18 @@ public class distribucions_client_mant extends ActionBarActivity {
             }
         }
     }
+
+    // Aquesta funcio es cridada pels elements de la llista quan prenem una linia
+    public void LiniaLVWTaulesClientSeleccioClick(View l_view) {
+        TransitionDrawable l_transition;
+        View l_parent, l_LiniaTaula;
+
+        // Llegim la jeraquia
+        l_parent = (View) l_view.getParent();
+        l_LiniaTaula = (View) l_parent.getParent();
+        // Camviem fons
+        l_transition = (TransitionDrawable)l_LiniaTaula.getBackground();
+        l_transition.startTransition(500);
+    }
+
 }

@@ -10,6 +10,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.Custom.LVWLlistaTaulesClient;
+import com.example.it00046.bodina3.Classes.Custom.LVWLlistaTaulesClientSeleccio;
 import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
 import com.example.it00046.bodina3.Classes.Entitats.TipusCelebracio;
 import com.example.it00046.bodina3.Classes.Globals;
@@ -39,6 +40,37 @@ public class DAOTaulesClient {
     // Llegim les taules del client en una list view
     public static void Llegir(final ListView p_LVW_TaulesClient, int p_Layout, final Context p_Context) {
         final ArrayAdapter<TaulaClient> l_Llista = new LVWLlistaTaulesClient(p_Context, p_Layout);
+        Globals.MostrarEspera(p_Context);
+        try {
+            Cursor l_cursor = Globals.g_DB.query(TAG_TaulesClient,
+                    Globals.g_Native.getResources().getStringArray(R.array.TTaulesClient_Camps),
+                    null, // c. selections
+                    null, // d. selections args
+                    null, // e. group by
+                    null, // f. having
+                    null, // g. order by
+                    null); // h. limit
+            if (l_cursor.getCount() > 0) {
+                l_cursor.moveToFirst();
+                for (int i=0; i < l_cursor.getCount(); i++) {
+                    TaulaClient l_Tipus = CursorToTaulaClient(l_cursor);
+                    l_Llista.add(l_Tipus);
+                    l_cursor.moveToNext();
+                }
+                p_LVW_TaulesClient.setAdapter(l_Llista);
+            }
+            Globals.TancarEspera();
+        }
+        catch(Exception e) {
+            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                    Globals.g_Native.getString(R.string.error_greu), p_Context);
+            Globals.TancarEspera();
+        }
+    }
+
+    // Llegim les taules del client en una list view per seleccionar
+    public static void LlegirSeleccio(final ListView p_LVW_TaulesClient, int p_Layout, final Context p_Context) {
+        final ArrayAdapter<TaulaClient> l_Llista = new LVWLlistaTaulesClientSeleccio(p_Context, p_Layout);
         Globals.MostrarEspera(p_Context);
         try {
             Cursor l_cursor = Globals.g_DB.query(TAG_TaulesClient,
