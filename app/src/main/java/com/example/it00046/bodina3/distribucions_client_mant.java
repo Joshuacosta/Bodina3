@@ -6,14 +6,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,6 +24,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -28,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.DAO.DAOSalonsClient;
+import com.example.it00046.bodina3.Classes.DAO.DAOTaulesClient;
 import com.example.it00046.bodina3.Classes.DistribucioEdicio;
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
 import com.example.it00046.bodina3.Classes.Feina.linia;
@@ -50,6 +55,9 @@ public class distribucions_client_mant extends ActionBarActivity {
     DistribucioEdicio g_Draw;
     String g_ModusFeina = Globals.k_OPE_Alta;
     int g_CodiSalo;
+    private String[] mPlanetTitles;
+    private DrawerLayout mDrawerLayout;
+    private ListView g_LVW_Taules;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +100,8 @@ public class distribucions_client_mant extends ActionBarActivity {
         l_FLM_Eines.setOnMenuButtonClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-            // Tanquem el altre menu i ens obrim
-            l_FLM_Eines.toggle(true);
+                // Tanquem el altre menu i ens obrim
+                l_FLM_Eines.toggle(true);
             }
         });
         // Boto de taules
@@ -253,10 +261,10 @@ public class distribucions_client_mant extends ActionBarActivity {
         l_IMB_Esborrar.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-            // Hauriem de preguntar si ho fem o no!!!!!!!!!!!!!!!!!!!!!
-            //
-            // MANCA ESBORRAR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            // I QUE ESBORREM
+                // Hauriem de preguntar si ho fem o no!!!!!!!!!!!!!!!!!!!!!
+                //
+                // MANCA ESBORRAR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                // I QUE ESBORREM
             }
         });
         // Boto de ajuda
@@ -278,10 +286,28 @@ public class distribucions_client_mant extends ActionBarActivity {
                 g_NomDistribucio.setError(null);
             }
         });
+
+        // Menu lateral
+        mPlanetTitles = getResources().getStringArray(R.array.TipusConvidats);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.DistribucionsClientNDRTaules);
+        g_LVW_Taules = (ListView) findViewById(R.id.DistribucionsClientNDLTaules);
+        // Set the adapter for the list view
+        DAOTaulesClient.LlegirSeleccio(g_LVW_Taules, R.layout.linia_lvw_llista_taules_client_seleccio, this);
+        // Set the list's click listener
+        g_LVW_Taules.setOnItemClickListener(new DrawerItemClickListener());
+        mDrawerLayout.openDrawer(Gravity.LEFT);
+
         // Control de enrera/cancelacio
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_close_white_48dp);
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+            mDrawerLayout.closeDrawer(g_LVW_Taules);
+        }
     }
 
     @Override
@@ -374,6 +400,7 @@ public class distribucions_client_mant extends ActionBarActivity {
         }
     }
 
+    /*
     // Aquesta funcio es cridada pels elements de la llista quan prenem una linia
     public void LiniaLVWTaulesClientSeleccioClick(View l_view) {
         TransitionDrawable l_transition;
@@ -386,5 +413,5 @@ public class distribucions_client_mant extends ActionBarActivity {
         l_transition = (TransitionDrawable)l_LiniaTaula.getBackground();
         l_transition.startTransition(500);
     }
-
+    */
 }

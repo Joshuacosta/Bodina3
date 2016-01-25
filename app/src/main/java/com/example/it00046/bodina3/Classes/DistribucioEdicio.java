@@ -54,7 +54,8 @@ public class DistribucioEdicio extends RelativeLayout {
     ////////////////////////////////////////////////
     private static final int g_MaxCaractersNom = 20;
     ////////////////////////////////////////////////
-    private int g_PosicioTaula = 0;
+    private int g_PosicioTaula = -1;
+    private View g_SeleccioAnterior = null;
     private ScaleGestureDetector g_GestureScale;
     private float g_ScaleFactor = 1;
     static private float g_mPosX = 0;
@@ -136,12 +137,14 @@ public class DistribucioEdicio extends RelativeLayout {
     protected void onSizeChanged(int p_w, int p_h, int p_oldw, int p_oldh) {
         super.onSizeChanged(p_w, p_h, p_oldw, p_oldh);
 
-        g_CanvasBitmap = Bitmap.createBitmap(p_w, p_h, Bitmap.Config.ARGB_8888);
-        g_DrawCanvas = new Canvas(g_CanvasBitmap);
-        g_AmpladaScreen = p_w;
-        g_LlargadaScreen = p_h;
-        g_CenterX = g_AmpladaScreen / 2;
-        g_CenterY = g_LlargadaScreen / 2;
+        if (p_w > 0 && p_h > 0) {
+            g_CanvasBitmap = Bitmap.createBitmap(p_w, p_h, Bitmap.Config.ARGB_8888);
+            g_DrawCanvas = new Canvas(g_CanvasBitmap);
+            g_AmpladaScreen = p_w;
+            g_LlargadaScreen = p_h;
+            g_CenterX = g_AmpladaScreen / 2;
+            g_CenterY = g_LlargadaScreen / 2;
+        }
     }
 
     @Override
@@ -475,6 +478,8 @@ public class DistribucioEdicio extends RelativeLayout {
         final Spinner l_SPN_Taules;
         final ListView g_LVW_Taules;
         final CheckBox l_CBX_TaulaDefecte;
+
+        //final CheckBox l_CBX_TaulaDefecte;
         ArrayAdapter<CharSequence> l_adapter_Taules;
         //LayoutInflater inflater = (LayoutInflater) g_Pare.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
         LayoutInflater inflater = LayoutInflater.from(g_Pare);
@@ -485,23 +490,35 @@ public class DistribucioEdicio extends RelativeLayout {
         // ListView: carreguen les taules del client per seleccionar una.
         g_LVW_Taules = (ListView) l_VIW_Config.findViewById(R.id.DistribucionsClientMantDialogConfigLVWTaules);
         DAOTaulesClient.LlegirSeleccio(g_LVW_Taules, R.layout.linia_lvw_llista_taules_client_seleccio, g_Pare);
+        // Definim el codi de click de la llista de seleccio
         g_LVW_Taules.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                View l_parent, l_LiniaTaula;
-
-                g_PosicioTaula = position;
-
                 TransitionDrawable l_transition;
+
+                if (g_SeleccioAnterior != null){
+                    l_transition = (TransitionDrawable)g_SeleccioAnterior.getBackground();
+                    l_transition.reverseTransition(200);
+                }
+                // Podem forzar el background
+                //view.setBackgroundResource(R.drawable.fons_seleccionat);
+                l_transition = (TransitionDrawable)view.getBackground();
+                l_transition.startTransition(200);
+                g_PosicioTaula = position;
+                g_SeleccioAnterior = view;
+
                 //View l_parent, l_LiniaTaula;
 
-                // Llegim la jeraquia
-                //l_parent = (View) l_view.getParent();
-                //l_LiniaTaula = (View) parent.getParent();
-                // Camviem fons
-                l_transition = (TransitionDrawable)view.getBackground();
-                l_transition.startTransition(500);
+                // Aixo funciona
+                // Versio 1:
+                //l_transition = (TransitionDrawable)view.getBackground();
+                //l_transition.startTransition(200);
+
+                // Versio 2:
+                //view.setBackgroundResource(R.drawable.fons_seleccionat);
+                //TransitionDrawable transition = (TransitionDrawable) view.getBackground();
+                //transition.startTransition(200);
             }
         });
         //
@@ -515,7 +532,7 @@ public class DistribucioEdicio extends RelativeLayout {
                     public void onClick(DialogInterface p_dialog, int which) {
                         // Recuperem taula triada
                         //TaulaClient l_TaulaTriada = (TaulaClient)g_LVW_Taules.getSelectedItem();
-                        TaulaClient l_TaulaTriada = (TaulaClient)g_LVW_Taules.getItemAtPosition(g_PosicioTaula);
+                        TaulaClient l_TaulaTriada = (TaulaClient) g_LVW_Taules.getItemAtPosition(g_PosicioTaula);
                         if (l_TaulaTriada != null) {
                             PosaTaula(p_Punt, l_TaulaTriada);
                             // Llegim configuracio definida
@@ -524,8 +541,7 @@ public class DistribucioEdicio extends RelativeLayout {
                                 g_TaulaDefecte = l_TaulaTriada;
                             }
                             invalidate();
-                        }
-                        else {
+                        } else {
                             // No s'ha triat cap taula, no fem res
                             // AVISEM?
                         }

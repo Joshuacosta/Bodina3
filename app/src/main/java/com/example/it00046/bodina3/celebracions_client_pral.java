@@ -77,6 +77,7 @@ public class celebracions_client_pral extends ActionBarActivity {
                 ExpandAnimation l_expandAni;
                 final Animation l_Animacio_Amagar, l_Animacio_Mostrar;
                 CelebracioClient l_CelebracioClient;
+                TransitionDrawable l_transition;
 
                 l_CelebracioClient = (CelebracioClient) p_view.getTag();
                 // Preparem animacions
@@ -98,6 +99,9 @@ public class celebracions_client_pral extends ActionBarActivity {
                             g_IMB_Esborrar.startAnimation(l_Animacio_Amagar);
                             g_IMB_Editar.startAnimation(l_Animacio_Amagar);
                         }
+                        // Treiem el color de seleccio
+                        l_transition = (TransitionDrawable)g_LIN_ToolbarAnterior.getBackground();
+                        l_transition.reverseTransition(200);
                     }
                     // Definim l'animacio de la linia
                     l_expandAni = new ExpandAnimation(l_LIN_Toolbar, 100);
@@ -109,6 +113,10 @@ public class celebracions_client_pral extends ActionBarActivity {
                         l_IMB_Esborrar.startAnimation(l_Animacio_Mostrar);
                         l_IMB_Editar.startAnimation(l_Animacio_Mostrar);
                     }
+                    // Seleccionem la linia
+                    l_LIN_Toolbar.setBackgroundResource(R.drawable.fons_seleccionat);
+                    l_transition = (TransitionDrawable)l_LIN_Toolbar.getBackground();
+                    l_transition.startTransition(200);
                     // Apuntem lo que hem tocat
                     g_Posicio = p_position;
                     g_LIN_ToolbarAnterior = l_LIN_Toolbar;
@@ -333,6 +341,7 @@ public class celebracions_client_pral extends ActionBarActivity {
             l_IMB_Editar = (ImageButton)l_LiniaCelebracio.findViewById(R.id.LiniaLVWLlistaCelebracionsClientIMBEditar);
             l_IMB_Editar.setImageResource(R.drawable.ic_close_white_48dp);
             // Camviem fons
+            l_LiniaCelebracio.setBackgroundResource(R.drawable.fons_esborrar);
             l_transition = (TransitionDrawable)l_LiniaCelebracio.getBackground();
             l_transition.startTransition(500);
         }

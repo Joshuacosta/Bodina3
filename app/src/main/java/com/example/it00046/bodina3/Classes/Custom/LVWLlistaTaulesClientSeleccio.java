@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
+import com.example.it00046.bodina3.Classes.TaulaView;
 import com.example.it00046.bodina3.R;
 
 /**
@@ -26,6 +27,7 @@ public class LVWLlistaTaulesClientSeleccio extends ArrayAdapter<TaulaClient> {
     public View getView(int p_position, View p_convertView, ViewGroup p_parent) {
         TaulaClient l_TaulaClient;
         TextView l_TXT_Descripcio;
+        TaulaView l_Taula;
 
         l_TaulaClient = getItem(p_position);
         LayoutInflater inflater = LayoutInflater.from(this.g_context);
@@ -34,7 +36,11 @@ public class LVWLlistaTaulesClientSeleccio extends ArrayAdapter<TaulaClient> {
         }
         l_TXT_Descripcio = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaTaulesClientSeleccioTXTDescripcio);
         // Mostrem el texte de la descripcio de la taula
-        l_TXT_Descripcio.setText(l_TaulaClient.Detall());
+        l_TXT_Descripcio.setText(Integer.toString(l_TaulaClient.MaxPersones));
+        // Mostrem dibuix taula
+        l_Taula = (TaulaView) p_convertView.findViewById(R.id.LiniaLVWLlistaTaulesClientSeleccioVIWDrawing);
+        l_Taula.ExpresaTaula(l_TaulaClient, 1);
+        //
         p_convertView.setTag(l_TaulaClient);
         return p_convertView;
     }

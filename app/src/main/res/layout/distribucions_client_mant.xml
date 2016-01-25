@@ -1,104 +1,122 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/DistribucionsClientNDRTaules"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/iddistribucions_client_mant">
-
-    <com.example.it00046.bodina3.Classes.DistribucioEdicio
-        android:id="@+id/DistribucionsClientVIWDrawing"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginBottom="3dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
-        android:layout_marginTop="3dp"
-        android:layout_weight="1"
-        android:background="@color/white" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/DistribucionsClientIMBEsborrar"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="12dp"
-        android:layout_gravity="left|top"
-        android:background="@drawable/ic_delete_black_36dp" />
-
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/DistribucionsClientFLMEines"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom|right"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="8dp"
-        fab:menu_showShadow="false"
-        fab:menu_buttonSpacing="3dp"
-        fab:menu_colorNormal="@color/green"
-        fab:menu_backgroundColor="@color/white"
-        fab:menu_labels_singleLine="true"
-        fab:menu_labels_position="left">
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/DistribucionsClientFLBAssistent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_wizard"
-            fab:fab_size="mini"
-            fab:fab_showShadow="false"
-            fab:fab_label="@string/DistribucionsClientMantLABAssistent"/>
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/DistribucionsClientFLBConfiguracio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_settings_white_24dp"
-            fab:fab_size="mini"
-            fab:fab_showShadow="false"
-            fab:fab_label="@string/DistribucionsClientMantLABConfiguracio"/>
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/DistribucionsClientFLBMoure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_ma_blanc_24"
-            fab:fab_size="mini"
-            fab:fab_showShadow="false"
-            fab:fab_label="@string/DistribucionsClientMantLABMa" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/DistribucionsClientFLBTaula"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_eye_closed"
-            fab:fab_size="mini"
-            fab:fab_showShadow="false"
-            fab:fab_label="@string/DistribucionsClientMantLABTaula"/>
-
-    </com.github.clans.fab.FloatingActionMenu>
-
-    <ImageButton
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:id="@+id/DistribucionsClientIMBAjuda"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_gravity="bottom|left"
-        android:background="@drawable/ic_help_black_24dp" />
-
-    <LinearLayout
-        android:orientation="horizontal"
+    android:layout_height="match_parent">
+    <!-- The main content view -->
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="60dp"
-        android:gravity="top">
+        android:id="@+id/iddistribucions_client_mant">
 
-        <EditText
-            android:id="@+id/DistribucionsClientTXTNom"
-            android:layout_width="100dp"
+        <com.example.it00046.bodina3.Classes.DistribucioEdicio
+            android:id="@+id/DistribucionsClientVIWDrawing"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:background="@color/white" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLength="20"
-            android:hint="@string/DistribucionsClientMantTXTNom" />
+            android:id="@+id/DistribucionsClientIMBEsborrar"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="12dp"
+            android:layout_gravity="left|top"
+            android:background="@drawable/ic_delete_black_36dp" />
 
-    </LinearLayout>
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/DistribucionsClientFLMEines"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom|right"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            fab:menu_showShadow="false"
+            fab:menu_buttonSpacing="3dp"
+            fab:menu_colorNormal="@color/green"
+            fab:menu_backgroundColor="@color/white"
+            fab:menu_labels_singleLine="true"
+            fab:menu_labels_position="left">
 
-</FrameLayout>
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/DistribucionsClientFLBAssistent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_wizard"
+                fab:fab_size="mini"
+                fab:fab_showShadow="false"
+                fab:fab_label="@string/DistribucionsClientMantLABAssistent"/>
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/DistribucionsClientFLBConfiguracio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_settings_white_24dp"
+                fab:fab_size="mini"
+                fab:fab_showShadow="false"
+                fab:fab_label="@string/DistribucionsClientMantLABConfiguracio"/>
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/DistribucionsClientFLBMoure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_ma_blanc_24"
+                fab:fab_size="mini"
+                fab:fab_showShadow="false"
+                fab:fab_label="@string/DistribucionsClientMantLABMa" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/DistribucionsClientFLBTaula"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_eye_closed"
+                fab:fab_size="mini"
+                fab:fab_showShadow="false"
+                fab:fab_label="@string/DistribucionsClientMantLABTaula"/>
+
+        </com.github.clans.fab.FloatingActionMenu>
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/DistribucionsClientIMBAjuda"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="bottom|left"
+            android:background="@drawable/ic_help_black_24dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="60dp"
+            android:gravity="top">
+
+            <EditText
+                android:id="@+id/DistribucionsClientTXTNom"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:maxLength="20"
+                android:hint="@string/DistribucionsClientMantTXTNom" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <!-- The navigation drawer -->
+    <ListView android:id="@+id/DistribucionsClientNDLTaules"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="@color/background_material_light"/>
+
+    </android.support.v4.widget.DrawerLayout>
