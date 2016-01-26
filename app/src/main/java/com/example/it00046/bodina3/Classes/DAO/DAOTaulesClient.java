@@ -88,6 +88,11 @@ public class DAOTaulesClient {
                     l_Llista.add(l_Tipus);
                     l_cursor.moveToNext();
                 }
+                //
+                TaulaClient l_Tope = new TaulaClient();
+                l_Tope.Descripcio = "TOPE";
+                l_Llista.add(l_Tope);
+                //
                 p_LVW_TaulesClient.setAdapter(l_Llista);
             }
             Globals.TancarEspera();
@@ -247,37 +252,37 @@ public class DAOTaulesClient {
 
         l_TaulaClient = new TaulaClient();
         l_TaulaClient.Codi = 0;
-        l_TaulaClient.Tipus = 0;
+        l_TaulaClient.Tipus = TaulaClient.k_TipusRodona;
         l_TaulaClient.AmpladaDiametre = 150;
         l_TaulaClient.MaxPersones = 10;
         l_TaulaClient.Descripcio = Globals.g_Native.getString(R.string.TaulaClientDef0);
         Afegir(l_TaulaClient, Globals.g_Native, false, false);
         l_TaulaClient.Codi = 1;
-        l_TaulaClient.Tipus = 0;
+        l_TaulaClient.Tipus = TaulaClient.k_TipusRodona;
         l_TaulaClient.AmpladaDiametre = 130;
         l_TaulaClient.MaxPersones = 8;
         l_TaulaClient.Descripcio = Globals.g_Native.getString(R.string.TaulaClientDef1);
         Afegir(l_TaulaClient, Globals.g_Native, false, false);
         l_TaulaClient.Codi = 2;
-        l_TaulaClient.Tipus = 0;
+        l_TaulaClient.Tipus = TaulaClient.k_TipusRodona;
         l_TaulaClient.AmpladaDiametre = 180;
         l_TaulaClient.MaxPersones = 12;
         l_TaulaClient.Descripcio = Globals.g_Native.getString(R.string.TaulaClientDef2);
         Afegir(l_TaulaClient, Globals.g_Native, false, false);
         l_TaulaClient.Codi = 3;
-        l_TaulaClient.Tipus = 0;
+        l_TaulaClient.Tipus = TaulaClient.k_TipusRodona;
         l_TaulaClient.AmpladaDiametre = 120;
         l_TaulaClient.MaxPersones = 4;
         l_TaulaClient.Descripcio = Globals.g_Native.getString(R.string.TaulaClientDef3);
         Afegir(l_TaulaClient, Globals.g_Native, false, false);
         l_TaulaClient.Codi = 4;
-        l_TaulaClient.Tipus = 1;
+        l_TaulaClient.Tipus = TaulaClient.k_TipusQuadrada;
         l_TaulaClient.AmpladaDiametre = 150;
         l_TaulaClient.MaxPersones = 8;
         l_TaulaClient.Descripcio = Globals.g_Native.getString(R.string.TaulaClientDef4);
         Afegir(l_TaulaClient, Globals.g_Native, false, false);
         l_TaulaClient.Codi = 5;
-        l_TaulaClient.Tipus = 2;
+        l_TaulaClient.Tipus = TaulaClient.k_TipusRectangular;
         l_TaulaClient.AmpladaDiametre = 180;
         l_TaulaClient.Llargada = 75;
         l_TaulaClient.MaxPersones = 8;

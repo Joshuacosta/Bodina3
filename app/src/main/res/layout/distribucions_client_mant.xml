@@ -109,14 +109,14 @@
 
     </FrameLayout>
 
-    <!-- The navigation drawer -->
+    <!-- Finestra lateral que mostra les taules -->
     <ListView android:id="@+id/DistribucionsClientNDLTaules"
-        android:layout_width="80dp"
+        android:layout_width="120dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
+        android:dividerHeight="5dp"
         android:background="@color/background_material_light"/>
 
     </android.support.v4.widget.DrawerLayout>

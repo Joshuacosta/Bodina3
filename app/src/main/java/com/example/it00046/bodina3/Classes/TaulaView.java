@@ -8,27 +8,18 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.RelativeLayout;
 
 import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
-import com.example.it00046.bodina3.Classes.Feina.taula;
 
 /**
  * Amb aquesta clase mostrem la taula de forma grafica
  */
 public class TaulaView extends RelativeLayout {
 
-    private float g_mPosX = 0;
-    private float g_mPosY = 0;
-    private Paint g_PaintTaula, g_PaintCanvas, g_PaintTextDistancia;
-    private Canvas g_DrawCanvas;
-    private Bitmap g_CanvasBitmap;
-    private Rect g_CanvasRect = null;
-    private int g_CenterX = 0, g_CenterY = 0;
-    private int g_AmpladaScreen, g_AlsadaScreen;
-    private Path g_drawPath;
-    private TaulaClient g_Taula;
-    private float g_Factor = 1;
+    private Paint g_PaintTaula;
+    private TaulaClient g_Taula = new TaulaClient();
 
     public TaulaView(Context p_Context, AttributeSet p_Attrs) {
         super(p_Context, p_Attrs);
@@ -36,25 +27,55 @@ public class TaulaView extends RelativeLayout {
     }
 
     private void setupDrawing() {
-        // Definim path de dibuix
-        g_drawPath = new Path();
-        // Definim paint de canvas
-        g_PaintCanvas = new Paint(Paint.DITHER_FLAG);
         g_PaintTaula = new Paint();
-        g_PaintTaula.setColor(Color.BLACK);
+        g_PaintTaula.setColor(Color.LTGRAY);
+        g_PaintTaula.setAntiAlias(true);
+        g_PaintTaula.setStrokeWidth(5);
+    }
+
+    @Override
+    protected void onSizeChanged(int p_w, int p_h, int p_oldw, int p_oldh) {
+        super.onSizeChanged(p_w, p_h, p_oldw, p_oldh);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.save();
-        g_CanvasRect = canvas.getClipBounds();
-        canvas.drawBitmap(g_CanvasBitmap, 0, 0, g_PaintCanvas);
+        float l_Factor;
+
+        //canvas.save();
+        //g_CanvasRect = canvas.getClipBounds();
+        //canvas.drawBitmap(g_CanvasBitmap, 0, 0, g_PaintCanvas);
+        // Calculo factor de mida
+        if (g_Taula.AmpladaDiametre > g_Taula.Llargada){
+            l_Factor = g_Taula.AmpladaDiametre / 50;
+        }
+        else{
+            l_Factor = g_Taula.Llargada / 50;
+        }
+        l_Factor *=2;
         // Pintem la taula
-        canvas.drawCircle(0, 0, g_Taula.AmpladaDiametre * g_Factor, g_PaintTaula);
+
+        Log.d("BODINA", "----------------------------------- Tipus que expreso " + g_Taula.Tipus);
+
+
+        switch (g_Taula.Tipus){
+            case TaulaClient.k_TipusRodona:
+                //canvas.drawCircle(50, 50, g_Taula.AmpladaDiametre / l_Factor, g_PaintTaula);
+                canvas.drawCircle(25, 25, 10, g_PaintTaula);
+                break;
+            case TaulaClient.k_TipusQuadrada:
+                //canvas.drawRect(50, 50, g_Taula.AmpladaDiametre / l_Factor, g_Taula.AmpladaDiametre / l_Factor, g_PaintTaula);
+                canvas.drawRect(12, 12, 37, 37, g_PaintTaula);
+                break;
+            case TaulaClient.k_TipusRectangular:
+                //canvas.drawRect(50, 50, g_Taula.AmpladaDiametre / l_Factor, g_Taula.Llargada / l_Factor, g_PaintTaula);
+                canvas.drawRect(7, 7, 42, 42, g_PaintTaula);
+                break;
+        }
+        //canvas.restore();
     }
 
-    public void ExpresaTaula(TaulaClient p_Taula, float p_Factor){
+    public void ExpresaTaula(TaulaClient p_Taula){
         g_Taula = p_Taula;
-        g_Factor = p_Factor;
     }
 }

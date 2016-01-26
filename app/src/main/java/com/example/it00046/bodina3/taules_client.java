@@ -80,7 +80,7 @@ public class taules_client extends ActionBarActivity{
                         break;
                     case 1: // quadrada
                         l_ETX_AmpladaDiametre.setHint(Globals.g_Native.getString(R.string.TaulesClientDialogTXTAmplada));
-                        l_ETX_Llargada.setVisibility(View.VISIBLE);
+                        l_ETX_Llargada.setVisibility(View.GONE);
                         break;
                     case 2: // rectangular
                         l_ETX_AmpladaDiametre.setHint(Globals.g_Native.getString(R.string.TaulesClientDialogTXTAmplada));
@@ -92,6 +92,7 @@ public class taules_client extends ActionBarActivity{
             @Override
             public void onNothingSelected(AdapterView parent) {
             }
+
         });
         g_alertDialogBuilder.setView(l_VIW_MantenimentTaula);
         g_alertDialogBuilder
@@ -105,7 +106,13 @@ public class taules_client extends ActionBarActivity{
                         l_TaulaClient.Descripcio = l_ETX_Descripcio.getText().toString();
                         l_TaulaClient.MaxPersones = Integer.valueOf(l_ETX_MaxPersones.getText().toString());;
                         l_TaulaClient.AmpladaDiametre = Integer.valueOf(l_ETX_AmpladaDiametre.getText().toString());
-                        l_TaulaClient.Llargada = Integer.valueOf(l_ETX_Llargada.getText().toString());;
+                        l_TaulaClient.Tipus = l_SPN_Tipus.getSelectedItemPosition();
+                        if (l_TaulaClient.Tipus == TaulaClient.k_TipusRectangular || l_TaulaClient.Tipus == TaulaClient.k_TipusImperial) {
+                            l_TaulaClient.Llargada = Integer.valueOf(l_ETX_Llargada.getText().toString());
+                        }
+                        else{
+                            l_TaulaClient.Llargada = 0;
+                        }
                         if (p_Alta) {
                             // Fem la insercio i si va be refresquem la llista
                             if (DAOTaulesClient.Afegir(l_TaulaClient, p_activity, false, false)) {

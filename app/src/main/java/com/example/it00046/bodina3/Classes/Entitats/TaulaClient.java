@@ -14,7 +14,12 @@ public class TaulaClient {
     public int AmpladaDiametre;
     public int Llargada;
     public int Estat;
-
+    // Constants
+    public static final int k_TipusRodona = 0;
+    public static final int k_TipusQuadrada = 1;
+    public static final int k_TipusRectangular = 2;
+    public static final int k_TipusImperial = 3;
+    //
     public TaulaClient(){
         Codi = 0;
         Tipus = 0;
@@ -32,21 +37,38 @@ public class TaulaClient {
             l_Descripcio = Descripcio + " ";
         }
         switch (Tipus){
-            case 0:
+            case k_TipusRodona:
                 l_Descripcio += Globals.g_Native.getResources().getString(R.string.TipusTaulaRodona);
                 l_Descripcio += " " + AmpladaDiametre;
                 break;
-            case 1:
+            case k_TipusQuadrada:
                 l_Descripcio += Globals.g_Native.getResources().getString(R.string.TipusTaulaQuadrada);
                 l_Descripcio += " " + AmpladaDiametre;
                 break;
-            case 2:
+            case k_TipusRectangular:
                 l_Descripcio += Globals.g_Native.getResources().getString(R.string.TipusTaulaRectangular);
                 l_Descripcio += " " + AmpladaDiametre + "x" + Llargada;
                 break;
         }
         if (MaxPersones > 0){
             l_Descripcio += " (" + MaxPersones + " " + Globals.g_Native.getResources().getString(R.string.Maxim) + ")";
+        }
+        return l_Descripcio;
+    }
+
+    public String DetallAmplada(){
+        String l_Descripcio = new String();
+
+        switch (Tipus){
+            case k_TipusRodona:
+                l_Descripcio = Integer.toString(AmpladaDiametre);
+                break;
+            case k_TipusQuadrada:
+                l_Descripcio = Integer.toString(AmpladaDiametre);
+                break;
+            case k_TipusRectangular:
+                l_Descripcio = Integer.toString(AmpladaDiametre) + "x" + Integer.toString(Llargada);
+                break;
         }
         return l_Descripcio;
     }

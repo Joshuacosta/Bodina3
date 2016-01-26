@@ -5,18 +5,26 @@
     android:layout_height="fill_parent">
 
     <TextView
+        android:id="@+id/LiniaLVWLlistaTaulesClientSeleccioTXTCapacitat"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:gravity="left"/>
+
+    <com.example.it00046.bodina3.Classes.TaulaView
+        android:id="@+id/LiniaLVWLlistaTaulesClientSeleccioVIWDrawing"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center"
+        android:background="@color/background_material_light"/>
+
+    <TextView
         android:id="@+id/LiniaLVWLlistaTaulesClientSeleccioTXTDescripcio"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:textStyle="italic"
-        android:gravity="left"/>
-
-    <com.example.it00046.bodina3.Classes.TaulaView
-        android:id="@+id/LiniaLVWLlistaTaulesClientSeleccioVIWDrawing"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center"
-        android:background="@color/white"/>
+        android:gravity="center_horizontal"/>
 
 </LinearLayout>
