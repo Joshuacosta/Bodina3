@@ -295,8 +295,7 @@ public class distribucions_client_mant extends ActionBarActivity {
         DAOTaulesClient.LlegirSeleccio(g_LVW_Taules, R.layout.linia_lvw_llista_taules_client_seleccio, this);
         // Set the list's click listener
         g_LVW_Taules.setOnItemClickListener(new DrawerItemClickListener());
-        mDrawerLayout.openDrawer(Gravity.LEFT);
-
+        mDrawerLayout.openDrawer(Gravity.RIGHT);
         // Control de enrera/cancelacio
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

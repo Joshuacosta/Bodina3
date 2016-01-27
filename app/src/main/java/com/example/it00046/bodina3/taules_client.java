@@ -8,6 +8,8 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +27,7 @@ import android.widget.Spinner;
 import com.example.it00046.bodina3.Classes.DAO.DAOTaulesClient;
 import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
 import com.example.it00046.bodina3.Classes.Globals;
+import com.example.it00046.bodina3.Classes.Validacio;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.Comparator;
@@ -41,7 +44,7 @@ public class taules_client extends ActionBarActivity{
     {
         final EditText l_ETX_Descripcio, l_ETX_MaxPersones, l_ETX_AmpladaDiametre, l_ETX_Llargada;
         final Spinner l_SPN_Tipus;
-        ArrayAdapter<CharSequence> l_adapter_Tipus;
+        final ArrayAdapter<CharSequence> l_adapter_Tipus;
         View l_VIW_MantenimentTaula;
         final LayoutInflater inflater = getLayoutInflater();
 
@@ -97,43 +100,94 @@ public class taules_client extends ActionBarActivity{
         g_alertDialogBuilder.setView(l_VIW_MantenimentTaula);
         g_alertDialogBuilder
                 .setCancelable(false)
-                .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface p_dialog, int which) {
-                        TaulaClient l_TaulaClient = new TaulaClient();
-
-                        // Posem els valors
-                        l_TaulaClient.Descripcio = l_ETX_Descripcio.getText().toString();
-                        l_TaulaClient.MaxPersones = Integer.valueOf(l_ETX_MaxPersones.getText().toString());;
-                        l_TaulaClient.AmpladaDiametre = Integer.valueOf(l_ETX_AmpladaDiametre.getText().toString());
-                        l_TaulaClient.Tipus = l_SPN_Tipus.getSelectedItemPosition();
-                        if (l_TaulaClient.Tipus == TaulaClient.k_TipusRectangular || l_TaulaClient.Tipus == TaulaClient.k_TipusImperial) {
-                            l_TaulaClient.Llargada = Integer.valueOf(l_ETX_Llargada.getText().toString());
-                        }
-                        else{
-                            l_TaulaClient.Llargada = 0;
-                        }
-                        if (p_Alta) {
-                            // Fem la insercio i si va be refresquem la llista
-                            if (DAOTaulesClient.Afegir(l_TaulaClient, p_activity, false, false)) {
-                                DAOTaulesClient.Llegir(g_LVW_Taules, R.layout.linia_lvw_llista_taules_client, p_activity);
-                                g_Posicio = -1;
-                            }
-                        }
-                        else{
-                            l_TaulaClient.Codi = g_TaulaSeleccionada.Codi;
-                            if (DAOTaulesClient.Modificar(l_TaulaClient, p_activity, false)){
-                                DAOTaulesClient.Llegir(g_LVW_Taules, R.layout.linia_lvw_llista_taules_client, p_activity);
-                                g_Posicio = -1;
-                            }
-                        }
-                    }
-                })
+                .setPositiveButton(Globals.g_Native.getString(R.string.OK), null)
                 .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface p_dialog, int p_id) {
                     }
                 });
-        g_alertDialogBuilder.show();
+        // Validacio del camps obligatoris: descripcio, amplada/diametre i llargada si tenim una taula rectangular
+        l_ETX_Descripcio.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                l_ETX_Descripcio.setError(null);
+            }
+        });
+        l_ETX_AmpladaDiametre.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                l_ETX_AmpladaDiametre.setError(null);
+            }
+        });
+        l_ETX_Llargada.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                l_ETX_Llargada.setError(null);
+            }
+        });
+        // Fem el codi seguent per poder validar la finestra: si ho fem en el codi del boto "positiu" la finestra
+        // sempre es tanca.
+        final AlertDialog l_dialog = g_alertDialogBuilder.create();
+        l_dialog.show();
+        l_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TaulaClient l_TaulaClient = new TaulaClient();
+                boolean l_LlargadaInformada = true;
+
+                if (l_SPN_Tipus.getSelectedItemPosition() == TaulaClient.k_TipusRectangular){
+                    l_LlargadaInformada = Validacio.hasText(l_ETX_Llargada);
+                }
+                if (Validacio.hasText(l_ETX_Descripcio) && Validacio.hasText(l_ETX_AmpladaDiametre) && l_LlargadaInformada){
+                    // Posem els valors
+                    l_TaulaClient.Descripcio = l_ETX_Descripcio.getText().toString();
+                    if (!l_ETX_MaxPersones.getText().toString().isEmpty()) {
+                        l_TaulaClient.MaxPersones = Integer.valueOf(l_ETX_MaxPersones.getText().toString());
+                    }
+                    else{
+                        l_TaulaClient.MaxPersones = 0;
+                    }
+                    l_TaulaClient.AmpladaDiametre = Integer.valueOf(l_ETX_AmpladaDiametre.getText().toString());
+                    l_TaulaClient.Tipus = l_SPN_Tipus.getSelectedItemPosition();
+                    if (l_TaulaClient.Tipus == TaulaClient.k_TipusRectangular || l_TaulaClient.Tipus == TaulaClient.k_TipusImperial) {
+                        l_TaulaClient.Llargada = Integer.valueOf(l_ETX_Llargada.getText().toString());
+                    }
+                    else{
+                        l_TaulaClient.Llargada = 0;
+                    }
+                    if (p_Alta) {
+                        // Fem la insercio i si va be refresquem la llista
+                        if (DAOTaulesClient.Afegir(l_TaulaClient, p_activity, false, false)) {
+                            DAOTaulesClient.Llegir(g_LVW_Taules, R.layout.linia_lvw_llista_taules_client, p_activity);
+                            g_Posicio = -1;
+                            l_dialog.dismiss();
+                        }
+                    }
+                    else{
+                        l_TaulaClient.Codi = g_TaulaSeleccionada.Codi;
+                        if (DAOTaulesClient.Modificar(l_TaulaClient, p_activity, false)) {
+                            DAOTaulesClient.Llegir(g_LVW_Taules, R.layout.linia_lvw_llista_taules_client, p_activity);
+                            g_Posicio = -1;
+                            l_dialog.dismiss();
+                        }
+                    }
+                }
+            }
+        });
     }
 
     @Override

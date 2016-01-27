@@ -9,6 +9,8 @@ import android.graphics.drawable.TransitionDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +26,7 @@ import com.example.it00046.bodina3.Classes.DAO.DAOTipusCelebracions;
 import com.example.it00046.bodina3.Classes.Entitats.TipusCelebracio;
 import com.example.it00046.bodina3.Classes.ExpandAnimation;
 import com.example.it00046.bodina3.Classes.Globals;
+import com.example.it00046.bodina3.Classes.Validacio;
 import com.melnykov.fab.FloatingActionButton;
 import java.util.Comparator;
 
@@ -40,7 +43,7 @@ public class tipus_celebracions extends ActionBarActivity{
     {
         final EditText l_input = new EditText(p_activity);
 
-        AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(p_activity);
+        final AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(p_activity);
         if (p_Alta) {
             g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.tipus_celebracions_Afegir));
         }
@@ -51,33 +54,55 @@ public class tipus_celebracions extends ActionBarActivity{
         g_alertDialogBuilder.setView(l_input);
         g_alertDialogBuilder
                 .setCancelable(false)
-                .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface p_dialog, int which) {
-                        TipusCelebracio l_TipusCelebracio = new TipusCelebracio();
-
-                        l_TipusCelebracio.Descripcio = l_input.getText().toString();
-                        if (p_Alta) {
-                            // Fem la insercio i si va be refresquem la llista
-                            if (DAOTipusCelebracions.Afegir(l_TipusCelebracio, p_activity, false, false)) {
-                                DAOTipusCelebracions.Llegir(g_LVW_TipusCelebracions, R.layout.linia_lvw_llista_tipuscelebracions, p_activity);
-                                g_Posicio = -1;
-                            }
-                        }
-                        else{
-                            l_TipusCelebracio.Codi = g_CodiModificacio;
-                            if (DAOTipusCelebracions.Modificar(l_TipusCelebracio, p_activity, false)){
-                                DAOTipusCelebracions.Llegir(g_LVW_TipusCelebracions, R.layout.linia_lvw_llista_tipuscelebracions, p_activity);
-                                g_Posicio = -1;
-                            }
-                        }
-                    }
-                })
+                .setPositiveButton(Globals.g_Native.getString(R.string.OK), null)
                 .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface p_dialog, int p_id) {
                     }
                 });
-        g_alertDialogBuilder.show();
+        // Validacio del camp de input
+        l_input.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                l_input.setError(null);
+            }
+        });
+        // Fem el codi seguent per poder validar la finestra: si ho fem en el codi del boto "positiu" la finestra
+        // sempre es tanca.
+        final AlertDialog l_dialog = g_alertDialogBuilder.create();
+        l_dialog.show();
+        l_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                TipusCelebracio l_TipusCelebracio = new TipusCelebracio();
+
+                if (Validacio.hasText(l_input)) {
+                    l_TipusCelebracio.Descripcio = l_input.getText().toString();
+                    if (p_Alta) {
+                        // Fem la insercio i si va be refresquem la llista
+                        if (DAOTipusCelebracions.Afegir(l_TipusCelebracio, p_activity, false, false)) {
+                            DAOTipusCelebracions.Llegir(g_LVW_TipusCelebracions, R.layout.linia_lvw_llista_tipuscelebracions, p_activity);
+                            g_Posicio = -1;
+                            l_dialog.dismiss();
+                        }
+                    }
+                    else {
+                        l_TipusCelebracio.Codi = g_CodiModificacio;
+                        if (DAOTipusCelebracions.Modificar(l_TipusCelebracio, p_activity, false)) {
+                            DAOTipusCelebracions.Llegir(g_LVW_TipusCelebracions, R.layout.linia_lvw_llista_tipuscelebracions, p_activity);
+                            g_Posicio = -1;
+                            l_dialog.dismiss();
+                        }
+                    }
+                }
+            }
+        });
     }
 
     @Override

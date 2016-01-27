@@ -2,8 +2,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/DistribucionsClientNDRTaules"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <!-- The main content view -->
+    android:layout_height="match_parent"
+    android:layout_gravity="right">
+    <!-- Finestra principal -->
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:fab="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -109,14 +110,14 @@
 
     </FrameLayout>
 
-    <!-- Finestra lateral que mostra les taules -->
+    <!-- Drawer lateral que mostra les taules -->
     <ListView android:id="@+id/DistribucionsClientNDLTaules"
-        android:layout_width="120dp"
+        android:layout_width="100dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
+        android:layout_gravity="right"
         android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
+        android:divider="@android:color/holo_blue_light"
         android:dividerHeight="5dp"
         android:background="@color/background_material_light"/>
 
-    </android.support.v4.widget.DrawerLayout>
+</android.support.v4.widget.DrawerLayout>

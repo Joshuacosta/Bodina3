@@ -38,26 +38,23 @@ public class LVWLlistaTaulesClientSeleccio extends ArrayAdapter<TaulaClient> {
         if (p_convertView == null) {
             p_convertView = inflater.inflate(R.layout.linia_lvw_llista_taules_client_seleccio, null);
         }
-        //
-        if (l_TaulaClient.Descripcio != "TOPE") {
-            // Mostrem capacitat
-            l_TXT_Capacitat = (TextView) p_convertView.findViewById(R.id.LiniaLVWLlistaTaulesClientSeleccioTXTCapacitat);
-            l_TXT_Capacitat.setText(Integer.toString(l_TaulaClient.MaxPersones));
-            l_TXT_Capacitat.setText(l_TXT_Capacitat.getText() + " " + Globals.g_Native.getString(R.string.Maxim));
-            // Mostrem dibuix taula i una descripcio a sota
-            l_Taula = (TaulaView) p_convertView.findViewById(R.id.LiniaLVWLlistaTaulesClientSeleccioVIWDrawing);
+        // Mostrem capacitat
+        l_TXT_Capacitat = (TextView) p_convertView.findViewById(R.id.LiniaLVWLlistaTaulesClientSeleccioTXTCapacitat);
+        l_TXT_Capacitat.setText(Integer.toString(l_TaulaClient.MaxPersones));
+        l_TXT_Capacitat.setText(l_TXT_Capacitat.getText() + " " + Globals.g_Native.getString(R.string.Maxim));
+        // Mostrem dibuix taula i una descripcio a sota
+        l_Taula = (TaulaView) p_convertView.findViewById(R.id.LiniaLVWLlistaTaulesClientSeleccioVIWDrawing);
 
-            Log.d("BODINA", "------------------------ Espresem taula " + l_Taula.toString());
-            l_Taula.ExpresaTaula(l_TaulaClient);
-            l_TXT_Descripcio = (TextView) p_convertView.findViewById(R.id.LiniaLVWLlistaTaulesClientSeleccioTXTDescripcio);
-            l_TXT_Descripcio.setText(l_TaulaClient.DetallAmplada());
-            //
+        Log.d("BODINA", "------------------------ Espresem taula " + l_Taula.toString());
 
-            Log.d("BODINA", "------------------------ Get View " + p_position + " -> " + l_TaulaClient.Tipus + ", " + l_TaulaClient.Llargada);
+        l_Taula.ExpresaTaula(l_TaulaClient);
+        l_Taula.invalidate();
+        l_TXT_Descripcio = (TextView) p_convertView.findViewById(R.id.LiniaLVWLlistaTaulesClientSeleccioTXTDescripcio);
+        l_TXT_Descripcio.setText(l_TaulaClient.DetallAmplada());
 
+        Log.d("BODINA", "------------------------ Get View " + p_position + " -> " + l_TaulaClient.Tipus + ", " + l_TaulaClient.Llargada);
 
-            p_convertView.setTag(l_TaulaClient);
-        }
+        p_convertView.setTag(l_TaulaClient);
         return p_convertView;
     }
 }

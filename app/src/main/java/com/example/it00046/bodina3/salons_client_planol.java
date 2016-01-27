@@ -356,7 +356,7 @@ public class salons_client_planol  extends ActionBarActivity {
         if (ValidarFinestra()) {
             l_SaloClient.Nom = g_NomSalo.getText().toString();
             l_SaloClient.Descripcio = g_Descripcio.getText().toString();
-            if (g_Capacitat.getText().toString() != "") {
+            if (!g_Capacitat.getText().toString().isEmpty()) {
                 l_SaloClient.Capacitat = Integer.valueOf(g_Capacitat.getText().toString());
             }
             else{

@@ -57,19 +57,26 @@ public class TaulaView extends RelativeLayout {
 
         Log.d("BODINA", "----------------------------------- Tipus que expreso " + g_Taula.Tipus);
 
-
+        // Per no liar-nos amb els tamanys que mostrem i tal lo que fem es dibuixar el tipus de forma generica
+        // i mostrem a sota el seu tamany.
         switch (g_Taula.Tipus){
             case TaulaClient.k_TipusRodona:
                 //canvas.drawCircle(50, 50, g_Taula.AmpladaDiametre / l_Factor, g_PaintTaula);
-                canvas.drawCircle(25, 25, 10, g_PaintTaula);
+                canvas.drawCircle(20, 20, 20, g_PaintTaula);
                 break;
             case TaulaClient.k_TipusQuadrada:
                 //canvas.drawRect(50, 50, g_Taula.AmpladaDiametre / l_Factor, g_Taula.AmpladaDiametre / l_Factor, g_PaintTaula);
-                canvas.drawRect(12, 12, 37, 37, g_PaintTaula);
+                canvas.drawRect(5, 5, 35, 35, g_PaintTaula);
                 break;
             case TaulaClient.k_TipusRectangular:
+                // Orientem en funcio de que es mes llarg
+                if (g_Taula.AmpladaDiametre > g_Taula.Llargada){
+                    canvas.drawRect(10, 5, 30, 35, g_PaintTaula);
+                }
+                else{
+                    canvas.drawRect(5, 10, 35, 30, g_PaintTaula);
+                }
                 //canvas.drawRect(50, 50, g_Taula.AmpladaDiametre / l_Factor, g_Taula.Llargada / l_Factor, g_PaintTaula);
-                canvas.drawRect(7, 7, 42, 42, g_PaintTaula);
                 break;
         }
         //canvas.restore();

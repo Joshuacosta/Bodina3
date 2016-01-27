@@ -39,8 +39,8 @@
         <!-- Fill 3: Entitats: SINGLE -->
         <activity
             android:name=".entitat_pral"
-            android:alwaysRetainTaskState="true"
             android:label="@string/title_activity_ac_entitat_pral"
+            android:alwaysRetainTaskState="true"
             android:launchMode="singleTask"
             android:parentActivityName=".principal" >
             <meta-data
@@ -60,6 +60,8 @@
         <activity
             android:name=".celebracions_client_mant"
             android:label="@string/title_activity_CelebracionsClientMant"
+            android:alwaysRetainTaskState="true"
+            android:launchMode="singleTask"
             android:parentActivityName=".principal" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

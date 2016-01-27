@@ -88,11 +88,6 @@ public class DAOTaulesClient {
                     l_Llista.add(l_Tipus);
                     l_cursor.moveToNext();
                 }
-                //
-                TaulaClient l_Tope = new TaulaClient();
-                l_Tope.Descripcio = "TOPE";
-                l_Llista.add(l_Tope);
-                //
                 p_LVW_TaulesClient.setAdapter(l_Llista);
             }
             Globals.TancarEspera();
