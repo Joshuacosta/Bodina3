@@ -73,13 +73,15 @@ public class DistribucioEdicio extends RelativeLayout {
     private Context g_Context;
     private Canvas g_DrawCanvas;
     private Bitmap g_CanvasBitmap;
-    public enum g_Modus {taula,persona,parella,moure};
+    public enum g_Modus {taula,persona,parella};
+    // Inicialment treballem amb modus taula
     static public g_Modus g_ModusDibuix = g_Modus.taula;
     static private int g_CenterX = 0, g_CenterY = 0;
     public int g_UnitatX, g_UnitatY;
     public int g_EscalaPlanolAmplada, g_EscalaPlanolLlargada;
     private int g_AmpladaScreen, g_LlargadaScreen;
     private boolean g_PrimerDibuix = true;
+    private boolean g_MovemPlanol = false;
     public ImageButton g_IMB_Esborrar;
     // Planol
     static public planol g_Planol;
@@ -94,9 +96,8 @@ public class DistribucioEdicio extends RelativeLayout {
         setupDrawing();
         g_Context = p_Context;
 
-        // Definim el gesture detector.... QUE FEM AMB EL DOBLE TAP?
-        //g_GestureDetector = new GestureDetector(p_Context, new GestureListener());
-
+        // Definim el gesture detector....
+        g_GestureDetector = new GestureDetector(p_Context, new GestureListener());
         // Definim el gesture detector de scala
         g_GestureScale = new ScaleGestureDetector(p_Context, new ScaleListener());
     }
@@ -168,7 +169,7 @@ public class DistribucioEdicio extends RelativeLayout {
         g_UnitatX = Math.round(g_AmpladaScreen / g_EscalaPlanolAmplada);
         g_EscalaPlanolLlargada = Integer.valueOf(l_Valors[1]);
         g_UnitatY = Math.round(g_LlargadaScreen / g_EscalaPlanolLlargada);
-        //canvas.scale(g_ScaleFactor, g_ScaleFactor);
+        canvas.scale(g_ScaleFactor, g_ScaleFactor);
         //canvas.drawBitmap(g_CanvasBitmap, 0, 0, g_PaintCanvas);
         // ///////////////////////////////////////////////////////////////////////////////////////
         // Quadricula (la pintem si es activa)
@@ -194,7 +195,7 @@ public class DistribucioEdicio extends RelativeLayout {
         }
         canvas.drawPath(l_Quadricula, g_PaintQuadricula);
         // ///////////////////////////////////////////////////////////////////////////////////////
-        // Rectes i curves (nomes cal calcular el path una vegada)
+        // Rectes i curves (ho hem de pintar sempre perque potser ens mouem amb el dit, caldria
         if (g_PrimerDibuix) {
             g_drawPlanolSalo.reset();
             for (int I=0; I < g_LiniesPlanol.size(); I++) {
@@ -228,10 +229,12 @@ public class DistribucioEdicio extends RelativeLayout {
                 g_ScaleFactor = l_BoundsPlanol.height() / l_BoundsPlanol.width();
             }
             //
+            g_PrimerDibuix = false;
             Matrix scaleMatrix = new Matrix();
             scaleMatrix.setScale(g_ScaleFactor, g_ScaleFactor, l_BoundsPlanol.centerX(), l_BoundsPlanol.centerY());
             g_drawPlanolSalo.transform(scaleMatrix);
         }
+        g_drawPlanolSalo.offset(g_mPosX, g_mPosY);
         canvas.drawPath(g_drawPlanolSalo, g_PaintPlanol);
         // ///////////////////////////////////////////////////////////////////////////////////////
         // Textes
@@ -280,9 +283,9 @@ public class DistribucioEdicio extends RelativeLayout {
         Rect l_Detector, l_Esborrar;
         linia l_Linia = new linia();
 
-        // Validem primer si hi han "gestos": doble tap QUE FEM AMB EL DOBLE TAP?
-        //g_GestureDetector.onTouchEvent(p_Event);
-        if (g_ModusDibuix == g_Modus.moure) {
+        // Validem primer si hi han mes "gestos"?: doble tap es recuperar posicio inicial
+        g_GestureDetector.onTouchEvent(p_Event);
+        if (g_ModusDibuix == g_Modus.taula) {
             g_GestureScale.onTouchEvent(p_Event);
         }
         if (!g_GestureScale.isInProgress()){
@@ -293,11 +296,6 @@ public class DistribucioEdicio extends RelativeLayout {
                     g_mPosX = 0;
                     g_mPosY = 0;
                     switch (g_ModusDibuix) {
-                        case moure:
-                            mLastTouchX = l_X;
-                            mLastTouchY = l_Y;
-                            break;
-
                         case taula:
                             l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
                                     Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
@@ -308,26 +306,26 @@ public class DistribucioEdicio extends RelativeLayout {
                                     g_TaulaSeleccionada = l_Taula;
                                 }
                                 else {
-                                    g_TaulaSeleccionada = null;
-                                    // Afegim una taula a la distribucio si treballem amb taula per defecte
-                                    if (g_TaulaDefecteDefinida) {
-                                        PosaTaula(l_ActualPoint, g_TaulaDefecte);
-                                    }
-                                    else{
-                                        // Hem de preguntar quina taula posem
-                                        FinestraTaules(l_ActualPoint);
-                                    }
+                                    // Hem marcat en el planol, apuntem posicio per si
+                                    // l'usuari vol moure el planol
+                                    mLastTouchX = l_X;
+                                    mLastTouchY = l_Y;
+                                    g_MovemPlanol = true;
                                 }
                             }
                             else{
-                                // Tenim una taula seleccionada, validem si l'usuari esta marcant
-                                // el moviment, sino, desmarcarem la taula.
+                                // Tenim una taula seleccionada, validem si l'usuari l'esta marcant,
                                 if (g_TaulaSeleccionada.DetectorButo.intersect(l_Detector)){
-                                    ;// Ok
+                                    ;// Ok, la volem moure
                                 }
                                 else{
+                                    // No toquem cap taula i teniem una marcada, la desmarquem i
+                                    // apuntem posicio per si l'usuari vol moure el planol
                                     g_TaulesDistribucio.DesmarcarActives();
                                     g_TaulaSeleccionada = null;
+                                    mLastTouchX = l_X;
+                                    mLastTouchY = l_Y;
+                                    g_MovemPlanol = true;
                                 }
                             }
                             break;
@@ -341,21 +339,8 @@ public class DistribucioEdicio extends RelativeLayout {
                     }
                     //
                     switch (g_ModusDibuix) {
-                        case moure:
-                            // L'usuari està desplaçant el planol amb el dit
-                            final float dx = l_X - mLastTouchX;
-                            final float dy = l_Y - mLastTouchY;
-                            g_mPosX = dx;
-                            g_mPosY = dy;
-                            // Guardem la darrera posicio
-                            mLastTouchX = l_X;
-                            mLastTouchY = l_Y;
-                            // Movem els detectors si estem desplazant amb el dit i enacara estem dibuixant
-                            invalidate();
-                            break;
-
                         case taula:
-                            if (g_TaulaSeleccionada != null) {
+                            if (g_TaulaSeleccionada != null){
                                 // Movem el punt que posiciona el texte i el detector
                                 g_TaulesDistribucio.element(g_TaulaSeleccionada.Id).Punt = new PointF(l_ActualPoint.x, l_ActualPoint.y - 50);
                                 g_TaulesDistribucio.element(g_TaulaSeleccionada.Id).Detector.offsetTo(Math.round(l_ActualPoint.x), Math.round(l_ActualPoint.y) + 20);
@@ -370,17 +355,34 @@ public class DistribucioEdicio extends RelativeLayout {
                                 }
                                 invalidate();
                             }
+                            else{
+                                if (g_MovemPlanol){
+                                    // L'usuari està desplaçant el planol amb el dit
+                                    final float dx = l_X - mLastTouchX;
+                                    final float dy = l_Y - mLastTouchY;
+                                    g_mPosX = dx;
+                                    g_mPosY = dy;
+                                    // Guardem la darrera posicio
+                                    mLastTouchX = l_X;
+                                    mLastTouchY = l_Y;
+                                    // Movem els detectors si estem desplazant amb el dit i enacara estem dibuixant?
+                                    // Tenim detectors de treball?
+                                    //
+                                    invalidate();
+                                }
+                            }
                             break;
-
                     }
                     break;
 
                 case MotionEvent.ACTION_UP:
                     switch (g_ModusDibuix) {
-                        case moure:
+                        case taula:
+                            g_MovemPlanol = false;
                             break;
                     }
-                    invalidate();
+                    // De moment no hi ha res que ho necessiti
+                    //invalidate();
                     break;
 
                 default:
@@ -391,7 +393,6 @@ public class DistribucioEdicio extends RelativeLayout {
         return true;
     }
 
-    // QUE FEM AMB EL DOBRE TAP?
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
@@ -402,9 +403,14 @@ public class DistribucioEdicio extends RelativeLayout {
             float l_X = p_Event.getX();
             float l_Y = p_Event.getY();
 
-            // Sigui lo que sigui, sino marquem un texte recuperem escala per si estem apliats
+            // Sigui lo que sigui, de moment recuperem posicio
             switch (g_ModusDibuix) {
                 default:
+                    // Recuperem escala i posicio (ho podriem animar!)
+                    g_ScaleFactor = 1;
+                    g_mPosX = 0;
+                    g_mPosY = 0;
+
                     /*
                     l_DetectorIni = new Rect(Math.round(l_X) - 50, Math.round(l_Y) - 50,
                                              Math.round(l_X) + 50, Math.round(l_Y) + 50);

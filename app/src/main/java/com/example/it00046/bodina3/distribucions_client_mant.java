@@ -35,6 +35,7 @@ import com.example.it00046.bodina3.Classes.DAO.DAOSalonsClient;
 import com.example.it00046.bodina3.Classes.DAO.DAOTaulesClient;
 import com.example.it00046.bodina3.Classes.DistribucioEdicio;
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
+import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
 import com.example.it00046.bodina3.Classes.Feina.linia;
 import com.example.it00046.bodina3.Classes.Feina.texte;
 import com.example.it00046.bodina3.Classes.Globals;
@@ -61,7 +62,7 @@ public class distribucions_client_mant extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FloatingActionButton l_FLB_Moure, l_FLB_Configuracio, l_FLB_Taula, l_FLB_Assistent;
+        FloatingActionButton l_FLB_Configuracio, l_FLB_Taula, l_FLB_Assistent;
         final FloatingActionMenu l_FLM_Eines;
         ImageButton l_IMB_Esborrar, l_IMB_Ajuda;
         final LayoutInflater inflater = getLayoutInflater();
@@ -112,17 +113,6 @@ public class distribucions_client_mant extends ActionBarActivity {
                 g_Draw.g_ModusDibuix = DistribucioEdicio.g_Modus.taula;
                 // Cambien el icon de eines
                 l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_action_eye_closed));
-                l_FLM_Eines.close(true);
-            }
-        });
-        // Boto de tactil
-        l_FLB_Moure = (FloatingActionButton) findViewById(R.id.DistribucionsClientFLBMoure);
-        l_FLB_Moure.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                g_Draw.g_ModusDibuix = DistribucioEdicio.g_Modus.moure;
-                // Cambien el icon de eines
-                l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_ma_blanc_24));
                 l_FLM_Eines.close(true);
             }
         });
@@ -305,6 +295,7 @@ public class distribucions_client_mant extends ActionBarActivity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
+            TaulaClient l_TaulaClient = (TaulaClient) view.getTag();
             mDrawerLayout.closeDrawer(g_LVW_Taules);
         }
     }
