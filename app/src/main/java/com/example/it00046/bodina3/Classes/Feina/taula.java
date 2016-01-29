@@ -7,8 +7,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,7 +34,7 @@ public class taula {
     public TaulaClient Taula;
     //
     public Boolean DIB_Actiu;
-    private Paint p;
+    private Paint l_TaulaActiva;
     private Bitmap b;
     private Bitmap bGraf;
     private BitmapDrawable b1;
@@ -50,30 +52,42 @@ public class taula {
         Detector = new Rect();
         DetectorButo = new Rect();
         //
-        p = new Paint();
-        p.setColor(Color.RED);
-        b = BitmapFactory.decodeResource(Globals.g_Native.getResources(), R.drawable.ic_ma_blanc_24);
+        l_TaulaActiva = new Paint();
+        l_TaulaActiva.setColor(Color.GREEN);
+        l_TaulaActiva.setAntiAlias(true);
+        l_TaulaActiva.setStyle(Paint.Style.STROKE);
+        l_TaulaActiva.setStrokeWidth(2);
+
+        b = BitmapFactory.decodeResource(Globals.g_Native.getResources(), R.drawable.ic_ma_gris_24);
         //b.setWidth(15);
         //b1 = new BitmapDrawable(Globals.g_Native.getResources(), b);
         DIB_Actiu = p_Actiu;
     }
 
     public void draw(Canvas p_Canvas, Paint p_Paint, float p_FactorMida) {
+        int l_aux;
+        l_aux = Math.round((Taula.AmpladaDiametre / 100) * p_FactorMida);
+        // Dibuixem la taula
         if (DIB_Actiu) {
-            p_Canvas.drawCircle(Punt.x, Punt.y, Taula.AmpladaDiametre*p_FactorMida, p);
+            p_Canvas.drawCircle(Punt.x, Punt.y, l_aux, l_TaulaActiva);
+        }
+        else{
+            p_Canvas.drawCircle(Punt.x, Punt.y, l_aux, p_Paint);
+        }
+        // Expresem el detector
+        Detector = new Rect(Math.round(Punt.x) -l_aux, Math.round(Punt.y) -l_aux, Math.round(Punt.x) + l_aux, Math.round(Punt.y) + l_aux);
+        // Validem si hi es activa
+        if (DIB_Actiu) {
             bGraf = Bitmap.createScaledBitmap(b, 40, 40, false);
-            //p_Canvas.drawCircle(Punt.x - 20, Punt.y - 20, Taula.AmpladaDiametre*p_FactorMida, p_Paint);
-            p_Canvas.drawBitmap(bGraf, Punt.x, Punt.y + 25, p);
-            // Detector buto
-            DetectorButo = new Rect(Math.round(Punt.x) - 20, (Math.round(Punt.y) + 25) - 20, Math.round(Punt.x) + 20, (Math.round(Punt.y) + 25) + 10);
+            //p_Canvas.drawBitmap(bGraf, Punt.x, Punt.y + 25, p);
+            //p_Canvas.drawBitmap(bGraf, Math.round(Punt.x)-20, Math.round(Punt.y)-20, p);
+            // Detector del buto de moviment
+            //DetectorButo = new Rect(Math.round(Punt.x) - 20, (Math.round(Punt.y) + 25) - 20, Math.round(Punt.x) + 20, (Math.round(Punt.y) + 25) + 10);
             /*
             Rect l_Bounds = new Rect(Math.round(Punt.x) + 20, Math.round(Punt.y) + 20, Math.round(Punt.x) + 30, Math.round(Punt.y) + 30);
             b1.setBounds(l_Bounds);
             b1.draw(p_Canvas);
             */
-        }
-        else{
-            p_Canvas.drawCircle(Punt.x, Punt.y, Taula.AmpladaDiametre*p_FactorMida, p_Paint);
         }
     }
 

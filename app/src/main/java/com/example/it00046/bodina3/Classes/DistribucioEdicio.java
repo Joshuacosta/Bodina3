@@ -16,6 +16,7 @@ import android.graphics.drawable.TransitionDrawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -111,7 +112,8 @@ public class DistribucioEdicio extends RelativeLayout {
         g_PaintTaula = new Paint();
         g_PaintTaula.setColor(Color.LTGRAY);
         g_PaintTaula.setAntiAlias(true);
-        g_PaintTaula.setStrokeWidth(5);
+        g_PaintTaula.setStrokeWidth(1);
+        g_PaintTaula.setStyle(Paint.Style.STROKE);
         // de Taula esborrant-se o mal posicionada
         g_PaintTaulaBorrantoError = new Paint();
         g_PaintTaulaBorrantoError.setColor(Color.RED);
@@ -153,6 +155,8 @@ public class DistribucioEdicio extends RelativeLayout {
         PointF l_TextePoint, l_TaulaPoint;
         Path l_Quadricula = new Path();
         linia l_Linia2 = new linia();
+        RectF l_BoundsPlanol = new RectF();
+        float l_Adaptar;
 
         if (g_Planol == null) {
             // Recuperem el planol del salo i el gravem a les estructures de treball
@@ -161,14 +165,18 @@ public class DistribucioEdicio extends RelativeLayout {
             CarregaPlanol(g_Planol);
             g_EscalaPlanol = g_Planol.Escala;
             g_UnitatsPlanol = g_Planol.Unitats;
+            //
+            // Calculem escala i unitats
+            String[] l_Valors = g_EscalaPlanol.split("x");
+            g_EscalaPlanolAmplada = Integer.valueOf(l_Valors[0]);
+            g_UnitatX = Math.round(g_AmpladaScreen / g_EscalaPlanolAmplada);
+            g_EscalaPlanolLlargada = Integer.valueOf(l_Valors[1]);
+            g_UnitatY = Math.round(g_LlargadaScreen / g_EscalaPlanolLlargada);
         }
         canvas.save();
-        // Calculem escala i unitats
-        String[] l_Valors = g_EscalaPlanol.split("x");
-        g_EscalaPlanolAmplada = Integer.valueOf(l_Valors[0]);
-        g_UnitatX = Math.round(g_AmpladaScreen / g_EscalaPlanolAmplada);
-        g_EscalaPlanolLlargada = Integer.valueOf(l_Valors[1]);
-        g_UnitatY = Math.round(g_LlargadaScreen / g_EscalaPlanolLlargada);
+
+        Log.d("BOD-DistribucioEdicio", "------------------------ Scale " + g_ScaleFactor);
+
         canvas.scale(g_ScaleFactor, g_ScaleFactor);
         //canvas.drawBitmap(g_CanvasBitmap, 0, 0, g_PaintCanvas);
         // ///////////////////////////////////////////////////////////////////////////////////////
@@ -221,19 +229,23 @@ public class DistribucioEdicio extends RelativeLayout {
                 }
             }
             g_PrimerDibuix = false;
-            RectF l_BoundsPlanol = new RectF();
             g_drawPlanolSalo.computeBounds(l_BoundsPlanol, true);
             if (l_BoundsPlanol.width() > l_BoundsPlanol.height()) {
-                g_ScaleFactor = l_BoundsPlanol.width() / l_BoundsPlanol.height();
+                l_Adaptar = l_BoundsPlanol.width() / l_BoundsPlanol.height();
             } else {
-                g_ScaleFactor = l_BoundsPlanol.height() / l_BoundsPlanol.width();
+                //g_ScaleFactor = l_BoundsPlanol.height() / l_BoundsPlanol.width();
+                l_Adaptar = l_BoundsPlanol.height() / l_BoundsPlanol.width();
             }
             //
             g_PrimerDibuix = false;
             Matrix scaleMatrix = new Matrix();
-            scaleMatrix.setScale(g_ScaleFactor, g_ScaleFactor, l_BoundsPlanol.centerX(), l_BoundsPlanol.centerY());
+            //scaleMatrix.setScale(g_ScaleFactor, g_ScaleFactor, l_BoundsPlanol.centerX(), l_BoundsPlanol.centerY());
+            scaleMatrix.setScale(l_Adaptar, l_Adaptar, l_BoundsPlanol.centerX(), l_BoundsPlanol.centerY());
             g_drawPlanolSalo.transform(scaleMatrix);
         }
+
+        Log.d("BOD-DistribucioEdicio", "------------------------ OffsetX " + g_mPosX);
+
         g_drawPlanolSalo.offset(g_mPosX, g_mPosY);
         canvas.drawPath(g_drawPlanolSalo, g_PaintPlanol);
         // ///////////////////////////////////////////////////////////////////////////////////////
@@ -257,16 +269,20 @@ public class DistribucioEdicio extends RelativeLayout {
         for (int l=0; l < g_TaulesDistribucio.Tamany(); l++){
             // Validem que la taula no estigui esborrada
             if (g_TaulesDistribucio.element(l).Esborrat == false) {
-                l_TaulaPoint = g_TaulesDistribucio.element(l).Punt;
-                l_TaulaPoint.offset(g_mPosX, g_mPosY);
+                g_TaulesDistribucio.element(l).Punt.offset(Math.round(g_mPosX), Math.round(g_mPosY));
                 // Validant si volen esborrar-la
                 if (g_TaulesDistribucio.element(l).Esborrantse == false) {
                     g_TaulesDistribucio.element(l).draw(canvas, g_PaintTaula, g_UnitatX);
-                } else {
+                }
+                else {
                     g_TaulesDistribucio.element(l).draw(canvas, g_PaintTaulaBorrantoError, g_UnitatX);
                 }
                 // Movem el Detector per si s'ha desplaçat el canvas
                 g_TaulesDistribucio.element(l).Detector.offset(Math.round(g_mPosX), Math.round(g_mPosY));
+
+                //
+                //canvas.drawRect(g_TaulesDistribucio.element(l).Detector, g_PaintPlanol);
+                //canvas.drawRect(g_TaulesDistribucio.element(l).DetectorButo, g_PaintPlanol);
             }
         }
         //
@@ -277,11 +293,9 @@ public class DistribucioEdicio extends RelativeLayout {
     public boolean onTouchEvent(MotionEvent p_Event) {
         float l_X = p_Event.getX()/g_ScaleFactor;
         float l_Y = p_Event.getY()/g_ScaleFactor;
-        texte l_Texte;
         taula l_Taula;
         PointF l_ActualPoint = new PointF(l_X, l_Y);
         Rect l_Detector, l_Esborrar;
-        linia l_Linia = new linia();
 
         // Validem primer si hi han mes "gestos"?: doble tap es recuperar posicio inicial
         g_GestureDetector.onTouchEvent(p_Event);
@@ -304,6 +318,7 @@ public class DistribucioEdicio extends RelativeLayout {
                                 l_Taula = MarquemTaula(l_Detector);
                                 if (l_Taula != null) {
                                     g_TaulaSeleccionada = l_Taula;
+                                    invalidate();
                                 }
                                 else {
                                     // Hem marcat en el planol, apuntem posicio per si
@@ -315,7 +330,7 @@ public class DistribucioEdicio extends RelativeLayout {
                             }
                             else{
                                 // Tenim una taula seleccionada, validem si l'usuari l'esta marcant,
-                                if (g_TaulaSeleccionada.DetectorButo.intersect(l_Detector)){
+                                if (g_TaulaSeleccionada.Detector.intersect(l_Detector)){
                                     ;// Ok, la volem moure
                                 }
                                 else{
@@ -342,8 +357,8 @@ public class DistribucioEdicio extends RelativeLayout {
                         case taula:
                             if (g_TaulaSeleccionada != null){
                                 // Movem el punt que posiciona el texte i el detector
-                                g_TaulesDistribucio.element(g_TaulaSeleccionada.Id).Punt = new PointF(l_ActualPoint.x, l_ActualPoint.y - 50);
-                                g_TaulesDistribucio.element(g_TaulaSeleccionada.Id).Detector.offsetTo(Math.round(l_ActualPoint.x), Math.round(l_ActualPoint.y) + 20);
+                                g_TaulesDistribucio.element(g_TaulaSeleccionada.Id).Punt = new PointF(l_ActualPoint.x, l_ActualPoint.y);
+                                g_TaulesDistribucio.element(g_TaulaSeleccionada.Id).Detector.offsetTo(Math.round(l_ActualPoint.x), Math.round(l_ActualPoint.y));
                                 // Validem si ens volen esborrar
                                 l_Esborrar = new Rect();
                                 g_IMB_Esborrar.getHitRect(l_Esborrar);
@@ -397,12 +412,6 @@ public class DistribucioEdicio extends RelativeLayout {
 
         @Override
         public boolean onDoubleTap(MotionEvent p_Event) {
-            Rect l_DetectorIni;
-            texte l_Texte;
-            final EditText l_Input;
-            float l_X = p_Event.getX();
-            float l_Y = p_Event.getY();
-
             // Sigui lo que sigui, de moment recuperem posicio
             switch (g_ModusDibuix) {
                 default:
@@ -410,43 +419,6 @@ public class DistribucioEdicio extends RelativeLayout {
                     g_ScaleFactor = 1;
                     g_mPosX = 0;
                     g_mPosY = 0;
-
-                    /*
-                    l_DetectorIni = new Rect(Math.round(l_X) - 50, Math.round(l_Y) - 50,
-                                             Math.round(l_X) + 50, Math.round(l_Y) + 50);
-                    l_Texte = MarquemTexte(l_DetectorIni);
-                    if (l_Texte != null) {
-                        Log.d("BODINA-Down", "--------> Tocat " + l_Texte.Texte);
-                        g_TexteSeleccionat = l_Texte;
-                        l_Input = new EditText(g_Pare);
-                        l_Input.setFilters(new InputFilter[] {new InputFilter.LengthFilter(g_MaxCaractersNom)});
-                        // Mostrem una finestra per modificar el texte
-                        AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(g_Pare);
-                        g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolTITModifyTexte));
-                        g_alertDialogBuilder.setView(l_Input);
-                        l_Input.setText(l_Texte.Texte);
-                        g_alertDialogBuilder
-                                .setCancelable(false)
-                                .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface p_dialog, int which) {
-                                        g_TexteSeleccionat.Texte = l_Input.getText().toString();
-                                        invalidate();
-                                    }
-                                })
-                                .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface p_dialog, int p_id) {
-                                    }
-                                });
-                        g_alertDialogBuilder.show();
-                    }
-                    else {
-                        // Recuperem escala i posicio (ho podriem animar!)
-                        g_ScaleFactor = 1;
-                        g_mPosX = 0;
-                        g_mPosY = 0;
-                    }
-                    */
             }
             return true;
         }
@@ -478,101 +450,21 @@ public class DistribucioEdicio extends RelativeLayout {
         return l_Marcat;
     }
 
-    // Mostrem les taules que pot triar per disposar a la distribucio (on ha pres)
-    private void FinestraTaules(final PointF p_Punt) {
-        // Mostrem la finestra de configuracio
-        final Spinner l_SPN_Taules;
-        final ListView g_LVW_Taules;
-        final CheckBox l_CBX_TaulaDefecte;
-
-        //final CheckBox l_CBX_TaulaDefecte;
-        ArrayAdapter<CharSequence> l_adapter_Taules;
-        //LayoutInflater inflater = (LayoutInflater) g_Pare.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-        LayoutInflater inflater = LayoutInflater.from(g_Pare);
-        View l_VIW_Config = inflater.inflate(R.layout.distribucions_client_mant_dialog_config, null);
-
-        // CheckBox
-        l_CBX_TaulaDefecte = (CheckBox) l_VIW_Config.findViewById(R.id.DistribucionsClientMantDialogTaulesCBXTaulaDefecte);
-        // ListView: carreguen les taules del client per seleccionar una.
-        g_LVW_Taules = (ListView) l_VIW_Config.findViewById(R.id.DistribucionsClientMantDialogConfigLVWTaules);
-        DAOTaulesClient.LlegirSeleccio(g_LVW_Taules, R.layout.linia_lvw_llista_taules_client_seleccio, g_Pare);
-        // Definim el codi de click de la llista de seleccio
-        g_LVW_Taules.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TransitionDrawable l_transition;
-
-                if (g_SeleccioAnterior != null){
-                    l_transition = (TransitionDrawable)g_SeleccioAnterior.getBackground();
-                    l_transition.reverseTransition(200);
-                }
-                // Podem forzar el background
-                //view.setBackgroundResource(R.drawable.fons_seleccionat);
-                l_transition = (TransitionDrawable)view.getBackground();
-                l_transition.startTransition(200);
-                g_PosicioTaula = position;
-                g_SeleccioAnterior = view;
-
-                //View l_parent, l_LiniaTaula;
-
-                // Aixo funciona
-                // Versio 1:
-                //l_transition = (TransitionDrawable)view.getBackground();
-                //l_transition.startTransition(200);
-
-                // Versio 2:
-                //view.setBackgroundResource(R.drawable.fons_seleccionat);
-                //TransitionDrawable transition = (TransitionDrawable) view.getBackground();
-                //transition.startTransition(200);
-            }
-        });
-        //
-        AlertDialog.Builder g_DialogConfiguracio = new AlertDialog.Builder(g_Pare);
-        g_DialogConfiguracio.setTitle(Globals.g_Native.getString(R.string.DistribucionsClientMantLABConfiguracioTriaTaula));
-        g_DialogConfiguracio.setView(l_VIW_Config);
-        g_DialogConfiguracio
-                .setCancelable(false)
-                .setPositiveButton(Globals.g_Native.getString(R.string.OK), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface p_dialog, int which) {
-                        // Recuperem taula triada
-                        //TaulaClient l_TaulaTriada = (TaulaClient)g_LVW_Taules.getSelectedItem();
-                        TaulaClient l_TaulaTriada = (TaulaClient) g_LVW_Taules.getItemAtPosition(g_PosicioTaula);
-                        if (l_TaulaTriada != null) {
-                            PosaTaula(p_Punt, l_TaulaTriada);
-                            // Llegim configuracio definida
-                            if (l_CBX_TaulaDefecte.isChecked()) {
-                                g_TaulaDefecteDefinida = true;
-                                g_TaulaDefecte = l_TaulaTriada;
-                            }
-                            invalidate();
-                        } else {
-                            // No s'ha triat cap taula, no fem res
-                            // AVISEM?
-                        }
-                    }
-                })
-                .setNegativeButton(Globals.g_Native.getString(R.string.boto_Cancelar), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface p_dialog, int p_id) {
-                    }
-                });
-        g_DialogConfiguracio.show();
-    }
-
     public void PosaTaula(PointF p_PuntDonat, TaulaClient P_Taula){
         taula l_Taula = new taula(true);
-        Rect l_Detector = new Rect();
+        Rect l_Detector;
+        PointF l_PosicioTaula;
 
-        // Desmarco si hi ha alguna activa
-        g_TaulesDistribucio.DesmarcarActives();
-        // Definim el detector de la taula
-        l_Detector = new Rect(Math.round(p_PuntDonat.x), Math.round(p_PuntDonat.y),
-                              Math.round(p_PuntDonat.x) + 30, Math.round(p_PuntDonat.y) + 30);
+        if (p_PuntDonat == null){
+            // Si el punt no es definit el posem en el centre
+            l_PosicioTaula = new PointF(Math.round(g_CenterX), Math.round(g_CenterY));
+        }
+        else{
+            l_PosicioTaula = p_PuntDonat;
+        }
         // Definim la taula
         l_Taula.Id = g_TaulesDistribucio.Tamany();
-        l_Taula.Detector = l_Detector;
-        l_Taula.Punt = p_PuntDonat;
+        l_Taula.Punt = l_PosicioTaula;
         l_Taula.Esborrat = false;
         l_Taula.Esborrantse = false;
         l_Taula.Taula = P_Taula;
@@ -604,8 +496,6 @@ public class DistribucioEdicio extends RelativeLayout {
                     break;
             }
         }
-        //
-        invalidate();
     }
 
     public void Assistent(int p_Amplada, int p_Llargada){

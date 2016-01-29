@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PointF;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -264,7 +265,7 @@ public class distribucions_client_mant extends ActionBarActivity {
                 // Mostrem el dialeg de ajuda
             }
         });
-        // Codi de validacio dels camps de la finestra (fem servir la clase estatica Validacio)
+        // Codi de validacio dels camps de la finestra
         g_NomDistribucio.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
             }
@@ -276,7 +277,6 @@ public class distribucions_client_mant extends ActionBarActivity {
                 g_NomDistribucio.setError(null);
             }
         });
-
         // Menu lateral
         mPlanetTitles = getResources().getStringArray(R.array.TipusConvidats);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.DistribucionsClientNDRTaules);
@@ -296,7 +296,11 @@ public class distribucions_client_mant extends ActionBarActivity {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
             TaulaClient l_TaulaClient = (TaulaClient) view.getTag();
+            // Tanquem la finestra de taules
             mDrawerLayout.closeDrawer(g_LVW_Taules);
+            // Posem la taula al centre (indicant null)
+            g_Draw.PosaTaula(null, l_TaulaClient);
+            g_Draw.invalidate();
         }
     }
 
@@ -389,19 +393,4 @@ public class distribucions_client_mant extends ActionBarActivity {
             }
         }
     }
-
-    /*
-    // Aquesta funcio es cridada pels elements de la llista quan prenem una linia
-    public void LiniaLVWTaulesClientSeleccioClick(View l_view) {
-        TransitionDrawable l_transition;
-        View l_parent, l_LiniaTaula;
-
-        // Llegim la jeraquia
-        l_parent = (View) l_view.getParent();
-        l_LiniaTaula = (View) l_parent.getParent();
-        // Camviem fons
-        l_transition = (TransitionDrawable)l_LiniaTaula.getBackground();
-        l_transition.startTransition(500);
-    }
-    */
 }
