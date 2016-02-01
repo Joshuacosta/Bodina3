@@ -74,6 +74,9 @@ public class taula {
         else{
             p_Canvas.drawCircle(Punt.x, Punt.y, l_aux, p_Paint);
         }
+
+        Log.d("BOD-DistribucioEdicio", "------------------------ Taula a " + Math.round(Punt.x) + ", "  + Math.round(Punt.y));
+
         // Expresem el detector
         Detector = new Rect(Math.round(Punt.x) -l_aux, Math.round(Punt.y) -l_aux, Math.round(Punt.x) + l_aux, Math.round(Punt.y) + l_aux);
         // Validem si hi es activa

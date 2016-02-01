@@ -22,17 +22,13 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 
 import com.example.it00046.bodina3.Classes.DAO.DAOSalonsClient;
-import com.example.it00046.bodina3.Classes.DAO.DAOTaulesClient;
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
 import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
 import com.example.it00046.bodina3.Classes.Feina.linia;
@@ -47,8 +43,10 @@ import java.util.ArrayList;
 public class DistribucioEdicio extends RelativeLayout {
 
     ///////////////////////////////////////////////////
+    public DistribucioEdicio Jo = this;
     public Context g_Pare;
     public boolean g_Quadricula = false;
+    public boolean g_LiniesTaules = false;
     public String g_EscalaPlanol = "1x1";   // Definim aquest valors per poder fer una preview.
                                             // Així no dona error la execució del onDraw en disseny
     public String g_UnitatsPlanol;
@@ -58,7 +56,7 @@ public class DistribucioEdicio extends RelativeLayout {
     private int g_PosicioTaula = -1;
     private View g_SeleccioAnterior = null;
     private ScaleGestureDetector g_GestureScale;
-    private float g_ScaleFactor = 1;
+    public float g_ScaleFactor = 1;
     static private float g_mPosX = 0;
     static private float g_mPosY = 0;
     private float mLastTouchX;
@@ -92,6 +90,8 @@ public class DistribucioEdicio extends RelativeLayout {
     // Taules que dibuixem
     static public llista_taules g_TaulesDistribucio = new llista_taules();
 
+    public Rect g_Ditet = null;
+
     public DistribucioEdicio(Context p_Context, AttributeSet p_Attrs) {
         super(p_Context, p_Attrs);
         setupDrawing();
@@ -118,7 +118,8 @@ public class DistribucioEdicio extends RelativeLayout {
         g_PaintTaulaBorrantoError = new Paint();
         g_PaintTaulaBorrantoError.setColor(Color.RED);
         g_PaintTaulaBorrantoError.setAntiAlias(true);
-        g_PaintTaulaBorrantoError.setStrokeWidth(5);
+        g_PaintTaulaBorrantoError.setStrokeWidth(2);
+        g_PaintTaulaBorrantoError.setStyle(Paint.Style.STROKE);
         // de Quadricula
         g_PaintQuadricula = new Paint();
         g_PaintQuadricula.setColor(Color.BLACK);
@@ -178,7 +179,6 @@ public class DistribucioEdicio extends RelativeLayout {
         Log.d("BOD-DistribucioEdicio", "------------------------ Scale " + g_ScaleFactor);
 
         canvas.scale(g_ScaleFactor, g_ScaleFactor);
-        //canvas.drawBitmap(g_CanvasBitmap, 0, 0, g_PaintCanvas);
         // ///////////////////////////////////////////////////////////////////////////////////////
         // Quadricula (la pintem si es activa)
         if (g_Quadricula){
@@ -233,20 +233,15 @@ public class DistribucioEdicio extends RelativeLayout {
             if (l_BoundsPlanol.width() > l_BoundsPlanol.height()) {
                 l_Adaptar = l_BoundsPlanol.width() / l_BoundsPlanol.height();
             } else {
-                //g_ScaleFactor = l_BoundsPlanol.height() / l_BoundsPlanol.width();
                 l_Adaptar = l_BoundsPlanol.height() / l_BoundsPlanol.width();
             }
             //
             g_PrimerDibuix = false;
             Matrix scaleMatrix = new Matrix();
-            //scaleMatrix.setScale(g_ScaleFactor, g_ScaleFactor, l_BoundsPlanol.centerX(), l_BoundsPlanol.centerY());
             scaleMatrix.setScale(l_Adaptar, l_Adaptar, l_BoundsPlanol.centerX(), l_BoundsPlanol.centerY());
             g_drawPlanolSalo.transform(scaleMatrix);
         }
-
-        Log.d("BOD-DistribucioEdicio", "------------------------ OffsetX " + g_mPosX);
-
-        g_drawPlanolSalo.offset(g_mPosX, g_mPosY);
+        g_drawPlanolSalo.offset(Math.round(g_mPosX), Math.round(g_mPosY));
         canvas.drawPath(g_drawPlanolSalo, g_PaintPlanol);
         // ///////////////////////////////////////////////////////////////////////////////////////
         // Textes
@@ -269,6 +264,7 @@ public class DistribucioEdicio extends RelativeLayout {
         for (int l=0; l < g_TaulesDistribucio.Tamany(); l++){
             // Validem que la taula no estigui esborrada
             if (g_TaulesDistribucio.element(l).Esborrat == false) {
+
                 g_TaulesDistribucio.element(l).Punt.offset(Math.round(g_mPosX), Math.round(g_mPosY));
                 // Validant si volen esborrar-la
                 if (g_TaulesDistribucio.element(l).Esborrantse == false) {
@@ -280,11 +276,15 @@ public class DistribucioEdicio extends RelativeLayout {
                 // Movem el Detector per si s'ha desplaçat el canvas
                 g_TaulesDistribucio.element(l).Detector.offset(Math.round(g_mPosX), Math.round(g_mPosY));
 
-                //
                 //canvas.drawRect(g_TaulesDistribucio.element(l).Detector, g_PaintPlanol);
                 //canvas.drawRect(g_TaulesDistribucio.element(l).DetectorButo, g_PaintPlanol);
             }
         }
+
+        //
+        if (g_Ditet != null)
+            canvas.drawRect(g_Ditet, g_PaintTaulaBorrantoError);
+
         //
         canvas.restore();
     }
@@ -311,8 +311,15 @@ public class DistribucioEdicio extends RelativeLayout {
                     g_mPosY = 0;
                     switch (g_ModusDibuix) {
                         case taula:
+
+                            Log.d("BOD-DistribucioEdicio", "------------------------ Toco a " + Math.round(l_ActualPoint.x) + ", "  + Math.round(l_ActualPoint.y));
+
                             l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
                                     Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+
+                            //g_Ditet = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
+                            //                   Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+
                             // Validem que no tinguem marcada una taula
                             if (g_TaulaSeleccionada == null) {
                                 l_Taula = MarquemTaula(l_Detector);
@@ -356,7 +363,7 @@ public class DistribucioEdicio extends RelativeLayout {
                     switch (g_ModusDibuix) {
                         case taula:
                             if (g_TaulaSeleccionada != null){
-                                // Movem el punt que posiciona el texte i el detector
+                                // Movem el punt que posiciona la taula i el detector
                                 g_TaulesDistribucio.element(g_TaulaSeleccionada.Id).Punt = new PointF(l_ActualPoint.x, l_ActualPoint.y);
                                 g_TaulesDistribucio.element(g_TaulaSeleccionada.Id).Detector.offsetTo(Math.round(l_ActualPoint.x), Math.round(l_ActualPoint.y));
                                 // Validem si ens volen esborrar
@@ -415,10 +422,24 @@ public class DistribucioEdicio extends RelativeLayout {
             // Sigui lo que sigui, de moment recuperem posicio
             switch (g_ModusDibuix) {
                 default:
-                    // Recuperem escala i posicio (ho podriem animar!)
-                    g_ScaleFactor = 1;
-                    g_mPosX = 0;
-                    g_mPosY = 0;
+                    // Si hem marcat una taula la maximitzem per treballar amb ella
+                    if (g_TaulaSeleccionada != null){
+                        Log.d("BOD-DistribucioEdicio", "------------------------ Funciona!");
+                        /*
+                        Animation animFadein;
+                        animFadein = AnimationUtils.loadAnimation(Globals.g_Native.getApplicationContext(), R.anim.zoom_in);
+                        Jo.startAnimation(animFadein);
+                        */
+                        g_ScaleFactor = 10;
+                        g_mPosX = g_TaulaSeleccionada.Punt.x;
+                        g_mPosY = g_TaulaSeleccionada.Punt.y;
+                    }
+                    else {
+                        // Recuperem escala i posicio (ho podriem animar!)
+                        g_ScaleFactor = 1;
+                        g_mPosX = 0;
+                        g_mPosY = 0;
+                    }
             }
             return true;
         }
@@ -428,7 +449,9 @@ public class DistribucioEdicio extends RelativeLayout {
         @Override
         public boolean onScale(ScaleGestureDetector p_Detector) {
             g_ScaleFactor *= p_Detector.getScaleFactor();
-            // Don't let the object get too small or too large.
+
+            Log.d("BOD-DistribucioEdicio", "------------------------ ScaleReal " + g_ScaleFactor + " (" + p_Detector.getScaleFactor() + ")");
+            // No deixem que es faci massa gran
             g_ScaleFactor = Math.max(0.1f, Math.min(g_ScaleFactor, 5.0f));
             invalidate();
             return true;

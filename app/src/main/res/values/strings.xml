@@ -141,6 +141,9 @@
     <string name="DistribucionsClientMantLABTaula">Table</string>
     <string name="DistribucionsClientMantLABMa">Tactile</string>
     <string name="DistribucionsClientMantLABAssistent">Assistant</string>
+    <string name="DistribucionsClientMantDialogConfigCBXQuadricula">Quarter</string>
+    <string name="DistribucionsClientMantDialogConfigCBXLiniesTaules">Table guidelines</string>
+    <string name="DistribucionsClientMantDialogConfigCBXMostrarConvidats">Show guests</string>
 
     <!-- Layout salons client -->
     <string name="title_activity_salons_client">Saloons client</string>

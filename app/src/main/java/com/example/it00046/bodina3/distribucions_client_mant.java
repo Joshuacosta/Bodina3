@@ -17,6 +17,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -57,8 +60,7 @@ public class distribucions_client_mant extends ActionBarActivity {
     DistribucioEdicio g_Draw;
     String g_ModusFeina = Globals.k_OPE_Alta;
     int g_CodiSalo;
-    private String[] mPlanetTitles;
-    private DrawerLayout mDrawerLayout;
+    private DrawerLayout l_DRL_Taules;
     private ListView g_LVW_Taules;
 
     @Override
@@ -68,7 +70,6 @@ public class distribucions_client_mant extends ActionBarActivity {
         ImageButton l_IMB_Esborrar, l_IMB_Ajuda;
         final LayoutInflater inflater = getLayoutInflater();
         PARSaloClient l_SaloClient;
-        ArrayList<PARSaloPlanolClient> l_PlanolClient;
 
         Intent l_intent = getIntent();
 
@@ -88,8 +89,10 @@ public class distribucions_client_mant extends ActionBarActivity {
         // Validem si estem fent un alta o una modificacio
         l_SaloClient = (PARSaloClient) l_intent.getSerializableExtra("DistribucioClient");
         if (l_SaloClient != null){
-            // Estem modificant
+            // Estem modificant: Haurem de recuperar les dades de la distribucio i expresar-les
             g_ModusFeina = Globals.k_OPE_Update;
+            //g_NomDistribucio.setText();
+            //...
         }
         else{
             g_ModusFeina = Globals.k_OPE_Alta;
@@ -97,6 +100,8 @@ public class distribucions_client_mant extends ActionBarActivity {
         // Accions dels FLB
         l_FLM_Eines = (FloatingActionMenu) findViewById(R.id.DistribucionsClientFLMEines);
         // Inicialment treballem amb taules !!!!!!!!!!!!!!!!!!!!!!!!
+        // Serie bo expresar-lo diferent, com fem a planol, que es motri la taula amb un + o algo asi.
+        l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_action_eye_closed));
         g_Draw.g_ModusDibuix = DistribucioEdicio.g_Modus.taula;
 
         l_FLM_Eines.setOnMenuButtonClickListener(new Button.OnClickListener() {
@@ -125,28 +130,14 @@ public class distribucions_client_mant extends ActionBarActivity {
             public void onClick(View arg0) {
                 // Mostrem la finestra de configuracio
                 final Spinner l_SPN_Escala, l_SPN_Unitats;
-                final CheckBox l_CBX_Quadricula;
+                final CheckBox l_CBX_Quadricula, l_CBX_LiniesTaules;
                 ArrayAdapter<CharSequence> l_adapter_Escala, l_adapter_Unitats;
-                View l_VIW_Config = inflater.inflate(R.layout.salons_client_planol_dialog_config, null);
+                View l_VIW_Config = inflater.inflate(R.layout.distribucions_client_mant_dialog_config, null);
                 int l_spinnerPosition;
 
-                // CheckBox
-                l_CBX_Quadricula = (CheckBox) l_VIW_Config.findViewById(R.id.SalonsClientPlanolDialogConfigCBXQuadricula);
-                // Spinners
-                l_adapter_Escala = ArrayAdapter.createFromResource(Jo,R.array.Escala,android.R.layout.simple_spinner_item);
-                l_adapter_Escala.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                l_SPN_Escala = (Spinner) l_VIW_Config.findViewById(R.id.SalonsClientPlanolDialogConfigSPNEscala);
-                l_SPN_Escala.setAdapter(l_adapter_Escala);
-                l_spinnerPosition = l_adapter_Escala.getPosition(g_Draw.g_EscalaPlanol);
-                l_SPN_Escala.setSelection(l_spinnerPosition);
-                //
-                l_adapter_Unitats = ArrayAdapter.createFromResource(Jo,R.array.Unitats,android.R.layout.simple_spinner_item);
-                l_adapter_Unitats.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                l_SPN_Unitats = (Spinner) l_VIW_Config.findViewById(R.id.SalonsClientPlanolDialogConfigSPNUnitats);
-                l_SPN_Unitats.setAdapter(l_adapter_Unitats);
-                l_SPN_Unitats.setAdapter(l_adapter_Unitats);
-                l_spinnerPosition = l_adapter_Unitats.getPosition(g_Draw.g_UnitatsPlanol);
-                l_SPN_Unitats.setSelection(l_spinnerPosition);
+                // CheckBoxes
+                l_CBX_Quadricula = (CheckBox) l_VIW_Config.findViewById(R.id.DistribucionsClientMantDialogConfigCBXQuadricula);
+                l_CBX_LiniesTaules = (CheckBox) l_VIW_Config.findViewById(R.id.DistribucionsClientMantDialogConfigCBXLiniesTaules);
                 //
                 AlertDialog.Builder g_DialogConfiguracio = new AlertDialog.Builder(Jo);
                 g_DialogConfiguracio.setTitle(Globals.g_Native.getString(R.string.SalonsClientPlanolLABConfiguracio));
@@ -160,8 +151,9 @@ public class distribucions_client_mant extends ActionBarActivity {
                                 if (l_CBX_Quadricula.isChecked()) {
                                     g_Draw.g_Quadricula = true;
                                 }
-                                g_Draw.g_EscalaPlanol = l_SPN_Escala.getSelectedItem().toString();
-                                g_Draw.g_UnitatsPlanol = l_SPN_Unitats.getSelectedItem().toString();
+                                if (l_CBX_LiniesTaules.isChecked()) {
+                                    g_Draw.g_LiniesTaules = true;
+                                }
                                 // Repintem
                                 g_Draw.invalidate();
                             }
@@ -265,7 +257,7 @@ public class distribucions_client_mant extends ActionBarActivity {
                 // Mostrem el dialeg de ajuda
             }
         });
-        // Codi de validacio dels camps de la finestra
+        // Codi de validacio dels camps de la finestra (nomes tenim el nom de la distribucio)
         g_NomDistribucio.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
             }
@@ -277,15 +269,13 @@ public class distribucions_client_mant extends ActionBarActivity {
                 g_NomDistribucio.setError(null);
             }
         });
-        // Menu lateral
-        mPlanetTitles = getResources().getStringArray(R.array.TipusConvidats);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.DistribucionsClientNDRTaules);
+        // Menu lateral: carreguem la llista de taules
+        l_DRL_Taules = (DrawerLayout) findViewById(R.id.DistribucionsClientNDRTaules);
         g_LVW_Taules = (ListView) findViewById(R.id.DistribucionsClientNDLTaules);
-        // Set the adapter for the list view
         DAOTaulesClient.LlegirSeleccio(g_LVW_Taules, R.layout.linia_lvw_llista_taules_client_seleccio, this);
-        // Set the list's click listener
+        // Listener damunt la llista i obrim
         g_LVW_Taules.setOnItemClickListener(new DrawerItemClickListener());
-        mDrawerLayout.openDrawer(Gravity.RIGHT);
+        l_DRL_Taules.openDrawer(Gravity.RIGHT);
         // Control de enrera/cancelacio
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -295,12 +285,26 @@ public class distribucions_client_mant extends ActionBarActivity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
+            Animation animFadein;
+            animFadein = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in);
+
             TaulaClient l_TaulaClient = (TaulaClient) view.getTag();
             // Tanquem la finestra de taules
-            mDrawerLayout.closeDrawer(g_LVW_Taules);
+            l_DRL_Taules.closeDrawer(g_LVW_Taules);
             // Posem la taula al centre (indicant null)
             g_Draw.PosaTaula(null, l_TaulaClient);
             g_Draw.invalidate();
+
+            // Ho comentem
+            //g_Draw.startAnimation(animFadein);
+
+            /*
+            ScaleAnimation fade_in =  new ScaleAnimation(1f, 2f, 1f, 2f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            fade_in.setDuration(1000);     // animation duration in milliseconds
+            fade_in.setFillAfter(true);    // If fillAfter is true, the transformation that this animation performed will persist when it is finished.
+            g_Draw.startAnimation(fade_in);
+            */
+            //g_Draw.g_ScaleFactor = 2;
         }
     }
 

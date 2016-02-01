@@ -64,15 +64,6 @@
                 fab:fab_label="@string/DistribucionsClientMantLABConfiguracio"/>
 
             <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/DistribucionsClientFLBMoure"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_ma_blanc_24"
-                fab:fab_size="mini"
-                fab:fab_showShadow="false"
-                fab:fab_label="@string/DistribucionsClientMantLABMa" />
-
-            <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/DistribucionsClientFLBTaula"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

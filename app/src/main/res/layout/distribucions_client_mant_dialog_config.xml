@@ -11,22 +11,19 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/DistribucionsClientMantDialogConfigCBXTaulaDefecte"
-        android:id="@+id/DistribucionsClientMantDialogTaulesCBXTaulaDefecte" />
+        android:text="@string/DistribucionsClientMantDialogConfigCBXQuadricula"
+        android:id="@+id/DistribucionsClientMantDialogConfigCBXQuadricula" />
 
-    <FrameLayout
-        android:layout_width="fill_parent"
+    <CheckBox
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="@string/DistribucionsClientMantDialogConfigCBXLiniesTaules"
+        android:id="@+id/DistribucionsClientMantDialogConfigCBXLiniesTaules" />
 
-        <ListView
-            android:id="@+id/DistribucionsClientMantDialogConfigLVWTaules"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="@android:color/darker_gray"
-            android:clickable="true"
-            android:dividerHeight="5dp"/>
-
-    </FrameLayout>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/DistribucionsClientMantDialogConfigCBXMostrarConvidats"
+        android:id="@+id/DistribucionsClientMantDialogConfigCBXMostrarConvidats" />
 
 </LinearLayout>

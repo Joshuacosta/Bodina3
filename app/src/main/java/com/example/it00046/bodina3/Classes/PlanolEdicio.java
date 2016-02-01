@@ -454,7 +454,6 @@ public class PlanolEdicio extends RelativeLayout {
                             break;
 
                         case recta:
-                            Log.d("BODINA-Touch-Down", "Move");
                             if (g_IniciDibuix) {
                                 g_LiniesPlanol.get(g_LiniesPlanol.size()-1).Fi = new PointF(g_PuntActual.x, g_PuntActual.y);
                                 g_Dibuixant = true;
@@ -535,7 +534,6 @@ public class PlanolEdicio extends RelativeLayout {
                                 }
                                 else {
                                     if (l_Detector.intersect(g_DetectorIni)) {
-                                        Log.d("BODINA-TouchUP", "------------------------ Enganxat");
                                         // No "enganxem del tot" per evitar arrosegar o moure dues vegades el mateix punt (el de contacte)
                                         g_LiniesPlanol.get(g_LiniesPlanol.size()-1).Fi = new PointF(g_PrimerPuntDibuix.x+1, g_PrimerPuntDibuix.y+1);
                                         g_Finalitzat = true;

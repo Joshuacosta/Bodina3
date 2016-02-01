@@ -62,7 +62,8 @@
             android:label="@string/title_activity_CelebracionsClientMant"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTask"
-            android:parentActivityName=".principal" >
+            android:parentActivityName=".principal"
+            android:windowSoftInputMode="stateAlwaysHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".celebracions_client_pral" />
@@ -71,7 +72,8 @@
         <activity
             android:name=".distribucions_client_mant"
             android:screenOrientation="landscape"
-            android:label="@string/title_activity_DistribucionsClientMant">
+            android:label="@string/title_activity_DistribucionsClientMant"
+            android:windowSoftInputMode="stateAlwaysHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".celebracions_client_mant" />
