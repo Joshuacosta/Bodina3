@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -62,6 +63,7 @@ public class distribucions_client_mant extends ActionBarActivity {
     int g_CodiSalo;
     private DrawerLayout l_DRL_Taules;
     private ListView g_LVW_Taules;
+    private SeekBar g_SEK_Zoom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,16 +78,44 @@ public class distribucions_client_mant extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.distribucions_client_mant);
         // Recuperem controls
-        g_Draw = (DistribucioEdicio) findViewById(R.id.DistribucionsClientVIWDrawing);
+        g_Draw = (DistribucioEdicio) findViewById(R.id.DistribucionsClientMantVIWDrawing);
         g_Draw.g_Pare = Jo;
         // Recuperem el codi del salo per poder construir el planol del mateix
         // (aixo es indiferent de si fem una alta o modificacio de la distribucio de un client)
         g_CodiSalo = l_intent.getIntExtra("CodiSaloCelebracioClient", 0);
         g_Draw.g_CodiSalo = g_CodiSalo;
-        l_IMB_Esborrar = (ImageButton) findViewById(R.id.DistribucionsClientIMBEsborrar);
+        l_IMB_Esborrar = (ImageButton) findViewById(R.id.DistribucionsClientMantIMBEsborrar);
         g_Draw.g_IMB_Esborrar = l_IMB_Esborrar;
-        l_IMB_Ajuda = (ImageButton) findViewById(R.id.DistribucionsClientIMBAjuda);
-        g_NomDistribucio = (EditText) findViewById(R.id.DistribucionsClientTXTNom);
+        l_IMB_Ajuda = (ImageButton) findViewById(R.id.DistribucionsClientMantIMBAjuda);
+        g_NomDistribucio = (EditText) findViewById(R.id.DistribucionsClientMantTXTNom);
+        // Seekbar del zoom
+        g_SEK_Zoom = (SeekBar) findViewById(R.id.DistribucionsClientMantSEKZoom);
+        // Codi de les seekbars
+        g_SEK_Zoom.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            float l_Zoom = 1;
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+                l_Zoom = progresValue/40f;
+                if (l_Zoom < 1) l_Zoom = 1;
+                //ScaleAnimation fade_in =  new ScaleAnimation(l_AnteriorValor, l_Zoom, l_AnteriorValor, l_Zoom, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                //fade_in.setDuration(1000);     // animation duration in milliseconds
+                //fade_in.setFillAfter(true);    // If fillAfter is true, the transformation that this animation performed will persist when it is finished.
+                //g_Draw.startAnimation(fade_in);
+
+                g_Draw.g_ScaleFactor = l_Zoom;
+                g_Draw.g_EscalemPlanol = true;
+                g_Draw.g_DarrerPuntTocat = new PointF(g_Draw.g_DarrerPuntTocat.x/l_Zoom, g_Draw.g_DarrerPuntTocat.y/l_Zoom);
+                g_Draw.invalidate();
+
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                g_Draw.g_EscalemPlanol = false;
+            }
+        });
         // Validem si estem fent un alta o una modificacio
         l_SaloClient = (PARSaloClient) l_intent.getSerializableExtra("DistribucioClient");
         if (l_SaloClient != null){
@@ -98,7 +128,7 @@ public class distribucions_client_mant extends ActionBarActivity {
             g_ModusFeina = Globals.k_OPE_Alta;
         }
         // Accions dels FLB
-        l_FLM_Eines = (FloatingActionMenu) findViewById(R.id.DistribucionsClientFLMEines);
+        l_FLM_Eines = (FloatingActionMenu) findViewById(R.id.DistribucionsClientMantFLMEines);
         // Inicialment treballem amb taules !!!!!!!!!!!!!!!!!!!!!!!!
         // Serie bo expresar-lo diferent, com fem a planol, que es motri la taula amb un + o algo asi.
         l_FLM_Eines.getMenuIconView().setImageDrawable(Globals.g_Native.getResources().getDrawable(R.drawable.ic_action_eye_closed));
@@ -112,7 +142,7 @@ public class distribucions_client_mant extends ActionBarActivity {
             }
         });
         // Boto de taules
-        l_FLB_Taula = (FloatingActionButton) findViewById(R.id.DistribucionsClientFLBTaula);
+        l_FLB_Taula = (FloatingActionButton) findViewById(R.id.DistribucionsClientMantFLBTaula);
         l_FLB_Taula.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -124,7 +154,7 @@ public class distribucions_client_mant extends ActionBarActivity {
         });
         // Finestra de configuracio
         //
-        l_FLB_Configuracio = (FloatingActionButton) findViewById(R.id.DistribucionsClientFLBConfiguracio);
+        l_FLB_Configuracio = (FloatingActionButton) findViewById(R.id.DistribucionsClientMantFLBConfiguracio);
         l_FLB_Configuracio.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -169,7 +199,7 @@ public class distribucions_client_mant extends ActionBarActivity {
         });
         // Finestra de l'assistent
         //
-        l_FLB_Assistent = (FloatingActionButton) findViewById(R.id.DistribucionsClientFLBAssistent);
+        l_FLB_Assistent = (FloatingActionButton) findViewById(R.id.DistribucionsClientMantFLBAssistent);
         l_FLB_Assistent.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -270,8 +300,8 @@ public class distribucions_client_mant extends ActionBarActivity {
             }
         });
         // Menu lateral: carreguem la llista de taules
-        l_DRL_Taules = (DrawerLayout) findViewById(R.id.DistribucionsClientNDRTaules);
-        g_LVW_Taules = (ListView) findViewById(R.id.DistribucionsClientNDLTaules);
+        l_DRL_Taules = (DrawerLayout) findViewById(R.id.DistribucionsClientMantNDRTaules);
+        g_LVW_Taules = (ListView) findViewById(R.id.DistribucionsClientMantNDLTaules);
         DAOTaulesClient.LlegirSeleccio(g_LVW_Taules, R.layout.linia_lvw_llista_taules_client_seleccio, this);
         // Listener damunt la llista i obrim
         g_LVW_Taules.setOnItemClickListener(new DrawerItemClickListener());
@@ -294,6 +324,9 @@ public class distribucions_client_mant extends ActionBarActivity {
             // Posem la taula al centre (indicant null)
             g_Draw.PosaTaula(null, l_TaulaClient);
             g_Draw.invalidate();
+
+            // La desplacem
+            g_Draw.MoureTaula();
 
             // Ho comentem
             //g_Draw.startAnimation(animFadein);

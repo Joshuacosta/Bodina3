@@ -1,5 +1,6 @@
 package com.example.it00046.bodina3.Classes;
 
+import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -59,8 +60,8 @@ public class DistribucioEdicio extends RelativeLayout {
     public float g_ScaleFactor = 1;
     static private float g_mPosX = 0;
     static private float g_mPosY = 0;
-    private float mLastTouchX;
-    private float mLastTouchY;
+    private float mLastTouchX = 0;
+    private float mLastTouchY = 0;
     private Path g_drawPlanolSalo;
     private Paint g_PaintTaula, g_PaintTaulaBorrantoError, g_PaintPlanol;
     private Paint g_PaintCanvas, g_PaintText, g_PaintQuadricula;
@@ -81,6 +82,8 @@ public class DistribucioEdicio extends RelativeLayout {
     private int g_AmpladaScreen, g_LlargadaScreen;
     private boolean g_PrimerDibuix = true;
     private boolean g_MovemPlanol = false;
+    public boolean g_EscalemPlanol = false;
+    public PointF g_DarrerPuntTocat = new PointF();
     public ImageButton g_IMB_Esborrar;
     // Planol
     static public planol g_Planol;
@@ -176,9 +179,19 @@ public class DistribucioEdicio extends RelativeLayout {
         }
         canvas.save();
 
-        Log.d("BOD-DistribucioEdicio", "------------------------ Scale " + g_ScaleFactor);
+        if (g_EscalemPlanol) {
 
-        canvas.scale(g_ScaleFactor, g_ScaleFactor);
+            Log.d("BOD-DistribucioEdicio", "------------------------ Scale desde fora " + g_ScaleFactor);
+
+            if (g_DarrerPuntTocat == null){
+                g_DarrerPuntTocat.x = g_CenterX;
+                g_DarrerPuntTocat.y = g_CenterY;
+            }
+            canvas.scale(g_ScaleFactor, g_ScaleFactor, g_DarrerPuntTocat.x, g_DarrerPuntTocat.y);
+        }
+        else {
+            canvas.scale(g_ScaleFactor, g_ScaleFactor);
+        }
         // ///////////////////////////////////////////////////////////////////////////////////////
         // Quadricula (la pintem si es activa)
         if (g_Quadricula){
@@ -228,7 +241,6 @@ public class DistribucioEdicio extends RelativeLayout {
                     g_drawPlanolSalo.lineTo(l_Linia2.Fi.x, l_Linia2.Fi.y);
                 }
             }
-            g_PrimerDibuix = false;
             g_drawPlanolSalo.computeBounds(l_BoundsPlanol, true);
             if (l_BoundsPlanol.width() > l_BoundsPlanol.height()) {
                 l_Adaptar = l_BoundsPlanol.width() / l_BoundsPlanol.height();
@@ -236,12 +248,49 @@ public class DistribucioEdicio extends RelativeLayout {
                 l_Adaptar = l_BoundsPlanol.height() / l_BoundsPlanol.width();
             }
             //
-            g_PrimerDibuix = false;
             Matrix scaleMatrix = new Matrix();
             scaleMatrix.setScale(l_Adaptar, l_Adaptar, l_BoundsPlanol.centerX(), l_BoundsPlanol.centerY());
             g_drawPlanolSalo.transform(scaleMatrix);
+            //
+            g_PrimerDibuix = false;
         }
-        g_drawPlanolSalo.offset(Math.round(g_mPosX), Math.round(g_mPosY));
+        else{
+            /*
+            // Si hi ha zoom repintem
+            Log.d("BOD-DistribucioEdicio", "------------------------ Scale: " + g_ScaleFactor);
+            if (g_ScaleFactor > 0){
+                g_drawPlanolSalo.reset();
+                for (int I=0; I < g_LiniesPlanol.size(); I++) {
+                    l_Linia2 = g_LiniesPlanol.get(I);
+                    l_Linia2.Inici.offset(g_mPosX, g_mPosY);
+                    // Si estem a la primera linia ens posicionem "al principi" amb un move
+                    if (I == 0) {
+                        g_drawPlanolSalo.moveTo(l_Linia2.Inici.x*g_ScaleFactor, l_Linia2.Inici.y*g_ScaleFactor);
+                    }
+                    // Pintem el punt final
+                    l_Linia2.Fi.offset(g_mPosX, g_mPosY);
+                    // Validem si es una curva
+                    if (l_Linia2.Curva) {
+                        l_Linia2.PuntCurva.offset(g_mPosX, g_mPosY);
+                        g_drawPlanolSalo.quadTo(l_Linia2.PuntCurva.x, l_Linia2.PuntCurva.y, l_Linia2.Fi.x, l_Linia2.Fi.y);
+                        // Si s'ha mogut tambe hem de modificar la posicio
+                        if (l_Linia2.ObjDistancia.Mogut){
+                            l_Linia2.ObjDistancia.Punt.offset(g_mPosX, g_mPosY);
+                        }
+                    }
+                    else {
+                        g_drawPlanolSalo.lineTo(l_Linia2.Fi.x*g_ScaleFactor, l_Linia2.Fi.y*g_ScaleFactor);
+                    }
+                }
+            }
+            */
+        }
+
+        Log.d("BOD-DistribucioEdicio", "------------------------ ??????? " + g_mPosX + ", " + g_mPosY);
+
+        if (!g_EscalemPlanol) {
+            g_drawPlanolSalo.offset(Math.round(g_mPosX), Math.round(g_mPosY));
+        }
         canvas.drawPath(g_drawPlanolSalo, g_PaintPlanol);
         // ///////////////////////////////////////////////////////////////////////////////////////
         // Textes
@@ -276,8 +325,7 @@ public class DistribucioEdicio extends RelativeLayout {
                 // Movem el Detector per si s'ha desplaçat el canvas
                 g_TaulesDistribucio.element(l).Detector.offset(Math.round(g_mPosX), Math.round(g_mPosY));
 
-                //canvas.drawRect(g_TaulesDistribucio.element(l).Detector, g_PaintPlanol);
-                //canvas.drawRect(g_TaulesDistribucio.element(l).DetectorButo, g_PaintPlanol);
+                canvas.drawRect(g_TaulesDistribucio.element(l).Detector, g_PaintPlanol);
             }
         }
 
@@ -300,9 +348,10 @@ public class DistribucioEdicio extends RelativeLayout {
         // Validem primer si hi han mes "gestos"?: doble tap es recuperar posicio inicial
         g_GestureDetector.onTouchEvent(p_Event);
         if (g_ModusDibuix == g_Modus.taula) {
-            g_GestureScale.onTouchEvent(p_Event);
+            //g_GestureScale.onTouchEvent(p_Event);
         }
         if (!g_GestureScale.isInProgress()){
+            g_EscalemPlanol = false;
             // Continuem
             final int action = p_Event.getAction();
             switch (action & MotionEvent.ACTION_MASK) {
@@ -317,8 +366,8 @@ public class DistribucioEdicio extends RelativeLayout {
                             l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
                                     Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
 
-                            //g_Ditet = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
-                            //                   Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
+                            g_Ditet = new Rect(Math.round(l_ActualPoint.x) - 10, Math.round(l_ActualPoint.y) - 10,
+                                               Math.round(l_ActualPoint.x) + 10, Math.round(l_ActualPoint.y) + 10);
 
                             // Validem que no tinguem marcada una taula
                             if (g_TaulaSeleccionada == null) {
@@ -401,6 +450,9 @@ public class DistribucioEdicio extends RelativeLayout {
                     switch (g_ModusDibuix) {
                         case taula:
                             g_MovemPlanol = false;
+                            g_EscalemPlanol = false;
+                            g_DarrerPuntTocat = l_ActualPoint;
+                            invalidate();
                             break;
                     }
                     // De moment no hi ha res que ho necessiti
@@ -411,6 +463,9 @@ public class DistribucioEdicio extends RelativeLayout {
                     // Validem la resta de events amb el Gesture
                     return g_GestureDetector.onTouchEvent(p_Event);
             }
+        }
+        else{
+            g_EscalemPlanol = true;
         }
         return true;
     }
@@ -439,6 +494,7 @@ public class DistribucioEdicio extends RelativeLayout {
                         g_ScaleFactor = 1;
                         g_mPosX = 0;
                         g_mPosY = 0;
+                        invalidate();
                     }
             }
             return true;
@@ -475,7 +531,6 @@ public class DistribucioEdicio extends RelativeLayout {
 
     public void PosaTaula(PointF p_PuntDonat, TaulaClient P_Taula){
         taula l_Taula = new taula(true);
-        Rect l_Detector;
         PointF l_PosicioTaula;
 
         if (p_PuntDonat == null){
@@ -492,6 +547,14 @@ public class DistribucioEdicio extends RelativeLayout {
         l_Taula.Esborrantse = false;
         l_Taula.Taula = P_Taula;
         g_TaulesDistribucio.Afegir(l_Taula);
+    }
+
+    public void MoureTaula(){
+        if (g_TaulaSeleccionada != null) {
+            ObjectAnimator animation2 = ObjectAnimator.ofFloat(g_TaulaSeleccionada, "x", 50);
+            animation2.setDuration(2000);
+            animation2.start();
+        }
     }
 
     public void CarregaPlanol(planol p_Planol){
