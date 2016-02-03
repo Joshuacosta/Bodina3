@@ -23,11 +23,13 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.it00046.bodina3.Classes.DAO.DAOSalonsClient;
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
@@ -94,6 +96,7 @@ public class DistribucioEdicio extends RelativeLayout {
     static public llista_taules g_TaulesDistribucio = new llista_taules();
 
     public Rect g_Ditet = null;
+    private TaulaView g_TaulaView = new TaulaView(Globals.g_Native);
 
     public DistribucioEdicio(Context p_Context, AttributeSet p_Attrs) {
         super(p_Context, p_Attrs);
@@ -154,8 +157,8 @@ public class DistribucioEdicio extends RelativeLayout {
         }
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
+    //@Override
+    protected void onDraw2(Canvas canvas) {
         PointF l_TextePoint, l_TaulaPoint;
         Path l_Quadricula = new Path();
         linia l_Linia2 = new linia();
@@ -329,6 +332,8 @@ public class DistribucioEdicio extends RelativeLayout {
             }
         }
 
+
+
         //
         if (g_Ditet != null)
             canvas.drawRect(g_Ditet, g_PaintTaulaBorrantoError);
@@ -411,6 +416,10 @@ public class DistribucioEdicio extends RelativeLayout {
                     //
                     switch (g_ModusDibuix) {
                         case taula:
+
+                            g_TaulaView.setX(l_X);
+                            g_TaulaView.setY(l_Y);
+
                             if (g_TaulaSeleccionada != null){
                                 // Movem el punt que posiciona la taula i el detector
                                 g_TaulesDistribucio.element(g_TaulaSeleccionada.Id).Punt = new PointF(l_ActualPoint.x, l_ActualPoint.y);
@@ -546,14 +555,38 @@ public class DistribucioEdicio extends RelativeLayout {
         l_Taula.Esborrat = false;
         l_Taula.Esborrantse = false;
         l_Taula.Taula = P_Taula;
-        g_TaulesDistribucio.Afegir(l_Taula);
+        //g_TaulesDistribucio.Afegir(l_Taula);
+
+
+        // Fem el experiment de afegir una TaulaView
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
+        params.width = 40;
+        params.height = 40;
+        params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+
+        g_TaulaView.ExpresaTaula(P_Taula);
+
+        Jo.addView(g_TaulaView, params);
+
+        //l_TaulaView.ExpresaTaula(P_Taula);
     }
 
     public void MoureTaula(){
+
         if (g_TaulaSeleccionada != null) {
+
             ObjectAnimator animation2 = ObjectAnimator.ofFloat(g_TaulaSeleccionada, "x", 50);
             animation2.setDuration(2000);
             animation2.start();
+
+            /*
+            g_TaulaSeleccionada.animate().translationX(100).withStartAction(new Runnable(){
+                public void run(){
+                    viewer.setTranslationX(100-myView.getWidth());
+                    // do something
+                }
+            });
+            */
         }
     }
 

@@ -48,7 +48,6 @@ public class LVWLlistaTaulesClientSeleccio extends ArrayAdapter<TaulaClient> {
         Log.d("BODINA", "------------------------ Espresem taula " + l_Taula.toString());
 
         l_Taula.ExpresaTaula(l_TaulaClient);
-        l_Taula.invalidate();
         l_TXT_Descripcio = (TextView) p_convertView.findViewById(R.id.LiniaLVWLlistaTaulesClientSeleccioTXTDescripcio);
         l_TXT_Descripcio.setText(l_TaulaClient.DetallAmplada());
 

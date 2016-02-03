@@ -9,6 +9,7 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
@@ -16,13 +17,20 @@ import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
 /**
  * Amb aquesta clase mostrem la taula de forma grafica
  */
-public class TaulaView extends RelativeLayout {
+public class TaulaView extends View {
 
     private Paint g_PaintTaula;
     private TaulaClient g_Taula = new TaulaClient();
+    Context g_Context;
 
     public TaulaView(Context p_Context, AttributeSet p_Attrs) {
         super(p_Context, p_Attrs);
+        setupDrawing();
+    }
+
+    public TaulaView(Context p_Context) {
+        super(p_Context);
+        g_Context = p_Context;
         setupDrawing();
     }
 
@@ -84,5 +92,6 @@ public class TaulaView extends RelativeLayout {
 
     public void ExpresaTaula(TaulaClient p_Taula){
         g_Taula = p_Taula;
+        this.invalidate();
     }
 }
