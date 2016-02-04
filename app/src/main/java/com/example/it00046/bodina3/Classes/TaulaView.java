@@ -22,6 +22,8 @@ public class TaulaView extends View {
     private Paint g_PaintTaula;
     private TaulaClient g_Taula = new TaulaClient();
     Context g_Context;
+    private boolean g_Real = true;
+    private int g_Factor = 0;
 
     public TaulaView(Context p_Context, AttributeSet p_Attrs) {
         super(p_Context, p_Attrs);
@@ -48,50 +50,46 @@ public class TaulaView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        float l_Factor;
-
-        //canvas.save();
-        //g_CanvasRect = canvas.getClipBounds();
-        //canvas.drawBitmap(g_CanvasBitmap, 0, 0, g_PaintCanvas);
-        // Calculo factor de mida
-        if (g_Taula.AmpladaDiametre > g_Taula.Llargada){
-            l_Factor = g_Taula.AmpladaDiametre / 50;
-        }
-        else{
-            l_Factor = g_Taula.Llargada / 50;
-        }
-        l_Factor *=2;
         // Pintem la taula
-
-        Log.d("BODINA", "----------------------------------- Tipus que expreso " + g_Taula.Tipus);
-
-        // Per no liar-nos amb els tamanys que mostrem i tal lo que fem es dibuixar el tipus de forma generica
-        // i mostrem a sota el seu tamany.
         switch (g_Taula.Tipus){
             case TaulaClient.k_TipusRodona:
-                //canvas.drawCircle(50, 50, g_Taula.AmpladaDiametre / l_Factor, g_PaintTaula);
-                canvas.drawCircle(20, 20, 20, g_PaintTaula);
+                if (g_Real) {
+                    canvas.drawCircle(50, 50, g_Taula.AmpladaDiametre / g_Factor, g_PaintTaula);
+                }
+                else {
+                    canvas.drawCircle(20, 20, 20, g_PaintTaula);
+                }
                 break;
             case TaulaClient.k_TipusQuadrada:
-                //canvas.drawRect(50, 50, g_Taula.AmpladaDiametre / l_Factor, g_Taula.AmpladaDiametre / l_Factor, g_PaintTaula);
-                canvas.drawRect(5, 5, 35, 35, g_PaintTaula);
+                if (g_Real) {
+                    canvas.drawRect(50, 50, g_Taula.AmpladaDiametre / g_Factor, g_Taula.AmpladaDiametre / g_Factor, g_PaintTaula);
+                }
+                else {
+                    canvas.drawRect(5, 5, 35, 35, g_PaintTaula);
+                }
                 break;
             case TaulaClient.k_TipusRectangular:
-                // Orientem en funcio de que es mes llarg
-                if (g_Taula.AmpladaDiametre > g_Taula.Llargada){
-                    canvas.drawRect(10, 5, 30, 35, g_PaintTaula);
+                if (g_Real){
+                    canvas.drawRect(50, 50, g_Taula.AmpladaDiametre / g_Factor, g_Taula.Llargada / g_Factor, g_PaintTaula);
                 }
-                else{
-                    canvas.drawRect(5, 10, 35, 30, g_PaintTaula);
+                else {
+                    // Orientem en funcio de que es mes llarg
+                    if (g_Taula.AmpladaDiametre > g_Taula.Llargada) {
+                        canvas.drawRect(10, 5, 30, 35, g_PaintTaula);
+                    } else {
+                        canvas.drawRect(5, 10, 35, 30, g_PaintTaula);
+                    }
                 }
-                //canvas.drawRect(50, 50, g_Taula.AmpladaDiametre / l_Factor, g_Taula.Llargada / l_Factor, g_PaintTaula);
                 break;
         }
-        //canvas.restore();
     }
 
-    public void ExpresaTaula(TaulaClient p_Taula){
+    public void ExpresaTaula(TaulaClient p_Taula, boolean p_Real, int p_Factor){
         g_Taula = p_Taula;
-        this.invalidate();
+        g_Real = p_Real;
+        g_Factor = p_Factor;
+        // Ens pintem
+        invalidate();
     }
+
 }

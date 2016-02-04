@@ -69,7 +69,7 @@ public class distribucions_client_mant extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         FloatingActionButton l_FLB_Configuracio, l_FLB_Taula, l_FLB_Assistent;
         final FloatingActionMenu l_FLM_Eines;
-        ImageButton l_IMB_Esborrar, l_IMB_Ajuda;
+        ImageButton l_IMB_Ajuda;
         final LayoutInflater inflater = getLayoutInflater();
         PARSaloClient l_SaloClient;
 
@@ -84,8 +84,6 @@ public class distribucions_client_mant extends ActionBarActivity {
         // (aixo es indiferent de si fem una alta o modificacio de la distribucio de un client)
         g_CodiSalo = l_intent.getIntExtra("CodiSaloCelebracioClient", 0);
         g_Draw.g_CodiSalo = g_CodiSalo;
-        l_IMB_Esborrar = (ImageButton) findViewById(R.id.DistribucionsClientMantIMBEsborrar);
-        g_Draw.g_IMB_Esborrar = l_IMB_Esborrar;
         l_IMB_Ajuda = (ImageButton) findViewById(R.id.DistribucionsClientMantIMBAjuda);
         g_NomDistribucio = (EditText) findViewById(R.id.DistribucionsClientMantTXTNom);
         // Seekbar del zoom
@@ -270,16 +268,6 @@ public class distribucions_client_mant extends ActionBarActivity {
                 l_FLM_Eines.close(true);
             }
         });
-        // Boto/Imatge de esborrar
-        l_IMB_Esborrar.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                // Hauriem de preguntar si ho fem o no!!!!!!!!!!!!!!!!!!!!!
-                //
-                // MANCA ESBORRAR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                // I QUE ESBORREM
-            }
-        });
         // Boto de ajuda
         l_IMB_Ajuda.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -319,25 +307,15 @@ public class distribucions_client_mant extends ActionBarActivity {
             animFadein = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in);
 
             TaulaClient l_TaulaClient = (TaulaClient) view.getTag();
-            // Tanquem la finestra de taules
-            l_DRL_Taules.closeDrawer(g_LVW_Taules);
             // Posem la taula al centre (indicant null)
             g_Draw.PosaTaula(null, l_TaulaClient);
-            g_Draw.invalidate();
+            //g_Draw.invalidate();
 
             // La desplacem
             g_Draw.MoureTaula();
-
-            // Ho comentem
-            //g_Draw.startAnimation(animFadein);
-
-            /*
-            ScaleAnimation fade_in =  new ScaleAnimation(1f, 2f, 1f, 2f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-            fade_in.setDuration(1000);     // animation duration in milliseconds
-            fade_in.setFillAfter(true);    // If fillAfter is true, the transformation that this animation performed will persist when it is finished.
-            g_Draw.startAnimation(fade_in);
-            */
-            //g_Draw.g_ScaleFactor = 2;
+            // Tanquem la finestra de taules? No, la deixem oberta per si l'usuari vol continuar
+            // possant taules.
+            // l_DRL_Taules.closeDrawer(g_LVW_Taules);
         }
     }
 
@@ -353,11 +331,17 @@ public class distribucions_client_mant extends ActionBarActivity {
         Intent l_Intent;
         int l_id = p_Item.getItemId();
 
-        if (l_id == R.id.DistribucionsClientMantMNUAcceptar) {
-            FerOperativa();
-            return true;
+        switch (l_id){
+            case R.id.DistribucionsClientMantMNUAcceptar:
+                FerOperativa();
+                return true;
+            case R.id.DistribucionsClientMantMNUEsborrar:
+                // Hauriem de preguntar si ho fem o no!!!!!!!!!!!!!!!!!!!!!
+                //
+                // MANCA ESBORRAR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                // I QUE ESBORREM
+                return true;
         }
-
         return super.onOptionsItemSelected(p_Item);
     }
 

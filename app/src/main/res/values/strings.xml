@@ -20,6 +20,7 @@
     <string name="boto_Cancelar">Cancel</string>
     <string name="Seleccionar">Select</string>
     <string name="Acceptar">Accept</string>
+    <string name="Esborrar">Drop</string>
     <string name="Tria_Mail">Choose an Email client :</string>
     <string name="Subject_Invitació">Dear customer, I want an invitation for you</string>
     <string name="Carregant">Loading</string>

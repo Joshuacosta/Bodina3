@@ -1,37 +1,76 @@
 package com.example.it00046.bodina3.Classes.Feina;
 
+import android.graphics.RectF;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import com.example.it00046.bodina3.Classes.DistribucioEdicio;
+import com.example.it00046.bodina3.Classes.Globals;
+import com.example.it00046.bodina3.Classes.TaulaView;
+
+
 import java.util.ArrayList;
 
 public class llista_taules {
-    ArrayList<taula> llista;
+    private ArrayList<taula> g_Llista;
+    public RectF g_BoundsSalo = new RectF();
 
     public llista_taules(){
-        llista = new ArrayList<>();
+        g_Llista = new ArrayList<>();
     }
 
-    public void Afegir (taula p_Taula){
-        llista.add(p_Taula);
+    public void Afegir (taula p_Taula, DistribucioEdicio p_Distribucio){
+        int l_NumTaules, l_PosX, l_PosY;
+
+        g_Llista.add(p_Taula);
+        if (p_Distribucio != null){
+            TaulaView l_Taula = new TaulaView(Globals.g_Native);
+            RelativeLayout.LayoutParams l_params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            l_Taula.ExpresaTaula(p_Taula.Taula, true, p_Distribucio.g_UnitatX);
+            p_Distribucio.addView(l_Taula, l_params);
+
+            /*
+            // Posem la taula al centre fent que sembli que ve de la esquerra
+            l_Taula.setX(p_Distribucio.g_CenterX);
+            l_Taula.setX(2500);
+            l_Taula.animate().translationX(p_Distribucio.g_CenterX).translationY(p_Distribucio.g_CenterY);
+            */
+            l_Taula.setX(p_Distribucio.g_CenterX);
+            l_Taula.setX(2500);
+            l_NumTaules = g_Llista.size();
+            if (l_NumTaules == 1){
+                l_PosX = Math.round(g_BoundsSalo.left + 15 + (p_Taula.Taula.AmpladaDiametre/p_Distribucio.g_UnitatX));
+                l_PosY = Math.round(g_BoundsSalo.top + 15 + (p_Taula.Taula.AmpladaDiametre/p_Distribucio.g_UnitatX));
+                //l_Taula.animate().translationX(l_PosX).translationY(l_PosY);
+                l_Taula.animate().translationX(g_BoundsSalo.left).translationY(g_BoundsSalo.top);
+            }
+        }
     }
 
     public void Activar(int p_i){
-        llista.get(p_i).DIB_Actiu = true;
+        g_Llista.get(p_i).DIB_Actiu = true;
     }
 
     public void DesActivar(int p_i){
-        llista.get(p_i).DIB_Actiu = false;
+        g_Llista.get(p_i).DIB_Actiu = false;
     }
 
     public void DesmarcarActives(){
-        for (int i=0; i < llista.size(); i++){
-            llista.get(i).DIB_Actiu = false;
+        for (int i=0; i < g_Llista.size(); i++){
+            g_Llista.get(i).DIB_Actiu = false;
+        }
+    }
+
+    public void DibuixaTaules(){
+        for (int i=0; i < g_Llista.size(); i++){
+
         }
     }
 
     public taula element(int i){
-        return llista.get(i);
+        return g_Llista.get(i);
     }
 
     public int Tamany(){
-        return llista.size();
+        return g_Llista.size();
     }
 }
