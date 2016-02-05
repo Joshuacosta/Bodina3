@@ -179,6 +179,8 @@ public class DistribucioEdicio extends RelativeLayout {
             g_UnitatX = Math.round(g_AmpladaScreen / g_EscalaPlanolAmplada);
             g_EscalaPlanolLlargada = Integer.valueOf(l_Valors[1]);
             g_UnitatY = Math.round(g_LlargadaScreen / g_EscalaPlanolLlargada);
+            // Informem la llista de taules del factor de separacio de taules (per poder distribuir-les)
+            g_TaulesDistribucio.g_SeparacioTaules = g_UnitatX*2;
         }
         canvas.save();
 

@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -51,10 +52,11 @@ public class TaulaView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         // Pintem la taula
+
         switch (g_Taula.Tipus){
             case TaulaClient.k_TipusRodona:
                 if (g_Real) {
-                    canvas.drawCircle(50, 50, g_Taula.AmpladaDiametre / g_Factor, g_PaintTaula);
+                    canvas.drawCircle((g_Taula.AmpladaDiametre / g_Factor), (g_Taula.AmpladaDiametre / g_Factor), (g_Taula.AmpladaDiametre/2) / g_Factor, g_PaintTaula);
                 }
                 else {
                     canvas.drawCircle(20, 20, 20, g_PaintTaula);
@@ -62,7 +64,7 @@ public class TaulaView extends View {
                 break;
             case TaulaClient.k_TipusQuadrada:
                 if (g_Real) {
-                    canvas.drawRect(50, 50, g_Taula.AmpladaDiametre / g_Factor, g_Taula.AmpladaDiametre / g_Factor, g_PaintTaula);
+                    canvas.drawRect(0, 0, g_Taula.AmpladaDiametre / g_Factor, g_Taula.AmpladaDiametre / g_Factor, g_PaintTaula);
                 }
                 else {
                     canvas.drawRect(5, 5, 35, 35, g_PaintTaula);
@@ -70,7 +72,7 @@ public class TaulaView extends View {
                 break;
             case TaulaClient.k_TipusRectangular:
                 if (g_Real){
-                    canvas.drawRect(50, 50, g_Taula.AmpladaDiametre / g_Factor, g_Taula.Llargada / g_Factor, g_PaintTaula);
+                    canvas.drawRect(0, 0, g_Taula.AmpladaDiametre / g_Factor, g_Taula.Llargada / g_Factor, g_PaintTaula);
                 }
                 else {
                     // Orientem en funcio de que es mes llarg
@@ -89,7 +91,27 @@ public class TaulaView extends View {
         g_Real = p_Real;
         g_Factor = p_Factor;
         // Ens pintem
-        invalidate();
+        this.invalidate();
+    }
+
+    public void MouTaula(PointF p_PuntDesti, PointF p_PuntOrigen){
+        // Si no hi ha origen simulem que venim de fora
+        if (p_PuntOrigen == null){
+            this.setX(2500);
+        }
+        else{
+            // !!!!!!!!!!!!!!!!!! Aixo anira en funcio del tipo de taula?
+            // En aquest cas crec que si.
+            this.setX(p_PuntOrigen.x);
+            this.setY(p_PuntOrigen.y);
+        }
+        this.animate().translationX(p_PuntDesti.x).translationY(p_PuntDesti.y);
+    }
+
+    public PointF DonamGuia(){
+        // !!!!!!!!!!!!!!!!!! Aixo anira en funcio del tipo de taula?
+        PointF l_Punt = new PointF(this.getX() + (g_Taula.AmpladaDiametre/2), this.getY() - (g_Taula.AmpladaDiametre/2));
+        return l_Punt;
     }
 
 }
