@@ -37,6 +37,12 @@ public class TaulaView extends View {
         setupDrawing();
     }
 
+    public TaulaView(){
+        super(Globals.g_Native);
+        g_Context = Globals.g_Native;
+        setupDrawing();
+    }
+
     private void setupDrawing() {
         g_PaintTaula = new Paint();
         g_PaintTaula.setColor(Color.LTGRAY);

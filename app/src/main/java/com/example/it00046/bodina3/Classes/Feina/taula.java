@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
 import com.example.it00046.bodina3.Classes.Globals;
+import com.example.it00046.bodina3.Classes.TaulaView;
 import com.example.it00046.bodina3.R;
 
 /**
@@ -32,15 +33,12 @@ public class taula {
     public int CodiTaula;
     public Rect Detector;
     public TaulaClient Taula;
+    public TaulaView View;
     //
     public Boolean DIB_Actiu;
     private Paint l_TaulaActiva;
-    private Bitmap b;
-    private Bitmap bGraf;
     private BitmapDrawable b1;
     public Rect DetectorButo;
-
-    private Drawable mCustomImage;
 
     public taula(boolean p_Actiu) {
         Punt = new PointF();
@@ -51,6 +49,7 @@ public class taula {
         CodiTaula = -1;
         Detector = new Rect();
         DetectorButo = new Rect();
+        View = new TaulaView();
         //
         l_TaulaActiva = new Paint();
         l_TaulaActiva.setColor(Color.GREEN);
@@ -58,7 +57,6 @@ public class taula {
         l_TaulaActiva.setStyle(Paint.Style.STROKE);
         l_TaulaActiva.setStrokeWidth(2);
 
-        b = BitmapFactory.decodeResource(Globals.g_Native.getResources(), R.drawable.ic_ma_gris_24);
         //b.setWidth(15);
         //b1 = new BitmapDrawable(Globals.g_Native.getResources(), b);
         DIB_Actiu = p_Actiu;
@@ -81,7 +79,6 @@ public class taula {
         Detector = new Rect(Math.round(Punt.x) -l_aux, Math.round(Punt.y) -l_aux, Math.round(Punt.x) + l_aux, Math.round(Punt.y) + l_aux);
         // Validem si hi es activa
         if (DIB_Actiu) {
-            bGraf = Bitmap.createScaledBitmap(b, 40, 40, false);
             //p_Canvas.drawBitmap(bGraf, Punt.x, Punt.y + 25, p);
             //p_Canvas.drawBitmap(bGraf, Math.round(Punt.x)-20, Math.round(Punt.y)-20, p);
             // Detector del buto de moviment

@@ -18,9 +18,9 @@ public class llista_taules {
     private PointF g_Guia = new PointF();
     public RectF g_BoundsSalo = new RectF();
     public int g_SeparacioTaules = 0;
+    public DistribucioEdicio g_Distribucio;
 
     public llista_taules(){
-
         g_Llista = new ArrayList<>();
     }
 
