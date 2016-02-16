@@ -24,20 +24,19 @@ public class llista_taules {
         g_Llista = new ArrayList<>();
     }
 
-    public void Afegir (taula p_Taula, DistribucioEdicio p_Distribucio){
-        int l_NumTaules, l_PosX, l_PosY;
+    public void Afegir (taula p_Taula){
 
         g_Llista.add(p_Taula);
-        if (p_Distribucio != null){
-            TaulaView l_Taula = new TaulaView(Globals.g_Native);
+        if (g_Distribucio != null){
+            p_Taula.View = new TaulaView(Globals.g_Native);
             RelativeLayout.LayoutParams l_params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            l_Taula.ExpresaTaula(p_Taula.Taula, true, p_Distribucio.g_UnitatX);
-            p_Distribucio.addView(l_Taula, l_params);
+            p_Taula.View.ExpresaTaula(p_Taula.Taula, true, g_Distribucio.g_UnitatX);
+            g_Distribucio.addView(p_Taula.View, l_params);
 
             if (g_Guia == null){
                 g_Guia = new PointF(g_BoundsSalo.left, g_BoundsSalo.top);
             }
-            l_Taula.MouTaula(new PointF(g_Guia.x + g_SeparacioTaules, g_Guia.y + g_SeparacioTaules), null);
+            p_Taula.View.MouTaula(new PointF(g_Guia.x + g_SeparacioTaules, g_Guia.y + g_SeparacioTaules), null);
             /*
             // Posem la taula al centre fent que sembli que ve de la esquerra
             l_Taula.setX(p_Distribucio.g_CenterX);

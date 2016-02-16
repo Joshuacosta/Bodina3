@@ -82,7 +82,6 @@ public class DistribucioEdicio extends RelativeLayout {
     public int g_UnitatX, g_UnitatY;
     public int g_EscalaPlanolAmplada, g_EscalaPlanolLlargada;
     private int g_AmpladaScreen, g_LlargadaScreen;
-    private boolean g_PrimerDibuix = true;
     private boolean g_MovemPlanol = false;
     public boolean g_EscalemPlanol = false;
     public PointF g_DarrerPuntTocat = new PointF();
@@ -102,7 +101,8 @@ public class DistribucioEdicio extends RelativeLayout {
         super(p_Context, p_Attrs);
         setupDrawing();
         g_Context = p_Context;
-
+        // Definim la nostra distribucio a la llista de taules
+        g_TaulesDistribucio.g_Distribucio = Jo;
         // Definim el gesture detector....
         g_GestureDetector = new GestureDetector(p_Context, new GestureListener());
         // Definim el gesture detector de scala
@@ -158,6 +158,8 @@ public class DistribucioEdicio extends RelativeLayout {
     }
 
     @Override
+    // En el OnDraw pintem el planol i els textes, i movem les taules si es necesari
+    // Tema escala?
     protected void onDraw(Canvas canvas) {
         PointF l_TextePoint, l_TaulaPoint;
         Path l_Quadricula = new Path();
@@ -165,14 +167,16 @@ public class DistribucioEdicio extends RelativeLayout {
         RectF l_BoundsPlanol = new RectF();
         float l_Adaptar;
 
+        canvas.save();
+
         if (g_Planol == null) {
+            // ////////////////////////////////////////////////////////////////////////////////////////
             // Recuperem el planol del salo i el gravem a les estructures de treball
-            // (Nomes cal fer-ho un cop)
+            // (Nomes cal fer-ho un cop, el planol no es modifica)
             g_Planol = DAOSalonsClient.LlegirPlanolSalo(g_CodiSalo, g_Context);
-            CarregaPlanol(g_Planol);
+            this.CarregaPlanol(g_Planol);
             g_EscalaPlanol = g_Planol.Escala;
             g_UnitatsPlanol = g_Planol.Unitats;
-            //
             // Calculem escala i unitats
             String[] l_Valors = g_EscalaPlanol.split("x");
             g_EscalaPlanolAmplada = Integer.valueOf(l_Valors[0]);
@@ -181,8 +185,46 @@ public class DistribucioEdicio extends RelativeLayout {
             g_UnitatY = Math.round(g_LlargadaScreen / g_EscalaPlanolLlargada);
             // Informem la llista de taules del factor de separacio de taules (per poder distribuir-les)
             g_TaulesDistribucio.g_SeparacioTaules = g_UnitatX*2;
+            // ////////////////////////////////////////////////////////////////////////////////////////
+            // Definim la estructura draw del planol
+            g_drawPlanolSalo.reset();
+            for (int I=0; I < g_LiniesPlanol.size(); I++) {
+                l_Linia2 = g_LiniesPlanol.get(I);
+                l_Linia2.Inici.offset(g_mPosX, g_mPosY);
+                // Si estem a la primera linia ens posicionem "al principi" amb un move
+                if (I == 0) {
+                    g_drawPlanolSalo.moveTo(l_Linia2.Inici.x, l_Linia2.Inici.y);
+                }
+                // Pintem el punt final
+                l_Linia2.Fi.offset(g_mPosX, g_mPosY);
+                // Validem si es una curva
+                if (l_Linia2.Curva) {
+                    l_Linia2.PuntCurva.offset(g_mPosX, g_mPosY);
+                    g_drawPlanolSalo.quadTo(l_Linia2.PuntCurva.x, l_Linia2.PuntCurva.y, l_Linia2.Fi.x, l_Linia2.Fi.y);
+                    // Si s'ha mogut tambe hem de modificar la posicio
+                    if (l_Linia2.ObjDistancia.Mogut){
+                        l_Linia2.ObjDistancia.Punt.offset(g_mPosX, g_mPosY);
+                    }
+                }
+                else {
+                    g_drawPlanolSalo.lineTo(l_Linia2.Fi.x, l_Linia2.Fi.y);
+                }
+            }
+            g_drawPlanolSalo.computeBounds(l_BoundsPlanol, true);
+            if (l_BoundsPlanol.width() > l_BoundsPlanol.height()) {
+                l_Adaptar = l_BoundsPlanol.width() / l_BoundsPlanol.height();
+            } else {
+                l_Adaptar = l_BoundsPlanol.height() / l_BoundsPlanol.width();
+            }
+            //
+            Matrix scaleMatrix = new Matrix();
+            scaleMatrix.setScale(l_Adaptar, l_Adaptar, l_BoundsPlanol.centerX(), l_BoundsPlanol.centerY());
+            g_drawPlanolSalo.transform(scaleMatrix);
+            // Informe a la distribucio del planol dels bounds del salo (tornem a recalcular els bounds
+            // per l'adaptacio feta)
+            g_drawPlanolSalo.computeBounds(l_BoundsPlanol, true);
+            g_TaulesDistribucio.g_BoundsSalo = l_BoundsPlanol;
         }
-        canvas.save();
 
         if (g_EscalemPlanol) {
 
@@ -221,102 +263,29 @@ public class DistribucioEdicio extends RelativeLayout {
         }
         canvas.drawPath(l_Quadricula, g_PaintQuadricula);
         // ///////////////////////////////////////////////////////////////////////////////////////
-        // Rectes i curves (ho hem de pintar sempre perque potser ens mouem amb el dit, caldria
-        if (g_PrimerDibuix) {
-            g_drawPlanolSalo.reset();
-            for (int I=0; I < g_LiniesPlanol.size(); I++) {
-                l_Linia2 = g_LiniesPlanol.get(I);
-                l_Linia2.Inici.offset(g_mPosX, g_mPosY);
-                // Si estem a la primera linia ens posicionem "al principi" amb un move
-                if (I == 0) {
-                    g_drawPlanolSalo.moveTo(l_Linia2.Inici.x, l_Linia2.Inici.y);
-                }
-                // Pintem el punt final
-                l_Linia2.Fi.offset(g_mPosX, g_mPosY);
-                // Validem si es una curva
-                if (l_Linia2.Curva) {
-                    l_Linia2.PuntCurva.offset(g_mPosX, g_mPosY);
-                    g_drawPlanolSalo.quadTo(l_Linia2.PuntCurva.x, l_Linia2.PuntCurva.y, l_Linia2.Fi.x, l_Linia2.Fi.y);
-                    // Si s'ha mogut tambe hem de modificar la posicio
-                    if (l_Linia2.ObjDistancia.Mogut){
-                        l_Linia2.ObjDistancia.Punt.offset(g_mPosX, g_mPosY);
-                    }
-                }
-                else {
-                    g_drawPlanolSalo.lineTo(l_Linia2.Fi.x, l_Linia2.Fi.y);
-                }
-            }
-            g_drawPlanolSalo.computeBounds(l_BoundsPlanol, true);
-            if (l_BoundsPlanol.width() > l_BoundsPlanol.height()) {
-                l_Adaptar = l_BoundsPlanol.width() / l_BoundsPlanol.height();
-            } else {
-                l_Adaptar = l_BoundsPlanol.height() / l_BoundsPlanol.width();
-            }
-            //
-            Matrix scaleMatrix = new Matrix();
-            scaleMatrix.setScale(l_Adaptar, l_Adaptar, l_BoundsPlanol.centerX(), l_BoundsPlanol.centerY());
-            g_drawPlanolSalo.transform(scaleMatrix);
-            g_PrimerDibuix = false;
-            // Informe a la distribucio del planol dels bounds del salo (tornem a recalcular els bounds)
-            g_drawPlanolSalo.computeBounds(l_BoundsPlanol, true);
-            g_TaulesDistribucio.g_BoundsSalo = l_BoundsPlanol;
-        }
-        else {
-            /*
-            // Si hi ha zoom repintem
-            Log.d("BOD-DistribucioEdicio", "------------------------ Scale: " + g_ScaleFactor);
-            if (g_ScaleFactor > 0){
-                g_drawPlanolSalo.reset();
-                for (int I=0; I < g_LiniesPlanol.size(); I++) {
-                    l_Linia2 = g_LiniesPlanol.get(I);
-                    l_Linia2.Inici.offset(g_mPosX, g_mPosY);
-                    // Si estem a la primera linia ens posicionem "al principi" amb un move
-                    if (I == 0) {
-                        g_drawPlanolSalo.moveTo(l_Linia2.Inici.x*g_ScaleFactor, l_Linia2.Inici.y*g_ScaleFactor);
-                    }
-                    // Pintem el punt final
-                    l_Linia2.Fi.offset(g_mPosX, g_mPosY);
-                    // Validem si es una curva
-                    if (l_Linia2.Curva) {
-                        l_Linia2.PuntCurva.offset(g_mPosX, g_mPosY);
-                        g_drawPlanolSalo.quadTo(l_Linia2.PuntCurva.x, l_Linia2.PuntCurva.y, l_Linia2.Fi.x, l_Linia2.Fi.y);
-                        // Si s'ha mogut tambe hem de modificar la posicio
-                        if (l_Linia2.ObjDistancia.Mogut){
-                            l_Linia2.ObjDistancia.Punt.offset(g_mPosX, g_mPosY);
-                        }
-                    }
-                    else {
-                        g_drawPlanolSalo.lineTo(l_Linia2.Fi.x*g_ScaleFactor, l_Linia2.Fi.y*g_ScaleFactor);
-                    }
-                }
-            }
-            */
-        }
+        //
 
         Log.d("BOD-DistribucioEdicio", "------------------------ ??????? " + g_mPosX + ", " + g_mPosY);
 
-        if (!g_EscalemPlanol) {
-            g_drawPlanolSalo.offset(Math.round(g_mPosX), Math.round(g_mPosY));
-        }
+        //if (!g_EscalemPlanol) {
+        //    g_drawPlanolSalo.offset(Math.round(g_mPosX), Math.round(g_mPosY));
+        //}
+        // ///////////////////////////////////////////////////////////////////////////////////////
+        // Pintem planol
+        g_drawPlanolSalo.offset(Math.round(g_mPosX), Math.round(g_mPosY));
         canvas.drawPath(g_drawPlanolSalo, g_PaintPlanol);
         // ///////////////////////////////////////////////////////////////////////////////////////
-        // Textes
+        // Pintem textes
         for (int k=0; k < g_TextesPlanol.size(); k++) {
-            // Validem si el texte l'han esborrat
-            if (g_TextesPlanol.get(k).Esborrat == false) {
-                // Movem el punt
-                l_TextePoint = g_TextesPlanol.get(k).Punt;
-                l_TextePoint.offset(g_mPosX, g_mPosY);
-                canvas.drawText(g_TextesPlanol.get(k).Texte,
+            l_TextePoint = g_TextesPlanol.get(k).Punt;
+            l_TextePoint.offset(g_mPosX, g_mPosY);
+            canvas.drawText(g_TextesPlanol.get(k).Texte,
                                 l_TextePoint.x,
                                 l_TextePoint.y,
                                 g_PaintText);
-                // Movem el Detector per si s'ha desplaçat el canvas
-                g_TextesPlanol.get(k).Detector.offset(Math.round(g_mPosX), Math.round(g_mPosY));
-            }
         }
         // ///////////////////////////////////////////////////////////////////////////////////////
-        // Taules
+        // Pintem taules
         for (int l=0; l < g_TaulesDistribucio.Tamany(); l++){
             // Validem que la taula no estigui esborrada
             if (g_TaulesDistribucio.element(l).Esborrat == false) {
@@ -344,6 +313,7 @@ public class DistribucioEdicio extends RelativeLayout {
             canvas.drawRect(g_Ditet, g_PaintTaulaBorrantoError);
 
         //
+
         canvas.restore();
     }
 
@@ -425,8 +395,8 @@ public class DistribucioEdicio extends RelativeLayout {
                             //g_TaulaView.setX(l_X);
                             //g_TaulaView.setY(l_Y);
 
-                            //if (g_TaulaSeleccionada != null){
-                            if (g_TaulaSeleccionada == null){
+                            if (g_TaulaSeleccionada != null){
+                            //if (g_TaulaSeleccionada == null){
 
                                 g_TaulaView.setX(l_ActualPoint.x);
                                 g_TaulaView.setY(l_ActualPoint.y);
@@ -467,7 +437,6 @@ public class DistribucioEdicio extends RelativeLayout {
                                             g_TaulaView.setX(g_TaulaView.getX()+g_mPosX);
                                             g_TaulaView.setY(g_TaulaView.getY() + g_mPosY);
                                             Log.d("BOD-DistribucioEdicio", "------------------------ Pintem... ");
-
                                         }
                                     }
 
@@ -585,7 +554,7 @@ public class DistribucioEdicio extends RelativeLayout {
         l_Taula.Esborrat = false;
         l_Taula.Esborrantse = false;
         l_Taula.Taula = P_Taula;
-        g_TaulesDistribucio.Afegir(l_Taula, Jo);
+        g_TaulesDistribucio.Afegir(l_Taula);
         // La dibuixem
         /*
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
