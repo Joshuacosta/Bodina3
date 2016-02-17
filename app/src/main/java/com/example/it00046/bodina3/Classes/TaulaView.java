@@ -19,12 +19,15 @@ import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
  * Amb aquesta clase mostrem la taula de forma grafica
  */
 public class TaulaView extends View {
-
     private Paint g_PaintTaula;
+    private Paint g_PaintTaulaActiva;
     private TaulaClient g_Taula = new TaulaClient();
     Context g_Context;
     private boolean g_Real = true;
+    private boolean g_Activa = false;
     private int g_Factor = 0;
+    private Rect g_Bounds;
+    private int g_Width, g_Height;
 
     public TaulaView(Context p_Context, AttributeSet p_Attrs) {
         super(p_Context, p_Attrs);
@@ -48,6 +51,11 @@ public class TaulaView extends View {
         g_PaintTaula.setColor(Color.LTGRAY);
         g_PaintTaula.setAntiAlias(true);
         g_PaintTaula.setStrokeWidth(5);
+        //
+        g_PaintTaulaActiva = new Paint();
+        g_PaintTaulaActiva.setColor(Color.GREEN);
+        g_PaintTaulaActiva.setAntiAlias(true);
+        g_PaintTaulaActiva.setStrokeWidth(2);
     }
 
     @Override
@@ -62,7 +70,13 @@ public class TaulaView extends View {
         switch (g_Taula.Tipus){
             case TaulaClient.k_TipusRodona:
                 if (g_Real) {
-                    canvas.drawCircle((g_Taula.AmpladaDiametre / g_Factor), (g_Taula.AmpladaDiametre / g_Factor), (g_Taula.AmpladaDiametre/2) / g_Factor, g_PaintTaula);
+                    if (g_Activa) {
+                        canvas.drawCircle((g_Taula.AmpladaDiametre / g_Factor), (g_Taula.AmpladaDiametre / g_Factor), (g_Taula.AmpladaDiametre / 2) / g_Factor, g_PaintTaulaActiva);
+                    }
+                    else{
+                        canvas.drawCircle((g_Taula.AmpladaDiametre / g_Factor), (g_Taula.AmpladaDiametre / g_Factor), (g_Taula.AmpladaDiametre / 2) / g_Factor, g_PaintTaula);
+                    }
+                    g_Width = g_Height = g_Taula.AmpladaDiametre / g_Factor;
                 }
                 else {
                     canvas.drawCircle(20, 20, 20, g_PaintTaula);
@@ -70,7 +84,12 @@ public class TaulaView extends View {
                 break;
             case TaulaClient.k_TipusQuadrada:
                 if (g_Real) {
-                    canvas.drawRect(0, 0, g_Taula.AmpladaDiametre / g_Factor, g_Taula.AmpladaDiametre / g_Factor, g_PaintTaula);
+                    if (g_Activa) {
+                        canvas.drawRect(0, 0, g_Taula.AmpladaDiametre / g_Factor, g_Taula.AmpladaDiametre / g_Factor, g_PaintTaulaActiva);
+                    }
+                    else{
+                        canvas.drawRect(0, 0, g_Taula.AmpladaDiametre / g_Factor, g_Taula.AmpladaDiametre / g_Factor, g_PaintTaula);
+                    }
                 }
                 else {
                     canvas.drawRect(5, 5, 35, 35, g_PaintTaula);
@@ -78,7 +97,12 @@ public class TaulaView extends View {
                 break;
             case TaulaClient.k_TipusRectangular:
                 if (g_Real){
-                    canvas.drawRect(0, 0, g_Taula.AmpladaDiametre / g_Factor, g_Taula.Llargada / g_Factor, g_PaintTaula);
+                    if (g_Activa) {
+                        canvas.drawRect(0, 0, g_Taula.AmpladaDiametre / g_Factor, g_Taula.Llargada / g_Factor, g_PaintTaulaActiva);
+                    }
+                    else{
+                        canvas.drawRect(0, 0, g_Taula.AmpladaDiametre / g_Factor, g_Taula.Llargada / g_Factor, g_PaintTaula);
+                    }
                 }
                 else {
                     // Orientem en funcio de que es mes llarg
@@ -90,33 +114,53 @@ public class TaulaView extends View {
                 }
                 break;
         }
+        g_Bounds = canvas.getClipBounds();
     }
 
-    public void ExpresaTaula(TaulaClient p_Taula, boolean p_Real, int p_Factor){
+    public void ExpresaTaula(TaulaClient p_Taula, boolean p_Real, int p_Factor, boolean p_Activa){
         g_Taula = p_Taula;
         g_Real = p_Real;
         g_Factor = p_Factor;
+        g_Activa = p_Activa;
         // Ens pintem
-        this.invalidate();
+        invalidate();
+    }
+
+    public void Activacio(boolean p_Activa){
+        g_Activa = p_Activa;
+        // Ens pintem
+        invalidate();
+    }
+
+    public boolean Tocada(Rect p_Punt){
+        int[] l = new int[2];
+        getLocationOnScreen(l);
+        g_Bounds = new Rect(l[0], l[1], l[0] + g_Width, l[1] + g_Height);
+
+        Log.d("BOD-Toquem?", "Punt      " + p_Punt.top + "," + p_Punt.left + "-" + p_Punt.bottom + "," + p_Punt.right);
+        Log.d("BOD-Toquem?", "Nosaltres " + g_Bounds.top + "," + g_Bounds.left + "-" + g_Bounds.bottom + "," + g_Bounds.right);
+        Log.d("BOD-Toquem?", "Resultat: " + p_Punt.intersect(g_Bounds));
+
+        return p_Punt.intersect(g_Bounds);
     }
 
     public void MouTaula(PointF p_PuntDesti, PointF p_PuntOrigen){
         // Si no hi ha origen simulem que venim de fora
         if (p_PuntOrigen == null){
-            this.setX(2500);
+            setX(2500);
         }
-        else{
+        else {
             // !!!!!!!!!!!!!!!!!! Aixo anira en funcio del tipo de taula?
             // En aquest cas crec que si.
-            this.setX(p_PuntOrigen.x);
-            this.setY(p_PuntOrigen.y);
+            setX(p_PuntOrigen.x);
+            setY(p_PuntOrigen.y);
         }
-        this.animate().translationX(p_PuntDesti.x).translationY(p_PuntDesti.y);
+        animate().translationX(p_PuntDesti.x).translationY(p_PuntDesti.y);
     }
 
     public PointF DonamGuia(){
         // !!!!!!!!!!!!!!!!!! Aixo anira en funcio del tipo de taula?
-        PointF l_Punt = new PointF(this.getX() + (g_Taula.AmpladaDiametre/2), this.getY() - (g_Taula.AmpladaDiametre/2));
+        PointF l_Punt = new PointF(getX() + (g_Taula.AmpladaDiametre/2), getY() - (g_Taula.AmpladaDiametre/2));
         return l_Punt;
     }
 

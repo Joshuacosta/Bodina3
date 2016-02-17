@@ -303,6 +303,8 @@ public class DistribucioEdicio extends RelativeLayout {
 
                 canvas.drawRect(g_TaulesDistribucio.element(l).Detector, g_PaintPlanol);
                 */
+                //g_TaulesDistribucio.element(l).View.setX(g_TaulesDistribucio.element(l).View.getX()+g_mPosX);
+                //g_TaulesDistribucio.element(l).View.setY(g_TaulesDistribucio.element(l).View.getY()+g_mPosY);
             }
         }
 
@@ -346,15 +348,15 @@ public class DistribucioEdicio extends RelativeLayout {
                             l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
                                     Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
 
-                            g_Ditet = new Rect(Math.round(l_ActualPoint.x) - 10, Math.round(l_ActualPoint.y) - 10,
-                                               Math.round(l_ActualPoint.x) + 10, Math.round(l_ActualPoint.y) + 10);
+                            g_Ditet = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
+                                               Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
 
                             // Validem que no tinguem marcada una taula
                             if (g_TaulaSeleccionada == null) {
                                 l_Taula = MarquemTaula(l_Detector);
                                 if (l_Taula != null) {
                                     g_TaulaSeleccionada = l_Taula;
-                                    invalidate();
+                                    //invalidate();
                                 }
                                 else {
                                     // Hem marcat en el planol, apuntem posicio per si
@@ -391,15 +393,10 @@ public class DistribucioEdicio extends RelativeLayout {
                     //
                     switch (g_ModusDibuix) {
                         case taula:
-
-                            //g_TaulaView.setX(l_X);
-                            //g_TaulaView.setY(l_Y);
-
                             if (g_TaulaSeleccionada != null){
-                            //if (g_TaulaSeleccionada == null){
 
-                                g_TaulaView.setX(l_ActualPoint.x);
-                                g_TaulaView.setY(l_ActualPoint.y);
+                                g_TaulaSeleccionada.View.setX(l_ActualPoint.x);
+                                g_TaulaSeleccionada.View.setY(l_ActualPoint.y);
 
                                 /*
                                 // Movem el punt que posiciona la taula i el detector
@@ -434,8 +431,10 @@ public class DistribucioEdicio extends RelativeLayout {
                                     for (int l=0; l < g_TaulesDistribucio.Tamany(); l++){
                                         // Validem que la taula no estigui esborrada
                                         if (g_TaulesDistribucio.element(l).Esborrat == false) {
-                                            g_TaulaView.setX(g_TaulaView.getX()+g_mPosX);
-                                            g_TaulaView.setY(g_TaulaView.getY() + g_mPosY);
+                                            //g_TaulaView.setX(g_TaulaView.getX()+g_mPosX);
+                                            //g_TaulaView.setY(g_TaulaView.getY() + g_mPosY);
+                                            g_TaulesDistribucio.element(l).View.setX(g_TaulesDistribucio.element(l).View.getX()+g_mPosX);
+                                            g_TaulesDistribucio.element(l).View.setY(g_TaulesDistribucio.element(l).View.getY() + g_mPosY);
                                             Log.d("BOD-DistribucioEdicio", "------------------------ Pintem... ");
                                         }
                                     }
@@ -455,7 +454,6 @@ public class DistribucioEdicio extends RelativeLayout {
                             g_MovemPlanol = false;
                             g_EscalemPlanol = false;
                             g_DarrerPuntTocat = l_ActualPoint;
-                            invalidate();
                             break;
                     }
                     // De moment no hi ha res que ho necessiti
@@ -524,13 +522,16 @@ public class DistribucioEdicio extends RelativeLayout {
 
     private taula MarquemTaula(Rect P_Posicio){
         taula l_Marcat = null;
+        Rect l_BoundsTaula;
+        int[] l = new int[2];
 
         g_TaulesDistribucio.DesmarcarActives();
 
         for (int i=0; i < g_TaulesDistribucio.Tamany(); i++){
-            if (P_Posicio.intersect(g_TaulesDistribucio.element(i).Detector)){
+            if (g_TaulesDistribucio.element(i).View.Tocada(P_Posicio)){
+                // La retornem i la indiquem com activa
                 l_Marcat = g_TaulesDistribucio.element(i);
-                g_TaulesDistribucio.Activar(i);
+                g_TaulesDistribucio.element(i).View.Activacio(true);
                 break;
             }
         }

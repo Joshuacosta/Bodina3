@@ -30,7 +30,7 @@ public class llista_taules {
         if (g_Distribucio != null){
             p_Taula.View = new TaulaView(Globals.g_Native);
             RelativeLayout.LayoutParams l_params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            p_Taula.View.ExpresaTaula(p_Taula.Taula, true, g_Distribucio.g_UnitatX);
+            p_Taula.View.ExpresaTaula(p_Taula.Taula, true, g_Distribucio.g_UnitatX, false);
             g_Distribucio.addView(p_Taula.View, l_params);
 
             if (g_Guia == null){
@@ -73,7 +73,7 @@ public class llista_taules {
 
     public void DesmarcarActives(){
         for (int i=0; i < g_Llista.size(); i++){
-            g_Llista.get(i).DIB_Actiu = false;
+            g_Llista.get(i).View.Activacio(false);
         }
     }
 

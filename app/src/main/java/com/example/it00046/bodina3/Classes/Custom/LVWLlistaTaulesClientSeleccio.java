@@ -42,7 +42,7 @@ public class LVWLlistaTaulesClientSeleccio extends ArrayAdapter<TaulaClient> {
         l_TXT_Capacitat.setText(l_TXT_Capacitat.getText() + " " + Globals.g_Native.getString(R.string.Maxim));
         // Mostrem dibuix taula i una descripcio a sota
         l_Taula = (TaulaView) p_convertView.findViewById(R.id.LiniaLVWLlistaTaulesClientSeleccioVIWDrawing);
-        l_Taula.ExpresaTaula(l_TaulaClient, false, 0);
+        l_Taula.ExpresaTaula(l_TaulaClient, false, 0, false);
         // Descripcio
         l_TXT_Descripcio = (TextView) p_convertView.findViewById(R.id.LiniaLVWLlistaTaulesClientSeleccioTXTDescripcio);
         l_TXT_Descripcio.setText(l_TaulaClient.DetallAmplada());
