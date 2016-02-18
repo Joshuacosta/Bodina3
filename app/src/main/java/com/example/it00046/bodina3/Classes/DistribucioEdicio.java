@@ -101,8 +101,6 @@ public class DistribucioEdicio extends RelativeLayout {
         super(p_Context, p_Attrs);
         setupDrawing();
         g_Context = p_Context;
-        // Definim la nostra distribucio a la llista de taules
-        g_TaulesDistribucio.g_Distribucio = Jo;
         // Definim el gesture detector....
         g_GestureDetector = new GestureDetector(p_Context, new GestureListener());
         // Definim el gesture detector de scala
@@ -158,8 +156,15 @@ public class DistribucioEdicio extends RelativeLayout {
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec){
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        // Definim la nostra distribucio a la llista de taules
+        g_TaulesDistribucio.g_Distribucio = Jo;
+    }
+
     // En el OnDraw pintem el planol i els textes, i movem les taules si es necesari
     // Tema escala?
+    @Override
     protected void onDraw(Canvas canvas) {
         PointF l_TextePoint, l_TaulaPoint;
         Path l_Quadricula = new Path();
@@ -210,7 +215,7 @@ public class DistribucioEdicio extends RelativeLayout {
                     g_drawPlanolSalo.lineTo(l_Linia2.Fi.x, l_Linia2.Fi.y);
                 }
             }
-            g_drawPlanolSalo.computeBounds(l_BoundsPlanol, true);
+            g_drawPlanolSalo.computeBounds(l_BoundsPlanol, false);
             if (l_BoundsPlanol.width() > l_BoundsPlanol.height()) {
                 l_Adaptar = l_BoundsPlanol.width() / l_BoundsPlanol.height();
             } else {
@@ -222,7 +227,7 @@ public class DistribucioEdicio extends RelativeLayout {
             g_drawPlanolSalo.transform(scaleMatrix);
             // Informe a la distribucio del planol dels bounds del salo (tornem a recalcular els bounds
             // per l'adaptacio feta)
-            g_drawPlanolSalo.computeBounds(l_BoundsPlanol, true);
+            g_drawPlanolSalo.computeBounds(l_BoundsPlanol, false);
             g_TaulesDistribucio.g_BoundsSalo = l_BoundsPlanol;
         }
 
