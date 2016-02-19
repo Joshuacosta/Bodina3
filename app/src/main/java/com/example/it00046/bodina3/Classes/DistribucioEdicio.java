@@ -373,7 +373,7 @@ public class DistribucioEdicio extends RelativeLayout {
                             }
                             else{
                                 // Tenim una taula seleccionada, validem si l'usuari l'esta marcant,
-                                if (g_TaulaSeleccionada.Detector.intersect(l_Detector)){
+                                if (g_TaulaSeleccionada.View.Tocada(l_Detector)){
                                     ;// Ok, la volem moure
                                 }
                                 else{
@@ -399,25 +399,21 @@ public class DistribucioEdicio extends RelativeLayout {
                     switch (g_ModusDibuix) {
                         case taula:
                             if (g_TaulaSeleccionada != null){
+                                //g_TaulaSeleccionada.View.setX(l_ActualPoint.x);
+                                //g_TaulaSeleccionada.View.setY(l_ActualPoint.y);
 
-                                g_TaulaSeleccionada.View.setX(l_ActualPoint.x);
-                                g_TaulaSeleccionada.View.setY(l_ActualPoint.y);
+                                final float dx = l_X - mLastTouchX;
+                                final float dy = l_Y - mLastTouchY;
+                                //g_mPosX = dx;
+                                //g_mPosY = dy;
+                                // Guardem la darrera posicio
+                                mLastTouchX = l_X;
+                                mLastTouchY = l_Y;
+                                // Movem aqui les taules perque si ho fem en el OnDraw provoquem
+                                // un bucle
+                                g_TaulaSeleccionada.View.setX(g_TaulaSeleccionada.View.getX() + dx);
+                                g_TaulaSeleccionada.View.setY(g_TaulaSeleccionada.View.getY() + dy);
 
-                                /*
-                                // Movem el punt que posiciona la taula i el detector
-                                g_TaulesDistribucio.element(g_TaulaSeleccionada.Id).Punt = new PointF(l_ActualPoint.x, l_ActualPoint.y);
-                                g_TaulesDistribucio.element(g_TaulaSeleccionada.Id).Detector.offsetTo(Math.round(l_ActualPoint.x), Math.round(l_ActualPoint.y));
-                                // Validem si ens volen esborrar
-                                l_Esborrar = new Rect();
-                                g_IMB_Esborrar.getHitRect(l_Esborrar);
-                                if (g_TaulaSeleccionada.Detector.intersect(l_Esborrar)) {
-                                    g_TaulaSeleccionada.Esborrantse = true;
-                                }
-                                else {
-                                    g_TaulaSeleccionada.Esborrantse = false;
-                                }
-                                invalidate();
-                                */
                             }
                             else{
                                 if (g_MovemPlanol){
@@ -429,22 +425,16 @@ public class DistribucioEdicio extends RelativeLayout {
                                     // Guardem la darrera posicio
                                     mLastTouchX = l_X;
                                     mLastTouchY = l_Y;
-                                    // Movem els detectors si estem desplazant amb el dit i enacara estem dibuixant?
-                                    // Tenim detectors de treball?
-                                    //
-
+                                    // Movem aqui les taules perque si ho fem en el OnDraw provoquem
+                                    // un bucle
                                     for (int l=0; l < g_TaulesDistribucio.Tamany(); l++){
                                         // Validem que la taula no estigui esborrada
                                         if (g_TaulesDistribucio.element(l).Esborrat == false) {
-                                            //g_TaulaView.setX(g_TaulaView.getX()+g_mPosX);
-                                            //g_TaulaView.setY(g_TaulaView.getY() + g_mPosY);
-                                            g_TaulesDistribucio.element(l).View.setX(g_TaulesDistribucio.element(l).View.getX()+g_mPosX);
+                                            g_TaulesDistribucio.element(l).View.setX(g_TaulesDistribucio.element(l).View.getX() + g_mPosX);
                                             g_TaulesDistribucio.element(l).View.setY(g_TaulesDistribucio.element(l).View.getY() + g_mPosY);
-                                            Log.d("BOD-DistribucioEdicio", "------------------------ Pintem... ");
                                         }
                                     }
-
-                                    // Crec que amb el for anterior aixó es innecesari
+                                    // Quin es el bo?
                                     //invalidate();
                                     postInvalidate();
                                 }

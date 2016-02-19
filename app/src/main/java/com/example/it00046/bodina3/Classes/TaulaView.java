@@ -27,7 +27,6 @@ public class TaulaView extends View {
     private boolean g_Real = true;
     private boolean g_Activa = false;
     private int g_Factor = 0;
-    private Rect g_Bounds;
     private int g_Width, g_Height;
 
     public TaulaView(Context p_Context, AttributeSet p_Attrs) {
@@ -115,31 +114,20 @@ public class TaulaView extends View {
                 }
                 break;
         }
-        g_Bounds = canvas.getClipBounds();
     }
 
-    public void ExpresaTaula(TaulaClient p_Taula, boolean p_Real, int p_Factor, boolean p_Activa){
+    public RelativeLayout.LayoutParams ExpresaTaula(TaulaClient p_Taula, boolean p_Real, int p_Factor, boolean p_Activa){
+        RelativeLayout.LayoutParams l_Params = null;
         g_Taula = p_Taula;
         g_Real = p_Real;
         g_Factor = p_Factor;
         g_Activa = p_Activa;
         // Ens pintem
         invalidate();
-    }
-
-    public RelativeLayout.LayoutParams ExpresaTaula2(TaulaClient p_Taula, boolean p_Real, int p_Factor, boolean p_Activa){
-        RelativeLayout.LayoutParams l_Params;
-        g_Taula = p_Taula;
-        g_Real = p_Real;
-        g_Factor = p_Factor;
-        g_Activa = p_Activa;
-        // Ens pintem
-        invalidate();
-        //
-        l_Params = new RelativeLayout.LayoutParams((g_Taula.AmpladaDiametre / g_Factor)*2, (g_Taula.AmpladaDiametre / g_Factor)*2);
-        //l_Params.leftMargin = Math.round(p_PuntDesti.y);
-        //l_Params.topMargin = Math.round(p_PuntDesti.x);
-        //l_Params.setMargins(100, 100, 0, 0);
+        // Retornem el layaout ajustat al nostre tamany
+        if (g_Real) {
+            l_Params = new RelativeLayout.LayoutParams((g_Taula.AmpladaDiametre / g_Factor) * 2, (g_Taula.AmpladaDiametre / g_Factor) * 2);
+        }
         return l_Params;
     }
 
@@ -150,26 +138,8 @@ public class TaulaView extends View {
     }
 
     public boolean Tocada(Rect p_Punt){
-        int[] l = new int[2];
-        Rect l_aux = new Rect();
-        Point l_Point = new Point();
-
-        getLocationOnScreen(l);
-        g_Bounds = new Rect(l[0], l[1], l[0] + g_Width, l[1] + g_Height);
-
-        Log.d("BOD-Toquem?", "Punt      " + p_Punt.top + "," + p_Punt.left + "-" + p_Punt.bottom + "," + p_Punt.right);
-        Log.d("BOD-Toquem?", "Nosaltres " + g_Bounds.top + "," + g_Bounds.left + "-" + g_Bounds.bottom + "," + g_Bounds.right);
-        Log.d("BOD-Toquem?", "Resultat: " + p_Punt.intersect(g_Bounds));
-
-        this.getGlobalVisibleRect(l_aux, l_Point);
-
-        Log.d("BOD-Toquem?", "Nosaltres 2:" + l_aux.top + "," + l_aux.left + "-" + l_aux.bottom + "," + l_aux.right);
-
-        Log.d("BOD-Toquem?", "Resultat  2: " + p_Punt.intersect(l_aux));
-
-        Log.d("BOD-Toquem?", "Resultat  3: " + p_Punt.contains(Math.round(this.getX()), Math.round(this.getY())));
-
-        return p_Punt.intersect(g_Bounds);
+        // Validem si estem dintre de l'area marcada
+        return p_Punt.contains(Math.round(this.getX()), Math.round(this.getY()));
     }
 
     public void MouTaula(PointF p_PuntDesti, PointF p_PuntOrigen){
@@ -183,9 +153,6 @@ public class TaulaView extends View {
             setX(p_PuntOrigen.x);
             setY(p_PuntOrigen.y);
         }
-
-        Log.d("BOD-Toquem?", "Posats a: " + p_PuntDesti.x + ", " + p_PuntDesti.y);
-
         animate().translationX(p_PuntDesti.x).translationY(p_PuntDesti.y);
     }
 

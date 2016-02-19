@@ -26,17 +26,11 @@ public class llista_taules {
     }
 
     public void Afegir (taula p_Taula){
-
         g_Llista.add(p_Taula);
         if (g_Distribucio != null){
             p_Taula.View = new TaulaView(Globals.g_Native);
-            //RelativeLayout.LayoutParams l_params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            //RelativeLayout.LayoutParams l_params = new RelativeLayout.LayoutParams(50, 50);
-            //l_params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-            //p_Taula.View.setLayoutParams(new RelativeLayout.LayoutParams(50, 50)); //p_Taula.View.setMinimumWidth(50);
-            RelativeLayout.LayoutParams l_params;
-            p_Taula.View.setBackgroundColor(Globals.g_Native.getResources().getColor(R.color.red));
-            l_params = p_Taula.View.ExpresaTaula2(p_Taula.Taula, true, g_Distribucio.g_UnitatX, false);
+            // Expresem la taula i recuperem el params que hem de fer servir per afegir a la distribucio
+            RelativeLayout.LayoutParams l_params = p_Taula.View.ExpresaTaula(p_Taula.Taula, true, g_Distribucio.g_UnitatX, false);
             g_Distribucio.addView(p_Taula.View, 0, l_params);
 
             if (g_Guia == null){
@@ -45,29 +39,6 @@ public class llista_taules {
 
             p_Taula.View.MouTaula(new PointF(g_Guia.x + g_SeparacioTaules, g_Guia.y + g_SeparacioTaules), null);
 
-            /*
-            // Posem la taula al centre fent que sembli que ve de la esquerra
-            l_Taula.setX(p_Distribucio.g_CenterX);
-            l_Taula.setX(2500);
-            l_Taula.animate().translationX(p_Distribucio.g_CenterX).translationY(p_Distribucio.g_CenterY);
-            */
-            /*
-            l_Taula.setX(p_Distribucio.g_CenterX);
-            l_Taula.setX(2500);
-            l_NumTaules = g_Llista.size();
-            //
-            if (g_DarreraPosicio == null){
-                g_DarreraPosicio = new PointF(g_BoundsSalo.left, g_BoundsSalo.top);
-            }
-            //if (l_NumTaules == 1){
-                l_PosX = Math.round(g_DarreraPosicio.x + g_SeparacioTaules);
-                l_PosY = Math.round(g_DarreraPosicio.y + g_SeparacioTaules);
-                l_Taula.animate().translationX(l_PosX).translationY(l_PosY);
-            //}
-            g_DarreraPosicio = new PointF(l_PosX, l_PosY);
-            */
-
-            //g_Guia = new Point();
         }
     }
 
