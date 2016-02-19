@@ -139,20 +139,22 @@ public class TaulaView extends View {
 
     public boolean Tocada(Rect p_Punt){
         // Validem si estem dintre de l'area marcada
+        return p_Punt.contains(Math.round(this.getX() + (g_Taula.AmpladaDiametre / g_Factor)), Math.round(this.getY() + (g_Taula.AmpladaDiametre / g_Factor)));
+    }
+
+    public boolean Posicionament(Rect p_Punt){
+        // Validem si estem dintre de l'area marcada
         return p_Punt.contains(Math.round(this.getX()), Math.round(this.getY()));
     }
 
-    public void MouTaula(PointF p_PuntDesti, PointF p_PuntOrigen){
-        // Si no hi ha origen simulem que venim de fora
-        if (p_PuntOrigen == null){
-            setX(2500);
-        }
-        else {
-            // !!!!!!!!!!!!!!!!!! Aixo anira en funcio del tipo de taula?
-            // En aquest cas crec que si.
-            setX(p_PuntOrigen.x);
-            setY(p_PuntOrigen.y);
-        }
+
+    public void MouTaula(PointF p_PuntDesti){
+        animate().translationX(p_PuntDesti.x).translationY(p_PuntDesti.y);
+    }
+
+    public void PosaTaula(PointF p_PuntDesti){
+        // Amb aixo simulem que ve de fora
+        setX(2500);
         animate().translationX(p_PuntDesti.x).translationY(p_PuntDesti.y);
     }
 

@@ -2,6 +2,7 @@ package com.example.it00046.bodina3.Classes.Feina;
 
 import android.graphics.Point;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -26,19 +27,59 @@ public class llista_taules {
     }
 
     public void Afegir (taula p_Taula){
+        boolean l_llocTrobat = false;
+        boolean l_canvilinia = false;
+        Rect l_Espai;
+
+        if (g_Distribucio != null){
+            p_Taula.View = new TaulaView(Globals.g_Native);
+            // Expresem la taula i recuperem el params que hem de fer servir per afegir a la distribucio
+            RelativeLayout.LayoutParams l_params = p_Taula.View.ExpresaTaula(p_Taula.Taula, true, g_Distribucio.g_UnitatX, true);
+            g_Distribucio.addView(p_Taula.View, 0, l_params);
+            // Busquem on posar-la, comencem per la cantonada superior i iniciem el proces)
+            l_Espai = new Rect(Math.round(g_BoundsSalo.left + g_SeparacioTaules),
+                                Math.round(g_BoundsSalo.top + g_SeparacioTaules),
+                                Math.round(g_BoundsSalo.left + (p_Taula.Taula.AmpladaDiametre/g_Distribucio.g_UnitatX) + g_SeparacioTaules),
+                                Math.round(g_BoundsSalo.top + (p_Taula.Taula.AmpladaDiametre/g_Distribucio.g_UnitatX + g_SeparacioTaules)));
+            while (l_llocTrobat == false){
+                l_llocTrobat = true;
+
+                for (int i=0; i < g_Llista.size(); i++){
+                    if (g_Llista.get(i).View.Tocada(l_Espai)) {
+                        l_llocTrobat = false;
+                        break;
+                    }
+                }
+                if (l_llocTrobat){
+                    p_Taula.Punt = new PointF(l_Espai.left, l_Espai.top);
+                }
+                else{
+                    // Desplacem fins al final del salo
+                    if (l_Espai.right < g_BoundsSalo.right) {
+                        l_Espai.offset(0, (p_Taula.Taula.AmpladaDiametre / g_Distribucio.g_UnitatX) + g_SeparacioTaules);
+                    }
+                    else{
+                        l_Espai = new Rect(Math.round(g_BoundsSalo.left + g_SeparacioTaules),
+                                Math.round(g_BoundsSalo.top + g_SeparacioTaules) + (p_Taula.Taula.AmpladaDiametre / g_Distribucio.g_UnitatX) + g_SeparacioTaules,
+                                Math.round(g_BoundsSalo.left + (p_Taula.Taula.AmpladaDiametre/g_Distribucio.g_UnitatX) + g_SeparacioTaules),
+                                Math.round(g_BoundsSalo.top + (p_Taula.Taula.AmpladaDiametre/g_Distribucio.g_UnitatX + g_SeparacioTaules)));
+                    }
+                }
+            }
+            g_Llista.add(p_Taula);
+            p_Taula.View.PosaTaula(new PointF(p_Taula.Punt.x, p_Taula.Punt.y));
+        }
+    }
+
+
+    public void Posar (taula p_Taula){
         g_Llista.add(p_Taula);
         if (g_Distribucio != null){
             p_Taula.View = new TaulaView(Globals.g_Native);
             // Expresem la taula i recuperem el params que hem de fer servir per afegir a la distribucio
-            RelativeLayout.LayoutParams l_params = p_Taula.View.ExpresaTaula(p_Taula.Taula, true, g_Distribucio.g_UnitatX, false);
+            RelativeLayout.LayoutParams l_params = p_Taula.View.ExpresaTaula(p_Taula.Taula, true, g_Distribucio.g_UnitatX, true);
             g_Distribucio.addView(p_Taula.View, 0, l_params);
-
-            if (g_Guia == null){
-                g_Guia = new PointF(g_BoundsSalo.left, g_BoundsSalo.top);
-            }
-
-            p_Taula.View.MouTaula(new PointF(g_Guia.x + g_SeparacioTaules, g_Guia.y + g_SeparacioTaules), null);
-
+            p_Taula.View.PosaTaula(new PointF(p_Taula.Punt.x, p_Taula.Punt.y));
         }
     }
 

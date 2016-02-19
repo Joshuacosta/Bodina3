@@ -303,19 +303,8 @@ public class distribucions_client_mant extends ActionBarActivity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
-            Animation animFadein;
-            animFadein = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in);
-
             TaulaClient l_TaulaClient = (TaulaClient) view.getTag();
-            // Posem la taula al centre (indicant null)
-            g_Draw.PosaTaula(null, l_TaulaClient);
-            //g_Draw.invalidate();
-
-            // La desplacem
-            g_Draw.MoureTaula();
-            // Tanquem la finestra de taules? No, la deixem oberta per si l'usuari vol continuar
-            // possant taules.
-            // l_DRL_Taules.closeDrawer(g_LVW_Taules);
+            g_Draw.AfegirTaula(l_TaulaClient);
         }
     }
 
