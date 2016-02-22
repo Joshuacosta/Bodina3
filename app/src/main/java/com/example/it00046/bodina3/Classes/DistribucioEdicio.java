@@ -262,7 +262,7 @@ public class DistribucioEdicio extends RelativeLayout {
         canvas.drawPath(l_Quadricula, g_PaintQuadricula);
         // ///////////////////////////////////////////////////////////////////////////////////////
         // Pintem planol
-        g_drawPlanolSalo.offset(Math.round(g_mPosX), Math.round(g_mPosY));
+        g_drawPlanolSalo.offset(g_mPosX, g_mPosY);
         canvas.drawPath(g_drawPlanolSalo, g_PaintPlanol);
         // ///////////////////////////////////////////////////////////////////////////////////////
         // Pintem textes
@@ -275,16 +275,19 @@ public class DistribucioEdicio extends RelativeLayout {
                                 g_PaintText);
         }
         // ///////////////////////////////////////////////////////////////////////////////////////
-        // NO Pintem taules (sino provoquem un OnDraw infinit...)
-        //
+        // Pintem taules (no son part del canvas pero ho fem aqui)
+        for (int j=0; j < g_TaulesDistribucio.Tamany(); j++) {
+            g_TaulesDistribucio.element(j).View.setX(g_TaulesDistribucio.element(j).View.getX() + g_mPosX);
+            g_TaulesDistribucio.element(j).View.setY(g_TaulesDistribucio.element(j).View.getY() + g_mPosY);
+        }
         // ///////////////////////////////////////////////////////////////////////////////////////
         canvas.restore();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent p_Event) {
-        float l_X = p_Event.getX()/g_ScaleFactor;
-        float l_Y = p_Event.getY()/g_ScaleFactor;
+        float l_X = Math.round(p_Event.getX()/g_ScaleFactor);
+        float l_Y = Math.round(p_Event.getY()/g_ScaleFactor);
         taula l_Taula;
         PointF l_ActualPoint = new PointF(l_X, l_Y);
         Rect l_Detector, l_Esborrar;
@@ -310,6 +313,8 @@ public class DistribucioEdicio extends RelativeLayout {
                             if (g_TaulaSeleccionada == null) {
                                 l_Taula = MarquemTaula(l_Detector);
                                 if (l_Taula != null) {
+                                    mLastTouchX = l_X;
+                                    mLastTouchY = l_Y;
                                     g_TaulaSeleccionada = l_Taula;
                                 }
                                 else {
@@ -349,11 +354,6 @@ public class DistribucioEdicio extends RelativeLayout {
                         case taula:
                             if (g_TaulaSeleccionada != null){
                                 // Movem la taula seleccionada
-                                // Aquesta forma seria desde just el punt on marquem
-                                //g_TaulaSeleccionada.View.setX(l_ActualPoint.x);
-                                //g_TaulaSeleccionada.View.setY(l_ActualPoint.y);
-                                //
-                                // Aquesta es mes fina perque ho fa arrosegant
                                 final float dx = l_X - mLastTouchX;
                                 final float dy = l_Y - mLastTouchY;
                                 // Guardem la darrera posicio
@@ -362,7 +362,6 @@ public class DistribucioEdicio extends RelativeLayout {
                                 // Movem
                                 g_TaulaSeleccionada.View.setX(g_TaulaSeleccionada.View.getX() + dx);
                                 g_TaulaSeleccionada.View.setY(g_TaulaSeleccionada.View.getY() + dy);
-
                             }
                             else{
                                 if (g_MovemPlanol){
@@ -374,18 +373,7 @@ public class DistribucioEdicio extends RelativeLayout {
                                     // Guardem la darrera posicio
                                     mLastTouchX = l_X;
                                     mLastTouchY = l_Y;
-                                    // Movem aqui les taules perque si ho fem en el OnDraw provoquem
-                                    // un bucle
-                                    for (int l=0; l < g_TaulesDistribucio.Tamany(); l++){
-                                        // Validem que la taula no estigui esborrada
-                                        if (g_TaulesDistribucio.element(l).Esborrat == false) {
-                                            g_TaulesDistribucio.element(l).View.setX(g_TaulesDistribucio.element(l).View.getX() + g_mPosX);
-                                            g_TaulesDistribucio.element(l).View.setY(g_TaulesDistribucio.element(l).View.getY() + g_mPosY);
-                                        }
-                                    }
-                                    // Quin es el bo?
-                                    //invalidate();
-                                    postInvalidate();
+                                    invalidate();
                                 }
                             }
                             break;
@@ -397,11 +385,12 @@ public class DistribucioEdicio extends RelativeLayout {
                         case taula:
                             g_MovemPlanol = false;
                             g_EscalemPlanol = false;
+                            g_mPosX = 0;
+                            g_mPosY = 0;
                             g_DarrerPuntTocat = l_ActualPoint;
                             break;
                     }
-                    // De moment no hi ha res que ho necessiti
-                    //invalidate();
+                    invalidate();
                     break;
 
                 default:

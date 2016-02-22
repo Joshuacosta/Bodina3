@@ -28,7 +28,7 @@ public class llista_taules {
 
     public void Afegir (taula p_Taula){
         boolean l_llocTrobat = false;
-        boolean l_canvilinia = false;
+        int l_canvilinia = 0;
         Rect l_Espai;
 
         if (g_Distribucio != null){
@@ -36,16 +36,16 @@ public class llista_taules {
             // Expresem la taula i recuperem el params que hem de fer servir per afegir a la distribucio
             RelativeLayout.LayoutParams l_params = p_Taula.View.ExpresaTaula(p_Taula.Taula, true, g_Distribucio.g_UnitatX, true);
             g_Distribucio.addView(p_Taula.View, 0, l_params);
-            // Busquem on posar-la, comencem per la cantonada superior i iniciem el proces)
-            l_Espai = new Rect(Math.round(g_BoundsSalo.left + g_SeparacioTaules),
-                                Math.round(g_BoundsSalo.top + g_SeparacioTaules),
+            // Calculem espai
+            l_Espai = new Rect(Math.round(g_BoundsSalo.left) + g_SeparacioTaules,
+                                Math.round(g_BoundsSalo.top) + g_SeparacioTaules,
                                 Math.round(g_BoundsSalo.left + (p_Taula.Taula.AmpladaDiametre/g_Distribucio.g_UnitatX) + g_SeparacioTaules),
-                                Math.round(g_BoundsSalo.top + (p_Taula.Taula.AmpladaDiametre/g_Distribucio.g_UnitatX + g_SeparacioTaules)));
+                                Math.round(g_BoundsSalo.top + (p_Taula.Taula.AmpladaDiametre/g_Distribucio.g_UnitatX) + g_SeparacioTaules));
+            // Busquem on posar-la, comencem per la cantonada superior i iniciem el proces)
             while (l_llocTrobat == false){
                 l_llocTrobat = true;
-
                 for (int i=0; i < g_Llista.size(); i++){
-                    if (g_Llista.get(i).View.Tocada(l_Espai)) {
+                    if (g_Llista.get(i).View.Posicionament(l_Espai)) {
                         l_llocTrobat = false;
                         break;
                     }
@@ -55,17 +55,20 @@ public class llista_taules {
                 }
                 else{
                     // Desplacem fins al final del salo
-                    if (l_Espai.right < g_BoundsSalo.right) {
-                        l_Espai.offset(0, (p_Taula.Taula.AmpladaDiametre / g_Distribucio.g_UnitatX) + g_SeparacioTaules);
+                    if (l_Espai.right < (g_BoundsSalo.right - g_SeparacioTaules)) {
+                        l_Espai.offset((p_Taula.Taula.AmpladaDiametre / g_Distribucio.g_UnitatX) + g_SeparacioTaules, 0);
                     }
                     else{
+                        // Hem de canviar de linia perque ens sortim de l'area
+                        l_canvilinia++;
                         l_Espai = new Rect(Math.round(g_BoundsSalo.left + g_SeparacioTaules),
-                                Math.round(g_BoundsSalo.top + g_SeparacioTaules) + (p_Taula.Taula.AmpladaDiametre / g_Distribucio.g_UnitatX) + g_SeparacioTaules,
-                                Math.round(g_BoundsSalo.left + (p_Taula.Taula.AmpladaDiametre/g_Distribucio.g_UnitatX) + g_SeparacioTaules),
-                                Math.round(g_BoundsSalo.top + (p_Taula.Taula.AmpladaDiametre/g_Distribucio.g_UnitatX + g_SeparacioTaules)));
+                                           Math.round(g_BoundsSalo.top + g_SeparacioTaules) + (p_Taula.Taula.AmpladaDiametre / g_Distribucio.g_UnitatX + g_SeparacioTaules)*l_canvilinia,
+                                           Math.round(g_BoundsSalo.left + (p_Taula.Taula.AmpladaDiametre/g_Distribucio.g_UnitatX) + g_SeparacioTaules),
+                                           Math.round(g_BoundsSalo.top + (p_Taula.Taula.AmpladaDiametre/g_Distribucio.g_UnitatX  + g_SeparacioTaules)*(l_canvilinia+1)));
                     }
                 }
             }
+            // Afegeixo la taula a la llista i la dibuixem
             g_Llista.add(p_Taula);
             p_Taula.View.PosaTaula(new PointF(p_Taula.Punt.x, p_Taula.Punt.y));
         }
