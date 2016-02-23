@@ -1,4 +1,4 @@
-package com.example.it00046.bodina3.Classes;
+package com.example.it00046.bodina3.Classes.Feina;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
+import com.example.it00046.bodina3.Classes.Feina.taula;
+import com.example.it00046.bodina3.Classes.Globals;
 
 /**
  * Amb aquesta clase mostrem la taula de forma grafica
@@ -24,13 +26,22 @@ public class TaulaView extends View {
     private Paint g_PaintTaulaActiva;
     private TaulaClient g_Taula = new TaulaClient();
     Context g_Context;
-    private boolean g_Real = true;
     private boolean g_Activa = false;
     private int g_Factor = 0;
     private int g_Width, g_Height;
+    //
+    private PointF Punt = new PointF();
+    private PointF PuntInicial = null;
 
     public TaulaView(Context p_Context, AttributeSet p_Attrs) {
         super(p_Context, p_Attrs);
+        setupDrawing();
+    }
+
+    public TaulaView(Context p_Context, PointF p_Punt) {
+        super(p_Context);
+        g_Context = p_Context;
+        DefineixPunt(p_Punt);
         setupDrawing();
     }
 
@@ -63,72 +74,58 @@ public class TaulaView extends View {
         super.onSizeChanged(p_w, p_h, p_oldw, p_oldh);
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        // Pintem la taula
-
+    public void Dibuixa(Canvas p_Canvas){
         switch (g_Taula.Tipus){
             case TaulaClient.k_TipusRodona:
-                if (g_Real) {
-                    if (g_Activa) {
-                        canvas.drawCircle((g_Taula.AmpladaDiametre / g_Factor), (g_Taula.AmpladaDiametre / g_Factor), (g_Taula.AmpladaDiametre / 2) / g_Factor, g_PaintTaulaActiva);
-                    }
-                    else{
-                        canvas.drawCircle((g_Taula.AmpladaDiametre / g_Factor), (g_Taula.AmpladaDiametre / g_Factor), (g_Taula.AmpladaDiametre / 2) / g_Factor, g_PaintTaula);
-                    }
-                    g_Width = g_Height = g_Taula.AmpladaDiametre / g_Factor;
+                if (g_Activa) {
+                    p_Canvas.drawCircle(Punt.x + ((g_Taula.AmpladaDiametre / 2) / g_Factor), Punt.y + ((g_Taula.AmpladaDiametre / 2) / g_Factor), (g_Taula.AmpladaDiametre / 2) / g_Factor, g_PaintTaulaActiva);
                 }
-                else {
-                    canvas.drawCircle(20, 20, 20, g_PaintTaula);
+                else{
+                    p_Canvas.drawCircle(Punt.x + ((g_Taula.AmpladaDiametre / 2) / g_Factor), Punt.y + ((g_Taula.AmpladaDiametre / 2) / g_Factor), (g_Taula.AmpladaDiametre / 2) / g_Factor, g_PaintTaula);
                 }
+                g_Width = g_Height = g_Taula.AmpladaDiametre / g_Factor;
                 break;
             case TaulaClient.k_TipusQuadrada:
-                if (g_Real) {
-                    if (g_Activa) {
-                        canvas.drawRect(0, 0, g_Taula.AmpladaDiametre / g_Factor, g_Taula.AmpladaDiametre / g_Factor, g_PaintTaulaActiva);
-                    }
-                    else{
-                        canvas.drawRect(0, 0, g_Taula.AmpladaDiametre / g_Factor, g_Taula.AmpladaDiametre / g_Factor, g_PaintTaula);
-                    }
-                }
-                else {
-                    canvas.drawRect(5, 5, 35, 35, g_PaintTaula);
+                if (g_Activa) {
+                    p_Canvas.drawRect(Punt.x, Punt.y, Punt.x + g_Taula.AmpladaDiametre / g_Factor, Punt.y + g_Taula.AmpladaDiametre / g_Factor, g_PaintTaulaActiva);
+                } else {
+                    p_Canvas.drawRect(Punt.x, Punt.y, Punt.x + g_Taula.AmpladaDiametre / g_Factor, Punt.y + g_Taula.AmpladaDiametre / g_Factor, g_PaintTaula);
                 }
                 break;
             case TaulaClient.k_TipusRectangular:
-                if (g_Real){
-                    if (g_Activa) {
-                        canvas.drawRect(0, 0, g_Taula.AmpladaDiametre / g_Factor, g_Taula.Llargada / g_Factor, g_PaintTaulaActiva);
-                    }
-                    else{
-                        canvas.drawRect(0, 0, g_Taula.AmpladaDiametre / g_Factor, g_Taula.Llargada / g_Factor, g_PaintTaula);
-                    }
+                if (g_Activa) {
+                    p_Canvas.drawRect(Punt.x, Punt.y, Punt.x + g_Taula.AmpladaDiametre / g_Factor, Punt.y + g_Taula.Llargada / g_Factor, g_PaintTaulaActiva);
                 }
-                else {
-                    // Orientem en funcio de que es mes llarg
-                    if (g_Taula.AmpladaDiametre > g_Taula.Llargada) {
-                        canvas.drawRect(10, 5, 30, 35, g_PaintTaula);
-                    } else {
-                        canvas.drawRect(5, 10, 35, 30, g_PaintTaula);
-                    }
+                else{
+                    p_Canvas.drawRect(Punt.x, Punt.y, Punt.x + g_Taula.AmpladaDiametre / g_Factor, Punt.y + g_Taula.Llargada / g_Factor, g_PaintTaula);
                 }
                 break;
         }
     }
 
-    public RelativeLayout.LayoutParams ExpresaTaula(TaulaClient p_Taula, boolean p_Real, int p_Factor, boolean p_Activa){
-        RelativeLayout.LayoutParams l_Params = null;
+    public void DefineixPunt(PointF p_Punt){
+        Punt = p_Punt;
+        if (PuntInicial == null) {
+            PuntInicial = p_Punt;
+        }
+    }
+
+    public void OffSet(float p_OffX, float p_OffY){
+        Punt.offset(p_OffX, p_OffY);
+    }
+
+    public PointF Punt(){
+        return Punt;
+    }
+
+    public PointF PuntInicial(){
+        return PuntInicial;
+    }
+
+    public void ExpresaTaula(TaulaClient p_Taula, int p_Factor, boolean p_Activa){
         g_Taula = p_Taula;
-        g_Real = p_Real;
         g_Factor = p_Factor;
         g_Activa = p_Activa;
-        // Ens pintem
-        invalidate();
-        // Retornem el layaout ajustat al nostre tamany
-        if (g_Real) {
-            l_Params = new RelativeLayout.LayoutParams((g_Taula.AmpladaDiametre / g_Factor) * 2, (g_Taula.AmpladaDiametre / g_Factor) * 2);
-        }
-        return l_Params;
     }
 
     public void Activacio(boolean p_Activa){
@@ -139,12 +136,12 @@ public class TaulaView extends View {
 
     public boolean Tocada(Rect p_Punt){
         // Validem si estem dintre de l'area marcada
-        return p_Punt.contains(Math.round(this.getX() + (g_Taula.AmpladaDiametre / g_Factor)), Math.round(this.getY() + (g_Taula.AmpladaDiametre / g_Factor)));
+        return p_Punt.contains(Math.round(Punt.x + (g_Taula.AmpladaDiametre / g_Factor)), Math.round(Punt.y + (g_Taula.AmpladaDiametre / g_Factor)));
     }
 
     public boolean Posicionament(Rect p_Punt){
         // Validem si estem dintre de l'area marcada
-        return p_Punt.contains(Math.round(this.getX()), Math.round(this.getY()));
+        return p_Punt.contains(Math.round(Punt.x), Math.round(Punt.y));
     }
 
 

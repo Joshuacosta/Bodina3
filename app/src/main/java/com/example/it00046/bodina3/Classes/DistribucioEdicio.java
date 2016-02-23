@@ -62,6 +62,8 @@ public class DistribucioEdicio extends RelativeLayout {
     public float g_ScaleFactor = 1;
     static private float g_mPosX = 0;
     static private float g_mPosY = 0;
+    static public float g_AcumulatX = 0;
+    static public float g_AcumulatY = 0;
     private float mLastTouchX = 0;
     private float mLastTouchY = 0;
     private Path g_drawPlanolSalo;
@@ -95,7 +97,6 @@ public class DistribucioEdicio extends RelativeLayout {
     static public llista_taules g_TaulesDistribucio = new llista_taules();
 
     public Rect g_Ditet = null;
-    private TaulaView g_TaulaView = new TaulaView(Globals.g_Native);
 
     public DistribucioEdicio(Context p_Context, AttributeSet p_Attrs) {
         super(p_Context, p_Attrs);
@@ -264,6 +265,8 @@ public class DistribucioEdicio extends RelativeLayout {
         // Pintem planol
         g_drawPlanolSalo.offset(g_mPosX, g_mPosY);
         canvas.drawPath(g_drawPlanolSalo, g_PaintPlanol);
+        g_drawPlanolSalo.computeBounds(l_BoundsPlanol, false);
+        g_TaulesDistribucio.g_BoundsSalo = l_BoundsPlanol;
         // ///////////////////////////////////////////////////////////////////////////////////////
         // Pintem textes
         for (int k=0; k < g_TextesPlanol.size(); k++) {
@@ -275,10 +278,10 @@ public class DistribucioEdicio extends RelativeLayout {
                                 g_PaintText);
         }
         // ///////////////////////////////////////////////////////////////////////////////////////
-        // Pintem taules (no son part del canvas pero ho fem aqui)
+        // Pintem taules
         for (int j=0; j < g_TaulesDistribucio.Tamany(); j++) {
-            g_TaulesDistribucio.element(j).View.setX(g_TaulesDistribucio.element(j).View.getX() + g_mPosX);
-            g_TaulesDistribucio.element(j).View.setY(g_TaulesDistribucio.element(j).View.getY() + g_mPosY);
+            g_TaulesDistribucio.element(j).View.OffSet(g_mPosX, g_mPosY);
+            g_TaulesDistribucio.element(j).View.Dibuixa(canvas);
         }
         // ///////////////////////////////////////////////////////////////////////////////////////
         canvas.restore();
@@ -293,7 +296,7 @@ public class DistribucioEdicio extends RelativeLayout {
         Rect l_Detector, l_Esborrar;
 
         // Validem primer si hi han mes "gestos"?: doble tap es recuperar posicio inicial
-        g_GestureDetector.onTouchEvent(p_Event);
+        //g_GestureDetector.onTouchEvent(p_Event);
         if (g_ModusDibuix == g_Modus.taula) {
             //g_GestureScale.onTouchEvent(p_Event);
         }
@@ -370,6 +373,9 @@ public class DistribucioEdicio extends RelativeLayout {
                                     final float dy = l_Y - mLastTouchY;
                                     g_mPosX = dx;
                                     g_mPosY = dy;
+
+                                    Log.d("BODINA", "g_mPosX: " + g_mPosX);
+
                                     // Guardem la darrera posicio
                                     mLastTouchX = l_X;
                                     mLastTouchY = l_Y;
@@ -383,6 +389,12 @@ public class DistribucioEdicio extends RelativeLayout {
                 case MotionEvent.ACTION_UP:
                     switch (g_ModusDibuix) {
                         case taula:
+                            if (g_MovemPlanol){
+                                // Acumulem desplaçaments
+                                g_AcumulatX += g_mPosX;
+                                g_AcumulatY += g_mPosY;
+                                Log.d("BODINA", "Acumulat: " + g_AcumulatX + ", " + g_AcumulatY);
+                            }
                             g_MovemPlanol = false;
                             g_EscalemPlanol = false;
                             g_mPosX = 0;
@@ -413,15 +425,14 @@ public class DistribucioEdicio extends RelativeLayout {
                 default:
                     // Si hem marcat una taula la maximitzem per treballar amb ella
                     if (g_TaulaSeleccionada != null){
-                        Log.d("BOD-DistribucioEdicio", "------------------------ Funciona!");
                         /*
                         Animation animFadein;
                         animFadein = AnimationUtils.loadAnimation(Globals.g_Native.getApplicationContext(), R.anim.zoom_in);
                         Jo.startAnimation(animFadein);
                         */
                         g_ScaleFactor = 10;
-                        g_mPosX = g_TaulaSeleccionada.Punt.x;
-                        g_mPosY = g_TaulaSeleccionada.Punt.y;
+                        //g_mPosX = g_TaulaSeleccionada.Punt.x;
+                        //g_mPosY = g_TaulaSeleccionada.Punt.y;
                     }
                     else {
                         // Recuperem escala i posicio (ho podriem animar!)
@@ -431,9 +442,11 @@ public class DistribucioEdicio extends RelativeLayout {
                         g_mPosY = 0;
                         invalidate();
                         */
+                        /*
                         Animation animFadein;
                         animFadein = AnimationUtils.loadAnimation(Globals.g_Native.getApplicationContext(), R.anim.zoom_in);
                         g_TaulaView.startAnimation(animFadein);
+                        */
                     }
             }
             return true;
@@ -448,7 +461,7 @@ public class DistribucioEdicio extends RelativeLayout {
             Log.d("BOD-DistribucioEdicio", "------------------------ ScaleReal " + g_ScaleFactor + " (" + p_Detector.getScaleFactor() + ")");
             // No deixem que es faci massa gran
             g_ScaleFactor = Math.max(0.1f, Math.min(g_ScaleFactor, 5.0f));
-            invalidate();
+            //invalidate();
             return true;
         }
     }
@@ -473,12 +486,11 @@ public class DistribucioEdicio extends RelativeLayout {
 
         // Definim la taula a la distribucio de taules
         l_Taula.Id = g_TaulesDistribucio.Tamany();
-        l_Taula.Punt = p_PuntDonat;
         l_Taula.Esborrat = false;
         l_Taula.Esborrantse = false;
         l_Taula.Taula = P_Taula;
         //
-        g_TaulesDistribucio.Posar(l_Taula);
+        g_TaulesDistribucio.Posar(l_Taula, p_PuntDonat);
     }
 
     public void AfegirTaula(TaulaClient P_Taula){
@@ -486,7 +498,6 @@ public class DistribucioEdicio extends RelativeLayout {
 
         // Definim la taula a la distribucio de taules
         l_Taula.Id = g_TaulesDistribucio.Tamany();
-        l_Taula.Punt = null;
         l_Taula.Esborrat = false;
         l_Taula.Esborrantse = false;
         l_Taula.Taula = P_Taula;
@@ -494,6 +505,8 @@ public class DistribucioEdicio extends RelativeLayout {
         g_TaulesDistribucio.DesmarcarActives();
         //
         g_TaulesDistribucio.Afegir(l_Taula);
+        //
+        invalidate();
     }
 
     public void CarregaPlanol(planol p_Planol){

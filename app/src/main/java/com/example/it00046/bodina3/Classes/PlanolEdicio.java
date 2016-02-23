@@ -296,7 +296,6 @@ public class PlanolEdicio extends RelativeLayout {
         }
         // ///////////////////////////////////////////////////////////////////////////////////////
         // Pintem textes
-        Log.d("BODINA-Draw", "-----> Textes " + g_TextesPlanol.size() + "/ Desplaçament " + g_mPosX + ", " + g_mPosY);
         for (int k=0; k < g_TextesPlanol.size(); k++) {
             // Validem si el texte l'han esborrat
             if (g_TextesPlanol.get(k).Esborrat == false) {
@@ -350,7 +349,6 @@ public class PlanolEdicio extends RelativeLayout {
                     switch (g_ModusDibuix) {
                         case recta:
                             if (!g_Finalitzat) {
-                                Log.d("BODINA-TouchDOWN", "-----> Inici recta: " + l_ActualPoint.x + ", " + l_ActualPoint.y);
                                 // Validem que si estem amb quadricula el punt s'ajusta a aquesta
                                 if (g_Quadricula){
                                     l_ActualPoint.set(Math.round(l_ActualPoint.x) - mod(Math.round(l_ActualPoint.x),g_UnitatX), Math.round(l_ActualPoint.y) - mod(Math.round(l_ActualPoint.y),g_UnitatY));
@@ -370,7 +368,6 @@ public class PlanolEdicio extends RelativeLayout {
                                                           Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
                                     //g_Punter.offset(Math.round(g_mPosX), Math.round(g_mPosY));
                                     if (l_Detector.intersect(g_Punter)) {
-                                        Log.d("BODINA-TouchDOWN", "Seguim -------------");
                                         l_Linia.Inici = new PointF(g_PuntFinalAnterior.x, g_PuntFinalAnterior.y);
                                         l_Linia.Fi = new PointF(g_PuntFinalAnterior.x, g_PuntFinalAnterior.y);
                                         g_LiniesPlanol.add(l_Linia);
@@ -379,7 +376,6 @@ public class PlanolEdicio extends RelativeLayout {
                                     }
                                     else {
                                         // No seguim amb el punter
-                                        Log.d("BODINA-TouchDOWN", "No continuem ---------------");
                                         // Validem si estem arrosegant una distancia
                                         g_MarcaDistancia = MarquemDistanciaPunt(l_ActualPoint);
                                         if (g_MarcaDistancia != null) {
@@ -397,7 +393,6 @@ public class PlanolEdicio extends RelativeLayout {
                                     }
                                 }
                                 else {
-                                    Log.d("BODINA-TouchDOWN", "Inici ---------------");
                                     l_Linia.Inici = new PointF(g_PuntInicialLinia.x, g_PuntInicialLinia.y);
                                     l_Linia.Fi = new PointF(g_PuntInicialLinia.x, g_PuntInicialLinia.y);
                                     l_Linia.Curva = false;
@@ -415,7 +410,6 @@ public class PlanolEdicio extends RelativeLayout {
                             break;
 
                         case texte:
-                            Log.d("BODINA-TouchDown", "-----> Inici texte");
                             // Validem si hem tocat un texte que volem arrosegar
                             // (recorda que per editar un texte cal fer un doble tap)
                             l_Detector = new Rect(Math.round(l_ActualPoint.x) - 30, Math.round(l_ActualPoint.y) - 30,
