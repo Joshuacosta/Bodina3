@@ -9,6 +9,7 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -22,11 +23,11 @@ import com.example.it00046.bodina3.Classes.Globals;
  * Amb aquesta clase mostrem la taula de forma grafica
  */
 public class TaulaView extends View {
-    private Paint g_PaintTaula;
-    private Paint g_PaintTaulaActiva;
+    private Paint g_PaintTaula, g_PaintTaulaActiva, g_PaintText;
     private TaulaClient g_Taula = new TaulaClient();
     Context g_Context;
     private boolean g_Activa = false;
+    private int g_NumTaula = 0;
     private int g_Factor = 0;
     private int g_Width, g_Height;
     //
@@ -67,6 +68,11 @@ public class TaulaView extends View {
         g_PaintTaulaActiva.setColor(Color.GREEN);
         g_PaintTaulaActiva.setAntiAlias(true);
         g_PaintTaulaActiva.setStrokeWidth(2);
+        //
+        g_PaintText = new Paint();
+        g_PaintText.setTextSize(16);
+        g_PaintText.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.ITALIC));
+        g_PaintText.setColor(Color.BLACK);
     }
 
     @Override
@@ -75,7 +81,7 @@ public class TaulaView extends View {
     }
 
     public void Dibuixa(Canvas p_Canvas){
-        switch (g_Taula.Tipus){
+        switch (g_Taula.Tipus) {
             case TaulaClient.k_TipusRodona:
                 if (g_Activa) {
                     p_Canvas.drawCircle(Punt.x + ((g_Taula.AmpladaDiametre / 2) / g_Factor), Punt.y + ((g_Taula.AmpladaDiametre / 2) / g_Factor), (g_Taula.AmpladaDiametre / 2) / g_Factor, g_PaintTaulaActiva);
@@ -101,6 +107,8 @@ public class TaulaView extends View {
                 }
                 break;
         }
+        // Numero de taula
+        p_Canvas.drawText(Integer.toString(g_NumTaula), Punt.x +2 , Punt.y +2, g_PaintText);
     }
 
     public void DefineixPunt(PointF p_Punt){
@@ -122,10 +130,11 @@ public class TaulaView extends View {
         return PuntInicial;
     }
 
-    public void ExpresaTaula(TaulaClient p_Taula, int p_Factor, boolean p_Activa){
+    public void ExpresaTaula(TaulaClient p_Taula, int p_Factor, boolean p_Activa, int p_NumTaula){
         g_Taula = p_Taula;
         g_Factor = p_Factor;
         g_Activa = p_Activa;
+        g_NumTaula = p_NumTaula;
     }
 
     public void Activacio(boolean p_Activa){

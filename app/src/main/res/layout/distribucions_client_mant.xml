@@ -108,13 +108,23 @@
         </LinearLayout>
     </FrameLayout>
 
-    <!-- Drawer lateral que mostra les taules -->
+    <!-- Drawer lateral dret que mostra les taules -->
     <ListView android:id="@+id/DistribucionsClientMantNDLTaules"
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:layout_gravity="right"
         android:choiceMode="singleChoice"
         android:divider="@android:color/holo_blue_light"
+        android:dividerHeight="5dp"
+        android:background="@color/background_material_light"/>
+
+    <!-- Drawer lateral esquerra que mostra les opcions de taula -->
+    <ListView android:id="@+id/DistribucionsClientMantNDLOperativaTaula"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/holo_blue_dark"
         android:dividerHeight="5dp"
         android:background="@color/background_material_light"/>
 

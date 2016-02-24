@@ -146,6 +146,8 @@
     <string name="DistribucionsClientMantDialogConfigCBXLiniesTaules">Table guidelines</string>
     <string name="DistribucionsClientMantDialogConfigCBXMostrarConvidats">Show guests</string>
     <string name="DistribucionsClientMantLABZoom">Zoom:</string>
+    <string name="DistribucionsClientMantMNUMostrarComensals">View diners</string>
+    <string name="DistribucionsClientMantMNUComensals">Diners</string>
 
     <!-- Layout salons client -->
     <string name="title_activity_salons_client">Saloons client</string>

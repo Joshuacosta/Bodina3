@@ -30,11 +30,9 @@ public class llista_taules {
         if (g_Distribucio != null){
             p_Taula.View = new TaulaView(Globals.g_Native);
             // Expresem la taula i recuperem el params que hem de fer servir per afegir a la distribucio
-            p_Taula.View.ExpresaTaula(p_Taula.Taula, g_Distribucio.g_UnitatX, true);
+            p_Taula.NumTaula = NumTaula();
+            p_Taula.View.ExpresaTaula(p_Taula.Taula, g_Distribucio.g_UnitatX, true, p_Taula.NumTaula);
             // Calculem espai
-
-            Log.d("BODINA", "Acumulat: " + g_Distribucio.g_AcumulatX + ", " + g_Distribucio.g_AcumulatY);
-
             l_Espai = new Rect(Math.round(g_BoundsSalo.left) + g_SeparacioTaules,
                                 Math.round(g_BoundsSalo.top) + g_SeparacioTaules,
                                 Math.round((g_BoundsSalo.left) + (p_Taula.Taula.AmpladaDiametre/g_Distribucio.g_UnitatX) + g_SeparacioTaules),
@@ -77,7 +75,7 @@ public class llista_taules {
         if (g_Distribucio != null){
             p_Taula.View = new TaulaView(Globals.g_Native, p_Punt);
             // Expresem la taula i recuperem el params que hem de fer servir per afegir a la distribucio
-            p_Taula.View.ExpresaTaula(p_Taula.Taula, g_Distribucio.g_UnitatX, true);
+            p_Taula.View.ExpresaTaula(p_Taula.Taula, g_Distribucio.g_UnitatX, true, p_Taula.NumTaula);
         }
     }
 
@@ -91,6 +89,22 @@ public class llista_taules {
         for (int i=0; i < g_Llista.size(); i++){
 
         }
+    }
+
+    public int NumTaula(){
+        int l_NumTaula = 1;
+
+        for (int i=0; i < g_Llista.size(); i++){
+            if (g_Llista.get(i).Esborrat == false) {
+                l_NumTaula++;
+            }
+            else{
+                l_NumTaula = g_Llista.get(i).NumTaula;
+            }
+            g_Llista.get(i).View.Activacio(false);
+        }
+
+        return l_NumTaula;
     }
 
     public taula element(int i){

@@ -173,7 +173,6 @@ public class PlanolEdicio extends RelativeLayout {
         g_EscalaPlanolLlargada = Integer.valueOf(l_Valors[1]);
         g_UnitatY = Math.round(g_LlargadaScreen / g_EscalaPlanolLlargada);
         //
-        Log.d("BODINA-Draw", "-----> Escalat de l'usuari amb gestos " + g_ScaleFactor);
         //canvas.translate(g_mPosX, g_mPosY);
         canvas.scale(g_ScaleFactor, g_ScaleFactor);
         g_CanvasRect = canvas.getClipBounds();
@@ -206,7 +205,6 @@ public class PlanolEdicio extends RelativeLayout {
         // ///////////////////////////////////////////////////////////////////////////////////////
         // Pintem rectes i curves
         g_drawPath.reset();
-        Log.d("BODINA-OnDraw", "Numero de linies " + g_LiniesPlanol.size());
         for (int I=0; I < g_LiniesPlanol.size(); I++) {
             l_Linia2 = g_LiniesPlanol.get(I);
             l_Linia2.Inici.offset(g_mPosX, g_mPosY);
@@ -416,7 +414,6 @@ public class PlanolEdicio extends RelativeLayout {
                                                   Math.round(l_ActualPoint.x) + 30, Math.round(l_ActualPoint.y) + 30);
                             l_Texte = MarquemTexte(l_Detector);
                             if (l_Texte != null) {
-                                Log.d("BODINA-Down", "--------> Tocat " + l_Texte.Texte);
                                 g_TexteSeleccionat = l_Texte;
                             }
                             else {
@@ -627,7 +624,6 @@ public class PlanolEdicio extends RelativeLayout {
         @Override
         public boolean onScale(ScaleGestureDetector p_Detector) {
             g_ScaleFactor *= p_Detector.getScaleFactor();
-            Log.d("BODINA-Scale", "Escala canvia " + g_ScaleFactor);
             // Don't let the object get too small or too large.
             g_ScaleFactor = Math.max(0.1f, Math.min(g_ScaleFactor, 5.0f));
             invalidate();
@@ -636,7 +632,6 @@ public class PlanolEdicio extends RelativeLayout {
     }
 
     public void EsborrarPlanol(){
-        Log.d("BODINA-TouchUP", "------------------------ Esborrem");
         // Inicialitzem
         g_LiniesPlanol = new ArrayList<>();
         g_TextesPlanol = new ArrayList<>();
@@ -702,10 +697,8 @@ public class PlanolEdicio extends RelativeLayout {
     private linia MarquemDistanciaPunt(PointF p_Punt){
         linia l_Marcada = null;
 
-        Log.d("BODINA-MarquemDistancia", "Inici");
         for (int i=0; i < g_LiniesPlanol.size(); i++){
             if (g_LiniesPlanol.get(i).ObjDistancia.Detector.contains(Math.round(p_Punt.x), Math.round(p_Punt.y))){
-                Log.d("BODINA-MarquemDistancia", "Trobat " + i);
                 l_Marcada = g_LiniesPlanol.get(i);
                 break;
             }

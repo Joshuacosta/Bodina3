@@ -14,11 +14,13 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.TransitionDrawable;
+import android.support.v4.widget.DrawerLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -40,6 +42,7 @@ import com.example.it00046.bodina3.Classes.Feina.planol;
 import com.example.it00046.bodina3.Classes.Feina.taula;
 import com.example.it00046.bodina3.Classes.Feina.texte;
 import com.example.it00046.bodina3.R;
+import com.example.it00046.bodina3.distribucions_client_mant;
 
 import java.util.ArrayList;
 
@@ -48,6 +51,7 @@ public class DistribucioEdicio extends RelativeLayout {
     ///////////////////////////////////////////////////
     public DistribucioEdicio Jo = this;
     public Context g_Pare;
+    public distribucions_client_mant papa;
     public boolean g_Quadricula = false;
     public boolean g_LiniesTaules = false;
     public String g_EscalaPlanol = "1x1";   // Definim aquest valors per poder fer una preview.
@@ -86,7 +90,7 @@ public class DistribucioEdicio extends RelativeLayout {
     private int g_AmpladaScreen, g_LlargadaScreen;
     private boolean g_MovemPlanol = false;
     public boolean g_EscalemPlanol = false;
-    public PointF g_DarrerPuntTocat = new PointF();
+    public PointF g_DarrerPuntTocat = null;
     public ImageButton g_IMB_Esborrar;
     // Planol
     static public planol g_Planol;
@@ -153,8 +157,6 @@ public class DistribucioEdicio extends RelativeLayout {
             g_DrawCanvas = new Canvas(g_CanvasBitmap);
             g_AmpladaScreen = p_w;
             g_LlargadaScreen = p_h;
-            g_CenterX = g_AmpladaScreen / 2;
-            g_CenterY = g_LlargadaScreen / 2;
         }
     }
 
@@ -225,13 +227,14 @@ public class DistribucioEdicio extends RelativeLayout {
             // per l'adaptacio feta)
             g_drawPlanolSalo.computeBounds(l_BoundsPlanol, false);
             g_TaulesDistribucio.g_BoundsSalo = l_BoundsPlanol;
+            g_CenterX = Math.round(l_BoundsPlanol.centerX());
+            g_CenterY = Math.round(l_BoundsPlanol.centerY());
         }
         // ///////////////////////////////////////////////////////////////////////////////////////
         // Escalat
         if (g_EscalemPlanol) {
             if (g_DarrerPuntTocat == null){
-                g_DarrerPuntTocat.x = g_CenterX;
-                g_DarrerPuntTocat.y = g_CenterY;
+                g_DarrerPuntTocat = new PointF(g_CenterX, g_CenterY);
             }
             canvas.scale(g_ScaleFactor, g_ScaleFactor, g_DarrerPuntTocat.x, g_DarrerPuntTocat.y);
         }
@@ -400,6 +403,10 @@ public class DistribucioEdicio extends RelativeLayout {
                             g_mPosX = 0;
                             g_mPosY = 0;
                             g_DarrerPuntTocat = l_ActualPoint;
+                            //
+                            if (g_TaulaSeleccionada != null){
+                                papa.obreOperativaTaula();
+                            }
                             break;
                     }
                     invalidate();

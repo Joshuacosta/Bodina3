@@ -61,8 +61,8 @@ public class distribucions_client_mant extends ActionBarActivity {
     DistribucioEdicio g_Draw;
     String g_ModusFeina = Globals.k_OPE_Alta;
     int g_CodiSalo;
-    private DrawerLayout l_DRL_Taules;
-    private ListView g_LVW_Taules;
+    public DrawerLayout l_DRL_Taules;
+    private ListView g_LVW_Taules, g_LVW_OperativaTaula;
     private SeekBar g_SEK_Zoom;
 
     @Override
@@ -80,6 +80,7 @@ public class distribucions_client_mant extends ActionBarActivity {
         // Recuperem controls
         g_Draw = (DistribucioEdicio) findViewById(R.id.DistribucionsClientMantVIWDrawing);
         g_Draw.g_Pare = Jo;
+        g_Draw.papa = this;
         // Recuperem el codi del salo per poder construir el planol del mateix
         // (aixo es indiferent de si fem una alta o modificacio de la distribucio de un client)
         g_CodiSalo = l_intent.getIntExtra("CodiSaloCelebracioClient", 0);
@@ -95,16 +96,9 @@ public class distribucions_client_mant extends ActionBarActivity {
             public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
                 l_Zoom = progresValue/40f;
                 if (l_Zoom < 1) l_Zoom = 1;
-                //ScaleAnimation fade_in =  new ScaleAnimation(l_AnteriorValor, l_Zoom, l_AnteriorValor, l_Zoom, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                //fade_in.setDuration(1000);     // animation duration in milliseconds
-                //fade_in.setFillAfter(true);    // If fillAfter is true, the transformation that this animation performed will persist when it is finished.
-                //g_Draw.startAnimation(fade_in);
-
                 g_Draw.g_ScaleFactor = l_Zoom;
                 g_Draw.g_EscalemPlanol = true;
-                g_Draw.g_DarrerPuntTocat = new PointF(g_Draw.g_DarrerPuntTocat.x/l_Zoom, g_Draw.g_DarrerPuntTocat.y/l_Zoom);
                 g_Draw.invalidate();
-
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -287,13 +281,15 @@ public class distribucions_client_mant extends ActionBarActivity {
                 g_NomDistribucio.setError(null);
             }
         });
-        // Menu lateral: carreguem la llista de taules
+        // Menu lateral dret: carreguem la llista de taules
         l_DRL_Taules = (DrawerLayout) findViewById(R.id.DistribucionsClientMantNDRTaules);
         g_LVW_Taules = (ListView) findViewById(R.id.DistribucionsClientMantNDLTaules);
         DAOTaulesClient.LlegirSeleccio(g_LVW_Taules, R.layout.linia_lvw_llista_taules_client_seleccio, this);
         // Listener damunt la llista i obrim
         g_LVW_Taules.setOnItemClickListener(new DrawerItemClickListener());
         l_DRL_Taules.openDrawer(Gravity.RIGHT);
+        // Menu lateral esquerra: menu taula
+        g_LVW_OperativaTaula = (ListView) findViewById(R.id.DistribucionsClientMantNDLOperativaTaula);
         // Control de enrera/cancelacio
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -402,5 +398,9 @@ public class distribucions_client_mant extends ActionBarActivity {
                 DAOSalonsClient.Modificar(l_SaloClient, Jo, true);
             }
         }
+    }
+
+    public void obreOperativaTaula(){
+        l_DRL_Taules.openDrawer(Gravity.LEFT);
     }
 }

@@ -13,7 +13,7 @@ public class taula {
     public Boolean Esborrantse;
     public String Texte;
     public int Id;
-    public int CodiTaula;
+    public int NumTaula;
     public Rect Detector;
     public TaulaClient Taula;
     public TaulaView View;
@@ -27,9 +27,10 @@ public class taula {
         Esborrantse = false;
         Texte = new String();
         Id = -1;
-        CodiTaula = -1;
-        // La taula dibuixada
+        NumTaula = 0;
+        // La taula dibuixada i les dades
         View = new TaulaView();
+        Taula = new TaulaClient();
     }
 
 }
