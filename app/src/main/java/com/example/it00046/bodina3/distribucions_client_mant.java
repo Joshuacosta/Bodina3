@@ -63,6 +63,7 @@ public class distribucions_client_mant extends ActionBarActivity {
     int g_CodiSalo;
     public DrawerLayout l_DRL_Taules;
     private ListView g_LVW_Taules, g_LVW_OperativaTaula;
+    private LinearLayout g_LVW_OperativaTaula2;
     private SeekBar g_SEK_Zoom;
 
     @Override
@@ -289,7 +290,8 @@ public class distribucions_client_mant extends ActionBarActivity {
         g_LVW_Taules.setOnItemClickListener(new DrawerItemClickListener());
         l_DRL_Taules.openDrawer(Gravity.RIGHT);
         // Menu lateral esquerra: menu taula
-        g_LVW_OperativaTaula = (ListView) findViewById(R.id.DistribucionsClientMantNDLOperativaTaula);
+        //g_LVW_OperativaTaula = (ListView) findViewById(R.id.DistribucionsClientMantNDLOperativaTaula);
+        g_LVW_OperativaTaula2 = (LinearLayout) findViewById(R.id.DistribucionsClientMantNDLOperativaTaula);
         // Control de enrera/cancelacio
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
