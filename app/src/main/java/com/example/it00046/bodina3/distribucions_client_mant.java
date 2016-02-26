@@ -4,33 +4,25 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.PointF;
-import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -42,15 +34,13 @@ import com.example.it00046.bodina3.Classes.DistribucioEdicio;
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
 import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
 import com.example.it00046.bodina3.Classes.Feina.linia;
+import com.example.it00046.bodina3.Classes.Feina.taula;
 import com.example.it00046.bodina3.Classes.Feina.texte;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.Params.PARSaloClient;
-import com.example.it00046.bodina3.Classes.Params.PARSaloPlanolClient;
 import com.example.it00046.bodina3.Classes.Validacio;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-
-import java.util.ArrayList;
 
 /**
  * Created by it00046 on 05/10/2015.
@@ -65,12 +55,13 @@ public class distribucions_client_mant extends ActionBarActivity {
     private ListView g_LVW_Taules, g_LVW_OperativaTaula;
     private LinearLayout g_LVW_OperativaTaula2;
     private SeekBar g_SEK_Zoom;
+    static final int g_RQC_DISTRIBUCIONS_CLIENT_TAULA_COMENSALS = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FloatingActionButton l_FLB_Configuracio, l_FLB_Taula, l_FLB_Assistent;
         final FloatingActionMenu l_FLM_Eines;
-        ImageButton l_IMB_Ajuda;
+        ImageButton l_IMB_Ajuda, l_IMB_EsborrarTaula, l_IMB_Comensals, l_IMB_GirarTaula;
         final LayoutInflater inflater = getLayoutInflater();
         PARSaloClient l_SaloClient;
 
@@ -290,8 +281,28 @@ public class distribucions_client_mant extends ActionBarActivity {
         g_LVW_Taules.setOnItemClickListener(new DrawerItemClickListener());
         l_DRL_Taules.openDrawer(Gravity.RIGHT);
         // Menu lateral esquerra: menu taula
-        //g_LVW_OperativaTaula = (ListView) findViewById(R.id.DistribucionsClientMantNDLOperativaTaula);
         g_LVW_OperativaTaula2 = (LinearLayout) findViewById(R.id.DistribucionsClientMantNDLOperativaTaula);
+        // Codi dels botons del menu de taula (el de la esquerra)
+        l_IMB_EsborrarTaula = (ImageButton) findViewById(R.id.DistribucionsClientMantIMBEsborrarTaula);
+        l_IMB_EsborrarTaula.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            }
+        });
+        l_IMB_Comensals = (ImageButton) findViewById(R.id.DistribucionsClientMantIMBComensals);
+        l_IMB_Comensals.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Obrim la finestra de la taula
+                Intent l_Intent;
+
+                l_Intent = new Intent(Jo, distribucions_client_taula_comensals.class);
+                startActivityForResult(l_Intent, g_RQC_DISTRIBUCIONS_CLIENT_TAULA_COMENSALS);
+            }
+        });
+        l_IMB_GirarTaula = (ImageButton) findViewById(R.id.DistribucionsClientMantIMBGirarTaula);
+        l_IMB_GirarTaula.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            }
+        });
         // Control de enrera/cancelacio
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -402,7 +413,8 @@ public class distribucions_client_mant extends ActionBarActivity {
         }
     }
 
-    public void obreOperativaTaula(){
+    public void obreOperativaTaula(taula p_Taula){
+        Globals.DefineixTaulaTreball(p_Taula);
         l_DRL_Taules.openDrawer(Gravity.LEFT);
     }
 }

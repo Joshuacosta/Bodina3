@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.it00046.bodina3" >
+    package="com.example.it00046.bodina3">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,16 +14,17 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
 
         <!-- Activitat principal: SINGLE -->
         <activity
             android:name=".principal"
             android:alwaysRetainTaskState="true"
             android:label="@string/app_name"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -31,7 +32,7 @@
         <activity
             android:name=".configuracio"
             android:label="@string/configuracioTitol"
-            android:parentActivityName=".principal" >
+            android:parentActivityName=".principal">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".principal" />
@@ -39,10 +40,10 @@
         <!-- Fill 3: Entitats: SINGLE -->
         <activity
             android:name=".entitat_pral"
-            android:label="@string/title_activity_ac_entitat_pral"
             android:alwaysRetainTaskState="true"
+            android:label="@string/title_activity_ac_entitat_pral"
             android:launchMode="singleTask"
-            android:parentActivityName=".principal" >
+            android:parentActivityName=".principal">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".principal" />
@@ -51,7 +52,7 @@
         <!-- 4: Celebracions del client -->
         <activity
             android:name=".celebracions_client_pral"
-            android:label="@string/title_activity_celebracions_client" >
+            android:label="@string/title_activity_celebracions_client">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".principal" />
@@ -59,11 +60,11 @@
         <!-- 4.0 Celebracions del client.Manteniment -->
         <activity
             android:name=".celebracions_client_mant"
-            android:label="@string/title_activity_CelebracionsClientMant"
             android:alwaysRetainTaskState="true"
+            android:label="@string/title_activity_CelebracionsClientMant"
             android:launchMode="singleTask"
             android:parentActivityName=".principal"
-            android:windowSoftInputMode="stateAlwaysHidden" >
+            android:windowSoftInputMode="stateAlwaysHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".celebracions_client_pral" />
@@ -71,17 +72,26 @@
         <!-- 4.0 Celebracions del client.Manteniment.Distribucio -->
         <activity
             android:name=".distribucions_client_mant"
-            android:screenOrientation="landscape"
             android:label="@string/title_activity_DistribucionsClientMant"
-            android:windowSoftInputMode="stateAlwaysHidden" >
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateAlwaysHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".celebracions_client_mant" />
         </activity>
+        <!-- 4.0.1 Celebracions del client.Manteniment.Distribucio.Comensals Taula -->
+        <activity
+            android:name=".distribucions_client_taula_comensals"
+            android:label="@string/title_activity_celebracions_client_taula_comensals"
+            android:screenOrientation="landscape">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".distribucions_client_mant" />
+        </activity>
         <!-- 4.1 Celebracions del client.Salons del client -->
         <activity
             android:name=".salons_client_pral"
-            android:label="@string/title_activity_salons_client" >
+            android:label="@string/title_activity_salons_client">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".celebracions_client_pral" />
@@ -89,8 +99,8 @@
         <!-- 4.1.1 Celebracions del client.Salons del client.Alta salo (portrait) -->
         <activity
             android:name=".salons_client_planol"
-            android:screenOrientation="landscape"
-            android:label="@string/title_activity_salonsclient_planol" >
+            android:label="@string/title_activity_salonsclient_planol"
+            android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".salons_client_pral" />
@@ -98,7 +108,7 @@
         <!-- 4.2 Celebracions del client.Taules del client -->
         <activity
             android:name=".taules_client"
-            android:label="@string/title_activity_taules_client" >
+            android:label="@string/title_activity_taules_client">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".celebracions_client_pral" />
@@ -109,7 +119,7 @@
             android:name=".entitat_solicitar"
             android:alwaysRetainTaskState="true"
             android:label="@string/title_activity_ac_entitat_solicitar"
-            android:parentActivityName=".entitat_pral" >
+            android:parentActivityName=".entitat_pral">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".entitat_pral" />
@@ -119,7 +129,7 @@
             android:name=".entitat_recerca"
             android:label="@string/title_activity_ac_entitat_recerca"
             android:launchMode="singleTop"
-            android:parentActivityName=".entitat_solicitar" >
+            android:parentActivityName=".entitat_solicitar">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -134,7 +144,7 @@
         <activity
             android:name=".entitat_modificar"
             android:label="@string/title_activity_entitat_modificar"
-            android:parentActivityName=".entitat_pral" >
+            android:parentActivityName=".entitat_pral">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".entitat_pral" />
@@ -142,7 +152,7 @@
         <!-- Finestra de categories de convidats -->
         <activity
             android:name=".categories_convidats"
-            android:label="@string/title_activity_categories_convidats" >
+            android:label="@string/title_activity_categories_convidats">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".celebracions_client_pral" />
@@ -150,7 +160,7 @@
         <!-- Finestra de tipus de celebracions -->
         <activity
             android:name=".tipus_celebracions"
-            android:label="@string/title_activity_tipus_celebracions" >
+            android:label="@string/title_activity_tipus_celebracions">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".entitat_pral" />

@@ -22,7 +22,7 @@ import com.example.it00046.bodina3.Classes.Globals;
 /**
  * Amb aquesta clase mostrem la taula de forma grafica
  */
-public class TaulaView extends View {
+public class taulaView extends View {
     private Paint g_PaintTaula, g_PaintTaulaActiva, g_PaintText;
     private TaulaClient g_Taula = new TaulaClient();
     Context g_Context;
@@ -34,25 +34,25 @@ public class TaulaView extends View {
     private PointF Punt = new PointF();
     private PointF PuntInicial = null;
 
-    public TaulaView(Context p_Context, AttributeSet p_Attrs) {
+    public taulaView(Context p_Context, AttributeSet p_Attrs) {
         super(p_Context, p_Attrs);
         setupDrawing();
     }
 
-    public TaulaView(Context p_Context, PointF p_Punt) {
+    public taulaView(Context p_Context, PointF p_Punt) {
         super(p_Context);
         g_Context = p_Context;
         DefineixPunt(p_Punt);
         setupDrawing();
     }
 
-    public TaulaView(Context p_Context) {
+    public taulaView(Context p_Context) {
         super(p_Context);
         g_Context = p_Context;
         setupDrawing();
     }
 
-    public TaulaView(){
+    public taulaView(){
         super(Globals.g_Native);
         g_Context = Globals.g_Native;
         setupDrawing();

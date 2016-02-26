@@ -135,22 +135,22 @@
         android:orientation="vertical"
         android:background="@color/green">
         <ImageButton
-            android:id="@+id/ivwLogo1"
+            android:id="@+id/DistribucionsClientMantIMBEsborrarTaula"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/ic_help_black_24dp" />
+            android:src="@drawable/ic_delete_white_36dp" />
         <ImageButton
-            android:id="@+id/ivwLogo2"
+            android:id="@+id/DistribucionsClientMantIMBComensals"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/ic_help_black_24dp" />
+            android:src="@drawable/ic_person_add_white_24dp" />
         <ImageButton
-            android:id="@+id/ivwLogo3"
+            android:id="@+id/DistribucionsClientMantIMBGirarTaula"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/ic_help_black_24dp" />
+            android:src="@drawable/ic_refresh_white_48dp" />
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

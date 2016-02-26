@@ -14,25 +14,25 @@ import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
 import com.example.it00046.bodina3.Classes.Globals;
 
 /**
- * Amb aquesta clase mostrem la taula de forma grafica a les llistes
+ * Amb aquesta clase mostrem la taula de forma grafica a les llistes de selecccio
  */
-public class TaulaViewLlista extends View {
+public class taulaViewLlista extends View {
     private Paint g_PaintTaula;
     private TaulaClient g_Taula = new TaulaClient();
     Context g_Context;
 
-    public TaulaViewLlista(Context p_Context, AttributeSet p_Attrs) {
+    public taulaViewLlista(Context p_Context, AttributeSet p_Attrs) {
         super(p_Context, p_Attrs);
         setupDrawing();
     }
 
-    public TaulaViewLlista(Context p_Context) {
+    public taulaViewLlista(Context p_Context) {
         super(p_Context);
         g_Context = p_Context;
         setupDrawing();
     }
 
-    public TaulaViewLlista(){
+    public taulaViewLlista(){
         super(Globals.g_Native);
         g_Context = Globals.g_Native;
         setupDrawing();

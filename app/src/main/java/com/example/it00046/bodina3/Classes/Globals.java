@@ -22,6 +22,7 @@ import com.example.it00046.bodina3.Classes.DAO.DAOTaulesClient;
 import com.example.it00046.bodina3.Classes.DAO.DAOTipusCelebracions;
 import com.example.it00046.bodina3.Classes.Entitats.Client;
 import com.example.it00046.bodina3.Classes.Entitats.Entitat;
+import com.example.it00046.bodina3.Classes.Feina.taula;
 import com.example.it00046.bodina3.R;
 
 import java.text.DateFormat;
@@ -100,6 +101,8 @@ public final class Globals
     public static final int k_Entitat_NomesInvitacio = 0;
     public static final int k_Entitat_PermetSolicitar = 1;
     public static final int k_CapacitatSenseDefinir = 0;
+    //
+    public static taula g_TaulaSeleccio;
 
     public static void ExitAppDialog(final Activity activity)
     {
@@ -344,5 +347,14 @@ public final class Globals
         final double deltaX = (p2.x - p1.x);
         final double result = Math.toDegrees(Math.atan2(deltaY, deltaX));
         return (result < 0) ? (360d + result) : result;
+    }
+
+    //
+    public static taula TaulaTreball(){
+        return g_TaulaSeleccio;
+    }
+
+    public static void DefineixTaulaTreball(taula p_Taula){
+        g_TaulaSeleccio = p_Taula;
     }
 }

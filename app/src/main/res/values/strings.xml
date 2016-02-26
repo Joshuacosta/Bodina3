@@ -131,6 +131,7 @@
     <string name="CelebracionsClientMantTXTContacte">Contact</string>
     <string name="CelebracionsClientMantTXTDistribucions">Distributions</string>
     <string name="CelebracionsClientMantMNUAfegirDistribucio">Add distribution</string>
+    <string name="CelebracionsClientMantLITEscalaUnitats"><![CDATA[<Scale>]]></string>
 
     <!-- Layout distribucions client manteniment -->
     <string name="title_activity_DistribucionsClientMant">Client distribution</string>
@@ -148,6 +149,7 @@
     <string name="DistribucionsClientMantLABZoom">Zoom:</string>
     <string name="DistribucionsClientMantMNUMostrarComensals">View diners</string>
     <string name="DistribucionsClientMantMNUComensals">Diners</string>
+    <string name="title_activity_celebracions_client_taula_comensals">diners</string>
 
     <!-- Layout salons client -->
     <string name="title_activity_salons_client">Saloons client</string>
@@ -1011,9 +1013,12 @@
         <item>Zambia -ZMB</item>
         <item>Zimbabwe -ZWE</item>
     </string-array>
+
     <string name="title_activity_main_esborrar">MainEsborrarActivity</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="CelebracionsClientMantLITEscalaUnitats"><![CDATA[<Scale>]]></string>
+
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

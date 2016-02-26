@@ -3,8 +3,7 @@ package com.example.it00046.bodina3.Classes.Feina;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.Log;
-import android.widget.RelativeLayout;
+
 import com.example.it00046.bodina3.Classes.DistribucioEdicio;
 import com.example.it00046.bodina3.Classes.Globals;
 
@@ -28,7 +27,7 @@ public class llista_taules {
         Rect l_Espai;
 
         if (g_Distribucio != null){
-            p_Taula.View = new TaulaView(Globals.g_Native);
+            p_Taula.View = new taulaView(Globals.g_Native);
             // Expresem la taula i recuperem el params que hem de fer servir per afegir a la distribucio
             p_Taula.NumTaula = NumTaula();
             p_Taula.View.ExpresaTaula(p_Taula.Taula, g_Distribucio.g_UnitatX, true, p_Taula.NumTaula);
@@ -73,7 +72,7 @@ public class llista_taules {
     public void Posar (taula p_Taula, PointF p_Punt){
         g_Llista.add(p_Taula);
         if (g_Distribucio != null){
-            p_Taula.View = new TaulaView(Globals.g_Native, p_Punt);
+            p_Taula.View = new taulaView(Globals.g_Native, p_Punt);
             // Expresem la taula i recuperem el params que hem de fer servir per afegir a la distribucio
             p_Taula.View.ExpresaTaula(p_Taula.Taula, g_Distribucio.g_UnitatX, true, p_Taula.NumTaula);
         }

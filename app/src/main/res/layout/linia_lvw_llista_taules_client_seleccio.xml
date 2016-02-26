@@ -11,7 +11,7 @@
         android:textSize="14sp"
         android:gravity="center_horizontal"/>
 
-    <com.example.it00046.bodina3.Classes.Feina.TaulaViewLlista
+    <com.example.it00046.bodina3.Classes.Feina.taulaViewLlista
         android:id="@+id/LiniaLVWLlistaTaulesClientSeleccioVIWDrawing"
         android:layout_width="40dp"
         android:layout_height="40dp"

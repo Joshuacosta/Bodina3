@@ -405,7 +405,7 @@ public class DistribucioEdicio extends RelativeLayout {
                             g_DarrerPuntTocat = l_ActualPoint;
                             //
                             if (g_TaulaSeleccionada != null){
-                                papa.obreOperativaTaula();
+                                papa.obreOperativaTaula(g_TaulaSeleccionada);
                             }
                             break;
                     }

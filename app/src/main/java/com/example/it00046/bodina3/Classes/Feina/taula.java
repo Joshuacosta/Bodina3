@@ -16,11 +16,7 @@ public class taula {
     public int NumTaula;
     public Rect Detector;
     public TaulaClient Taula;
-    public TaulaView View;
-    //
-    public Boolean DIB_Actiu;
-    private Paint l_TaulaActiva;
-    public Rect DetectorButo;
+    public taulaView View;
 
     public taula() {
         Esborrat = false;
@@ -29,7 +25,7 @@ public class taula {
         Id = -1;
         NumTaula = 0;
         // La taula dibuixada i les dades
-        View = new TaulaView();
+        View = new taulaView();
         Taula = new TaulaClient();
     }
 
