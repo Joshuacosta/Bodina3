@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.example.it00046.bodina3.Classes.DAO.DAOSalonsClient;
 import com.example.it00046.bodina3.Classes.DAO.DAOTaulesClient;
 import com.example.it00046.bodina3.Classes.DistribucioEdicio;
+import com.example.it00046.bodina3.Classes.Entitats.Planol;
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
 import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
 import com.example.it00046.bodina3.Classes.Feina.linia;
@@ -364,7 +365,7 @@ public class distribucions_client_mant extends ActionBarActivity {
     // Funcio interna per fer la operativa
     private void FerOperativa(){
         SaloClient l_SaloClient = new SaloClient();
-        SaloClient.DetallPlanol l_Detall;
+        Planol.Detall l_Detall;
         int i;
         linia l_Linia;
         texte l_Texte;
@@ -375,7 +376,7 @@ public class distribucions_client_mant extends ActionBarActivity {
             // Llegim les linies del planol
             for (i = 0; i < g_Draw.g_LiniesPlanol.size(); i++) {
                 l_Linia = g_Draw.g_LiniesPlanol.get(i);
-                l_Detall = new SaloClient.DetallPlanol();
+                l_Detall = new Planol.Detall();
                 l_Detall.Tipus = 0;
                 l_Detall.OrigenX = l_Linia.Inici.x;
                 l_Detall.OrigenY = l_Linia.Inici.y;
@@ -386,18 +387,18 @@ public class distribucions_client_mant extends ActionBarActivity {
                     l_Detall.CurvaY = l_Linia.PuntCurva.y;
                 }
                 //
-                l_SaloClient.g_Planol.add(l_Detall);
+                l_SaloClient.Planol.Grava(l_Detall);
             }
             // LLegim els textes
             for (i = 0; i < g_Draw.g_TextesPlanol.size(); i++) {
                 l_Texte = g_Draw.g_TextesPlanol.get(i);
-                l_Detall = new SaloClient.DetallPlanol();
+                l_Detall = new Planol.Detall();
                 l_Detall.Tipus = 1;
                 l_Detall.OrigenX = l_Texte.Punt.x;
                 l_Detall.OrigenY = l_Texte.Punt.y;
                 l_Detall.Texte = l_Texte.Texte;
                 //
-                l_SaloClient.g_Planol.add(l_Detall);
+                l_SaloClient.Planol.Grava(l_Detall);
             }
             // Dades de configuracio
             l_SaloClient.UnitatsPlanol = g_Draw.g_UnitatsPlanol;

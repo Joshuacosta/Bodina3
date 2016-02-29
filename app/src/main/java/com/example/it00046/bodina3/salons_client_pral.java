@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.it00046.bodina3.Classes.DAO.DAOSalonsClient;
+import com.example.it00046.bodina3.Classes.Entitats.Planol;
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
 import com.example.it00046.bodina3.Classes.ExpandAnimation;
 import com.example.it00046.bodina3.Classes.Globals;
@@ -124,9 +125,9 @@ public class salons_client_pral extends ActionBarActivity {
                     l_expandAni = new ExpandAnimation(l_LIN_Toolbar, 100);
                     l_LIN_Toolbar.startAnimation(l_expandAni);
                     // Construim el planol (si hi ha)
-                    if (l_SaloClient.g_Planol.size() > 0) {
+                    if (l_SaloClient.Planol.Elements() > 0) {
                         l_Draw = (PlanolVista) p_view.findViewById(R.id.LiniaLVWLlistaSalonsClientVIWDrawing);
-                        l_Draw.DibuixaPlanol(l_SaloClient.g_Planol, l_SaloClient.UnitatMesura);
+                        l_Draw.DibuixaPlanol(l_SaloClient.Planol.Linies(), l_SaloClient.UnitatMesura);
                         g_LIN_ToolbarAnterior = l_LIN_Toolbar;
                     }
                     else{
@@ -254,11 +255,11 @@ public class salons_client_pral extends ActionBarActivity {
             l_Parametres.UnitatsPlanol = l_Salo.UnitatsPlanol;
             l_Parametres.UnitatMesura = l_Salo.UnitatMesura;
             // Planol
-            if (l_Salo.g_Planol.size() > 0){
-                for (int i = 0; i < l_Salo.g_Planol.size(); i++){
-                    SaloClient.DetallPlanol l_Detall;
+            if (l_Salo.Planol.Elements() > 0){
+                for (int i = 0; i < l_Salo.Planol.Elements(); i++){
+                    Planol.Detall l_Detall;
                     PARSaloPlanolClient l_DetallParametre = new PARSaloPlanolClient();
-                    l_Detall = l_Salo.g_Planol.get(i);
+                    l_Detall = l_Salo.Planol.Llegeix(i);
                     l_DetallParametre.Tipus = l_Detall.Tipus;
                     l_DetallParametre.OrigenX = l_Detall.OrigenX;
                     l_DetallParametre.OrigenY = l_Detall.OrigenY;

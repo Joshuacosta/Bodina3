@@ -78,8 +78,8 @@ public final class DAOSalonsClient {
                     if (l_cursorPlanol.getCount() > 0) {
                         l_cursorPlanol.moveToFirst();
                         for (j=0; j < l_cursorPlanol.getCount(); j++) {
-                            SaloClient.DetallPlanol l_DetallPlanol = CursorToSaloPlanolClient(l_cursorPlanol);
-                            l_Salo.g_Planol.add(l_DetallPlanol);
+                            Planol.Detall l_DetallPlanol = CursorToSaloPlanolClient(l_cursorPlanol);
+                            l_Salo.Planol.Grava(l_DetallPlanol);
                             l_cursorPlanol.moveToNext();
                         }
                     }
@@ -157,8 +157,8 @@ public final class DAOSalonsClient {
                                              null,
                                              SaloClientToContentValues(p_SaloClient, true));
             // Inserim el planol (si hi ha)
-            if (p_SaloClient.g_Planol.size() > 0){
-                for (int i=0; i < p_SaloClient.g_Planol.size(); i ++){
+            if (p_SaloClient.Planol.Elements() > 0){
+                for (int i=0; i < p_SaloClient.Planol.Elements(); i ++){
                     Globals.g_DB.insert(TAG_PlanolClient,
                             null,
                             SaloClientPlanolToContentValues(p_SaloClient, i, l_CodiSalo));
@@ -206,13 +206,13 @@ public final class DAOSalonsClient {
                                 TAG_Codi + "= " + p_SaloClient.Codi,
                                 null);
             // Modifiquem el planol (si hi ha)
-            if (p_SaloClient.g_Planol.size() > 0){
+            if (p_SaloClient.Planol.Elements() > 0){
                 // Esborrem previament
                 Globals.g_DB.delete(TAG_PlanolClient,
                         TAG_CodiPlanol + "= " + p_SaloClient.Codi,
                         null);
                 // Gravem el nou (o lo mateix, si no s'ha tocat res)
-                for (int i = 0; i < p_SaloClient.g_Planol.size(); i++){
+                for (int i = 0; i < p_SaloClient.Planol.Elements(); i++){
                     Globals.g_DB.insert(TAG_PlanolClient,
                             null,
                             SaloClientPlanolToContentValues(p_SaloClient, i, p_SaloClient.Codi));
@@ -301,12 +301,8 @@ public final class DAOSalonsClient {
                     null); // h. limit
             if (l_cursor.getCount() > 0) {
                 l_cursor.moveToFirst();
-                // Nomes llegirem un salo
+                // Nomes llegirem un salo (el trobat)
                 for (i = 0; i < l_cursor.getCount(); i++) {
-                    SaloClient l_Salo = CursorToSaloClient(l_cursor);
-                    l_PlanolSalo.Escala = l_Salo.EscalaPlanol;
-                    l_PlanolSalo.Unitats = l_Salo.UnitatsPlanol;
-                    l_PlanolSalo.Mesura = l_Salo.UnitatMesura;
                     // Llegim les dades del planol
                     Cursor l_cursorPlanol = Globals.g_DB.query(TAG_PlanolClient,
                             Globals.g_Native.getResources().getStringArray(R.array.TPlanols_Camps),
@@ -319,7 +315,7 @@ public final class DAOSalonsClient {
                     if (l_cursorPlanol.getCount() > 0) {
                         l_cursorPlanol.moveToFirst();
                         for (j = 0; j < l_cursorPlanol.getCount(); j++) {
-                            SaloClient.DetallPlanol l_DetallPlanol = CursorToSaloPlanolClient(l_cursorPlanol);
+                            Planol.Detall l_DetallPlanol = CursorToSaloPlanolClient(l_cursorPlanol);
                             l_PlanolSalo.Grava(l_DetallPlanol);
                             l_cursorPlanol.moveToNext();
                         }
@@ -359,9 +355,9 @@ public final class DAOSalonsClient {
     }
     private static ContentValues SaloClientPlanolToContentValues(SaloClient p_SaloClient, int p_Index, long p_CodiSalo) {
         ContentValues l_values = new ContentValues();
-        SaloClient.DetallPlanol l_DetallPlanol;
+        Planol.Detall l_DetallPlanol;
 
-        l_DetallPlanol = p_SaloClient.g_Planol.get(p_Index);
+        l_DetallPlanol = p_SaloClient.Planol.Llegeix(p_Index);
 
         l_values.put(TAG_CodiPlanol, p_CodiSalo);
         l_values.put(TAG_Tipus, l_DetallPlanol.Tipus);
@@ -391,18 +387,18 @@ public final class DAOSalonsClient {
         return l_SaloClient;
     }
 
-    private static SaloClient.DetallPlanol CursorToSaloPlanolClient(Cursor p_cursor){
-        SaloClient.DetallPlanol l_SaloClient = new SaloClient.DetallPlanol();
+    private static Planol.Detall CursorToSaloPlanolClient(Cursor p_cursor){
+        Planol.Detall l_Detall = new Planol.Detall();
 
-        l_SaloClient.Tipus = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Tipus));
-        l_SaloClient.OrigenX = p_cursor.getInt(p_cursor.getColumnIndex(TAG_OrigenX));
-        l_SaloClient.OrigenY = p_cursor.getInt(p_cursor.getColumnIndex(TAG_OrigenY));
-        l_SaloClient.DestiX = p_cursor.getInt(p_cursor.getColumnIndex(TAG_DestiX));
-        l_SaloClient.DestiY = p_cursor.getInt(p_cursor.getColumnIndex(TAG_DestiY));
-        l_SaloClient.CurvaX = p_cursor.getInt(p_cursor.getColumnIndex(TAG_CurvaX));
-        l_SaloClient.CurvaY = p_cursor.getInt(p_cursor.getColumnIndex(TAG_CurvaY));
-        l_SaloClient.Texte = p_cursor.getString(p_cursor.getColumnIndex(TAG_Texte));
+        l_Detall.Tipus = p_cursor.getInt(p_cursor.getColumnIndex(TAG_Tipus));
+        l_Detall.OrigenX = p_cursor.getInt(p_cursor.getColumnIndex(TAG_OrigenX));
+        l_Detall.OrigenY = p_cursor.getInt(p_cursor.getColumnIndex(TAG_OrigenY));
+        l_Detall.DestiX = p_cursor.getInt(p_cursor.getColumnIndex(TAG_DestiX));
+        l_Detall.DestiY = p_cursor.getInt(p_cursor.getColumnIndex(TAG_DestiY));
+        l_Detall.CurvaX = p_cursor.getInt(p_cursor.getColumnIndex(TAG_CurvaX));
+        l_Detall.CurvaY = p_cursor.getInt(p_cursor.getColumnIndex(TAG_CurvaY));
+        l_Detall.Texte = p_cursor.getString(p_cursor.getColumnIndex(TAG_Texte));
 
-        return l_SaloClient;
+        return l_Detall;
     }
 }

@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
+import com.example.it00046.bodina3.Classes.Entitats.Planol;
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
 import com.example.it00046.bodina3.Classes.Feina.linia;
 import com.example.it00046.bodina3.Classes.Feina.texte;
@@ -75,6 +76,7 @@ public class PlanolEdicio extends RelativeLayout {
     private int g_AmpladaScreen, g_LlargadaScreen;
     public ImageButton g_IMB_Esborrar;
 
+    static public Planol g_Planol = new Planol();
     // Array per guardar les linies que fem
     static public ArrayList<linia> g_LiniesPlanol = new ArrayList<>();
     // Array per guardar els textes del planol
@@ -199,7 +201,6 @@ public class PlanolEdicio extends RelativeLayout {
                 l_Quadricula.moveTo(g_UnitatX*v, 0);
                 l_Quadricula.lineTo(g_UnitatX*v, l_dpHeight);
             }
-
         }
         canvas.drawPath(l_Quadricula, g_PaintQuadricula);
         // ///////////////////////////////////////////////////////////////////////////////////////
@@ -758,14 +759,15 @@ public class PlanolEdicio extends RelativeLayout {
         return l_Texte;
     }
 
-    public void DibuixaPlanol(ArrayList<SaloClient.DetallPlanol> p_Planol){
-        SaloClient.DetallPlanol l_Element;
+    public void DibuixaPlanol(Planol p_Planol){
+        Planol.Detall l_Element;
         PointF l_PuntInici, l_PuntFi, l_PuntCurva, l_PuntTexte;
 
-        for (int i=0; i < p_Planol.size(); i++){
-            l_Element = p_Planol.get(i);
+        g_Planol = p_Planol;
+        for (int i=0; i < g_Planol.Elements(); i++){
+            l_Element = g_Planol.Llegeix(i);
             switch (l_Element.Tipus){
-                case 0: // Linia
+                case Globals.k_TipusLinia:
                     l_PuntInici = new PointF(l_Element.OrigenX, l_Element.OrigenY);
                     l_PuntFi = new PointF(l_Element.DestiX, l_Element.DestiY);
                     if (l_Element.CurvaX != 0){
@@ -777,7 +779,7 @@ public class PlanolEdicio extends RelativeLayout {
                         g_LiniesPlanol.add(DefineixLinia(l_PuntInici, l_PuntFi));
                     }
                     break;
-                case 1: // Texte
+                case Globals.k_TipusTexte:
                     l_PuntTexte = new PointF(l_Element.OrigenX, l_Element.OrigenY);
                     g_TextesPlanol.add(DefineixTexte(l_Element.Texte, l_PuntTexte));
                     break;

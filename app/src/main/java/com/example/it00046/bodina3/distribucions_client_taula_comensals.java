@@ -33,9 +33,8 @@ public class distribucions_client_taula_comensals extends ActionBarActivity {
         // MEU CODI
         // Recuperem taula
         g_Taula = Globals.TaulaTreball();
-        Log.d("BODINA","Comensals " + g_Taula.NumTaula);
 
-        // Menu lateral dret: carreguem la llista de taules
+        // Menu lateral dret: carreguem la llista de convidats
         l_DRL_Convidats = (DrawerLayout) findViewById(R.id.DistribucionsClientTaulaComenslasNDRConvidats);
         g_LVW_Convidats = (ListView) findViewById(R.id.DistribucionsClientTaulaComenslasNDLConvidats);
         //DAOTaulesClient.LlegirSeleccio(g_LVW_Taules, R.layout.linia_lvw_llista_taules_client_seleccio, this);

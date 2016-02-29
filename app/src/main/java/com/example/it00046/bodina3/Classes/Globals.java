@@ -86,6 +86,11 @@ public final class Globals
     public static final int k_TipusLinia = 0;
     public static final int k_TipusTexte = 1;
 
+    public static final int k_TipusHome = 0;
+    public static final int k_TipusDona = 1;
+    public static final int k_TipusNen = 2;
+    public static final int k_TipusParella = 3;
+
     public static final int k_EntitatBaixa = 0;
     // - Treball
     public static final String k_ClientNOU = "NOU";

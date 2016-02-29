@@ -9,7 +9,7 @@ public class DistribucioConvidat {
     public CelebracioClient Celebracio;
     public Distribucio Distribucio;
     public Convidat Convidat;
-    public PointF Posicio;
+    public PointF Posicio; // No hauria de ser una posicio relativa dintre de la taula?
     public Taula Taula;
 
     public DistribucioConvidat(){

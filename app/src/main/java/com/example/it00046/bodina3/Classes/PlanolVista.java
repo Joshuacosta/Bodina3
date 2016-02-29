@@ -13,6 +13,7 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
+import com.example.it00046.bodina3.Classes.Entitats.Planol;
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
 import com.example.it00046.bodina3.Classes.Feina.linia;
 
@@ -133,27 +134,22 @@ public class PlanolVista extends RelativeLayout {
         canvas.restore();
     }
 
-    public void DibuixaPlanol(ArrayList<SaloClient.DetallPlanol> p_Planol, float p_UnitatMesura){
-        SaloClient.DetallPlanol l_Element;
+    public void DibuixaPlanol(ArrayList<Planol.Detall> p_LiniesPlanol, float p_UnitatMesura){
+        Planol.Detall l_Element;
         PointF l_PuntInici, l_PuntFi, l_PuntCurva;
 
         g_UnitatMesura = p_UnitatMesura;
-        for (int i = 0; i < p_Planol.size(); i++) {
-            l_Element = p_Planol.get(i);
-            switch (l_Element.Tipus) {
-                case 0: // Linia
-                    l_PuntInici = new PointF(l_Element.OrigenX, l_Element.OrigenY);
-                    l_PuntFi = new PointF(l_Element.DestiX, l_Element.DestiY);
-                    if (l_Element.CurvaX != 0) {
-                        // Curva
-                        l_PuntCurva = new PointF(l_Element.CurvaX, l_Element.CurvaY);
-                        g_LiniesPlanol.add(DefineixCurva(l_PuntInici, l_PuntFi, l_PuntCurva));
-                    } else {
-                        g_LiniesPlanol.add(DefineixLinia(l_PuntInici, l_PuntFi));
-                    }
-                    break;
-                case 1: // Texte, res
-                    break;
+        for (int i = 0; i < p_LiniesPlanol.size(); i++) {
+            l_Element = p_LiniesPlanol.get(i);
+            l_PuntInici = new PointF(l_Element.OrigenX, l_Element.OrigenY);
+            l_PuntFi = new PointF(l_Element.DestiX, l_Element.DestiY);
+            if (l_Element.CurvaX != 0) {
+                // Curva
+                l_PuntCurva = new PointF(l_Element.CurvaX, l_Element.CurvaY);
+                g_LiniesPlanol.add(DefineixCurva(l_PuntInici, l_PuntFi, l_PuntCurva));
+            }
+            else{
+                g_LiniesPlanol.add(DefineixLinia(l_PuntInici, l_PuntFi));
             }
         }
         //
@@ -202,6 +198,4 @@ public class PlanolVista extends RelativeLayout {
         l_Resultat = String.valueOf(Math.round(P_Distancia / g_UnitatMesura));
         return l_Resultat;
     }
-
-
 }

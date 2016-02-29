@@ -166,8 +166,6 @@ public class DistribucioEdicio extends RelativeLayout {
             // (Nomes cal fer-ho un cop, el planol no es modifica)
             g_Planol = DAOSalonsClient.LlegirPlanolSalo(g_CodiSalo, g_Context);
             this.CarregaPlanol(g_Planol);
-            g_EscalaPlanol = g_Planol.Escala;
-            g_UnitatsPlanol = g_Planol.Unitats;
             // Calculem escala i unitats
             String[] l_Valors = g_EscalaPlanol.split("x");
             g_EscalaPlanolAmplada = Integer.valueOf(l_Valors[0]);
@@ -505,29 +503,30 @@ public class DistribucioEdicio extends RelativeLayout {
     }
 
     public void CarregaPlanol(Planol p_Planol){
-        SaloClient.DetallPlanol l_Element;
+        Planol.Detall l_Element;
+        ArrayList<Planol.Detall> l_Linies;
+        ArrayList<Planol.Detall> l_Textes;
         PointF l_PuntInici, l_PuntFi, l_PuntCurva, l_PuntTexte;
 
-        for (int i=0; i < p_Planol.Tamany(); i++){
-            l_Element = p_Planol.Llegeix(i);
-            switch (l_Element.Tipus){
-                case 0: // Linia
-                    l_PuntInici = new PointF(l_Element.OrigenX, l_Element.OrigenY);
-                    l_PuntFi = new PointF(l_Element.DestiX, l_Element.DestiY);
-                    if (l_Element.CurvaX != 0){
-                        // Curva
-                        l_PuntCurva = new PointF(l_Element.CurvaX, l_Element.CurvaY);
-                        g_LiniesPlanol.add(DefineixCurva(l_PuntInici, l_PuntFi, l_PuntCurva));
-                    }
-                    else{
-                        g_LiniesPlanol.add(DefineixLinia(l_PuntInici, l_PuntFi));
-                    }
-                    break;
-                case 1: // Texte
-                    l_PuntTexte = new PointF(l_Element.OrigenX, l_Element.OrigenY);
-                    g_TextesPlanol.add(DefineixTexte(l_Element.Texte, l_PuntTexte));
-                    break;
+        l_Linies = p_Planol.Linies();
+        for (int i=0; i < l_Linies.size(); i++) {
+            l_Element = l_Linies.get(i);
+            l_PuntInici = new PointF(l_Element.OrigenX, l_Element.OrigenY);
+            l_PuntFi = new PointF(l_Element.DestiX, l_Element.DestiY);
+            if (l_Element.CurvaX != 0){
+                // Curva
+                l_PuntCurva = new PointF(l_Element.CurvaX, l_Element.CurvaY);
+                g_LiniesPlanol.add(DefineixCurva(l_PuntInici, l_PuntFi, l_PuntCurva));
             }
+            else{
+                g_LiniesPlanol.add(DefineixLinia(l_PuntInici, l_PuntFi));
+            }
+        }
+        l_Textes = p_Planol.Textes();
+        for (int i=0; i < l_Textes.size(); i++) {
+            l_Element = l_Textes.get(i);
+            l_PuntTexte = new PointF(l_Element.OrigenX, l_Element.OrigenY);
+            g_TextesPlanol.add(DefineixTexte(l_Element.Texte, l_PuntTexte));
         }
     }
 

@@ -10,7 +10,7 @@ public class SaloClient {
     public String Nom, Descripcio, UnitatsPlanol, EscalaPlanol;
     public int Estat, Capacitat;
     public float UnitatMesura;
-    public ArrayList<DetallPlanol> g_Planol;
+    public Planol Planol;
 
     public SaloClient(){
         Codi            = 0;
@@ -19,30 +19,8 @@ public class SaloClient {
         Capacitat       = 0;    // Numero maxim de persones del salo
         Estat           = 1;    // Per defecte actiu
         EscalaPlanol    = "";
-        UnitatsPlanol    = "";
+        UnitatsPlanol   = "";
         UnitatMesura    = 0.0f;
-        g_Planol = new ArrayList<>();
-    }
-
-    static public class DetallPlanol{
-        public int Tipus;       // Pot ser una linia (0) o un texte (1)
-        public float OrigenX;
-        public float OrigenY;
-        public float DestiX;
-        public float DestiY;
-        public float CurvaX;
-        public float CurvaY;
-        public String Texte;
-
-        public DetallPlanol(){
-            Tipus = 0;
-            OrigenX = 0;
-            OrigenY = 0;
-            DestiX = 0;
-            DestiY = 0;
-            CurvaX = 0;
-            CurvaY = 0;
-            Texte = "";
-        }
+        Planol          = new Planol();
     }
 }

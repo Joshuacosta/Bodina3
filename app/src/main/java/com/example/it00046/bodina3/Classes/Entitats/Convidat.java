@@ -1,12 +1,15 @@
 package com.example.it00046.bodina3.Classes.Entitats;
 
+import com.example.it00046.bodina3.Classes.Globals;
+
 /**
  * Created by it00046 on 26/02/2016.
  */
 public class Convidat {
     public int Codi;
     public String Nom;
-    public int Tipus; // 0-Home, 1-Dona, 2-Nen
+    public int Tipus; // Home, Dona, Nen, Parella
+    public Convidat Parella; // Per si te parella
     public String Adresa;
     public String Contacte;
     public String Comentari;
@@ -20,6 +23,7 @@ public class Convidat {
         Codi        = -1;
         Nom         = "";
         Tipus       = 0;
+        Parella     = new Convidat();
         Adresa      = "";
         Contacte    = "";
         Comentari   = "";
