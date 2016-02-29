@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -12,7 +11,7 @@ import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.Custom.LVWLlistaSalonsClient;
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
-import com.example.it00046.bodina3.Classes.Feina.planol;
+import com.example.it00046.bodina3.Classes.Entitats.Planol;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNSalonsClient;
 import com.example.it00046.bodina3.R;
@@ -286,8 +285,8 @@ public final class DAOSalonsClient {
         return l_Resultat;
     }
 
-    public static planol LlegirPlanolSalo(int P_Codi, Context p_Context){
-        planol l_PlanolSalo = new planol();
+    public static Planol LlegirPlanolSalo(int P_Codi, Context p_Context){
+        Planol l_PlanolSalo = new Planol();
         int i, j;
 
         Globals.MostrarEspera(p_Context);

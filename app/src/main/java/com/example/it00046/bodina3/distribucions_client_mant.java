@@ -34,7 +34,7 @@ import com.example.it00046.bodina3.Classes.DistribucioEdicio;
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
 import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
 import com.example.it00046.bodina3.Classes.Feina.linia;
-import com.example.it00046.bodina3.Classes.Feina.taula;
+import com.example.it00046.bodina3.Classes.Entitats.Taula;
 import com.example.it00046.bodina3.Classes.Feina.texte;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.Params.PARSaloClient;
@@ -413,7 +413,7 @@ public class distribucions_client_mant extends ActionBarActivity {
         }
     }
 
-    public void obreOperativaTaula(taula p_Taula){
+    public void obreOperativaTaula(Taula p_Taula){
         Globals.DefineixTaulaTreball(p_Taula);
         l_DRL_Taules.openDrawer(Gravity.LEFT);
     }

@@ -9,20 +9,17 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings.Secure;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.it00046.bodina3.Classes.DAO.DAOTaulesClient;
 import com.example.it00046.bodina3.Classes.DAO.DAOTipusCelebracions;
 import com.example.it00046.bodina3.Classes.Entitats.Client;
-import com.example.it00046.bodina3.Classes.Entitats.Entitat;
-import com.example.it00046.bodina3.Classes.Feina.taula;
+import com.example.it00046.bodina3.Classes.Entitats.Taula;
 import com.example.it00046.bodina3.R;
 
 import java.text.DateFormat;
@@ -102,7 +99,7 @@ public final class Globals
     public static final int k_Entitat_PermetSolicitar = 1;
     public static final int k_CapacitatSenseDefinir = 0;
     //
-    public static taula g_TaulaSeleccio;
+    public static Taula g_TaulaSeleccio;
 
     public static void ExitAppDialog(final Activity activity)
     {
@@ -350,11 +347,11 @@ public final class Globals
     }
 
     //
-    public static taula TaulaTreball(){
+    public static Taula TaulaTreball(){
         return g_TaulaSeleccio;
     }
 
-    public static void DefineixTaulaTreball(taula p_Taula){
+    public static void DefineixTaulaTreball(Taula p_Taula){
         g_TaulaSeleccio = p_Taula;
     }
 }

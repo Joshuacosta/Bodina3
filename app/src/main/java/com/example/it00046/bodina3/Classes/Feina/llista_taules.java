@@ -5,13 +5,14 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.example.it00046.bodina3.Classes.DistribucioEdicio;
+import com.example.it00046.bodina3.Classes.Entitats.Taula;
 import com.example.it00046.bodina3.Classes.Globals;
 
 
 import java.util.ArrayList;
 
 public class llista_taules {
-    private ArrayList<taula> g_Llista;
+    private ArrayList<Taula> g_Llista;
     private PointF g_Guia = null;
     public RectF g_BoundsSalo = new RectF();
     public int g_SeparacioTaules = 0;
@@ -21,13 +22,13 @@ public class llista_taules {
         g_Llista = new ArrayList<>();
     }
 
-    public void Afegir (taula p_Taula){
+    public void Afegir (Taula p_Taula){
         boolean l_llocTrobat = false;
         int l_canvilinia = 0;
         Rect l_Espai;
 
         if (g_Distribucio != null){
-            p_Taula.View = new taulaView(Globals.g_Native);
+            p_Taula.View = new TaulaView(Globals.g_Native);
             // Expresem la taula i recuperem el params que hem de fer servir per afegir a la distribucio
             p_Taula.NumTaula = NumTaula();
             p_Taula.View.ExpresaTaula(p_Taula.Taula, g_Distribucio.g_UnitatX, true, p_Taula.NumTaula);
@@ -69,10 +70,10 @@ public class llista_taules {
     }
 
 
-    public void Posar (taula p_Taula, PointF p_Punt){
+    public void Posar (Taula p_Taula, PointF p_Punt){
         g_Llista.add(p_Taula);
         if (g_Distribucio != null){
-            p_Taula.View = new taulaView(Globals.g_Native, p_Punt);
+            p_Taula.View = new TaulaView(Globals.g_Native, p_Punt);
             // Expresem la taula i recuperem el params que hem de fer servir per afegir a la distribucio
             p_Taula.View.ExpresaTaula(p_Taula.Taula, g_Distribucio.g_UnitatX, true, p_Taula.NumTaula);
         }
@@ -106,7 +107,7 @@ public class llista_taules {
         return l_NumTaula;
     }
 
-    public taula element(int i){
+    public Taula element(int i){
         return g_Llista.get(i);
     }
 

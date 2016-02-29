@@ -1,28 +1,22 @@
 package com.example.it00046.bodina3.Classes.Feina;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-import android.widget.RelativeLayout;
 
 import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
-import com.example.it00046.bodina3.Classes.Feina.taula;
 import com.example.it00046.bodina3.Classes.Globals;
 
 /**
  * Amb aquesta clase mostrem la taula de forma grafica
  */
-public class taulaView extends View {
+public class TaulaView extends View {
     private Paint g_PaintTaula, g_PaintTaulaActiva, g_PaintText;
     private TaulaClient g_Taula = new TaulaClient();
     Context g_Context;
@@ -34,25 +28,25 @@ public class taulaView extends View {
     private PointF Punt = new PointF();
     private PointF PuntInicial = null;
 
-    public taulaView(Context p_Context, AttributeSet p_Attrs) {
+    public TaulaView(Context p_Context, AttributeSet p_Attrs) {
         super(p_Context, p_Attrs);
         setupDrawing();
     }
 
-    public taulaView(Context p_Context, PointF p_Punt) {
+    public TaulaView(Context p_Context, PointF p_Punt) {
         super(p_Context);
         g_Context = p_Context;
         DefineixPunt(p_Punt);
         setupDrawing();
     }
 
-    public taulaView(Context p_Context) {
+    public TaulaView(Context p_Context) {
         super(p_Context);
         g_Context = p_Context;
         setupDrawing();
     }
 
-    public taulaView(){
+    public TaulaView(){
         super(Globals.g_Native);
         g_Context = Globals.g_Native;
         setupDrawing();

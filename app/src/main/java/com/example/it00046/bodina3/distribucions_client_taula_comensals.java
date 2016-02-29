@@ -1,22 +1,18 @@
 package com.example.it00046.bodina3;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.it00046.bodina3.Classes.Feina.taula;
+import com.example.it00046.bodina3.Classes.Entitats.Taula;
 import com.example.it00046.bodina3.Classes.Globals;
 
 /**
@@ -24,7 +20,7 @@ import com.example.it00046.bodina3.Classes.Globals;
  * status bar and navigation/system bar) with user interaction.
  */
 public class distribucions_client_taula_comensals extends ActionBarActivity {
-    public taula g_Taula;
+    public Taula g_Taula;
     public ListView g_LVW_Convidats;
 
     @Override

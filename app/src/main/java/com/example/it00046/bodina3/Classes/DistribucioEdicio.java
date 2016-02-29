@@ -1,9 +1,6 @@
 package com.example.it00046.bodina3.Classes;
 
-import android.animation.ObjectAnimator;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -13,35 +10,26 @@ import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.TransitionDrawable;
-import android.support.v4.widget.DrawerLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.example.it00046.bodina3.Classes.DAO.DAOSalonsClient;
 import com.example.it00046.bodina3.Classes.Entitats.SaloClient;
 import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
 import com.example.it00046.bodina3.Classes.Feina.linia;
 import com.example.it00046.bodina3.Classes.Feina.llista_taules;
-import com.example.it00046.bodina3.Classes.Feina.planol;
-import com.example.it00046.bodina3.Classes.Feina.taula;
+import com.example.it00046.bodina3.Classes.Entitats.Planol;
+import com.example.it00046.bodina3.Classes.Entitats.Taula;
 import com.example.it00046.bodina3.Classes.Feina.texte;
-import com.example.it00046.bodina3.R;
 import com.example.it00046.bodina3.distribucions_client_mant;
 
 import java.util.ArrayList;
@@ -76,7 +64,7 @@ public class DistribucioEdicio extends RelativeLayout {
     public boolean g_TaulaDefecteDefinida = false;
     public TaulaClient g_TaulaDefecte = null;
     public int g_CodiSalo = 0;
-    static private taula g_TaulaSeleccionada = null;
+    static private Taula g_TaulaSeleccionada = null;
     private GestureDetector g_GestureDetector;
     private Context g_Context;
     private Canvas g_DrawCanvas;
@@ -93,7 +81,7 @@ public class DistribucioEdicio extends RelativeLayout {
     public PointF g_DarrerPuntTocat = null;
     public ImageButton g_IMB_Esborrar;
     // Planol
-    static public planol g_Planol;
+    static public Planol g_Planol;
     // Linies i textes del planol
     static public ArrayList<linia> g_LiniesPlanol = new ArrayList<>();
     static public ArrayList<texte> g_TextesPlanol = new ArrayList<>();
@@ -294,7 +282,7 @@ public class DistribucioEdicio extends RelativeLayout {
     public boolean onTouchEvent(MotionEvent p_Event) {
         float l_X = Math.round(p_Event.getX()/g_ScaleFactor);
         float l_Y = Math.round(p_Event.getY()/g_ScaleFactor);
-        taula l_Taula;
+        Taula l_Taula;
         PointF l_ActualPoint = new PointF(l_X, l_Y);
         Rect l_Detector, l_Esborrar;
 
@@ -473,8 +461,8 @@ public class DistribucioEdicio extends RelativeLayout {
         }
     }
 
-    private taula MarquemTaula(Rect P_Posicio){
-        taula l_Marcat = null;
+    private Taula MarquemTaula(Rect P_Posicio){
+        Taula l_Marcat = null;
 
         g_TaulesDistribucio.DesmarcarActives();
         for (int i=0; i < g_TaulesDistribucio.Tamany(); i++){
@@ -489,7 +477,7 @@ public class DistribucioEdicio extends RelativeLayout {
     }
 
     public void PosaTaula(PointF p_PuntDonat, TaulaClient P_Taula){
-        taula l_Taula = new taula();
+        Taula l_Taula = new Taula();
 
         // Definim la taula a la distribucio de taules
         l_Taula.Id = g_TaulesDistribucio.Tamany();
@@ -501,7 +489,7 @@ public class DistribucioEdicio extends RelativeLayout {
     }
 
     public void AfegirTaula(TaulaClient P_Taula){
-        taula l_Taula = new taula();
+        Taula l_Taula = new Taula();
 
         // Definim la taula a la distribucio de taules
         l_Taula.Id = g_TaulesDistribucio.Tamany();
@@ -516,7 +504,7 @@ public class DistribucioEdicio extends RelativeLayout {
         invalidate();
     }
 
-    public void CarregaPlanol(planol p_Planol){
+    public void CarregaPlanol(Planol p_Planol){
         SaloClient.DetallPlanol l_Element;
         PointF l_PuntInici, l_PuntFi, l_PuntCurva, l_PuntTexte;
 
