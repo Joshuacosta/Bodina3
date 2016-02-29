@@ -9,7 +9,6 @@ public class Convidat {
     public int Codi;
     public String Nom;
     public int Tipus; // Home, Dona, Nen, Parella
-    public Convidat Parella; // Per si te parella
     public String Adresa;
     public String Contacte;
     public String Comentari;
@@ -23,7 +22,6 @@ public class Convidat {
         Codi        = -1;
         Nom         = "";
         Tipus       = 0;
-        Parella     = new Convidat();
         Adresa      = "";
         Contacte    = "";
         Comentari   = "";

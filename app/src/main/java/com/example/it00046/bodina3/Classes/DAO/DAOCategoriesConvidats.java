@@ -10,13 +10,19 @@ import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.Custom.LVWLlistaCategoriesConvidats;
 import com.example.it00046.bodina3.Classes.Entitats.CategoriaConvidats;
+import com.example.it00046.bodina3.Classes.Feina.llista_CategoriesConvidats;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by it00046 on 05/08/2015.
  */
 public class DAOCategoriesConvidats {
+
+    public static ArrayList<CategoriaConvidats> LlistaCache = new ArrayList<>();
+
     private static final String TAG_CategoriesConvidats = Globals.g_Native.getString(R.string.TCategoriesConvidats);
     private static final String TAG_Codi = Globals.g_Native.getString(R.string.TCategoriesConvidats_Codi);
     private static final String TAG_CodiCelebracio = Globals.g_Native.getString(R.string.TCategoriesConvidats_CodiCelebracio);
@@ -26,10 +32,12 @@ public class DAOCategoriesConvidats {
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Llegim les categories de convidats del client per una celebracio
+    // (aprofitem per carregar la llista cache
     public static void Llegir(int p_CodiCelebracio, final ListView p_LVW_CategoriesConvidats, int p_Layout, final Context p_Context) {
         final ArrayAdapter<CategoriaConvidats> l_Llista = new LVWLlistaCategoriesConvidats(p_Context, p_Layout);
         Globals.MostrarEspera(p_Context);
         try {
+            LlistaCache = new ArrayList<>();
             Cursor l_cursor = Globals.g_DB.query(TAG_CategoriesConvidats,
                     Globals.g_Native.getResources().getStringArray(R.array.TCategoriesConvidats_Camps),
                     TAG_CodiCelebracio + "= " + p_CodiCelebracio, // c. selections
@@ -43,9 +51,39 @@ public class DAOCategoriesConvidats {
                 for (int i=0; i < l_cursor.getCount(); i++) {
                     CategoriaConvidats l_Categoria = CursorToCategoriaConvidats(l_cursor);
                     l_Llista.add(l_Categoria);
+                    LlistaCache.add(l_Categoria);
                     l_cursor.moveToNext();
                 }
                 p_LVW_CategoriesConvidats.setAdapter(l_Llista);
+            }
+            Globals.TancarEspera();
+        }
+        catch(Exception e) {
+            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                    Globals.g_Native.getString(R.string.error_greu), p_Context);
+            Globals.TancarEspera();
+        }
+    }
+
+    // Llegim les categories de convidats del client per una celebracio a una estructura propia
+    public static void Llegir(int p_CodiCelebracio, final Context p_Context) {
+        try {
+            Globals.MostrarEspera(p_Context);
+            Cursor l_cursor = Globals.g_DB.query(TAG_CategoriesConvidats,
+                    Globals.g_Native.getResources().getStringArray(R.array.TCategoriesConvidats_Camps),
+                    TAG_CodiCelebracio + "= " + p_CodiCelebracio, // c. selections
+                    null, // d. selections args
+                    null, // e. group by
+                    null, // f. having
+                    null, // g. order by
+                    null); // h. limit
+            if (l_cursor.getCount() > 0) {
+                l_cursor.moveToFirst();
+                for (int i=0; i < l_cursor.getCount(); i++) {
+                    CategoriaConvidats l_Categoria = CursorToCategoriaConvidats(l_cursor);
+                    LlistaCache.add(l_Categoria);
+                    l_cursor.moveToNext();
+                }
             }
             Globals.TancarEspera();
         }
@@ -90,6 +128,32 @@ public class DAOCategoriesConvidats {
             }
         }
         return l_resultat;
+    }
+    // Llegim categoria
+    public static CategoriaConvidats LlegirCategoria(int p_CodiCelebracio, final Context p_Context){
+        CategoriaConvidats l_Categoria = new CategoriaConvidats();
+
+        try {
+            Cursor l_cursor = Globals.g_DB.query(TAG_CategoriesConvidats,
+                    Globals.g_Native.getResources().getStringArray(R.array.TCategoriesConvidats_Camps),
+                    TAG_CodiCelebracio + "= " + p_CodiCelebracio, // c. selections
+                    null, // d. selections args
+                    null, // e. group by
+                    null, // f. having
+                    null, // g. order by
+                    null); // h. limit
+            if (l_cursor.getCount() > 0) {
+                l_cursor.moveToFirst();
+                l_Categoria = CursorToCategoriaConvidats(l_cursor);
+            }
+            Globals.TancarEspera();
+        }
+        catch(Exception e) {
+            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                    Globals.g_Native.getString(R.string.error_greu), p_Context);
+            Globals.TancarEspera();
+        }
+        return l_Categoria;
     }
     // Modifiquem la categoria
     public static boolean Modificar(CategoriaConvidats p_CategoriaConvidats, final Context p_Context, boolean p_Tancam){
