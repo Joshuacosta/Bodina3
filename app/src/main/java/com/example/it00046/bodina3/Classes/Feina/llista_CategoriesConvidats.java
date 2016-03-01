@@ -4,21 +4,20 @@ import android.content.Context;
 
 import com.example.it00046.bodina3.Classes.DAO.DAOCategoriesConvidats;
 import com.example.it00046.bodina3.Classes.Entitats.CategoriaConvidats;
+import com.example.it00046.bodina3.Classes.Globals;
+import com.example.it00046.bodina3.R;
+
 import java.util.ArrayList;
 
 /**
  * En aquest llista guardem els tipus de categories de la celebracio amb la que estem
  * treballant
  */
-public class llista_CategoriesConvidats {
-    private static ArrayList<CategoriaConvidats> Llista;
+public final class llista_CategoriesConvidats {
+    public static ArrayList<CategoriaConvidats> Llista;
 
     public llista_CategoriesConvidats(){
         Llista = new ArrayList<CategoriaConvidats>();
-    }
-
-    public void Carrega(int p_CodiCelebracio, final Context p_Context){
-        DAOCategoriesConvidats.Llegir(p_CodiCelebracio, p_Context);
     }
 
     static public CategoriaConvidats DadesCategoria(int p_CodiCategoria){
@@ -29,6 +28,11 @@ public class llista_CategoriesConvidats {
                 break;
             }
         }
+        // Per si de cas se ha esborrat
+        if (l_Categoria.Descripcio == null){
+            l_Categoria.Descripcio = Globals.g_Native.getString(R.string.esborrat);
+        }
         return l_Categoria;
     }
+
 }

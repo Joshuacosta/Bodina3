@@ -43,6 +43,7 @@
     <string name="OK">OK</string>
     <string name="Text">text...</string>
     <string name="Maxim">max</string>
+    <string name="esborrat">-erase-</string>
 
     <!-- Errors codi -->
     <string name="error_avis">Alert</string>
@@ -516,7 +517,6 @@
     <string name="TCategoriesConvidats">CategoriesConvidats</string>
     <!-- Camps -->
     <string name="TCategoriesConvidats_Codi">Codi</string>
-    <string name="TCategoriesConvidats_CodiCelebracio">CodiCelebracio</string>
     <string name="TCategoriesConvidats_Descripcio">Descripcio</string>
     <!-- Valors inicials -->
     <string name="CategoriaConvidats0">Family</string>
@@ -528,13 +528,11 @@
     <!-- Llista camps -->
     <string-array name="TCategoriesConvidats_Camps">
         <item>@string/TCategoriesConvidats_Codi</item>
-        <item>@string/TCategoriesConvidats_CodiCelebracio</item>
         <item>@string/TCategoriesConvidats_Descripcio</item>
     </string-array>
     <!-- Funcions -->
     <string name="TCategoriesConvidatsCreate">CREATE TABLE %1$s (
                                 %2$s INTEGER PRIMARY KEY,
-                                %3$s INTEGER,
                                 %4$s VARCHAR(50))</string>
     <!-- .................................................................................. -->
     <!-- MENUS CONVIDATS (local) -->
@@ -552,23 +550,20 @@
                                 %2$s INTEGER,
                                 %3$s VARCHAR(50))</string>
     <!-- .................................................................................. -->
-    <!-- GRUPS CONVIDATS (local) -->
-    <string name="TGrupsConvidats">GrupsConvidats</string>
+    <!-- RELACIONS CONVIDATS (local) -->
+    <string name="TRelacionsConvidats">RelacionsConvidats</string>
     <!-- Camps -->
-    <string name="TGrupsConvidats_Codi">Codi</string>
-    <string name="TGrupsConvidats_CodiCelebracio">CodiCelebracio</string>
-    <string name="TGrupsConvidats_Descripcio">Descripcio</string>
+    <string name="TRelacionsConvidats_Codi">Codi</string>
+    <string name="TRelacionsConvidats_Descripcio">Descripcio</string>
     <!-- Llista camps -->
-    <string-array name="TGrupsConvidats_Camps">
-        <item>@string/TGrupsConvidats_Codi</item>
-        <item>@string/TGrupsConvidats_CodiCelebracio</item>
-        <item>@string/TGrupsConvidats_Descripcio</item>
+    <string-array name="TrelacionsConvidats_Camps">
+        <item>@string/TRelacionsConvidats_Codi</item>
+        <item>@string/TRelacionsConvidats_Descripcio</item>
     </string-array>
     <!-- Funcions -->
-    <string name="TGrupsConvidatsCreate">CREATE TABLE %1$s (
+    <string name="TRelacionsConvidatsCreate">CREATE TABLE %1$s (
                                 %2$s INTEGER,
-                                %3$s INTEGER,
-                                %4$s VARCHAR(50))</string>
+                                %3$s VARCHAR(50))</string>
     <!-- .................................................................................. -->
     <!-- CONVIDATS (local) -->
     <string name="TConvidats">Convidats</string>
@@ -582,7 +577,8 @@
     <string name="TConvidats_CodiCategoria1">CodiCategoria1</string>
     <string name="TConvidats_CodiCategoria2">CodiCategoria2</string>
     <string name="TConvidats_CodiCategoria3">CodiCategoria3</string>
-    <string name="TConvidats_CodiGrup">CodiGrup</string>
+    <string name="TConvidats_CodiRelacio1">CodiRelacio1</string>
+    <string name="TConvidats_CodiRelacio2">CodiRelacio2</string>
     <string name="TConvidats_Estat">Estat</string>
     <!-- Llista camps -->
     <string-array name="TConvidats_Camps">
@@ -595,7 +591,8 @@
         <item>@string/TConvidats_CodiCategoria1</item>
         <item>@string/TConvidats_CodiCategoria2</item>
         <item>@string/TConvidats_CodiCategoria3</item>
-        <item>@string/TConvidats_CodiGrup</item>
+        <item>@string/TConvidats_CodiRelacio1</item>
+        <item>@string/TConvidats_CodiRelacio2</item>
         <item>@string/TConvidats_Estat</item>
     </string-array>
     <!-- Funcions -->
@@ -610,7 +607,8 @@
                                 %9$s INTEGER,
                                 %10$s INTEGER,
                                 %11$s INTEGER,
-                                %12$s INTEGER)</string>
+                                %12$s INTEGER,
+                                %13$s INTEGER)</string>
     <!-- .................................................................................. -->
     <!-- LLISTA CONVIDATS (local) -->
     <string name="TLlistaConvidats">LlistaConvidats</string>

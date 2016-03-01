@@ -16,6 +16,7 @@ import android.provider.Settings.Secure;
 import android.view.View;
 import android.widget.ListView;
 
+import com.example.it00046.bodina3.Classes.DAO.DAOCategoriesConvidats;
 import com.example.it00046.bodina3.Classes.DAO.DAOTaulesClient;
 import com.example.it00046.bodina3.Classes.DAO.DAOTipusCelebracions;
 import com.example.it00046.bodina3.Classes.Entitats.Client;
@@ -133,6 +134,9 @@ public final class Globals
             // Inserim valors de defecte de les taules
             DAOTipusCelebracions.ValorsInicials();
             DAOTaulesClient.ValorsInicials();
+            // Donem d'alta els tipus de categoria de convidats
+            DAOCategoriesConvidats.ValorsInicials();
+
         }
     }
 

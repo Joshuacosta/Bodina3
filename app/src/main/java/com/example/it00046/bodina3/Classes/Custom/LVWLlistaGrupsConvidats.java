@@ -7,36 +7,34 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.it00046.bodina3.Classes.Entitats.Contacte;
+import com.example.it00046.bodina3.Classes.Entitats.RelacioConvidats;
 import com.example.it00046.bodina3.R;
 
 /**
  * Created by it00046 on 02/06/2015.
  */
-public class LVWLlistaTaulesConvidatsSeleccio extends ArrayAdapter<Contacte> {
+public class LVWLlistaGrupsConvidats extends ArrayAdapter<RelacioConvidats> {
 
     private Context g_context;
 
-    public LVWLlistaTaulesConvidatsSeleccio(Context p_context, int p_textViewResourceId) {
+    public LVWLlistaGrupsConvidats(Context p_context, int p_textViewResourceId) {
         super(p_context, p_textViewResourceId);
         g_context = p_context;
     }
 
     @Override
     public View getView(int p_position, View p_convertView, ViewGroup p_parent) {
-        Contacte l_Contacte;
+        RelacioConvidats l_GrupsConvidats;
         TextView l_TXT_Nom;
 
-        l_Contacte = getItem(p_position);
+        l_GrupsConvidats = getItem(p_position);
         LayoutInflater inflater = LayoutInflater.from(this.g_context);
         if (p_convertView == null) {
-            p_convertView = inflater.inflate(R.layout.linia_lvw_llista_taules_convidats_seleccio, null);
+            p_convertView = inflater.inflate(R.layout.linia_lvw_llista_grupsconvidats, null);
         }
-        // Mostrem nom del convidat
-        l_TXT_Nom = (TextView) p_convertView.findViewById(R.id.LiniaLVWLlistaTaulesConvidatsSeleccioTXTNom);
-        l_TXT_Nom.setText(l_Contacte.Nom);
-
-        p_convertView.setTag(l_Contacte);
+        l_TXT_Nom = (TextView)p_convertView.findViewById(R.id.LiniaLVWLlistaGrupsConvidatsTXTDescripcio);
+        l_TXT_Nom.setText(l_GrupsConvidats.Descripcio);
+        p_convertView.setTag(l_GrupsConvidats);
         return p_convertView;
     }
 }

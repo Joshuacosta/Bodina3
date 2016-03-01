@@ -81,20 +81,17 @@ public class categories_convidats extends ActionBarActivity{
                 CategoriaConvidats l_CategoriaConvidats = new CategoriaConvidats();
 
                 if (Validacio.hasText(l_input)) {
-                    // Apuntem el codi de la celebracio amb la que treballem
-                    l_CategoriaConvidats.CodiCelebracio = g_CodiCelebracio;
-                    //
                     l_CategoriaConvidats.Descripcio = l_input.getText().toString();
                     if (p_Alta) {
                         // Fem la insercio i si va be refresquem la llista
                         if (DAOCategoriesConvidats.Afegir(l_CategoriaConvidats, p_activity, false, false)) {
-                            DAOCategoriesConvidats.Llegir(g_CodiCelebracio, g_LVW_CategoriesConvidats, R.layout.linia_lvw_llista_categoriesconvidats, p_activity);
+                            DAOCategoriesConvidats.Llegir(g_LVW_CategoriesConvidats, R.layout.linia_lvw_llista_categoriesconvidats, p_activity);
                             l_dialog.dismiss();
                         }
                     } else {
                         l_CategoriaConvidats.Codi = g_CodiModificacio;
                         if (DAOCategoriesConvidats.Modificar(l_CategoriaConvidats, p_activity, false)) {
-                            DAOCategoriesConvidats.Llegir(g_CodiCelebracio, g_LVW_CategoriesConvidats, R.layout.linia_lvw_llista_categoriesconvidats, p_activity);
+                            DAOCategoriesConvidats.Llegir(g_LVW_CategoriesConvidats, R.layout.linia_lvw_llista_categoriesconvidats, p_activity);
                             l_dialog.dismiss();
                         }
                     }
@@ -114,7 +111,7 @@ public class categories_convidats extends ActionBarActivity{
         g_CodiCelebracio = getIntent().getIntExtra("CodiCelebracio", 0);
         // Carreguen les categories de la celebracio del client
         g_LVW_CategoriesConvidats = (ListView) findViewById(R.id.categories_convidatsLVWCategories);
-        DAOCategoriesConvidats.Llegir(g_CodiCelebracio, g_LVW_CategoriesConvidats, R.layout.linia_lvw_llista_categoriesconvidats, Jo);
+        DAOCategoriesConvidats.Llegir(g_LVW_CategoriesConvidats, R.layout.linia_lvw_llista_categoriesconvidats, Jo);
         // El floating boto serveix per afegir associacions amb entitats (tamb? es pot fer des de el menu)
         l_FLB_CategoriesConvidats = (FloatingActionButton) findViewById(R.id.tipus_celebracionsFLBAfegirTipus);
         l_FLB_CategoriesConvidats.attachToListView(g_LVW_CategoriesConvidats);
@@ -235,7 +232,6 @@ public class categories_convidats extends ActionBarActivity{
             // Obrim la activitat de modificacio del tipus
             l_CategoriaConvidats = (CategoriaConvidats)l_LiniaCategoriaConvidats.getTag();
             g_CodiModificacio = l_CategoriaConvidats.Codi;
-            g_CodiCelebracio = l_CategoriaConvidats.CodiCelebracio;
             g_Descripcio = l_CategoriaConvidats.Descripcio;
             MostraOperacio(categories_convidats.this, false);
         }
@@ -256,7 +252,7 @@ public class categories_convidats extends ActionBarActivity{
             l_CategoriaConvidats = (CategoriaConvidats)l_LiniaCategoriaConvidats.getTag();
             if (DAOTipusCelebracions.Esborrar(l_CategoriaConvidats.Codi, Jo, false)) {
                 // Refresquem la llista
-                DAOCategoriesConvidats.Llegir(l_CategoriaConvidats.CodiCelebracio, g_LVW_CategoriesConvidats, R.layout.linia_lvw_llista_categoriesconvidats, Jo);
+                DAOCategoriesConvidats.Llegir(g_LVW_CategoriesConvidats, R.layout.linia_lvw_llista_categoriesconvidats, Jo);
             }
         }
         else {

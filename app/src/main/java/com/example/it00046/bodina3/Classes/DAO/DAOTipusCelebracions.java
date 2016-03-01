@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.Custom.LVWLlistaTipusCelebracions;
 import com.example.it00046.bodina3.Classes.Entitats.TipusCelebracio;
+import com.example.it00046.bodina3.Classes.Feina.llista_CategoriesConvidats;
+import com.example.it00046.bodina3.Classes.Feina.llista_TipusCelebracio;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.Classes.SpinnerClasses.SPNTipusCelebracio;
 import com.example.it00046.bodina3.R;
@@ -34,6 +36,7 @@ public class DAOTipusCelebracions {
         final ArrayAdapter<TipusCelebracio> l_Llista = new LVWLlistaTipusCelebracions(p_Context, p_Layout);
         Globals.MostrarEspera(p_Context);
         try {
+            llista_TipusCelebracio.Llista.clear();
             Cursor l_cursor = Globals.g_DB.query(TAG_TipusCelebracio,
                     Globals.g_Native.getResources().getStringArray(R.array.TTipusCelebracio_Camps),
                     null, // c. selections
@@ -47,6 +50,7 @@ public class DAOTipusCelebracions {
                 for (int i=0; i < l_cursor.getCount(); i++) {
                     TipusCelebracio l_Tipus = CursorToTipusCelebracio(l_cursor);
                     l_Llista.add(l_Tipus);
+                    llista_TipusCelebracio.Llista.add(l_Tipus);
                     l_cursor.moveToNext();
                 }
                 p_LVW_TipusCelebracions.setAdapter(l_Llista);
@@ -72,6 +76,7 @@ public class DAOTipusCelebracions {
         //
         Globals.MostrarEspera(p_Context);
         try {
+            llista_TipusCelebracio.Llista.clear();
             Cursor l_cursor = Globals.g_DB.query(TAG_TipusCelebracio,
                     Globals.g_Native.getResources().getStringArray(R.array.TTipusCelebracio_Camps),
                     null, // c. selections
@@ -87,6 +92,7 @@ public class DAOTipusCelebracions {
                     l_NomTipusCelebracioSpinner = l_Tipus.Descripcio;
                     SPNTipusCelebracio l_spinner = new SPNTipusCelebracio(l_Tipus, l_NomTipusCelebracioSpinner);
                     l_TipusCelebracio.add(l_spinner);
+                    llista_TipusCelebracio.Llista.add(l_Tipus);
                     l_cursor.moveToNext();
                 }
             }

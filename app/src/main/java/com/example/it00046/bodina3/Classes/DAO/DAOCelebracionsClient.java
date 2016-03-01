@@ -97,8 +97,8 @@ public final class DAOCelebracionsClient {
         }
         try {
             Globals.g_DB.insert(TAG_CelebracionsClient,
-                                null,
-                                CelebracioClientToContentValues(p_CelebracioClient, true));
+                    null,
+                    CelebracioClientToContentValues(p_CelebracioClient, true));
         }
         catch(Exception e) {
             if (p_Asistit) {

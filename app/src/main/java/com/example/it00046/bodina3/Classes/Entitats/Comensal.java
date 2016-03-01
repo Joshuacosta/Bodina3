@@ -5,11 +5,7 @@ package com.example.it00046.bodina3.Classes.Entitats;
  */
 public class Comensal {
     public CelebracioClient Celebracio;
-    public Convidat Convidat;
-    public CategoriaConvidats Categoria1;
-    public CategoriaConvidats Categoria2;
-    public CategoriaConvidats Categoria3;
-    public GrupConvidats Grup;
+    public Contacte Contacte;
     public boolean Confirmat;
     public boolean Avisat;
     public boolean Transport;
@@ -18,11 +14,7 @@ public class Comensal {
 
     public Comensal(){
         Celebracio  = new CelebracioClient();
-        Convidat    = new Convidat();
-        Categoria1  = new CategoriaConvidats();
-        Categoria2  = new CategoriaConvidats();
-        Categoria3  = new CategoriaConvidats();
-        Grup        = new GrupConvidats();
+        Contacte    = new Contacte();
         Confirmat   = false;
         Avisat      = false;
         Transport   = false;
