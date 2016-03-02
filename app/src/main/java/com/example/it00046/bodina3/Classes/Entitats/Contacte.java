@@ -10,11 +10,11 @@ public class Contacte {
     public String Adresa;
     public String Contacte;
     public String Comentari;
-    public CategoriaConvidats Categoria1;
-    public CategoriaConvidats Categoria2;
-    public CategoriaConvidats Categoria3;
-    public RelacioConvidats Relacio1;
-    public RelacioConvidats Relacio2;
+    public CategoriaContactes Categoria1;
+    public CategoriaContactes Categoria2;
+    public CategoriaContactes Categoria3;
+    public RelacioContactes Relacio1;
+    public RelacioContactes Relacio2;
     public int Estat;
 
     public Contacte(){
@@ -24,11 +24,11 @@ public class Contacte {
         Adresa      = "";
         Contacte    = "";
         Comentari   = "";
-        Categoria1  = new CategoriaConvidats();
-        Categoria2  = new CategoriaConvidats();
-        Categoria3  = new CategoriaConvidats();
-        Relacio1    = new RelacioConvidats();
-        Relacio2    = new RelacioConvidats();
+        Categoria1  = new CategoriaContactes();
+        Categoria2  = new CategoriaContactes();
+        Categoria3  = new CategoriaContactes();
+        Relacio1    = new RelacioContactes();
+        Relacio2    = new RelacioContactes();
         Estat       = 0;
     }
 }

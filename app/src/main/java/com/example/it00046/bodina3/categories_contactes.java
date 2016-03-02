@@ -29,7 +29,7 @@ import com.example.it00046.bodina3.Classes.Validacio;
 import com.melnykov.fab.FloatingActionButton;
 import java.util.Comparator;
 
-public class categories_convidats extends ActionBarActivity{
+public class categories_contactes extends ActionBarActivity{
     static private ListView g_LVW_CategoriesConvidats;
     private int g_Posicio = -1;
     private ImageButton g_IMB_Esborrar = null, g_IMB_Editar = null;
@@ -45,11 +45,11 @@ public class categories_convidats extends ActionBarActivity{
 
         AlertDialog.Builder g_alertDialogBuilder = new AlertDialog.Builder(p_activity);
         if (p_Alta) {
-            g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.categories_convidats_Afegir));
+            g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.categories_contactes_Afegir));
         }
         else{
             l_input.setText(g_Descripcio);
-            g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.categories_convidats_Modificar));
+            g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.categories_contactes_Modificar));
         }
         g_alertDialogBuilder.setView(l_input);
         g_alertDialogBuilder
@@ -85,13 +85,13 @@ public class categories_convidats extends ActionBarActivity{
                     if (p_Alta) {
                         // Fem la insercio i si va be refresquem la llista
                         if (DAOCategoriesConvidats.Afegir(l_CategoriaConvidats, p_activity, false, false)) {
-                            DAOCategoriesConvidats.Llegir(g_LVW_CategoriesConvidats, R.layout.linia_lvw_llista_categoriesconvidats, p_activity);
+                            DAOCategoriesConvidats.Llegir(g_LVW_CategoriesConvidats, R.layout.linia_lvw_llista_categoriescontactes, p_activity);
                             l_dialog.dismiss();
                         }
                     } else {
                         l_CategoriaConvidats.Codi = g_CodiModificacio;
                         if (DAOCategoriesConvidats.Modificar(l_CategoriaConvidats, p_activity, false)) {
-                            DAOCategoriesConvidats.Llegir(g_LVW_CategoriesConvidats, R.layout.linia_lvw_llista_categoriesconvidats, p_activity);
+                            DAOCategoriesConvidats.Llegir(g_LVW_CategoriesConvidats, R.layout.linia_lvw_llista_categoriescontactes, p_activity);
                             l_dialog.dismiss();
                         }
                     }
@@ -106,12 +106,12 @@ public class categories_convidats extends ActionBarActivity{
         FloatingActionButton l_FLB_CategoriesConvidats;
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.categories_convidats);
+        setContentView(R.layout.categories_contactes);
         // Recuperem el codi de celebracio
         g_CodiCelebracio = getIntent().getIntExtra("CodiCelebracio", 0);
         // Carreguen les categories de la celebracio del client
-        g_LVW_CategoriesConvidats = (ListView) findViewById(R.id.categories_convidatsLVWCategories);
-        DAOCategoriesConvidats.Llegir(g_LVW_CategoriesConvidats, R.layout.linia_lvw_llista_categoriesconvidats, Jo);
+        g_LVW_CategoriesConvidats = (ListView) findViewById(R.id.categories_contactesLVWCategories);
+        DAOCategoriesConvidats.Llegir(g_LVW_CategoriesConvidats, R.layout.linia_lvw_llista_categoriescontactes, Jo);
         // El floating boto serveix per afegir associacions amb entitats (tamb? es pot fer des de el menu)
         l_FLB_CategoriesConvidats = (FloatingActionButton) findViewById(R.id.tipus_celebracionsFLBAfegirTipus);
         l_FLB_CategoriesConvidats.attachToListView(g_LVW_CategoriesConvidats);
@@ -120,7 +120,7 @@ public class categories_convidats extends ActionBarActivity{
             @Override
             public void onClick(View arg0) {
                 arg0.startAnimation(l_Animacio);
-                MostraOperacio(categories_convidats.this, true);
+                MostraOperacio(categories_contactes.this, true);
             }
         });
         //
@@ -137,8 +137,8 @@ public class categories_convidats extends ActionBarActivity{
                 l_Animacio_Amagar = AnimationUtils.loadAnimation(Jo, R.anim.alpha_a_0);
                 l_Animacio_Mostrar = AnimationUtils.loadAnimation(Jo, R.anim.alpha_a_1);
                 if (g_Posicio != p_position) {
-                    l_IMB_Esborrar = (ImageButton) p_view.findViewById(R.id.LiniaLVWLlistaCategoriesConvidatsIMBEsborrar);
-                    l_IMB_Editar = (ImageButton) p_view.findViewById(R.id.LiniaLVWLlistaCategoriesConvidatsIMBEditar);
+                    l_IMB_Esborrar = (ImageButton) p_view.findViewById(R.id.LiniaLVWLlistaCategoriesContactesIMBEsborrar);
+                    l_IMB_Editar = (ImageButton) p_view.findViewById(R.id.LiniaLVWLlistaCategoriesContactesIMBEditar);
                     if (g_IMB_Editar != null) {
                         g_IMB_Esborrar.startAnimation(l_Animacio_Amagar);
                         g_IMB_Editar.startAnimation(l_Animacio_Amagar);
@@ -194,10 +194,10 @@ public class categories_convidats extends ActionBarActivity{
         };
 
         switch (l_id) {
-            case R.id.categories_convidatsMNUAfegir:
-                MostraOperacio(categories_convidats.this, true);
+            case R.id.categories_contactesMNUAfegir:
+                MostraOperacio(categories_contactes.this, true);
                 return true;
-            case R.id.categories_convidatsMNUOrdenar:
+            case R.id.categories_contactesMNUOrdenar:
                 ((ArrayAdapter<CategoriaConvidats>) g_LVW_CategoriesConvidats.getAdapter()).sort(ComparaNom);
                 return true;
         }
@@ -218,7 +218,7 @@ public class categories_convidats extends ActionBarActivity{
             // Cancelem
             g_EstatEsborrar = false;
             // Boto de esborrar actiu
-            l_IMB_Esborrar = (ImageButton)l_LiniaCategoriaConvidats.findViewById(R.id.LiniaLVWLlistaCategoriesConvidatsIMBEsborrar);
+            l_IMB_Esborrar = (ImageButton)l_LiniaCategoriaConvidats.findViewById(R.id.LiniaLVWLlistaCategoriesContactesIMBEsborrar);
             l_IMB_Esborrar.setImageResource(R.drawable.ic_delete_black_36dp);
             // Boto de edicio es cancelar
             l_IMB_Editar = (ImageButton) l_view;
@@ -233,7 +233,7 @@ public class categories_convidats extends ActionBarActivity{
             l_CategoriaConvidats = (CategoriaConvidats)l_LiniaCategoriaConvidats.getTag();
             g_CodiModificacio = l_CategoriaConvidats.Codi;
             g_Descripcio = l_CategoriaConvidats.Descripcio;
-            MostraOperacio(categories_convidats.this, false);
+            MostraOperacio(categories_contactes.this, false);
         }
     }
     // Aquesta funci? es cridada pels elements de la llista quan premem el boto esborrar
@@ -252,7 +252,7 @@ public class categories_convidats extends ActionBarActivity{
             l_CategoriaConvidats = (CategoriaConvidats)l_LiniaCategoriaConvidats.getTag();
             if (DAOTipusCelebracions.Esborrar(l_CategoriaConvidats.Codi, Jo, false)) {
                 // Refresquem la llista
-                DAOCategoriesConvidats.Llegir(g_LVW_CategoriesConvidats, R.layout.linia_lvw_llista_categoriesconvidats, Jo);
+                DAOCategoriesConvidats.Llegir(g_LVW_CategoriesConvidats, R.layout.linia_lvw_llista_categoriescontactes, Jo);
             }
         }
         else {

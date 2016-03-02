@@ -14,15 +14,13 @@ import com.example.it00046.bodina3.Classes.Feina.llista_CategoriesConvidats;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.R;
 
-import java.util.ArrayList;
-
 /**
  * Created by it00046 on 05/08/2015.
  */
 public class DAOCategoriesConvidats {
-    private static final String TAG_CategoriesConvidats = Globals.g_Native.getString(R.string.TCategoriesConvidats);
-    private static final String TAG_Codi = Globals.g_Native.getString(R.string.TCategoriesConvidats_Codi);
-    private static final String TAG_Descripcio = Globals.g_Native.getString(R.string.TCategoriesConvidats_Descripcio);
+    private static final String TAG_CategoriesConvidats = Globals.g_Native.getString(R.string.TCategoriesContactes);
+    private static final String TAG_Codi = Globals.g_Native.getString(R.string.TCategoriesContactes_Codi);
+    private static final String TAG_Descripcio = Globals.g_Native.getString(R.string.TCategoriesContactes_Descripcio);
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // O P E R A T I V A   P U B L I C A
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,7 +33,7 @@ public class DAOCategoriesConvidats {
             llista_CategoriesConvidats.Llista.clear();
             // Llegim la BBDD
             Cursor l_cursor = Globals.g_DB.query(TAG_CategoriesConvidats,
-                    Globals.g_Native.getResources().getStringArray(R.array.TCategoriesConvidats_Camps),
+                    Globals.g_Native.getResources().getStringArray(R.array.TCategoriesContactes_Camps),
                     null,
                     null, // d. selections args
                     null, // e. group by
@@ -164,22 +162,22 @@ public class DAOCategoriesConvidats {
 
         l_CategoriaConvidats = new CategoriaConvidats();
         l_CategoriaConvidats.Codi = 0;
-        l_CategoriaConvidats.Descripcio = Globals.g_Native.getString(R.string.CategoriaConvidats0);
+        l_CategoriaConvidats.Descripcio = Globals.g_Native.getString(R.string.CategoriaContactes0);
         Afegir(l_CategoriaConvidats, Globals.g_Native, false, false);
         l_CategoriaConvidats.Codi = 1;
-        l_CategoriaConvidats.Descripcio = Globals.g_Native.getString(R.string.CategoriaConvidats1);
+        l_CategoriaConvidats.Descripcio = Globals.g_Native.getString(R.string.CategoriaContactes1);
         Afegir(l_CategoriaConvidats, Globals.g_Native, false, false);
         l_CategoriaConvidats.Codi = 2;
-        l_CategoriaConvidats.Descripcio = Globals.g_Native.getString(R.string.CategoriaConvidats2);
+        l_CategoriaConvidats.Descripcio = Globals.g_Native.getString(R.string.CategoriaContactes2);
         Afegir(l_CategoriaConvidats, Globals.g_Native, false, false);
         l_CategoriaConvidats.Codi = 3;
-        l_CategoriaConvidats.Descripcio = Globals.g_Native.getString(R.string.CategoriaConvidats3);
+        l_CategoriaConvidats.Descripcio = Globals.g_Native.getString(R.string.CategoriaContactes3);
         Afegir(l_CategoriaConvidats, Globals.g_Native, false, false);
         l_CategoriaConvidats.Codi = 4;
-        l_CategoriaConvidats.Descripcio = Globals.g_Native.getString(R.string.CategoriaConvidats4);
+        l_CategoriaConvidats.Descripcio = Globals.g_Native.getString(R.string.CategoriaContactes4);
         Afegir(l_CategoriaConvidats, Globals.g_Native, false, false);
         l_CategoriaConvidats.Codi = 5;
-        l_CategoriaConvidats.Descripcio = Globals.g_Native.getString(R.string.CategoriaConvidats5);
+        l_CategoriaConvidats.Descripcio = Globals.g_Native.getString(R.string.CategoriaContactes5);
         Afegir(l_CategoriaConvidats, Globals.g_Native, false, false);
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////

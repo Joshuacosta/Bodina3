@@ -28,6 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <!-- Fill 1: Configuració -->
         <activity
             android:name=".configuracio"
@@ -37,7 +38,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".principal" />
         </activity>
-        <!-- Fill 3: Entitats: SINGLE -->
+
+        <!-- Fill 2: Entitats (SINGLE) -->
         <activity
             android:name=".entitat_pral"
             android:alwaysRetainTaskState="true"
@@ -48,8 +50,44 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".principal" />
         </activity>
+                <!-- Fill 1: Solicitar -->
+                <activity
+                    android:name=".entitat_solicitar"
+                    android:alwaysRetainTaskState="true"
+                    android:label="@string/title_activity_ac_entitat_solicitar"
+                    android:parentActivityName=".entitat_pral">
+                    <meta-data
+                        android:name="android.support.PARENT_ACTIVITY"
+                        android:value=".entitat_pral" />
+                </activity>
+                <!-- Fill 2: Recerca, dintre de solicitar -->
+                <activity
+                    android:name=".entitat_recerca"
+                    android:label="@string/title_activity_ac_entitat_recerca"
+                    android:launchMode="singleTop"
+                    android:parentActivityName=".entitat_solicitar">
+                    <intent-filter>
+                        <action android:name="android.intent.action.SEARCH" />
+                    </intent-filter>
 
-        <!-- 4: Celebracions del client -->
+                    <meta-data
+                        android:name="android.app.searchable"
+                        android:resource="@xml/searchable" />
+                    <meta-data
+                        android:name="android.support.PARENT_ACTIVITY"
+                        android:value=".entitat_solicitar" />
+                </activity>
+                <!-- Fill 3: Modificar -->
+                <activity
+                    android:name=".entitat_modificar"
+                    android:label="@string/title_activity_entitat_modificar"
+                    android:parentActivityName=".entitat_pral">
+                    <meta-data
+                        android:name="android.support.PARENT_ACTIVITY"
+                        android:value=".entitat_pral" />
+                </activity>
+
+        <!-- Fill 3: Celebracions del client -->
         <activity
             android:name=".celebracions_client_pral"
             android:label="@string/title_activity_celebracions_client">
@@ -57,114 +95,92 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".principal" />
         </activity>
-        <!-- 4.0 Celebracions del client.Manteniment -->
-        <activity
-            android:name=".celebracions_client_mant"
-            android:alwaysRetainTaskState="true"
-            android:label="@string/title_activity_CelebracionsClientMant"
-            android:launchMode="singleTask"
-            android:parentActivityName=".principal"
-            android:windowSoftInputMode="stateAlwaysHidden">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".celebracions_client_pral" />
-        </activity>
-        <!-- 4.0 Celebracions del client.Manteniment.Distribucio -->
-        <activity
-            android:name=".distribucions_client_mant"
-            android:label="@string/title_activity_DistribucionsClientMant"
-            android:screenOrientation="landscape"
-            android:windowSoftInputMode="stateAlwaysHidden">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".celebracions_client_mant" />
-        </activity>
-        <!-- 4.0.1 Celebracions del client.Manteniment.Distribucio.Comensals Taula -->
-        <activity
-            android:name=".distribucions_client_taula_comensals"
-            android:label="@string/title_activity_celebracions_client_taula_comensals"
-            android:screenOrientation="landscape">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".distribucions_client_mant" />
-        </activity>
-        <!-- 4.1 Celebracions del client.Salons del client -->
-        <activity
-            android:name=".salons_client_pral"
-            android:label="@string/title_activity_salons_client">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".celebracions_client_pral" />
-        </activity>
-        <!-- 4.1.1 Celebracions del client.Salons del client.Alta salo (portrait) -->
-        <activity
-            android:name=".salons_client_planol"
-            android:label="@string/title_activity_salonsclient_planol"
-            android:screenOrientation="landscape">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".salons_client_pral" />
-        </activity>
-        <!-- 4.2 Celebracions del client.Taules del client -->
-        <activity
-            android:name=".taules_client"
-            android:label="@string/title_activity_taules_client">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".celebracions_client_pral" />
-        </activity>
+                <!-- Fill 1: Manteniment -->
+                <activity
+                    android:name=".celebracions_client_mant"
+                    android:alwaysRetainTaskState="true"
+                    android:label="@string/title_activity_CelebracionsClientMant"
+                    android:launchMode="singleTask"
+                    android:parentActivityName=".principal"
+                    android:windowSoftInputMode="stateAlwaysHidden">
+                    <meta-data
+                        android:name="android.support.PARENT_ACTIVITY"
+                        android:value=".celebracions_client_pral" />
+                </activity>
 
-        <!-- Fill 1 de Entitats: Solicitar -->
-        <activity
-            android:name=".entitat_solicitar"
-            android:alwaysRetainTaskState="true"
-            android:label="@string/title_activity_ac_entitat_solicitar"
-            android:parentActivityName=".entitat_pral">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".entitat_pral" />
-        </activity>
-        <!-- Finestra de recerca, dintre de solicitar -->
-        <activity
-            android:name=".entitat_recerca"
-            android:label="@string/title_activity_ac_entitat_recerca"
-            android:launchMode="singleTop"
-            android:parentActivityName=".entitat_solicitar">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
+                <!-- Fill 2: Distribucio -->
+                <activity
+                    android:name=".distribucions_client_mant"
+                    android:label="@string/title_activity_DistribucionsClientMant"
+                    android:screenOrientation="landscape"
+                    android:windowSoftInputMode="stateAlwaysHidden">
+                    <meta-data
+                        android:name="android.support.PARENT_ACTIVITY"
+                        android:value=".celebracions_client_mant" />
+                </activity>
+                        <!-- Fill 1: Comensals Taula -->
+                        <activity
+                            android:name=".distribucions_client_taula_convidats"
+                            android:label="@string/title_activity_celebracions_client_taula_comensals"
+                            android:screenOrientation="landscape">
+                            <meta-data
+                                android:name="android.support.PARENT_ACTIVITY"
+                                android:value=".distribucions_client_mant" />
+                        </activity>
 
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".entitat_solicitar" />
-        </activity>
-        <activity
-            android:name=".entitat_modificar"
-            android:label="@string/title_activity_entitat_modificar"
-            android:parentActivityName=".entitat_pral">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".entitat_pral" />
-        </activity>
-        <!-- Finestra de categories de convidats -->
-        <activity
-            android:name=".categories_convidats"
-            android:label="@string/title_activity_categories_convidats">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".celebracions_client_pral" />
-        </activity>
-        <!-- Finestra de tipus de celebracions -->
+                <!-- Fill 3: Salons del client -->
+                <activity
+                    android:name=".salons_client_pral"
+                    android:label="@string/title_activity_salons_client">
+                    <meta-data
+                        android:name="android.support.PARENT_ACTIVITY"
+                        android:value=".celebracions_client_pral" />
+                </activity>
+                        <!-- Fill 1: Alta salo (portrait) -->
+                        <activity
+                            android:name=".salons_client_planol"
+                            android:label="@string/title_activity_salonsclient_planol"
+                            android:screenOrientation="landscape">
+                            <meta-data
+                                android:name="android.support.PARENT_ACTIVITY"
+                                android:value=".salons_client_pral" />
+                        </activity>
+
+                <!-- Fill 4: Taules del client -->
+                <activity
+                    android:name=".taules_client"
+                    android:label="@string/title_activity_taules_client">
+                    <meta-data
+                        android:name="android.support.PARENT_ACTIVITY"
+                        android:value=".celebracions_client_pral" />
+                </activity>
+
+        <!-- Fill 4: Tipus de celebracions -->
         <activity
             android:name=".tipus_celebracions"
             android:label="@string/title_activity_tipus_celebracions">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
+                android:value=".principal" />
+        </activity>
+
+        <!-- Fill 5: Contactes -->
+        <activity
+            android:name=".contactes"
+            android:label="@string/title_activity_contactes">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value=".entitat_pral" />
         </activity>
+                <!-- Fill 5.1: Categories de contactes -->
+                <activity
+                    android:name=".categories_contactes"
+                    android:label="@string/title_activity_categories_contactes">
+                    <meta-data
+                        android:name="android.support.PARENT_ACTIVITY"
+                        android:value=".contactes" />
+                </activity>
+
     </application>
 
 </manifest>

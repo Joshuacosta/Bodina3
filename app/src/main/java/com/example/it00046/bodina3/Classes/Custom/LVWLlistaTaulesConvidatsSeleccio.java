@@ -8,12 +8,13 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.it00046.bodina3.Classes.Entitats.Contacte;
+import com.example.it00046.bodina3.Classes.Entitats.Convidat;
 import com.example.it00046.bodina3.R;
 
 /**
  * Created by it00046 on 02/06/2015.
  */
-public class LVWLlistaTaulesConvidatsSeleccio extends ArrayAdapter<Contacte> {
+public class LVWLlistaTaulesConvidatsSeleccio extends ArrayAdapter<Convidat> {
 
     private Context g_context;
 
@@ -24,19 +25,19 @@ public class LVWLlistaTaulesConvidatsSeleccio extends ArrayAdapter<Contacte> {
 
     @Override
     public View getView(int p_position, View p_convertView, ViewGroup p_parent) {
-        Contacte l_Contacte;
+        Convidat l_Convidat;
         TextView l_TXT_Nom;
 
-        l_Contacte = getItem(p_position);
+        l_Convidat = getItem(p_position);
         LayoutInflater inflater = LayoutInflater.from(this.g_context);
         if (p_convertView == null) {
             p_convertView = inflater.inflate(R.layout.linia_lvw_llista_taules_convidats_seleccio, null);
         }
         // Mostrem nom del convidat
         l_TXT_Nom = (TextView) p_convertView.findViewById(R.id.LiniaLVWLlistaTaulesConvidatsSeleccioTXTNom);
-        l_TXT_Nom.setText(l_Contacte.Nom);
+        l_TXT_Nom.setText(l_Convidat.Contacte.Nom);
 
-        p_convertView.setTag(l_Contacte);
+        p_convertView.setTag(l_Convidat);
         return p_convertView;
     }
 }

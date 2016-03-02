@@ -295,7 +295,7 @@ public class distribucions_client_mant extends ActionBarActivity {
                 // Obrim la finestra de la taula
                 Intent l_Intent;
 
-                l_Intent = new Intent(Jo, distribucions_client_taula_comensals.class);
+                l_Intent = new Intent(Jo, distribucions_client_taula_convidats.class);
                 startActivityForResult(l_Intent, g_RQC_DISTRIBUCIONS_CLIENT_TAULA_COMENSALS);
             }
         });
