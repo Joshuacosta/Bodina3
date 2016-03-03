@@ -14,11 +14,7 @@ import java.util.ArrayList;
  * treballant
  */
 public final class llista_CategoriesConvidats {
-    public static ArrayList<CategoriaConvidats> Llista;
-
-    public llista_CategoriesConvidats(){
-        Llista = new ArrayList<CategoriaConvidats>();
-    }
+    public static ArrayList<CategoriaConvidats> Llista = new ArrayList<>();
 
     static public CategoriaConvidats DadesCategoria(int p_CodiCategoria){
         CategoriaConvidats l_Categoria = new CategoriaConvidats();

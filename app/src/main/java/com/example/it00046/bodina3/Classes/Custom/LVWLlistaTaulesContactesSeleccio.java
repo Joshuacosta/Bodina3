@@ -30,7 +30,7 @@ public class LVWLlistaTaulesContactesSeleccio extends ArrayAdapter<Contacte> {
         l_Contacte = getItem(p_position);
         LayoutInflater inflater = LayoutInflater.from(this.g_context);
         if (p_convertView == null) {
-            p_convertView = inflater.inflate(R.layout.linia_lvw_llista_taules_contactes_seleccio, null);
+            p_convertView = inflater.inflate(R.layout.linia_lvw_llista_taulacomensals_contactes_seleccio, null);
         }
         // Mostrem nom del contacte
         l_TXT_Nom = (TextView) p_convertView.findViewById(R.id.LiniaLVWLlistaTaulesContactesSeleccioTXTNom);

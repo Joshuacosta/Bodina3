@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.it00046.bodina3.Classes.Entitats.Contacte;
 import com.example.it00046.bodina3.Classes.Entitats.Convidat;
 import com.example.it00046.bodina3.R;
 
@@ -31,7 +30,7 @@ public class LVWLlistaTaulesConvidatsSeleccio extends ArrayAdapter<Convidat> {
         l_Convidat = getItem(p_position);
         LayoutInflater inflater = LayoutInflater.from(this.g_context);
         if (p_convertView == null) {
-            p_convertView = inflater.inflate(R.layout.linia_lvw_llista_taules_convidats_seleccio, null);
+            p_convertView = inflater.inflate(R.layout.linia_lvw_llista_taulacomensals_convidats_seleccio, null);
         }
         // Mostrem nom del convidat
         l_TXT_Nom = (TextView) p_convertView.findViewById(R.id.LiniaLVWLlistaTaulesConvidatsSeleccioTXTNom);

@@ -10,11 +10,7 @@ import java.util.ArrayList;
  * treballant
  */
 public final class llista_RelacionsContactes {
-    public static ArrayList<RelacioContactes> Llista;
-
-    public llista_RelacionsContactes(){
-        Llista = new ArrayList<RelacioContactes>();
-    }
+    public static ArrayList<RelacioContactes> Llista = new ArrayList<>();
 
     static public RelacioContactes DadesGrup(int p_CodiGrup){
         RelacioContactes l_Grup = new RelacioContactes();

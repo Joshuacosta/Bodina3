@@ -12,11 +12,7 @@ import java.util.ArrayList;
  * treballant
  */
 public final class llista_TipusCelebracio {
-    public static ArrayList<TipusCelebracio> Llista;
-
-    public llista_TipusCelebracio(){
-        Llista = new ArrayList<TipusCelebracio>();
-    }
+    public static ArrayList<TipusCelebracio> Llista = new ArrayList<>();
 
     static public TipusCelebracio DadesTipus(int p_Tipus){
         TipusCelebracio l_Tipus = new TipusCelebracio();

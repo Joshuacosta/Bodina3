@@ -53,8 +53,8 @@ public class distribucions_client_mant extends ActionBarActivity {
     String g_ModusFeina = Globals.k_OPE_Alta;
     int g_CodiSalo;
     public DrawerLayout l_DRL_Taules;
-    private ListView g_LVW_Taules, g_LVW_OperativaTaula;
-    private LinearLayout g_LVW_OperativaTaula2;
+    private ListView g_LVW_Taules;
+    private LinearLayout g_LVW_OperativaTaula;
     private SeekBar g_SEK_Zoom;
     static final int g_RQC_DISTRIBUCIONS_CLIENT_TAULA_COMENSALS = 1;
 
@@ -282,7 +282,7 @@ public class distribucions_client_mant extends ActionBarActivity {
         g_LVW_Taules.setOnItemClickListener(new DrawerItemClickListener());
         l_DRL_Taules.openDrawer(Gravity.RIGHT);
         // Menu lateral esquerra: menu taula
-        g_LVW_OperativaTaula2 = (LinearLayout) findViewById(R.id.DistribucionsClientMantNDLOperativaTaula);
+        g_LVW_OperativaTaula = (LinearLayout) findViewById(R.id.DistribucionsClientMantNDLOperativaTaula);
         // Codi dels botons del menu de taula (el de la esquerra)
         l_IMB_EsborrarTaula = (ImageButton) findViewById(R.id.DistribucionsClientMantIMBEsborrarTaula);
         l_IMB_EsborrarTaula.setOnClickListener(new View.OnClickListener() {

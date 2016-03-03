@@ -151,6 +151,9 @@
     <string name="DistribucionsClientMantMNUMostrarComensals">View diners</string>
     <string name="DistribucionsClientMantMNUComensals">Diners</string>
     <string name="title_activity_celebracions_client_taula_comensals">diners</string>
+    <string name="DistribucionsClientMantTaulaConvidatsLABAssistent">Assistant</string>
+    <string name="DistribucionsClientMantTaulaConvidatsLABConfiguracio">Settings</string>
+    <string name="DistribucionsClientMantTaulaConvidatsLABTaula">Table</string>
 
     <!-- Layout salons client -->
     <string name="title_activity_salons_client">Saloons client</string>
@@ -543,7 +546,7 @@
     <!-- Funcions -->
     <string name="TCategoriesContactesCreate">CREATE TABLE %1$s (
                                 %2$s INTEGER PRIMARY KEY,
-                                %4$s VARCHAR(50))</string>
+                                %3$s VARCHAR(50))</string>
     <!-- .................................................................................. -->
     <!-- CATEGORIES CONVIDATS (local) -->
     <string name="TCategoriesConvidats">CategoriesConvidats</string>

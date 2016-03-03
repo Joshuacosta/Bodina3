@@ -11,11 +11,7 @@ import java.util.ArrayList;
  * treballant
  */
 public final class llista_CategoriesContactes {
-    public static ArrayList<CategoriaContactes> Llista;
-
-    public llista_CategoriesContactes(){
-        Llista = new ArrayList<CategoriaContactes>();
-    }
+    public static ArrayList<CategoriaContactes> Llista = new ArrayList<>();
 
     static public CategoriaContactes DadesCategoria(int p_CodiCategoria){
         CategoriaContactes l_Categoria = new CategoriaContactes();

@@ -199,6 +199,7 @@ public class DistribucioEdicio extends RelativeLayout {
                     g_drawPlanolSalo.lineTo(l_Linia2.Fi.x, l_Linia2.Fi.y);
                 }
             }
+            // ///////////////////////////////////////////////////////////////////////////////////////
             g_drawPlanolSalo.computeBounds(l_BoundsPlanol, false);
             if (l_BoundsPlanol.width() > l_BoundsPlanol.height()) {
                 l_Adaptar = l_BoundsPlanol.width() / l_BoundsPlanol.height();
@@ -209,6 +210,16 @@ public class DistribucioEdicio extends RelativeLayout {
             Matrix scaleMatrix = new Matrix();
             scaleMatrix.setScale(l_Adaptar, l_Adaptar, l_BoundsPlanol.centerX(), l_BoundsPlanol.centerY());
             g_drawPlanolSalo.transform(scaleMatrix);
+            // Pintem textes (i la adaptació anterior, com ens afecta? He multiplicat per l_Adaptar
+            // pero no se si aixó sera suficient...)
+            for (int k=0; k < g_TextesPlanol.size(); k++) {
+                l_TextePoint = g_TextesPlanol.get(k).Punt;
+                l_TextePoint.offset(g_mPosX, g_mPosY);
+                canvas.drawText(g_TextesPlanol.get(k).Texte,
+                        l_TextePoint.x * l_Adaptar,
+                        l_TextePoint.y * l_Adaptar,
+                        g_PaintText);
+            }
             // Informe a la distribucio del planol dels bounds del salo (tornem a recalcular els bounds
             // per l'adaptacio feta)
             g_drawPlanolSalo.computeBounds(l_BoundsPlanol, false);
@@ -256,16 +267,6 @@ public class DistribucioEdicio extends RelativeLayout {
         canvas.drawPath(g_drawPlanolSalo, g_PaintPlanol);
         g_drawPlanolSalo.computeBounds(l_BoundsPlanol, false);
         g_TaulesDistribucio.g_BoundsSalo = l_BoundsPlanol;
-        // ///////////////////////////////////////////////////////////////////////////////////////
-        // Pintem textes
-        for (int k=0; k < g_TextesPlanol.size(); k++) {
-            l_TextePoint = g_TextesPlanol.get(k).Punt;
-            l_TextePoint.offset(g_mPosX, g_mPosY);
-            canvas.drawText(g_TextesPlanol.get(k).Texte,
-                                l_TextePoint.x,
-                                l_TextePoint.y,
-                                g_PaintText);
-        }
         // ///////////////////////////////////////////////////////////////////////////////////////
         // Pintem taules
         for (int j=0; j < g_TaulesDistribucio.Tamany(); j++) {
