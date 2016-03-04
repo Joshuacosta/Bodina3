@@ -14,6 +14,7 @@ import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
 import com.example.it00046.bodina3.Classes.Entitats.Planol;
+import com.example.it00046.bodina3.Classes.Entitats.Taula;
 import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
 import com.example.it00046.bodina3.Classes.Feina.linia;
 import com.example.it00046.bodina3.distribucions_client_taula_convidats;
@@ -79,14 +80,17 @@ public class TaulaConvidatsEdicio extends RelativeLayout {
         RectF l_Bounds = new RectF();
         PointF l_PuntMig;
         String l_Distancia;
-        Float l_Factor, l_Escala, l_NouX, l_NouY;
+        int l_Factor;
+        Taula l_Taula = new Taula();
+
 
         canvas.save();
         g_CanvasRect = canvas.getClipBounds();
         canvas.drawBitmap(g_CanvasBitmap, 0, 0, g_PaintCanvas);
         // Pintem taula
-        papa.g_Taula.View.Dibuixa(canvas);
-        // La adapatem a la pantalla
+        l_Taula = papa.g_Taula;
+        l_Taula.View.DibuixaPerEdicio(canvas, g_AmpladaScreen, g_AlsadaScreen);
+        //
         canvas.restore();
     }
 }

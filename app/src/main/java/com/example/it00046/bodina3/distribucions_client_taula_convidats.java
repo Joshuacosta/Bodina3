@@ -43,6 +43,7 @@ public class distribucions_client_taula_convidats extends ActionBarActivity {
         g_Taula = Globals.TaulaTreball();
         // Recuperem controls
         g_Draw = (TaulaConvidatsEdicio) findViewById(R.id.DistribucionsClientMantTaulaConvidatsVIWDrawing);
+        g_Draw.papa = this;
         // Menu lateral dret: carreguem la llista de contactes
         l_DRL_ConvidatsContactes = (DrawerLayout) findViewById(R.id.DistribucionsClientTaulaConvidatsNDRContactes);
         g_LVW_Contactes = (ListView) findViewById(R.id.DistribucionsClientMantTaulaConvidatsNDLContactes);

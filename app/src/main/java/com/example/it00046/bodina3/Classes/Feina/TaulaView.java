@@ -102,7 +102,39 @@ public class TaulaView extends View {
                 break;
         }
         // Numero de taula
-        p_Canvas.drawText(Integer.toString(g_NumTaula), Punt.x +2 , Punt.y +2, g_PaintText);
+        p_Canvas.drawText(Integer.toString(g_NumTaula), Punt.x + 2, Punt.y + 2, g_PaintText);
+    }
+
+    public void DibuixaPerEdicio(Canvas p_Canvas, int p_AmpladaPantalla, int p_AlsadaPantalla){
+        int l_Factor;
+
+        switch (g_Taula.Tipus) {
+            case TaulaClient.k_TipusRodona:
+                // La dibuixem adaptada a la pantalla per edicio
+                if (p_AmpladaPantalla > p_AlsadaPantalla){
+                    l_Factor = Math.round(p_AlsadaPantalla / ((g_Taula.AmpladaDiametre) / g_Factor)) - 1;
+                }
+                else{
+                    l_Factor = Math.round(p_AmpladaPantalla / ((g_Taula.AmpladaDiametre) / g_Factor)) - 1;
+                }
+                p_Canvas.drawCircle(p_AmpladaPantalla/2, p_AlsadaPantalla/2, ((g_Taula.AmpladaDiametre / 2) / g_Factor) * l_Factor, g_PaintTaula);
+                break;
+            case TaulaClient.k_TipusQuadrada:
+                if (g_Activa) {
+                    p_Canvas.drawRect(Punt.x, Punt.y, Punt.x + g_Taula.AmpladaDiametre / g_Factor, Punt.y + g_Taula.AmpladaDiametre / g_Factor, g_PaintTaulaActiva);
+                } else {
+                    p_Canvas.drawRect(Punt.x, Punt.y, Punt.x + g_Taula.AmpladaDiametre / g_Factor, Punt.y + g_Taula.AmpladaDiametre / g_Factor, g_PaintTaula);
+                }
+                break;
+            case TaulaClient.k_TipusRectangular:
+                if (g_Activa) {
+                    p_Canvas.drawRect(Punt.x, Punt.y, Punt.x + g_Taula.AmpladaDiametre / g_Factor, Punt.y + g_Taula.Llargada / g_Factor, g_PaintTaulaActiva);
+                }
+                else{
+                    p_Canvas.drawRect(Punt.x, Punt.y, Punt.x + g_Taula.AmpladaDiametre / g_Factor, Punt.y + g_Taula.Llargada / g_Factor, g_PaintTaula);
+                }
+                break;
+        }
     }
 
     public void DefineixPunt(PointF p_Punt){

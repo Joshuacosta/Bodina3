@@ -30,6 +30,7 @@ import com.example.it00046.bodina3.Classes.Feina.llista_taules;
 import com.example.it00046.bodina3.Classes.Entitats.Planol;
 import com.example.it00046.bodina3.Classes.Entitats.Taula;
 import com.example.it00046.bodina3.Classes.Feina.texte;
+import com.example.it00046.bodina3.R;
 import com.example.it00046.bodina3.distribucions_client_mant;
 
 import java.util.ArrayList;
@@ -42,8 +43,7 @@ public class DistribucioEdicio extends RelativeLayout {
     public distribucions_client_mant papa;
     public boolean g_Quadricula = false;
     public boolean g_LiniesTaules = false;
-    public String g_EscalaPlanol = "1x1";   // Definim aquest valors per poder fer una preview.
-                                            // Així no dona error la execució del onDraw en disseny
+    public String g_EscalaPlanol = Globals.g_Native.getString(R.string.LlistaEscalaDefault);
     public String g_UnitatsPlanol;
     ////////////////////////////////////////////////
     private static final int g_MaxCaractersNom = 20;
@@ -82,6 +82,7 @@ public class DistribucioEdicio extends RelativeLayout {
     public ImageButton g_IMB_Esborrar;
     // Planol
     static public Planol g_Planol;
+    static private SaloClient g_SaloClient;
     // Linies i textes del planol
     static public ArrayList<linia> g_LiniesPlanol = new ArrayList<>();
     static public ArrayList<texte> g_TextesPlanol = new ArrayList<>();
@@ -164,13 +165,16 @@ public class DistribucioEdicio extends RelativeLayout {
         if (g_Planol == null) {
             // Recuperem el planol del salo i el gravem a les estructures de treball
             // (Nomes cal fer-ho un cop, el planol no es modifica)
-            g_Planol = DAOSalonsClient.LlegirPlanolSalo(g_CodiSalo, g_Context);
+            //g_Planol = DAOSalonsClient.LlegirPlanolSalo(g_CodiSalo, g_Context);
+            g_SaloClient = DAOSalonsClient.LlegirDadesSalo(g_CodiSalo, g_Context);
+            g_Planol = g_SaloClient.Planol;
+            g_EscalaPlanol = g_SaloClient.EscalaPlanol;
             this.CarregaPlanol(g_Planol);
             // Calculem escala i unitats
             String[] l_Valors = g_EscalaPlanol.split("x");
             g_EscalaPlanolAmplada = Integer.valueOf(l_Valors[0]);
-            g_UnitatX = Math.round(g_AmpladaScreen / g_EscalaPlanolAmplada);
             g_EscalaPlanolLlargada = Integer.valueOf(l_Valors[1]);
+            g_UnitatX = Math.round(g_AmpladaScreen / g_EscalaPlanolAmplada);
             g_UnitatY = Math.round(g_LlargadaScreen / g_EscalaPlanolLlargada);
             // Informem la llista de taules del factor de separacio de taules (per poder distribuir-les)
             g_TaulesDistribucio.g_SeparacioTaules = g_UnitatX*2;
