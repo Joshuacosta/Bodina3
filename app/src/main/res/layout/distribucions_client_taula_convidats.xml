@@ -1,6 +1,6 @@
 <android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/DistribucionsClientTaulaConvidatsNDRContactes"
+    android:id="@+id/DistribucionsClientTaulaConvidatsNDRConvidats"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="right">
@@ -75,8 +75,8 @@
             android:background="@drawable/ic_help_black_24dp" />
     </FrameLayout>
 
-    <!-- Drawer lateral dret que mostra els contactes -->
-    <ListView android:id="@+id/DistribucionsClientMantTaulaConvidatsNDLContactes"
+    <!-- Drawer lateral dret que mostra els convidats -->
+    <ListView android:id="@+id/DistribucionsClientMantTaulaConvidatsNDLConvidats"
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:layout_gravity="right"

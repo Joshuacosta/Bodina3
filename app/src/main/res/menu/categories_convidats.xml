@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".categories_contactes">
+    tools:context=".categories_convidats">
     <item android:id="@+id/categories_convidatsMNUAfegir"
         android:title="@string/categories_convidatsMNUAfegirTipus"
         android:orderInCategory="100" app:showAsAction="never" />

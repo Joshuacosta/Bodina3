@@ -19,6 +19,7 @@ import android.widget.ListView;
 import com.example.it00046.bodina3.Classes.DAO.DAOCategoriesConvidats;
 import com.example.it00046.bodina3.Classes.DAO.DAOTaulesClient;
 import com.example.it00046.bodina3.Classes.DAO.DAOTipusCelebracions;
+import com.example.it00046.bodina3.Classes.Entitats.CelebracioClient;
 import com.example.it00046.bodina3.Classes.Entitats.Client;
 import com.example.it00046.bodina3.Classes.Entitats.Taula;
 import com.example.it00046.bodina3.R;
@@ -87,11 +88,6 @@ public final class Globals
     public static final int k_TipusLinia = 0;
     public static final int k_TipusTexte = 1;
 
-    public static final int k_TipusHome = 0;
-    public static final int k_TipusDona = 1;
-    public static final int k_TipusNen = 2;
-    public static final int k_TipusParella = 3;
-
     public static final int k_EntitatBaixa = 0;
     // - Treball
     public static final String k_ClientNOU = "NOU";
@@ -106,6 +102,7 @@ public final class Globals
     public static final int k_CapacitatSenseDefinir = 0;
     //
     public static Taula g_TaulaSeleccio;
+    public static CelebracioClient g_CelebracioClientTreball;
 
     public static void ExitAppDialog(final Activity activity)
     {
@@ -134,9 +131,6 @@ public final class Globals
             // Inserim valors de defecte de les taules
             DAOTipusCelebracions.ValorsInicials();
             DAOTaulesClient.ValorsInicials();
-            // Donem d'alta els tipus de categoria de convidats
-            DAOCategoriesConvidats.ValorsInicials();
-
         }
     }
 

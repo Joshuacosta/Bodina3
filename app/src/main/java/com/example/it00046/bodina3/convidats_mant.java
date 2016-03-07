@@ -4,9 +4,9 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
@@ -44,7 +44,7 @@ import com.melnykov.fab.FloatingActionButton;
 import java.util.Calendar;
 
 
-public class celebracions_client_mant extends ActionBarActivity {
+public class convidats_mant extends ActionBarActivity {
     public Context jo = this;
     private EditText g_ETX_Contacte, g_ETX_Lloc, g_ETX_Descripcio, g_ETX_NumConvidats;
     private Spinner g_SPN_Salo, g_SPN_TipusCelebracio;

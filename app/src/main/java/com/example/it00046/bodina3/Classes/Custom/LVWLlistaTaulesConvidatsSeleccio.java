@@ -34,7 +34,7 @@ public class LVWLlistaTaulesConvidatsSeleccio extends ArrayAdapter<Convidat> {
         }
         // Mostrem nom del convidat
         l_TXT_Nom = (TextView) p_convertView.findViewById(R.id.LiniaLVWLlistaTaulesConvidatsSeleccioTXTNom);
-        l_TXT_Nom.setText(l_Convidat.Contacte.Nom);
+        l_TXT_Nom.setText(l_Convidat.Nom);
 
         p_convertView.setTag(l_Convidat);
         return p_convertView;

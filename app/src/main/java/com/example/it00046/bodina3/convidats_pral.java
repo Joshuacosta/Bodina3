@@ -1,73 +1,69 @@
 package com.example.it00046.bodina3;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import com.example.it00046.bodina3.Classes.DAO.DAOCelebracionsClient;
-import com.example.it00046.bodina3.Classes.Entitats.CelebracioClient;
+
+import com.example.it00046.bodina3.Classes.DAO.DAOConvidats;
+import com.example.it00046.bodina3.Classes.Entitats.Convidat;
 import com.example.it00046.bodina3.Classes.ExpandAnimation;
 import com.example.it00046.bodina3.Classes.Globals;
-import com.example.it00046.bodina3.Classes.Params.PARCelebracioClient;
 import com.melnykov.fab.FloatingActionButton;
-import java.util.Comparator;
 
 /**
- * Created by it00046 on 25/09/2015.
+ * Created by it00046 on 02/03/2016.
  */
-public class celebracions_client_pral extends ActionBarActivity {
-    private ListView g_LVW_CelebracionsClient;
+public class convidats_pral extends ActionBarActivity {
+    private ListView g_LVW_Convidats;
     private int g_Posicio = -1;
     private View g_LIN_ToolbarAnterior = null;
-    private CelebracioClient g_CelebracioClientAnterior;
+    private Convidat g_ConvidatAnterior;
     private ImageButton g_IMB_Esborrar = null, g_IMB_Editar = null;
     private Context Jo = this;
     private Boolean g_EstatEsborrar = false;
-    static final int g_RQC_CELEBRACIO_CLIENT_ALTA = 1, g_RQC_CELEBRACIO_CLIENT_MODIFIQUEM = 2;
+    static final int g_RQC_CONVIDAT_ALTA = 1, g_RQC_CONVIDAT_MODIFIQUEM = 2;
     private AlertDialog.Builder g_alertDialogBuilder;
     private int g_OpcioOrdenacio = -1;
+    private int g_CodiCelebracio;
 
     @Override
     protected void onCreate(Bundle l_savedInstanceState) {
         final Animation l_Animacio;
-        FloatingActionButton l_FLB_CelebracioClient;
+        FloatingActionButton l_FLB_Convidat;
 
         super.onCreate(l_savedInstanceState);
-        setContentView(R.layout.celebracions_client_pral);
+        setContentView(R.layout.convidats_pral);
+        // Llegim la celebracio amb la que treballem
+        g_CodiCelebracio = Globals.g_CelebracioClientTreball.Codi;
         // Carreguen les entitats del client
-        g_LVW_CelebracionsClient = (ListView) findViewById(R.id.celebracions_clientLVWCelebracions);
-        DAOCelebracionsClient.Llegir(g_LVW_CelebracionsClient, R.layout.linia_lvw_llista_celebracions_client, Jo);
-        l_FLB_CelebracioClient = (FloatingActionButton) findViewById(R.id.celebracions_clientFLBAltaCelebracio);
-        l_FLB_CelebracioClient.attachToListView(g_LVW_CelebracionsClient);
+        g_LVW_Convidats = (ListView) findViewById(R.id.convidats_pralLVWConvidats);
+        DAOConvidats.Llegir(g_CodiCelebracio, g_LVW_Convidats, R.layout.linia_lvw_llista_convidats_complerta, Jo);
+        l_FLB_Convidat = (FloatingActionButton) findViewById(R.id.convidats_pralFLBAltaConvidat);
+        l_FLB_Convidat.attachToListView(g_LVW_Convidats);
         l_Animacio = AnimationUtils.loadAnimation(this, R.anim.alpha_parpadeig);
-        l_FLB_CelebracioClient.setOnClickListener(new Button.OnClickListener() {
+        l_FLB_Convidat.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 Intent l_Intent;
 
                 arg0.startAnimation(l_Animacio);
                 // Obrim la finestra de alta
-                l_Intent = new Intent(Jo, celebracions_client_mant.class);
-                startActivityForResult(l_Intent, g_RQC_CELEBRACIO_CLIENT_ALTA);
+                l_Intent = new Intent(Jo, convidats_mant.class);
+                startActivityForResult(l_Intent, g_RQC_CONVIDAT_ALTA);
             }
         });
         //
-        g_LVW_CelebracionsClient.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        g_LVW_Convidats.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, final View p_view,
@@ -76,10 +72,10 @@ public class celebracions_client_pral extends ActionBarActivity {
                 ImageButton l_IMB_Esborrar, l_IMB_Editar;
                 ExpandAnimation l_expandAni;
                 final Animation l_Animacio_Amagar, l_Animacio_Mostrar;
-                CelebracioClient l_CelebracioClient;
+                Convidat l_Convidat;
                 TransitionDrawable l_transition;
 
-                l_CelebracioClient = (CelebracioClient) p_view.getTag();
+                l_Convidat = (Convidat) p_view.getTag();
                 // Preparem animacions
                 l_Animacio_Amagar = AnimationUtils.loadAnimation(Jo, R.anim.alpha_a_0);
                 l_Animacio_Mostrar = AnimationUtils.loadAnimation(Jo, R.anim.alpha_a_1);

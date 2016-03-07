@@ -166,19 +166,19 @@
 
         <!-- Fill 5: Contactes -->
         <activity
-            android:name=".contactes"
-            android:label="@string/title_activity_contactes">
+            android:name=".convidats_pral"
+            android:label="@string/title_activity_convidats">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".entitat_pral" />
         </activity>
                 <!-- Fill 5.1: Categories de contactes -->
                 <activity
-                    android:name=".categories_contactes"
-                    android:label="@string/title_activity_categories_contactes">
+                    android:name=".categories_convidats"
+                    android:label="@string/title_activity_categories_convidats">
                     <meta-data
                         android:name="android.support.PARENT_ACTIVITY"
-                        android:value=".contactes" />
+                        android:value=".convidats_pral" />
                 </activity>
 
     </application>

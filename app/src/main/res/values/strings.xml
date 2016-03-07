@@ -130,6 +130,8 @@
     <string name="CelebracionsClientMantTXTHora">Hour...</string>
     <string name="CelebracionsClientMantTXTLloc">Place</string>
     <string name="CelebracionsClientMantTXTContacte">Contact</string>
+    <string name="CelebracionsClientMantTXTConvidats">Guests</string>
+    <string name="CelebracionsClientMantMNUAfegirConvidat">Add guest</string>
     <string name="CelebracionsClientMantTXTDistribucions">Distributions</string>
     <string name="CelebracionsClientMantMNUAfegirDistribucio">Add distribution</string>
     <string name="CelebracionsClientMantLITEscalaUnitats"><![CDATA[<Scale>]]></string>
@@ -193,13 +195,6 @@
     <string name="EntitatSolicitar_TipusCelebracio">Type event</string>
     <string name="EntitatSolicitar_Convidats">Guests</string>
 
-    <!-- Layout categories contactes -->
-    <string name="title_activity_categories_contactes">Contacts categories</string>
-    <string name="categories_contactesMNUOrdenar">Sort categories</string>
-    <string name="categories_contactesMNUAfegirTipus">Add category</string>
-    <string name="categories_contactes_Afegir">Add category</string>
-    <string name="categories_contactes_Modificar">Modifiy category</string>
-
     <!-- Layout categories convidats -->
     <string name="title_activity_categories_convidats">Guests categories</string>
     <string name="categories_convidatsMNUOrdenar">Sort categories</string>
@@ -226,8 +221,8 @@
     <string name="TaulesClientDialogTXTAmplada">width</string>
     <string name="TaulesClientDialogTXTLlargada">long</string>
 
-    <!-- Layout contactes -->
-    <string name="title_activity_contactes">Contacts</string>
+    <!-- Layout convidats -->
+    <string name="title_activity_convidats">Guests</string>
 
     <!-- ################################################################################### -->
     <!-- B A S E   D E   D A D E S -->
@@ -526,28 +521,6 @@
                                 %6$s INTEGER,
                                 %7$s INTEGER)</string>
     <!-- .................................................................................. -->
-    <!-- CATEGORIES CONTACTES (local) -->
-    <string name="TCategoriesContactes">CategoriesContactes</string>
-    <!-- Camps -->
-    <string name="TCategoriesContactes_Codi">Codi</string>
-    <string name="TCategoriesContactes_Descripcio">Descripcio</string>
-    <!-- Valors inicials -->
-    <string name="CategoriaContactes0">Family</string>
-    <string name="CategoriaContactes1">Friends 1</string>
-    <string name="CategoriaContactes2">Friends 2</string>
-    <string name="CategoriaContactes3">Coworkers 1</string>
-    <string name="CategoriaContactes4">Coworkers 2</string>
-    <string name="CategoriaContactes5">Other</string>
-    <!-- Llista camps -->
-    <string-array name="TCategoriesContactes_Camps">
-        <item>@string/TCategoriesContactes_Codi</item>
-        <item>@string/TCategoriesContactes_Descripcio</item>
-    </string-array>
-    <!-- Funcions -->
-    <string name="TCategoriesContactesCreate">CREATE TABLE %1$s (
-                                %2$s INTEGER PRIMARY KEY,
-                                %3$s VARCHAR(50))</string>
-    <!-- .................................................................................. -->
     <!-- CATEGORIES CONVIDATS (local) -->
     <string name="TCategoriesConvidats">CategoriesConvidats</string>
     <!-- Camps -->
@@ -586,106 +559,66 @@
     <!-- Camps -->
     <string name="TRelacionsConvidats_Codi">Codi</string>
     <string name="TRelacionsConvidats_CodiCelebracio">CodiCelebracio</string>
+    <string name="TRelacionsConvidats_TipusRelacio">TipusRelacio</string>
     <string name="TRelacionsConvidats_Descripcio">Descripcio</string>
     <!-- Llista camps -->
     <string-array name="TrelacionsConvidats_Camps">
         <item>@string/TRelacionsConvidats_Codi</item>
         <item>@string/TRelacionsConvidats_CodiCelebracio</item>
+        <item>@string/TRelacionsConvidats_TipusRelacio</item>
         <item>@string/TRelacionsConvidats_Descripcio</item>
     </string-array>
     <!-- Funcions -->
     <string name="TRelacionsConvidatsCreate">CREATE TABLE %1$s (
                                 %2$s INTEGER PRIMARY KEY,
                                 %3$s INTEGER,
-                                %4$s VARCHAR(50))</string>
-    <!-- .................................................................................. -->
-    <!-- RELACIONS CONTACTES (local) -->
-    <string name="TRelacionsContactes">RelacionsContactes</string>
-    <!-- Camps -->
-    <string name="TRelacionsContactes_Codi">Codi</string>
-    <string name="TRelacionsContactes_Descripcio">Descripcio</string>
-    <!-- Llista camps -->
-    <string-array name="TrelacionsContactes_Camps">
-        <item>@string/TRelacionsContactes_Codi</item>
-        <item>@string/TRelacionsContactes_Descripcio</item>
-    </string-array>
-    <!-- Funcions -->
-    <string name="TRelacionsContactesCreate">CREATE TABLE %1$s (
-                                %2$s INTEGER PRIMARY KEY,
-                                %3$s VARCHAR(50))</string>
-    <!-- .................................................................................. -->
-    <!-- CONTACTES (local) -->
-    <string name="TContactes">Contactes</string>
-    <!-- Camps -->
-    <string name="TContactes_Codi">Codi</string>
-    <string name="TContactes_Nom">Nom</string>
-    <string name="TContactes_Tipus">Tipus</string>
-    <string name="TContactes_Adresa">Adresa</string>
-    <string name="TContactes_Contacte">Contacte</string>
-    <string name="TContactes_Comentari">Comentari</string>
-    <string name="TContactes_CodiCategoria1">CodiCategoria1</string>
-    <string name="TContactes_CodiCategoria2">CodiCategoria2</string>
-    <string name="TContactes_CodiCategoria3">CodiCategoria3</string>
-    <string name="TContactes_CodiRelacio1">CodiRelacio1</string>
-    <string name="TContactes_CodiRelacio2">CodiRelacio2</string>
-    <string name="TContactes_Estat">Estat</string>
-    <!-- Llista camps -->
-    <string-array name="TContactes_Camps">
-        <item>@string/TContactes_Codi</item>
-        <item>@string/TContactes_Nom</item>
-        <item>@string/TContactes_Tipus</item>
-        <item>@string/TContactes_Adresa</item>
-        <item>@string/TContactes_Contacte</item>
-        <item>@string/TContactes_Comentari</item>
-        <item>@string/TContactes_CodiCategoria1</item>
-        <item>@string/TContactes_CodiCategoria2</item>
-        <item>@string/TContactes_CodiCategoria3</item>
-        <item>@string/TContactes_CodiRelacio1</item>
-        <item>@string/TContactes_CodiRelacio2</item>
-        <item>@string/TContactes_Estat</item>
-    </string-array>
-    <!-- Funcions -->
-    <string name="TContactesCreate">CREATE TABLE %1$s (
-                                %2$s INTEGER,
-                                %3$s VARCHAR(100),
                                 %4$s INTEGER,
-                                %5$s VARCHAR(100),
-                                %6$s VARCHAR(100),
-                                %7$s VARCHAR(200),
-                                %8$s INTEGER,
-                                %9$s INTEGER,
-                                %10$s INTEGER,
-                                %11$s INTEGER,
-                                %12$s INTEGER,
-                                %13$s INTEGER)</string>
+                                %5$s VARCHAR(50))</string>
     <!-- .................................................................................. -->
     <!-- CONVIDATS (local) -->
     <string name="TConvidats">Convidats</string>
     <!-- Camps -->
     <string name="TConvidats_CodiCelebracio">CodiCelebracio</string>
-    <string name="TConvidats_CodiConvidat">CodiConvidat</string>
+    <string name="TConvidats_Codi">Codi</string>
+    <string name="TConvidats_Nom">Nom</string>
+    <string name="TConvidats_Tipus">Tipus</string>
+    <string name="TConvidats_Adresa">Adresa</string>
+    <string name="TConvidats_Contacte">Contacte</string>
     <string name="TConvidats_CodiMenu">CodiMenu</string>
-    <string name="TConvidats_CodiCategoria1">CodiCategoria1</string>
-    <string name="TConvidats_CodiCategoria2">CodiCategoria2</string>
-    <string name="TConvidats_CodiCategoria3">CodiCategoria3</string>
-    <string name="TConvidats_CodiGrup">CodiGrup</string>
     <string name="TConvidats_Confirmat">Confirmat</string>
     <string name="TConvidats_Avisat">Avisat</string>
     <string name="TConvidats_Transport">Transport</string>
+    <string name="TConvidats_CodiCategoria1">CodiCategoria1</string>
+    <string name="TConvidats_CodiCategoria2">CodiCategoria2</string>
+    <string name="TConvidats_CodiCategoria3">CodiCategoria3</string>
+    <string name="TConvidats_CodiRelacio1">CodiRelacio1</string>
+    <string name="TConvidats_CodiRelacio2">CodiRelacio2</string>
     <string name="TConvidats_Comentari">Comentari</string>
     <string name="TConvidats_Estat">Estat</string>
+    <!-- Valors inicials -->
+    <string name="CategoriaConvidats0">Family</string>
+    <string name="CategoriaConvidats1">Friends 1</string>
+    <string name="CategoriaConvidats2">Friends 2</string>
+    <string name="CategoriaConvidats3">Coworkers 1</string>
+    <string name="CategoriaConvidats4">Coworkers 2</string>
+    <string name="CategoriaConvidats5">Other</string>
     <!-- Llista camps -->
     <string-array name="TConvidats_Camps">
         <item>@string/TConvidats_CodiCelebracio</item>
-        <item>@string/TConvidats_CodiConvidat</item>
+        <item>@string/TConvidats_Codi</item>
+        <item>@string/TConvidats_Nom</item>
+        <item>@string/TConvidats_Tipus</item>
+        <item>@string/TConvidats_Adresa</item>
+        <item>@string/TConvidats_Contacte</item>
+        <item>@string/TConvidats_Confirmat</item>
+        <item>@string/TConvidats_Avisat</item>
+        <item>@string/TConvidats_Transport</item>
         <item>@string/TConvidats_CodiMenu</item>
         <item>@string/TConvidats_CodiCategoria1</item>
         <item>@string/TConvidats_CodiCategoria2</item>
         <item>@string/TConvidats_CodiCategoria3</item>
-        <item>@string/TConvidats_CodiGrup</item>
-        <item>@string/TConvidats_Confirmat</item>
-        <item>@string/TConvidats_Avisat</item>
-        <item>@string/TConvidats_Transport</item>
+        <item>@string/TConvidats_CodiRelacio1</item>
+        <item>@string/TConvidats_CodiRelacio2</item>
         <item>@string/TConvidats_Comentari</item>
         <item>@string/TConvidats_Estat</item>
     </string-array>
@@ -693,16 +626,21 @@
     <string name="TConvidatsCreate">CREATE TABLE %1$s (
                                 %2$s INTEGER,
                                 %3$s INTEGER,
-                                %4$s INTEGER,
+                                %4$s VARCHAR(100),
                                 %5$s INTEGER,
-                                %6$s INTEGER,
-                                %7$s INTEGER,
+                                %6$s VARCHAR(100),
+                                %7$s VARCHAR(100),
                                 %8$s INTEGER,
                                 %9$s INTEGER,
                                 %10$s INTEGER,
                                 %11$s INTEGER,
-                                %12$s VARCHAR(200),
-                                %13$s INTEGER)</string>
+                                %12$s INTEGER,
+                                %13$s INTEGER,
+                                %14$s INTEGER,
+                                %15$s INTEGER,
+                                %16$s INTEGER,
+                                %17$s VARCHAR(200),
+                                %18$s INTEGER)</string>
     <!-- .................................................................................. -->
     <!-- ASSOCIACIONS (servidor) -->
     <string name="TAssociacions">Associacions</string>

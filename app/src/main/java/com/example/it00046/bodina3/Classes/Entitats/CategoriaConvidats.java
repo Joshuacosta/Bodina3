@@ -5,12 +5,18 @@ package com.example.it00046.bodina3.Classes.Entitats;
  */
 public class CategoriaConvidats {
     public int Codi;
-    public CelebracioClient CodiCelebracio;
+    public int CodiCelebracio;
+    public CelebracioClient Celebracio;
     public String Descripcio;
-
+    //
+    public static final int k_EstatNoDefinit = -1;
+    public static final int k_EstatActiu = 0;
+    public static final int k_EstatEsborrat = 1;
+    //
     public CategoriaConvidats(){
-        Codi            = -1;
-        CodiCelebracio  = new CelebracioClient();
+        Codi            = k_EstatNoDefinit;
+        CodiCelebracio  = k_EstatNoDefinit;
+        Celebracio      = new CelebracioClient();
         Descripcio      = null;
     }
 }

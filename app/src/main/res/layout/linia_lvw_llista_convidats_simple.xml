@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants"
+        android:layout_gravity="center_vertical|left">
+
+        <TextView
+            android:id="@+id/LiniaLVWLlistaCelebracionsClientTXTDescripcio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical" />
+
+        <ImageButton
+            android:id="@+id/LiniaLVWLlistaCelebracionsClientIMBEditar"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="50dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_mode_edit_black_36dp"
+            android:background="@null"
+            android:onClick="LiniaLVWCelebracionsClientIMBEditar_Click"/>
+
+        <ImageButton
+            android:id="@+id/LiniaLVWLlistaCelebracionsClientIMBEsborrar"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="5dip"
+            android:visibility="gone"
+            android:background="@drawable/boto_esborrar"
+            android:onClick="LiniaLVWCelebracionsClientIMBEsborrar_Click"/>
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/LiniaLVWLlistaCelebracionsClientTXTNomSalo"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:textSize="18sp"
+        android:gravity="center_vertical|left" />
+    <TextView
+        android:id="@+id/LiniaLVWLlistaCelebracionsClientTXTData"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        android:layout_weight="1"
+        android:gravity="center_vertical|left"/>
+    <!-- Layout que s'extent amb la informació de la celebració -->
+    <LinearLayout android:id="@+id/LiniaLVWLlistaCelebracionsClientLINToolbar"
+        android:layout_marginBottom="-120dip"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:layout_width="fill_parent">
+        <TextView android:id="@+id/LiniaLVWLlistaCelebracionsClientTXTTipus"
+            android:focusable="false"
+            android:paddingLeft="40dp"
+            android:focusableInTouchMode="false"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/LiniaLVWLlistaCelebracionsClientTXTConvidats"
+            android:focusable="false"
+            android:paddingLeft="40dp"
+            android:focusableInTouchMode="false"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/LiniaLVWLlistaCelebracionsClientTXTLloc"
+            android:focusable="false"
+            android:paddingLeft="40dp"
+            android:focusableInTouchMode="false"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/LiniaLVWLlistaCelebracionsClientTXTContacte"
+            android:focusable="false"
+            android:paddingLeft="40dp"
+            android:focusableInTouchMode="false"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</LinearLayout>

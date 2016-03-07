@@ -91,14 +91,19 @@ public final class DAOCelebracionsClient {
     }
     public static boolean Afegir(CelebracioClient p_CelebracioClient, final Context p_Context, boolean p_Asistit, boolean p_Tancam){
         boolean l_resultat = true;
+        long l_CodiCelebracio;
 
         if (p_Asistit) {
             Globals.MostrarEspera(p_Context);
         }
         try {
-            Globals.g_DB.insert(TAG_CelebracionsClient,
-                    null,
-                    CelebracioClientToContentValues(p_CelebracioClient, true));
+            Globals.g_DB.beginTransaction();
+            l_CodiCelebracio = Globals.g_DB.insert(TAG_CelebracionsClient,
+                                    null,
+                                    CelebracioClientToContentValues(p_CelebracioClient, true));
+            // Donem d'alta els tipus de categoria de convidats de la celebracio
+            DAOCategoriesConvidats.ValorsInicials(l_CodiCelebracio);
+            Globals.g_DB.setTransactionSuccessful();
         }
         catch(Exception e) {
             if (p_Asistit) {
