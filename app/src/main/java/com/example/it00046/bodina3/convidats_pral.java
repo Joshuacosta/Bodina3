@@ -1,15 +1,21 @@
 package com.example.it00046.bodina3;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -19,6 +25,8 @@ import com.example.it00046.bodina3.Classes.Entitats.Convidat;
 import com.example.it00046.bodina3.Classes.ExpandAnimation;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.melnykov.fab.FloatingActionButton;
+
+import java.util.Comparator;
 
 /**
  * Created by it00046 on 02/03/2016.
@@ -47,7 +55,7 @@ public class convidats_pral extends ActionBarActivity {
         g_CodiCelebracio = Globals.g_CelebracioClientTreball.Codi;
         // Carreguen les entitats del client
         g_LVW_Convidats = (ListView) findViewById(R.id.convidats_pralLVWConvidats);
-        DAOConvidats.Llegir(g_CodiCelebracio, g_LVW_Convidats, R.layout.linia_lvw_llista_convidats_complerta, Jo);
+        DAOConvidats.LlegirComplerta(g_CodiCelebracio, g_LVW_Convidats, R.layout.linia_lvw_llista_convidats_complerta, Jo);
         l_FLB_Convidat = (FloatingActionButton) findViewById(R.id.convidats_pralFLBAltaConvidat);
         l_FLB_Convidat.attachToListView(g_LVW_Convidats);
         l_Animacio = AnimationUtils.loadAnimation(this, R.anim.alpha_parpadeig);
@@ -89,7 +97,7 @@ public class convidats_pral extends ActionBarActivity {
                         l_expandAni = new ExpandAnimation(g_LIN_ToolbarAnterior, 100);
                         g_LIN_ToolbarAnterior.startAnimation(l_expandAni);
                         // Animacio de botons SI CORRESPON (en funcio de l'estat)
-                        if (g_CelebracioClientAnterior.Estat == Globals.k_CelebracioClientActiva) {
+                        if (g_ConvidatAnterior.Estat == Globals.k_ConvidatActiu) {
                             g_IMB_Esborrar.setVisibility(View.INVISIBLE);
                             g_IMB_Editar.setVisibility(View.INVISIBLE);
                             g_IMB_Esborrar.startAnimation(l_Animacio_Amagar);
@@ -103,7 +111,7 @@ public class convidats_pral extends ActionBarActivity {
                     l_expandAni = new ExpandAnimation(l_LIN_Toolbar, 100);
                     l_LIN_Toolbar.startAnimation(l_expandAni);
                     // Animacio de botons SI CORRESPON (en funcio de l'estat)
-                    if (l_CelebracioClient.Estat == Globals.k_CelebracioClientActiva) {
+                    if (l_Convidat.Estat == Globals.k_ConvidatActiu) {
                         l_IMB_Esborrar.setVisibility(View.VISIBLE);
                         l_IMB_Editar.setVisibility(View.VISIBLE);
                         l_IMB_Esborrar.startAnimation(l_Animacio_Mostrar);
@@ -118,14 +126,14 @@ public class convidats_pral extends ActionBarActivity {
                     g_LIN_ToolbarAnterior = l_LIN_Toolbar;
                     g_IMB_Esborrar = l_IMB_Esborrar;
                     g_IMB_Editar = l_IMB_Editar;
-                    g_CelebracioClientAnterior = l_CelebracioClient;
+                    g_ConvidatAnterior = l_Convidat;
                 }
                 else {
                     // Ens tornen a marcar
                     l_expandAni = new ExpandAnimation(l_LIN_Toolbar, 100);
                     l_LIN_Toolbar.startAnimation(l_expandAni);
                     // Amaguem/mostrem els botons
-                    if (l_CelebracioClient.Estat == Globals.k_CelebracioClientActiva) {
+                    if (l_Convidat.Estat == Globals.k_ConvidatActiu) {
                         if (g_IMB_Editar.getVisibility() == View.VISIBLE) {
                             g_IMB_Esborrar.setVisibility(View.INVISIBLE);
                             g_IMB_Editar.setVisibility(View.INVISIBLE);
@@ -150,26 +158,30 @@ public class convidats_pral extends ActionBarActivity {
         g_alertDialogBuilder = new AlertDialog.Builder(Jo);
         g_alertDialogBuilder.setTitle(Globals.g_Native.getString(R.string.Ordenacio));
         // Recuperem la llista de opcions de ordenacio
-        final String[] l_Ordres = Globals.g_Native.getResources().getStringArray(R.array.OrdreCelebracionsClient);
+        final String[] l_Ordres = Globals.g_Native.getResources().getStringArray(R.array.OrdreConvidats);
         // Funcions de comparacio
-        final Comparator<CelebracioClient> ComparaDescripcio = new Comparator<CelebracioClient>() {
-            public int compare(CelebracioClient p_a1, CelebracioClient p_a2) {
-                return p_a1.Descripcio.compareToIgnoreCase(p_a2.Descripcio);
+        final Comparator<Convidat> ComparaNom = new Comparator<Convidat>() {
+            public int compare(Convidat p_a1, Convidat p_a2) {
+                return p_a1.Nom.compareToIgnoreCase(p_a2.Nom);
             }
         };
-        final Comparator<CelebracioClient> ComparaData = new Comparator<CelebracioClient>() {
-            public int compare(CelebracioClient p_a1, CelebracioClient p_a2) {
-                //return Globals.StringToDate(p_a1.Data).compareTo(Globals.StringToDate(p_a2.Data));
-                return Math.round(p_a2.Data - p_a1.Data);
+        final Comparator<Convidat> ComparaCategoriaPral = new Comparator<Convidat>() {
+            public int compare(Convidat p_a1, Convidat p_a2) {
+                return ((Integer)p_a1.Categoria1.Codi).compareTo(p_a2.Categoria1.Codi);
             }
         };
-        final Comparator<CelebracioClient> ComparaConvidats = new Comparator<CelebracioClient>() {
-            public int compare(CelebracioClient p_a1, CelebracioClient p_a2) {
-                return p_a2.Convidats - p_a1.Convidats;
+        final Comparator<Convidat> ComparaCategoriaSec = new Comparator<Convidat>() {
+            public int compare(Convidat p_a1, Convidat p_a2) {
+                return ((Integer)p_a1.Categoria2.Codi).compareTo(p_a2.Categoria2.Codi);
             }
         };
-        final Comparator<CelebracioClient> ComparaEstat = new Comparator<CelebracioClient>() {
-            public int compare(CelebracioClient p_a1, CelebracioClient p_a2) {
+        final Comparator<Convidat> ComparaTipus = new Comparator<Convidat>() {
+            public int compare(Convidat p_a1, Convidat p_a2) {
+                return ((Integer)p_a1.Tipus).compareTo(p_a2.Tipus);
+            }
+        };
+        final Comparator<Convidat> ComparaEstat = new Comparator<Convidat>() {
+            public int compare(Convidat p_a1, Convidat p_a2) {
                 return ((Integer)p_a1.Estat).compareTo(p_a2.Estat);
             }
         };
@@ -180,17 +192,20 @@ public class convidats_pral extends ActionBarActivity {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         switch (arg1) {
-                            case 0:// Per descripcio
-                                ((ArrayAdapter<CelebracioClient>) g_LVW_CelebracionsClient.getAdapter()).sort(ComparaDescripcio);
+                            case 0:// Per nom
+                                ((ArrayAdapter<Convidat>) g_LVW_Convidats.getAdapter()).sort(ComparaNom);
                                 break;
-                            case 1:// Per data
-                                ((ArrayAdapter<CelebracioClient>) g_LVW_CelebracionsClient.getAdapter()).sort(ComparaData);
+                            case 1:// Per categoria pral
+                                ((ArrayAdapter<Convidat>) g_LVW_Convidats.getAdapter()).sort(ComparaCategoriaPral);
                                 break;
-                            case 2:// Per numero de convidats
-                                ((ArrayAdapter<CelebracioClient>) g_LVW_CelebracionsClient.getAdapter()).sort(ComparaConvidats);
+                            case 2:// Per categoria sec
+                                ((ArrayAdapter<Convidat>) g_LVW_Convidats.getAdapter()).sort(ComparaCategoriaSec);
                                 break;
-                            case 3:// Per estat
-                                ((ArrayAdapter<CelebracioClient>) g_LVW_CelebracionsClient.getAdapter()).sort(ComparaEstat);
+                            case 3:// Per tipus
+                                ((ArrayAdapter<Convidat>) g_LVW_Convidats.getAdapter()).sort(ComparaTipus);
+                                break;
+                            case 4:// Per estat (?)
+                                ((ArrayAdapter<Convidat>) g_LVW_Convidats.getAdapter()).sort(ComparaEstat);
                                 break;
                         }
                         // Tanquem la finestra de ordenacio
@@ -206,7 +221,7 @@ public class convidats_pral extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.celebracions_client_pral, menu);
+        getMenuInflater().inflate(R.menu.convidats_pral, menu);
         return true;
     }
 
@@ -216,27 +231,16 @@ public class convidats_pral extends ActionBarActivity {
         int l_id = p_Item.getItemId();
 
         switch (l_id) {
-            case R.id.celebracions_client_pralMNUAltaCelebracio:
-                l_Intent = new Intent(this, celebracions_client_mant.class);
-                startActivityForResult(l_Intent, g_RQC_CELEBRACIO_CLIENT_ALTA);
+            case R.id.convidats_pralMNUAltaConvidat:
+                l_Intent = new Intent(this, convidats_mant.class);
+                startActivityForResult(l_Intent, g_RQC_CONVIDAT_ALTA);
                 return true;
-            case R.id.celebracions_client_pralMNUOrdenar:
-                // create alert dialog
+            case R.id.convidats_pralMNUOrdenar:
                 AlertDialog l_alertDialog = g_alertDialogBuilder.create();
-                // show it
                 l_alertDialog.show();
                 return true;
-            case R.id.celebracions_client_pralMNUSalons:
-                l_Intent = new Intent(this, salons_client_pral.class);
-                startActivity(l_Intent);
-                return true;
-            case R.id.celebracions_client_pralMNUTaules:
-                l_Intent = new Intent(this, taules_client.class);
-                startActivity(l_Intent);
-                return true;
-            case R.id.celebracions_client_pralMNUActualitzar:
-                DAOCelebracionsClient.Llegir(g_LVW_CelebracionsClient, R.layout.linia_lvw_llista_celebracions_client, Jo);
-                //
+            case R.id.convidats_pralMNUActualitzar:
+                DAOConvidats.LlegirComplerta(g_CodiCelebracio, g_LVW_Convidats, R.layout.linia_lvw_llista_convidats_complerta, Jo);
                 return true;
         }
         return super.onOptionsItemSelected(p_Item);
@@ -247,85 +251,69 @@ public class convidats_pral extends ActionBarActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch(requestCode) {
-            case (g_RQC_CELEBRACIO_CLIENT_ALTA): {
+            case (g_RQC_CONVIDAT_ALTA): {
                 if (resultCode == Activity.RESULT_OK) {
                     // Refresquem la llista (podiem ser mes optims i nomes afegir la entitat
                     // amb la que hem demanat associar-nos
-                    DAOCelebracionsClient.Llegir(g_LVW_CelebracionsClient, R.layout.linia_lvw_llista_celebracions_client, Jo);
+                    DAOConvidats.LlegirComplerta(g_CodiCelebracio, g_LVW_Convidats, R.layout.linia_lvw_llista_convidats_complerta, Jo);
                 }
                 break;
             }
-            case (g_RQC_CELEBRACIO_CLIENT_MODIFIQUEM):{
+            case (g_RQC_CONVIDAT_MODIFIQUEM):{
                 if (resultCode == Activity.RESULT_OK) {
                     // Refresquem la llista (podiem ser mes optims i nomes modificar la entitat)
-                    DAOCelebracionsClient.Llegir(g_LVW_CelebracionsClient, R.layout.linia_lvw_llista_celebracions_client, Jo);
+                    DAOConvidats.LlegirComplerta(g_CodiCelebracio, g_LVW_Convidats, R.layout.linia_lvw_llista_convidats_complerta, Jo);
                 }
                 break;
             }
         }
     }
     // Aquesta funcio es cridada pels elements de la llista quan premem el boto editar
-    public void LiniaLVWCelebracionsClientIMBEditar_Click(View l_view) {
+    public void LiniaLVWConvidatsIMBEditar_Click(View l_view) {
         ImageButton l_IMB_Esborrar, l_IMB_Editar;
         TransitionDrawable l_transition;
-        View l_parent, l_LiniaCelebracio;
-        PARCelebracioClient l_Parametres;
-        CelebracioClient l_Celebracio;
+        View l_parent, l_LiniaConvidat;
 
         // Recuperem "jerarquia"
         l_parent = (View) l_view.getParent();
-        l_LiniaCelebracio = (View) l_parent.getParent();
+        l_LiniaConvidat = (View) l_parent.getParent();
         // Validem el estat
         if (g_EstatEsborrar) {
             // Cancelem
             g_EstatEsborrar = false;
             // Boto de esborrar actiu
-            l_IMB_Esborrar = (ImageButton)l_LiniaCelebracio.findViewById(R.id.LiniaLVWLlistaCelebracionsClientIMBEsborrar);
+            l_IMB_Esborrar = (ImageButton)l_LiniaConvidat.findViewById(R.id.LiniaLVWLlistaConvidatsIMBEsborrar);
             l_IMB_Esborrar.setImageResource(R.drawable.ic_delete_black_36dp);
             // Boto de edicio es cancelar
             l_IMB_Editar = (ImageButton) l_view;
             l_IMB_Editar.setImageResource(R.drawable.ic_mode_edit_black_36dp);
             // Camviem fons
-            l_transition = (TransitionDrawable)l_LiniaCelebracio.getBackground();
+            l_transition = (TransitionDrawable)l_LiniaConvidat.getBackground();
             l_transition.reverseTransition(300);
             //
         }
         else {
-            Globals.g_CelebracioClientTreball = (CelebracioClient)l_LiniaCelebracio.getTag();
-            // Obrim la activitat de modificacio de la celebracio
-            l_Parametres = new PARCelebracioClient();
-            l_Celebracio = (CelebracioClient)l_LiniaCelebracio.getTag();
-            l_Parametres.Codi = l_Celebracio.Codi;
-            l_Parametres.CodiSalo = l_Celebracio.Salo.Codi;
-            l_Parametres.Tipus = l_Celebracio.Tipus.Codi;
-            l_Parametres.Descripcio = l_Celebracio.Descripcio;
-            l_Parametres.Convidats = l_Celebracio.Convidats;
-            l_Parametres.Data = l_Celebracio.Data;
-            l_Parametres.Hora = l_Celebracio.Hora;
-            l_Parametres.Lloc = l_Celebracio.Lloc;
-            l_Parametres.Contacte = l_Celebracio.Contacte;
-            l_Parametres.Estat = l_Celebracio.Estat;
-            Intent l_editem = new Intent(this, celebracions_client_mant.class);
-            l_editem.putExtra("CelebracioClient", l_Parametres);
-            startActivityForResult(l_editem, g_RQC_CELEBRACIO_CLIENT_MODIFIQUEM);
+            Globals.g_ConvidatTreball = (Convidat)l_LiniaConvidat.getTag();
+            Intent l_editem = new Intent(this, convidats_mant.class);
+            startActivityForResult(l_editem, g_RQC_CONVIDAT_MODIFIQUEM);
         }
     }
     // Aquesta funcio es cridada pels elements de la llista quan premem el boto esborrar
-    public void LiniaLVWCelebracionsClientIMBEsborrar_Click(View l_view) {
+    public void LiniaLVWConvidatsIMBEsborrar_Click(View l_view) {
         ImageButton l_IMB_Esborrar, l_IMB_Editar;
         TransitionDrawable l_transition;
-        View l_parent, l_LiniaCelebracio;
-        CelebracioClient l_Celebracio;
+        View l_parent, l_LiniaConvidat;
+        Convidat l_Convidat;
 
         // Llegim la jeraquia
         l_parent = (View) l_view.getParent();
-        l_LiniaCelebracio = (View) l_parent.getParent();
+        l_LiniaConvidat = (View) l_parent.getParent();
         // Validem si "ja" esborrem
         if (g_EstatEsborrar){
             // Esborrem (modifiquem el seu estat)
-            l_Celebracio = (CelebracioClient)l_LiniaCelebracio.getTag();
-            if (DAOCelebracionsClient.Esborrar(l_Celebracio.Codi, Jo, false)){
-                DAOCelebracionsClient.Llegir(g_LVW_CelebracionsClient, R.layout.linia_lvw_llista_celebracions_client, Jo);
+            l_Convidat = (Convidat)l_LiniaConvidat.getTag();
+            if (DAOConvidats.Esborrar(l_Convidat.Codi, Jo, false)){
+                DAOConvidats.LlegirComplerta(g_CodiCelebracio, g_LVW_Convidats, R.layout.linia_lvw_llista_convidats_complerta, Jo);
             }
         }
         else {
@@ -335,11 +323,11 @@ public class convidats_pral extends ActionBarActivity {
             l_IMB_Esborrar = (ImageButton) l_view;
             l_IMB_Esborrar.setImageResource(R.drawable.ic_check_white_48dp);
             // Boto de edicio es cancelar
-            l_IMB_Editar = (ImageButton)l_LiniaCelebracio.findViewById(R.id.LiniaLVWLlistaCelebracionsClientIMBEditar);
+            l_IMB_Editar = (ImageButton)l_LiniaConvidat.findViewById(R.id.LiniaLVWLlistaConvidatsIMBEditar);
             l_IMB_Editar.setImageResource(R.drawable.ic_close_white_48dp);
             // Camviem fons
-            l_LiniaCelebracio.setBackgroundResource(R.drawable.fons_esborrar);
-            l_transition = (TransitionDrawable)l_LiniaCelebracio.getBackground();
+            l_LiniaConvidat.setBackgroundResource(R.drawable.fons_esborrar);
+            l_transition = (TransitionDrawable)l_LiniaConvidat.getBackground();
             l_transition.startTransition(500);
         }
     }

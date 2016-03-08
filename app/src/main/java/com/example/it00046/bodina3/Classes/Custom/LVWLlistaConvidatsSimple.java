@@ -13,11 +13,11 @@ import com.example.it00046.bodina3.R;
 /**
  * Created by it00046 on 02/06/2015.
  */
-public class LVWLlistaTaulesConvidatsSeleccio extends ArrayAdapter<Convidat> {
+public class LVWLlistaConvidatsSimple extends ArrayAdapter<Convidat> {
 
     private Context g_context;
 
-    public LVWLlistaTaulesConvidatsSeleccio(Context p_context, int p_textViewResourceId) {
+    public LVWLlistaConvidatsSimple(Context p_context, int p_textViewResourceId) {
         super(p_context, p_textViewResourceId);
         g_context = p_context;
     }

@@ -44,6 +44,7 @@
     <string name="Text">text...</string>
     <string name="Maxim">max</string>
     <string name="esborrat">-erase-</string>
+    <string name="ConvidatEsborrat">(DELETED)</string>
 
     <!-- Errors codi -->
     <string name="error_avis">Alert</string>
@@ -223,6 +224,9 @@
 
     <!-- Layout convidats -->
     <string name="title_activity_convidats">Guests</string>
+    <string name="convidats_pralMNUAfegir">Add guest</string>
+    <string name="convidats_pralMNUOrdenar">Sort</string>
+    <string name="convidats_pralMNUActualitzar">Refresh</string>
 
     <!-- ################################################################################### -->
     <!-- B A S E   D E   D A D E S -->
@@ -582,17 +586,18 @@
     <string name="TConvidats_Codi">Codi</string>
     <string name="TConvidats_Nom">Nom</string>
     <string name="TConvidats_Tipus">Tipus</string>
+    <string name="TConvidats_CodiParella">CodiParella</string>
     <string name="TConvidats_Adresa">Adresa</string>
     <string name="TConvidats_Contacte">Contacte</string>
-    <string name="TConvidats_CodiMenu">CodiMenu</string>
+    <string name="TConvidats_Telefon">Telefon</string>
+    <string name="TConvidats_eMail">eMail</string>
     <string name="TConvidats_Confirmat">Confirmat</string>
     <string name="TConvidats_Avisat">Avisat</string>
     <string name="TConvidats_Transport">Transport</string>
+    <string name="TConvidats_CodiMenu">CodiMenu</string>
     <string name="TConvidats_CodiCategoria1">CodiCategoria1</string>
     <string name="TConvidats_CodiCategoria2">CodiCategoria2</string>
-    <string name="TConvidats_CodiCategoria3">CodiCategoria3</string>
     <string name="TConvidats_CodiRelacio1">CodiRelacio1</string>
-    <string name="TConvidats_CodiRelacio2">CodiRelacio2</string>
     <string name="TConvidats_Comentari">Comentari</string>
     <string name="TConvidats_Estat">Estat</string>
     <!-- Valors inicials -->
@@ -608,17 +613,18 @@
         <item>@string/TConvidats_Codi</item>
         <item>@string/TConvidats_Nom</item>
         <item>@string/TConvidats_Tipus</item>
+        <item>@string/TConvidats_CodiParella</item>
         <item>@string/TConvidats_Adresa</item>
         <item>@string/TConvidats_Contacte</item>
+        <item>@string/TConvidats_Telefon</item>
+        <item>@string/TConvidats_eMail</item>
         <item>@string/TConvidats_Confirmat</item>
         <item>@string/TConvidats_Avisat</item>
         <item>@string/TConvidats_Transport</item>
         <item>@string/TConvidats_CodiMenu</item>
         <item>@string/TConvidats_CodiCategoria1</item>
         <item>@string/TConvidats_CodiCategoria2</item>
-        <item>@string/TConvidats_CodiCategoria3</item>
         <item>@string/TConvidats_CodiRelacio1</item>
-        <item>@string/TConvidats_CodiRelacio2</item>
         <item>@string/TConvidats_Comentari</item>
         <item>@string/TConvidats_Estat</item>
     </string-array>
@@ -628,9 +634,9 @@
                                 %3$s INTEGER,
                                 %4$s VARCHAR(100),
                                 %5$s INTEGER,
-                                %6$s VARCHAR(100),
+                                %6$s INTEGER,
                                 %7$s VARCHAR(100),
-                                %8$s INTEGER,
+                                %8$s VARCHAR(100),
                                 %9$s INTEGER,
                                 %10$s INTEGER,
                                 %11$s INTEGER,
@@ -639,8 +645,9 @@
                                 %14$s INTEGER,
                                 %15$s INTEGER,
                                 %16$s INTEGER,
-                                %17$s VARCHAR(200),
-                                %18$s INTEGER)</string>
+                                %17$s INTEGER,
+                                %18$s VARCHAR(200),
+                                %19$s INTEGER)</string>
     <!-- .................................................................................. -->
     <!-- ASSOCIACIONS (servidor) -->
     <string name="TAssociacions">Associacions</string>
@@ -718,6 +725,14 @@
         <item>Event description</item>
         <item>Date</item>
         <item>Number of guest</item>
+        <item>State</item>
+    </string-array>
+
+    <string-array name="OrdreConvidats">
+        <item>Nom</item>
+        <item>Main category</item>
+        <item>Secondary category</item>
+        <item>Type</item>
         <item>State</item>
     </string-array>
 

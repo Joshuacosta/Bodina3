@@ -1,5 +1,7 @@
 package com.example.it00046.bodina3.Classes.Entitats;
 
+import android.provider.ContactsContract;
+
 import com.example.it00046.bodina3.Classes.Globals;
 
 /**
@@ -9,18 +11,19 @@ public class Convidat {
     public CelebracioClient Celebracio;
     public int Codi;
     public String Nom;
-    public int Tipus; // Home, Dona, Nen, Parella
+    public int Tipus; // k_Tipus...
+    public Convidat Parella;
     public String Adresa;
     public String Contacte;
+    public String Telefon;
+    public String eMail;
     public MenuConvidats Menu;
     public boolean Confirmat;
     public boolean Avisat;
     public boolean Transport;
     public CategoriaConvidats Categoria1;
     public CategoriaConvidats Categoria2;
-    public CategoriaConvidats Categoria3;
     public RelacioConvidats Relacio1;
-    public RelacioConvidats Relacio2;
     public String Comentari;
     public int Estat;
     // Constants de la classe
@@ -39,17 +42,18 @@ public class Convidat {
         Codi        = k_EstatNoDefinit;
         Nom         = "";
         Tipus       = k_TipusNoDefinit;
+        Parella     = new Convidat();
         Adresa      = "";
         Contacte    = "";
+        Telefon     = null;
+        eMail       = null;
         Menu        = new MenuConvidats();
         Confirmat   = false;
         Avisat      = false;
         Transport   = false;
         Categoria1  = new CategoriaConvidats();
         Categoria2  = new CategoriaConvidats();
-        Categoria3  = new CategoriaConvidats();
         Relacio1    = new RelacioConvidats();
-        Relacio2    = new RelacioConvidats();
         Comentari   = "";
         Estat       = k_EstatNoDefinit;
     }

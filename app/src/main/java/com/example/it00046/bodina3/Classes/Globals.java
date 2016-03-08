@@ -21,6 +21,7 @@ import com.example.it00046.bodina3.Classes.DAO.DAOTaulesClient;
 import com.example.it00046.bodina3.Classes.DAO.DAOTipusCelebracions;
 import com.example.it00046.bodina3.Classes.Entitats.CelebracioClient;
 import com.example.it00046.bodina3.Classes.Entitats.Client;
+import com.example.it00046.bodina3.Classes.Entitats.Convidat;
 import com.example.it00046.bodina3.Classes.Entitats.Taula;
 import com.example.it00046.bodina3.R;
 
@@ -79,6 +80,7 @@ public final class Globals
     public static final int k_CelebracioClientActiva = 1;
     public static final int k_SaloClientBaixa = 0;
     public static final int k_SaloClientActiu = 1;
+    public static final int k_ConvidatActiu = 1;
 
     public static final int k_InvitacioBaixa = 0;
     public static final int k_InvitacioActiva = 1;
@@ -103,6 +105,7 @@ public final class Globals
     //
     public static Taula g_TaulaSeleccio;
     public static CelebracioClient g_CelebracioClientTreball;
+    public static Convidat g_ConvidatTreball;
 
     public static void ExitAppDialog(final Activity activity)
     {

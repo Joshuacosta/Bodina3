@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".convidats_pral">
+    <item android:id="@+id/convidats_pralMNUAltaConvidat"
+        android:title="@string/convidats_pralMNUAfegir"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/convidats_pralMNUOrdenar"
+        android:title="@string/convidats_pralMNUOrdenar"
+        android:icon="@drawable/ic_sort_white_24dp"
+        android:orderInCategory="101" app:showAsAction="always" />
+    <item android:id="@+id/convidats_pralMNUActualitzar"
+        android:title="@string/convidats_pralMNUActualitzar"
+        android:orderInCategory="102" app:showAsAction="never" />
+</menu>
