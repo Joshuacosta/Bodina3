@@ -46,8 +46,8 @@ import java.util.Calendar;
 
 public class convidats_mant extends ActionBarActivity {
     public Context jo = this;
-    private EditText g_ETX_Contacte, g_ETX_Lloc, g_ETX_Descripcio, g_ETX_NumConvidats;
-    private Spinner g_SPN_Salo, g_SPN_TipusCelebracio;
+    private EditText g_ETX_Nom, g_ETX_Adresa, g_ETX_Contacte, g_ETX_Telefon;
+    private Spinner g_SPN_Tipus, g_SPN_TipusCelebracio;
     private TextView g_TXT_Data, g_TXT_Hora, g_TXT_TipusCelebracio, g_TXT_Salo;
     private ListView g_LVW_DistribucionsClient, g_LVW_Convidats;
     private Context Jo = this;
@@ -65,7 +65,7 @@ public class convidats_mant extends ActionBarActivity {
         Intent l_intent = getIntent();
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.celebracions_client_mant);
+        setContentView(R.layout.convidats_mant);
         // Recuperem controls del layout
         // Data celebracio
         l_IMB_Data = (ImageButton) findViewById(R.id.CelebracionsClientMantIMBData);

@@ -1,0 +1,232 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context=".convidats_mant">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/ConvidatsMantETXNom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/ConvidatsMantEXTNom"
+                android:maxLength="100"/>
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp">
+
+                <TextView
+                    android:id="@+id/ConvidatsMantTXTTipusConvidat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/ConvidatsMantTXTTipus"/>
+
+                <Spinner
+                    android:id="@+id/ConvidatsMantSPNTipusConvidat"
+                    android:layout_marginTop="25dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:spinnerMode="dialog" />
+
+                <!-- Aqui anirien les dades de la parella, si toca -->
+
+            </FrameLayout>
+
+            <EditText
+                android:id="@+id/ConvidatsMantETXAdresa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/ConvidatsMantEXTAdresa"
+                android:maxLength="100"/>
+
+            <EditText
+                android:id="@+id/ConvidatsMantETXContacte"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/ConvidatsMantEXTContacte"
+                android:maxLength="100"/>
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:padding="5dp">
+
+                <EditText
+                    android:id="@+id/ConvidatsMantETXTelefon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/ConvidatsMantEXTTelefon"
+                    android:maxLength="20"/>
+
+                <!-- Aqui mancaria el boto per trucar (segur?)-->
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:padding="5dp">
+
+                <EditText
+                    android:id="@+id/ConvidatsMantETXTeMail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/ConvidatsMantEXTeMail"
+                    android:maxLength="100"/>
+
+                <!-- Aqui mancaria el boto per enviar un mail (segur?)-->
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/ConvidatsMantTXTMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/ConvidatsMantTXTMenu"/>
+
+                <Spinner
+                    android:id="@+id/ConvidatsMantSPNMenus"
+                    android:layout_marginTop="25dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:spinnerMode="dialog" />
+
+            </FrameLayout>
+
+            <CheckBox
+                android:id="@+id/ConvidatsMantCBXAvisat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ConvidatsMantCBXAvisat"/>
+
+            <CheckBox
+                android:id="@+id/ConvidatsMantCBXConfirmat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ConvidatsMantCBXConfirmat"/>
+
+            <CheckBox
+                android:id="@+id/ConvidatsMantCBXTransport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ConvidatsMantCBXTransport"/>
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/ConvidatsMantTXTCategoria1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/ConvidatsMantTXTCategoria1"/>
+
+                <Spinner
+                    android:id="@+id/ConvidatsMantSPNCategoria1"
+                    android:layout_marginTop="25dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:spinnerMode="dialog" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/ConvidatsMantTXTCategoria2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/ConvidatsMantTXTCategoria2"/>
+
+                <Spinner
+                    android:id="@+id/ConvidatsMantSPNCategoria2"
+                    android:layout_marginTop="25dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:spinnerMode="dialog" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/ConvidatsMantTXTRelacio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/ConvidatsMantTXTRelacio"/>
+
+                <Spinner
+                    android:id="@+id/ConvidatsMantSPNRelacio"
+                    android:layout_marginTop="25dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:spinnerMode="dialog" />
+            </FrameLayout>
+
+            <EditText
+                android:id="@+id/ConvidatsMantEXTComentari"
+                android:inputType="textMultiLine"
+                android:lines="8"
+                android:minLines="6"
+                android:gravity="top|left"
+                android:maxLines="10"
+                android:scrollbars="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/ConvidatsMantETXComentari"
+                android:maxLength="200" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
+

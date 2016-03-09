@@ -164,15 +164,24 @@
                 android:value=".principal" />
         </activity>
 
-        <!-- Fill 5: Contactes -->
+        <!-- Fill 5: Convidats -->
         <activity
             android:name=".convidats_pral"
-            android:label="@string/title_activity_convidats">
+            android:label="@string/title_activity_convidats_pral">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".entitat_pral" />
         </activity>
-                <!-- Fill 5.1: Categories de contactes -->
+                <!-- Fill 5.1: Manteniment de convidats -->
+                <activity
+                    android:name=".convidats_mant"
+                    android:label="@string/title_activity_convidats_mant">
+                    <meta-data
+                        android:name="android.support.PARENT_ACTIVITY"
+                        android:value=".convidats_pral" />
+                </activity>
+
+                <!-- Fill 5.2: Categories de convidats -->
                 <activity
                     android:name=".categories_convidats"
                     android:label="@string/title_activity_categories_convidats">

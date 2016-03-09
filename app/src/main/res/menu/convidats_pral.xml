@@ -8,6 +8,9 @@
         android:title="@string/convidats_pralMNUOrdenar"
         android:icon="@drawable/ic_sort_white_24dp"
         android:orderInCategory="101" app:showAsAction="always" />
+    <item android:id="@+id/convidats_pralMNUCategories"
+        android:title="@string/convidats_pralMNUCategories"
+        android:orderInCategory="102" app:showAsAction="never" />
     <item android:id="@+id/convidats_pralMNUActualitzar"
         android:title="@string/convidats_pralMNUActualitzar"
         android:orderInCategory="102" app:showAsAction="never" />

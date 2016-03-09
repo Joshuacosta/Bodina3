@@ -222,11 +222,31 @@
     <string name="TaulesClientDialogTXTAmplada">width</string>
     <string name="TaulesClientDialogTXTLlargada">long</string>
 
-    <!-- Layout convidats -->
-    <string name="title_activity_convidats">Guests</string>
+    <!-- Layout convidats principal -->
+    <string name="title_activity_convidats_pral">Guests</string>
     <string name="convidats_pralMNUAfegir">Add guest</string>
+    <string name="convidats_pralMNUCategories">Guests categories</string>
     <string name="convidats_pralMNUOrdenar">Sort</string>
     <string name="convidats_pralMNUActualitzar">Refresh</string>
+
+    <!-- Layout convidats manteniment -->
+    <string name="title_activity_convidats_mant">Mantein guest</string>
+    <string name="ConvidatsMantEXTNom">Name</string>
+    <string name="ConvidatsMantTXTTipus">Type</string>
+    <string name="ConvidatsMantTXTParella">Couple</string>
+    <string name="ConvidatsMantEXTAdresa">Adress</string>
+    <string name="ConvidatsMantEXTContacte">Contact</string>
+    <string name="ConvidatsMantEXTTelefon">Phone</string>
+    <string name="ConvidatsMantEXTeMail">Mail</string>
+    <string name="ConvidatsMantTXTMenu">Menu</string>
+    <string name="ConvidatsMantCBXConfirmat">Confirm</string>
+    <string name="ConvidatsMantCBXAvisat">Warned</string>
+    <string name="ConvidatsMantCBXTransport">Transport</string>
+    <string name="ConvidatsMantTXTCategoria1">Main category</string>
+    <string name="ConvidatsMantTXTCategoria2">Secondary category</string>
+    <string name="ConvidatsMantTXTRelacio">Relationship</string>
+    <string name="ConvidatsMantETXComentari">Commentary</string>
+
 
     <!-- ################################################################################### -->
     <!-- B A S E   D E   D A D E S -->
@@ -637,8 +657,8 @@
                                 %6$s INTEGER,
                                 %7$s VARCHAR(100),
                                 %8$s VARCHAR(100),
-                                %9$s INTEGER,
-                                %10$s INTEGER,
+                                %9$s VARCHAR(20),
+                                %10$s VARCHAR(100),
                                 %11$s INTEGER,
                                 %12$s INTEGER,
                                 %13$s INTEGER,
