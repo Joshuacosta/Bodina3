@@ -1,8 +1,7 @@
 package com.example.it00046.bodina3.Classes.Entitats;
 
-import android.widget.ArrayAdapter;
-
 import com.example.it00046.bodina3.Classes.Globals;
+
 import java.util.ArrayList;
 
 /**
@@ -71,4 +70,3 @@ public class Planol {
         }
     }
 }
-

@@ -1,15 +1,12 @@
 package com.example.it00046.bodina3.Classes.Entitats;
 
-import android.graphics.Paint;
 import android.graphics.Rect;
 
-import com.example.it00046.bodina3.Classes.Entitats.TaulaClient;
 import com.example.it00046.bodina3.Classes.Feina.TaulaView;
 
 /**
  * Created by it00046 on 15/12/2015.
  */
-
 public class Taula {
     public Boolean Esborrat;
     public Boolean Esborrantse;
@@ -30,4 +27,5 @@ public class Taula {
         View = new TaulaView();
         Taula = new TaulaClient();
     }
+
 }

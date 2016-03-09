@@ -53,7 +53,7 @@ public class convidats_pral extends ActionBarActivity {
         setContentView(R.layout.convidats_pral);
         // Llegim la celebracio amb la que treballem
         g_CodiCelebracio = Globals.g_CelebracioClientTreball.Codi;
-        // Carreguen les entitats del client
+        // Carreguem la llista de convidats
         g_LVW_Convidats = (ListView) findViewById(R.id.convidats_pralLVWConvidats);
         DAOConvidats.LlegirComplerta(g_CodiCelebracio, g_LVW_Convidats, R.layout.linia_lvw_llista_convidats_complerta, Jo);
         l_FLB_Convidat = (FloatingActionButton) findViewById(R.id.convidats_pralFLBAltaConvidat);
