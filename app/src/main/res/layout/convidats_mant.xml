@@ -34,10 +34,8 @@
                 android:layout_marginTop="9dp">
 
                 <TextView
-                    android:id="@+id/ConvidatsMantTXTTipusConvidat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/ConvidatsMantTXTTipus"/>
 
                 <Spinner
@@ -48,8 +46,20 @@
                     android:padding="10dp"
                     android:spinnerMode="dialog" />
 
-                <!-- Aqui anirien les dades de la parella, si toca -->
+                    <FrameLayout
+                        android:id="@+id/ConvidatsMantFLYParella"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
 
+                            <TextView
+                                android:id="@+id/ConvidatsMantTXTParella"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/ConvidatsMantTXTParella"/>
+
+                            <!-- Aqui caldra un boto per triar/veure la parella -->
+
+                    </FrameLayout>
             </FrameLayout>
 
             <EditText
@@ -111,7 +121,6 @@
                 android:padding="5dp">
 
                 <TextView
-                    android:id="@+id/ConvidatsMantTXTMenu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
@@ -152,7 +161,6 @@
                 android:padding="5dp">
 
                 <TextView
-                    android:id="@+id/ConvidatsMantTXTCategoria1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
@@ -174,7 +182,6 @@
                 android:padding="5dp">
 
                 <TextView
-                    android:id="@+id/ConvidatsMantTXTCategoria2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
@@ -196,14 +203,13 @@
                 android:padding="5dp">
 
                 <TextView
-                    android:id="@+id/ConvidatsMantTXTRelacio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/ConvidatsMantTXTRelacio"/>
 
                 <Spinner
-                    android:id="@+id/ConvidatsMantSPNRelacio"
+                    android:id="@+id/ConvidatsMantSPNRelacions"
                     android:layout_marginTop="25dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

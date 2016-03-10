@@ -18,6 +18,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -28,9 +29,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.it00046.bodina3.Classes.DAO.DAOCategoriesConvidats;
 import com.example.it00046.bodina3.Classes.DAO.DAOCelebracionsClient;
 import com.example.it00046.bodina3.Classes.DAO.DAOConvidats;
 import com.example.it00046.bodina3.Classes.DAO.DAODistribucionsClient;
+import com.example.it00046.bodina3.Classes.DAO.DAOMenusConvidats;
 import com.example.it00046.bodina3.Classes.DAO.DAOSalonsClient;
 import com.example.it00046.bodina3.Classes.DAO.DAOTipusCelebracions;
 import com.example.it00046.bodina3.Classes.Entitats.CelebracioClient;
@@ -45,117 +48,57 @@ import java.util.Calendar;
 
 
 public class convidats_mant extends ActionBarActivity {
-    public Context jo = this;
-    private EditText g_ETX_Nom, g_ETX_Adresa, g_ETX_Contacte, g_ETX_Telefon;
-    private Spinner g_SPN_Tipus, g_SPN_TipusCelebracio;
-    private TextView g_TXT_Data, g_TXT_Hora, g_TXT_TipusCelebracio, g_TXT_Salo;
-    private ListView g_LVW_DistribucionsClient, g_LVW_Convidats;
-    private Context Jo = this;
+    public Context Jo = this;
+    private EditText g_ETX_Nom, g_ETX_Adresa, g_ETX_Contacte, g_ETX_Telefon, g_ETX_eMail, g_ETX_Comentari;
+    private Spinner g_SPN_TipusConvidats, g_SPN_Menus, g_SPN_Categoria1, g_SPN_Categoria2, g_SPN_Relacions;
+    private CheckBox g_CBX_Confirmat, g_CBX_Avisat, g_CBX_Transport;
+    private TextView g_TXT_Parella;
     private String g_Operativa = "Modificacio";
-    private Calendar g_CAL_DataCelebracio = null, g_CAL_HoraCelebracio = null;
     private PARCelebracioClient g_CelebracioClient;
-    static final int g_RQC_DISTRIBUCIO_CLIENT_ALTA = 1, g_RQC_CONVIDAT_ALTA = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         final ImageButton l_IMB_Data, l_IMB_Temps;
         FloatingActionButton l_FLB_DistribucioClient, l_FLB_Convidats;
         final Animation l_Animacio1, l_Animacio2;
-        FrameLayout l_FLY_Distribucions, l_FLY_Convidats;
+        final FrameLayout l_FLY_Parella, l_FLY_Convidats;
         Intent l_intent = getIntent();
+        final ArrayAdapter<CharSequence> l_adapter_Tipus;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.convidats_mant);
         // Recuperem controls del layout
-        // Data celebracio
-        l_IMB_Data = (ImageButton) findViewById(R.id.CelebracionsClientMantIMBData);
-        l_IMB_Data.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                int l_Any, l_Mes, l_Dia;
-                Calendar l_Calendari = Calendar.getInstance();
-
-                // Si hi ha data definida la informem, sino mostrem el dia actual
-                if (g_CAL_DataCelebracio != null) {
-                    l_Any = g_CAL_DataCelebracio.get(Calendar.YEAR);
-                    l_Mes = g_CAL_DataCelebracio.get(Calendar.MONTH);
-                    l_Dia = g_CAL_DataCelebracio.get(Calendar.DAY_OF_MONTH);
-                } else {
-                    // No tenim data, agafem la actuial
-                    l_Any = l_Calendari.get(Calendar.YEAR);
-                    l_Mes = l_Calendari.get(Calendar.MONTH);
-                    l_Dia = l_Calendari.get(Calendar.DAY_OF_MONTH);
-                }
-                DatePickerDialog dialog = new DatePickerDialog(jo, new LST_DatePickerSet(), l_Any, l_Mes, l_Dia);
-                dialog.show();
-            }
-        });
-        // Hora celebracio
-        l_IMB_Temps = (ImageButton) findViewById(R.id.CelebracionsClientMantIMBTime);
-        l_IMB_Temps.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                int l_Hora, l_Minut;
-                Calendar l_Calendari = Calendar.getInstance();
-
-                // Si hi ha hora definida la informem, sino mostrem el dia actual
-                if (g_CAL_HoraCelebracio != null) {
-                    l_Hora = g_CAL_HoraCelebracio.get(Calendar.HOUR_OF_DAY);
-                    l_Minut = g_CAL_HoraCelebracio.get(Calendar.MINUTE);
-                } else {
-                    // No tenim hora, agafem la actuial
-                    l_Hora = l_Calendari.get(Calendar.HOUR_OF_DAY);
-                    l_Minut = l_Calendari.get(Calendar.MINUTE);
-                }
-                TimePickerDialog dialog = new TimePickerDialog(jo, new LST_TimePickerSet(), l_Hora, l_Minut, DateFormat.is24HourFormat(jo));
-                dialog.show();
-            }
-        });
-        // Resta controls
-        g_TXT_Data = (TextView) findViewById(R.id.CelebracionsClientMantTXTData);
-        g_TXT_Hora = (TextView) findViewById(R.id.CelebracionsClientMantTXTHora);
-        g_TXT_TipusCelebracio = (TextView) findViewById(R.id.CelebracionsClientMantTXTTipusCelebracio);
-        g_TXT_Salo = (TextView) findViewById(R.id.CelebracionsClientMantTXTSalo);
+        g_ETX_Nom = (EditText) findViewById(R.id.ConvidatsMantETXNom);
+        g_ETX_Adresa = (EditText) findViewById(R.id.ConvidatsMantETXNom);
+        g_ETX_Contacte = (EditText) findViewById(R.id.ConvidatsMantETXNom);
+        g_ETX_Telefon = (EditText) findViewById(R.id.ConvidatsMantETXNom);
+        g_ETX_eMail = (EditText) findViewById(R.id.ConvidatsMantETXNom);
+        g_ETX_Comentari = (EditText) findViewById(R.id.ConvidatsMantETXNom);
         //
-        g_ETX_Contacte = (EditText) findViewById(R.id.CelebracionsClientMantTXTContacte);
-        g_ETX_Lloc = (EditText) findViewById(R.id.CelebracionsClientMantTXTLloc);
-        g_ETX_Descripcio = (EditText) findViewById(R.id.CelebracionsClientMantTXTDescripcio);
-        g_ETX_NumConvidats = (EditText) findViewById(R.id.CelebracionsClientMantTXTNumConvidats);
-        // Spinner de tipus de celebracions
-        g_SPN_TipusCelebracio = (Spinner)findViewById(R.id.CelebracionsClientMantSPNTipusCelebracio);
-        DAOTipusCelebracions.Llegir(g_SPN_TipusCelebracio, Jo);
-        g_SPN_TipusCelebracio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        g_TXT_Parella = (TextView) findViewById(R.id.ConvidatsMantTXTParella);
+        l_FLY_Parella = (FrameLayout) findViewById(R.id.ConvidatsMantFLYParella);
+        //
+        g_CBX_Confirmat = (CheckBox) findViewById(R.id.ConvidatsMantCBXConfirmat);
+        g_CBX_Avisat = (CheckBox) findViewById(R.id.ConvidatsMantCBXAvisat);
+        g_CBX_Transport = (CheckBox) findViewById(R.id.ConvidatsMantCBXTransport);
+        // Spinner de tipus de convidats
+        l_adapter_Tipus = ArrayAdapter.createFromResource(Jo,R.array.TipusConvidats,android.R.layout.simple_spinner_item);
+        l_adapter_Tipus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        g_SPN_TipusConvidats = (Spinner)findViewById(R.id.ConvidatsMantSPNTipusConvidat);
+        g_SPN_TipusConvidats.setAdapter(l_adapter_Tipus);
+        g_SPN_TipusConvidats.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView parent, View view, int pos, long id) {
                 // Esborrem possible error
-                g_TXT_TipusCelebracio.setError(null);
-            }
-            @Override
-            public void onNothingSelected(AdapterView parent) {
-            }
-        });
-        // Spinner de salons del client
-        g_SPN_Salo = (Spinner)findViewById(R.id.CelebracionsClientMantSPNSalo);
-        DAOSalonsClient.Llegir(g_SPN_Salo, Jo);
-        g_SPN_Salo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView parent, View view, int pos, long id) {
-                SPNSalonsClient l_SaloSeleccionat;
-
-                g_TXT_Salo.setError(null);
-                // Validem si superem la capacitat del salo si tenim indicat el numero de comensals
-                if (g_ETX_NumConvidats.getText().toString().trim().length() > 0) {
-                    l_SaloSeleccionat = (SPNSalonsClient) g_SPN_Salo.getSelectedItem();
-                    if (Integer.parseInt(g_ETX_NumConvidats.getText().toString().trim()) > l_SaloSeleccionat.g_Salo.Capacitat) {
-                        g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.red));
-                        g_ETX_NumConvidats.setError(Globals.g_Native.getString(R.string.error_CapacitatSuperada));
-                    } else {
-                        if (Integer.parseInt(g_ETX_NumConvidats.getText().toString().trim()) == l_SaloSeleccionat.g_Salo.Capacitat) {
-                            g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.orange));
-                            g_ETX_NumConvidats.setError(Globals.g_Native.getString(R.string.error_LimitCapacitat));
-                        } else {
-                            g_ETX_NumConvidats.setTextColor(Globals.g_Native.getResources().getColor(R.color.black));
-                            g_ETX_NumConvidats.setError(null);
-                        }
-                    }
+                g_TXT_Parella.setError(null);
+                // Si triem parella mostrem la seleccio de aquesta
+                switch (pos) {
+                    case 1:// Parella
+                        l_FLY_Parella.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        l_FLY_Parella.setVisibility(View.INVISIBLE);
+                        break;
                 }
             }
 
@@ -163,38 +106,56 @@ public class convidats_mant extends ActionBarActivity {
             public void onNothingSelected(AdapterView parent) {
             }
         });
-        // Convidats
-        g_LVW_Convidats = (ListView) findViewById(R.id.celebracionsClientMantLVWConvidats);
-        l_FLB_Convidats = (FloatingActionButton) findViewById(R.id.celebracionsClientMantFLBAltaConvidat);
-        l_FLB_Convidats.attachToListView(g_LVW_Convidats);
-        l_Animacio1 = AnimationUtils.loadAnimation(this, R.anim.alpha_parpadeig);
-        l_FLB_Convidats.setOnClickListener(new Button.OnClickListener() {
+        // Spinner de menus
+        g_SPN_Menus = (Spinner) findViewById(R.id.ConvidatsMantSPNMenus);
+        DAOMenusConvidats.Llegir(g_SPN_Menus, Jo);
+        g_SPN_Menus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View arg0) {
-                Intent l_Intent;
+            public void onItemSelected(AdapterView parent, View view, int pos, long id) {
+                // Hem de controlar algun tipus de error?
+            }
 
-                arg0.startAnimation(l_Animacio1);
-                // Obrim la finestra de distribucions, informem del codi de planol
-                l_Intent = new Intent(Jo, convidats_pral.class);
-                l_Intent.putExtra("CodiSaloCelebracioClient", g_CelebracioClient.CodiSalo);
-                startActivityForResult(l_Intent, g_RQC_CONVIDAT_ALTA);
+            @Override
+            public void onNothingSelected(AdapterView parent) {
             }
         });
-        // Distribucions
-        g_LVW_DistribucionsClient = (ListView) findViewById(R.id.celebracionsClientMantLVWDistribucions);
-        l_FLB_DistribucioClient = (FloatingActionButton) findViewById(R.id.celebracionsClientMantFLBAltaDistribucio);
-        l_FLB_DistribucioClient.attachToListView(g_LVW_DistribucionsClient);
-        l_Animacio2 = AnimationUtils.loadAnimation(this, R.anim.alpha_parpadeig);
-        l_FLB_DistribucioClient.setOnClickListener(new Button.OnClickListener() {
+        // Spinner de categoria principal
+        g_SPN_Categoria1 = (Spinner) findViewById(R.id.ConvidatsMantSPNCategoria1);
+        DAOCategoriesConvidats.Llegir(g_SPN_Categoria1, Jo);
+        g_SPN_Categoria1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View arg0) {
-                Intent l_Intent;
+            public void onItemSelected(AdapterView parent, View view, int pos, long id) {
+                // Hem de controlar algun tipus de error?
+            }
 
-                arg0.startAnimation(l_Animacio2);
-                // Obrim la finestra de distribucions, informem del codi de planol
-                l_Intent = new Intent(Jo, distribucions_client_mant.class);
-                l_Intent.putExtra("CodiSaloCelebracioClient", g_CelebracioClient.CodiSalo);
-                startActivityForResult(l_Intent, g_RQC_DISTRIBUCIO_CLIENT_ALTA);
+            @Override
+            public void onNothingSelected(AdapterView parent) {
+            }
+        });
+        // Spinner de categoria secundaria
+        g_SPN_Categoria2 = (Spinner) findViewById(R.id.ConvidatsMantSPNCategoria2);
+        DAOCategoriesConvidats.Llegir(g_SPN_Categoria2, Jo);
+        g_SPN_Categoria2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView parent, View view, int pos, long id) {
+                // Hem de controlar algun tipus de error?
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView parent) {
+            }
+        });
+        // Spinner de relacions
+        g_SPN_Relacions = (Spinner) findViewById(R.id.ConvidatsMantSPNRelacions);
+        DAORelacionsConvidats.Llegir(g_SPN_Relacions, Jo);
+        g_SPN_Relacions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView parent, View view, int pos, long id) {
+                // Hem de controlar algun tipus de error?
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView parent) {
             }
         });
         // Validem si estem fent un alta o una modificacio
@@ -249,12 +210,6 @@ public class convidats_mant extends ActionBarActivity {
             this.invalidateOptionsMenu();
         }
         // Codi de validacio dels camps de la finestra (fem servir la clase estatica Validacio)
-        g_TXT_Data.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {}
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                g_TXT_Data.setError(null);}
-        });
         g_ETX_Contacte.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}

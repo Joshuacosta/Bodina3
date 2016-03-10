@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.it00046.bodina3.Classes.Custom.LVWLlistaTipusCelebracions;
@@ -13,6 +14,9 @@ import com.example.it00046.bodina3.Classes.Entitats.TipusCelebracio;
 import com.example.it00046.bodina3.Classes.Feina.llista_CategoriesConvidats;
 import com.example.it00046.bodina3.Classes.Globals;
 import com.example.it00046.bodina3.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by it00046 on 05/08/2015.
@@ -57,6 +61,48 @@ public class DAOMenusConvidats {
             Globals.TancarEspera();
         }
     }
+    public static void Llegir(final Spinner p_LVW_MenusConvidats, final Context p_Context) {
+        ArrayAdapter<SPNTipusCelebracio> l_dataAdapter;
+        final List<SPNTipusCelebracio> l_TipusCelebracio = new ArrayList<SPNTipusCelebracio>();
+        String l_NomTipusCelebracioSpinner;
+
+        // Posem a la llista la entrada de "Seleccioni..."
+        SPNTipusCelebracio l_SelectOne = new SPNTipusCelebracio(null, Globals.g_Native.getString(R.string.llista_Select));
+        l_TipusCelebracio.add(l_SelectOne);
+        //
+        Globals.MostrarEspera(p_Context);
+        try {
+            llista_TipusCelebracio.Llista.clear();
+            Cursor l_cursor = Globals.g_DB.query(TAG_TipusCelebracio,
+                    Globals.g_Native.getResources().getStringArray(R.array.TTipusCelebracio_Camps),
+                    null, // c. selections
+                    null, // d. selections args
+                    null, // e. group by
+                    null, // f. having
+                    null, // g. order by
+                    null); // h. limit
+            if (l_cursor.getCount() > 0) {
+                l_cursor.moveToFirst();
+                for (int i=0; i < l_cursor.getCount(); i++) {
+                    TipusCelebracio l_Tipus = CursorToTipusCelebracio(l_cursor);
+                    l_NomTipusCelebracioSpinner = l_Tipus.Descripcio;
+                    SPNTipusCelebracio l_spinner = new SPNTipusCelebracio(l_Tipus, l_NomTipusCelebracioSpinner);
+                    l_TipusCelebracio.add(l_spinner);
+                    llista_TipusCelebracio.Llista.add(l_Tipus);
+                    l_cursor.moveToNext();
+                }
+            }
+            // Associem
+            l_dataAdapter = new ArrayAdapter<SPNTipusCelebracio>(Globals.g_Native, R.layout.linia_spn_defecte, l_TipusCelebracio);
+            l_dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            p_SPN_TipusCelebracions.setAdapter(l_dataAdapter);
+            Globals.TancarEspera();
+        }
+        catch(Exception e) {
+            Globals.F_Alert(Globals.g_Native.getString(R.string.errorservidor_ProgramError),
+                    Globals.g_Native.getString(R.string.error_greu), p_Context);
+            Globals.TancarEspera();
+        }
     // Afegim un tipus de celebracio
     public static void Afegir(TipusCelebracio p_TipusCelebracio, final Context p_Context, boolean p_Asistit, boolean p_Tancam){
         if (p_Asistit) {

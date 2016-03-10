@@ -730,6 +730,7 @@
 
     <string-array name="TipusConvidats">
         <item>Children</item>
+        <item>Couple</item>
         <item>Man</item>
         <item>Women</item>
     </string-array>
